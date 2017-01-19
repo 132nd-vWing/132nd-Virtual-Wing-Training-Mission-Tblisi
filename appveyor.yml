@@ -7,7 +7,7 @@ cache:
 - C:\ProgramData\chocolatey\lib
 - C:\ProgramData\chocolatey\bin
 build_script:
-- cmd: 7za a -bb0 dummy.miz C:\projects\132nd-virtual-wing-training-mission-tblisi\* -xr!.git -x!*.miz
+- cmd: 7za a -bb0 dummy.miz C:\projects\132nd-virtual-wing-training-mission-tblisi\* -xr!.git -x!*.miz -x!*.yml
 - cmd: ren dummy.miz TRMT.miz
 test: off
 artifacts:
