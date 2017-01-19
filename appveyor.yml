@@ -1,0 +1,15 @@
+version: 1.0.{build}
+environment:
+  fast_finish: true
+install:
+- cmd: choco install 7zip.commandline
+cache:
+- C:\ProgramData\chocolatey\lib
+- C:\ProgramData\chocolatey\bin
+build_script:
+- cmd: 7za a -bb0 dummy.miz C:\projects\132nd-virtual-wing-training-mission-tblisi\* -xr!.git -x!*.miz
+- cmd: ren dummy.miz TRMT.miz
+test: off
+artifacts:
+- path: '*.miz'
+  name: TRMT
