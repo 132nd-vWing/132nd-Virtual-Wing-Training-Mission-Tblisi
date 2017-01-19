@@ -1,0 +1,42 @@
+routes=
+{
+	[1]=
+	{
+		["date"]=
+		{
+			["year"]=2011,
+			["day"]=1,
+			["month"]=6,
+		},
+		["segments"]=
+		{
+			[1]=
+			{
+				["route_waypoint_type"]=0,
+				["estimated_remaining_fuel"]=1410,
+				["preset_magnetic_variation"]=0,
+				["preset_flight_level"]=464.50350952148,
+				["preset_fuel_consumption"]=786,
+				["preset_flight_time_on_segment"]=0,
+				["preset_vertical_speed"]=0,
+				["preset_time_over_target"]=54000,
+				["preset_wind_speed"]=8.8138713194479,
+				["end"]=
+				{
+					["position"]=
+					{
+						["longitude"]=44.954724439008,
+						["latitude"]=41.66825809413,
+					},
+					["sub_type"]=1,
+					["callsign"]="",
+				},
+				["preset_remaining_fuel"]=1410,
+				["preset_atmospheric_temperature"]=-2.8682861328125,
+				["preset_wind_direction"]=40.04069750023,
+				["preset_flight_method"]=0,
+			},
+		},
+		["name"]="-",
+	},
+}
