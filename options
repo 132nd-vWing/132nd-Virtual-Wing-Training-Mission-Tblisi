@@ -1,0 +1,200 @@
+options = 
+{
+    ["playerName"] = "New callsign",
+    ["miscellaneous"] = 
+    {
+        ["headmove"] = false,
+        ["TrackIR_external_views"] = false,
+        ["f5_nearest_ac"] = true,
+        ["f11_free_camera"] = true,
+        ["F2_view_effects"] = 1,
+        ["f10_awacs"] = true,
+        ["Coordinate_Display"] = "Lat Long",
+        ["accidental_failures"] = false,
+        ["force_feedback_enabled"] = false,
+        ["synchronize_controls"] = false,
+        ["show_pilot_body"] = false,
+    }, -- end of ["miscellaneous"]
+    ["difficulty"] = 
+    {
+        ["padlock"] = false,
+        ["labels"] = false,
+        ["easyRadar"] = false,
+        ["easyCommunication"] = false,
+        ["miniHUD"] = false,
+        ["fuel"] = false,
+        ["birds"] = 0,
+        ["optionsView"] = "optview_all",
+        ["permitCrash"] = false,
+        ["immortal"] = false,
+        ["cockpitStatusBarAllowed"] = false,
+        ["cockpitVisualRM"] = false,
+        ["tips"] = false,
+        ["reports"] = false,
+        ["hideStick"] = false,
+        ["radio"] = false,
+        ["easyFlight"] = false,
+        ["externalViews"] = true,
+        ["units"] = "imperial",
+        ["userMarks"] = true,
+        ["spectatorExternalViews"] = true,
+        ["userSnapView"] = true,
+        ["avionicsLanguage"] = "native",
+        ["impostors"] = "",
+        ["iconsTheme"] = "nato",
+        ["map"] = true,
+        ["weapons"] = false,
+        ["setGlobal"] = true,
+        ["geffect"] = "realistic",
+    }, -- end of ["difficulty"]
+    ["VR"] = 
+    {
+        ["use_mouse"] = false,
+        ["enable"] = false,
+        ["box_mouse_cursor"] = false,
+        ["pixel_density"] = 1,
+    }, -- end of ["VR"]
+    ["graphics"] = 
+    {
+        ["terrainTextures"] = "min",
+        ["multiMonitorSetup"] = "1camera",
+        ["LensEffects"] = 0,
+        ["heatBlr"] = 0,
+        ["anisotropy"] = 1,
+        ["water"] = 0,
+        ["fullScreen"] = false,
+        ["disableAero"] = true,
+        ["visibRange"] = "Low",
+        ["DOF"] = 0,
+        ["aspect"] = 1.3333333333333,
+        ["textures"] = 2,
+        ["shadows"] = 0,
+        ["MSAA"] = 0,
+        ["HDR"] = 0,
+        ["shadowTree"] = false,
+        ["civTraffic"] = "",
+        ["width"] = 1920,
+        ["effects"] = 3,
+        ["flatTerrainShadows"] = 0,
+        ["treesVisibility"] = 1500,
+        ["sync"] = false,
+        ["preloadRadius"] = 150000,
+        ["height"] = 1440,
+        ["lights"] = 2,
+        ["clutterMaxDistance"] = 0,
+        ["clouds"] = 1,
+    }, -- end of ["graphics"]
+    ["plugins"] = 
+    {
+        ["Su-25T"] = 
+        {
+            ["CPLocalList"] = "default",
+        }, -- end of ["Su-25T"]
+        ["M-2000C"] = 
+        {
+            ["UNI_ALIGNED"] = false,
+            ["CPLocalList"] = "EN by gospadin",
+            ["PPA_TOTPAR"] = false,
+            ["UNI_NODRIFT"] = false,
+        }, -- end of ["M-2000C"]
+        ["A-10C"] = 
+        {
+            ["CPLocalList"] = "Ricardo HD",
+        }, -- end of ["A-10C"]
+        ["Ka-50"] = 
+        {
+            ["altTrimmingMethod"] = false,
+            ["Ka50RudderTrimmer"] = false,
+            ["CPLocalList"] = "default",
+        }, -- end of ["Ka-50"]
+        ["L-39C"] = 
+        {
+            ["dismountGunSight"] = false,
+            ["gunCamera"] = 1,
+            ["sarpp"] = 1,
+            ["CPLocalList"] = "default",
+            ["CPLocalZAList"] = "default",
+        }, -- end of ["L-39C"]
+        ["MiG-21Bis"] = 
+        {
+            ["CustomCockpit"] = false,
+            ["Engine"] = false,
+            ["Shake"] = 100,
+            ["Pitot"] = false,
+            ["Reticle"] = false,
+            ["Freeze"] = false,
+        }, -- end of ["MiG-21Bis"]
+        ["CA"] = 
+        {
+            ["kompass_options"] = 1,
+            ["ground_target_info"] = true,
+            ["ground_aim_helper"] = true,
+            ["ground_platform_shake"] = false,
+            ["ground_automatic"] = true,
+        }, -- end of ["CA"]
+        ["TF-51D"] = 
+        {
+            ["assistance"] = 100,
+            ["CPLocalList"] = "default",
+            ["autoRudder"] = false,
+        }, -- end of ["TF-51D"]
+        ["Mi-8MTV2"] = 
+        {
+            ["Mi8TrimmingMethod"] = 0,
+            ["Mi8AutopilotAdjustment"] = false,
+            ["gunCamera"] = 0,
+            ["Mi8RudderTrimmer"] = false,
+            ["CPLocalList"] = "English Black Cockpit by Devrim",
+            ["controlHelperMi8"] = false,
+            ["Mi8FOV"] = 120,
+        }, -- end of ["Mi-8MTV2"]
+        ["SA342"] = 
+        {
+            ["StickRollCurve"] = 0,
+            ["VibrationRate"] = 100,
+            ["PreloadWaypoints"] = true,
+            ["CPLocalList"] = "default",
+            ["EngineBreak"] = true,
+            ["EasierControls"] = false,
+            ["StickPitchCurve"] = 0,
+            ["RudderTrim"] = false,
+            ["CPLocalListL"] = "default",
+            ["ControlsDisplayLocation"] = 0,
+            ["CPLocalListM"] = "default",
+        }, -- end of ["SA342"]
+        ["FC3"] = 
+        {
+            ["CPLocalList_F-15C"] = "default",
+            ["CPLocalList_MiG-29S"] = "default",
+            ["CPLocalList_MiG-29A"] = "default",
+            ["CPLocalList_Su-25"] = "default",
+            ["CPLocalList_A-10A"] = "default",
+            ["CPLocalList_Su-27"] = "default",
+            ["CPLocalList_MiG-29G"] = "default",
+            ["CPLocalList_Su-33"] = "default",
+        }, -- end of ["FC3"]
+    }, -- end of ["plugins"]
+    ["format"] = 1,
+    ["sound"] = 
+    {
+        ["hear_in_helmet"] = false,
+        ["headphones"] = 100,
+        ["cockpit"] = 100,
+        ["GBreathEffect"] = true,
+        ["gui"] = 100,
+        ["volume"] = 100,
+        ["radioSpeech"] = true,
+        ["music"] = 6,
+        ["subtitles"] = true,
+        ["world"] = 100,
+    }, -- end of ["sound"]
+    ["views"] = 
+    {
+        ["cockpit"] = 
+        {
+            ["mirrors"] = false,
+            ["reflections"] = false,
+            ["avionics"] = 0,
+        }, -- end of ["cockpit"]
+    }, -- end of ["views"]
+} -- end of options
