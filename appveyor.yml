@@ -25,3 +25,4 @@ deploy:
   draft: true
   on:
     branch: develop
+    APPVEYOR_REPO_TAG: true
