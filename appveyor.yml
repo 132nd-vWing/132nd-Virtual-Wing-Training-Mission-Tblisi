@@ -19,7 +19,7 @@ artifacts:
 deploy:
 - provider: GitHub
   auth_token:
-    secure: 0z8hLheB4py2rGdfk52a05hTf8knuSwzt3SxvPCzXH4peEo81X9wNyqaKhlpJyVt
+    secure: 9ksb7+zKJ8riuvzZBaSrD84Mngnd+bs+WXvzhmXSiTe4GtGw/M8v+9J3vqnGTfPd
   artifact: '*.miz'
   draft: true
   on:
