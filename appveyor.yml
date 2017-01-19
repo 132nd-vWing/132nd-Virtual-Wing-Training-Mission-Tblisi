@@ -21,7 +21,7 @@ deploy:
 - provider: GitHub
   auth_token:
     secure: pSZSIGECKsAVKeW3cxW8/fvsGAjGAmqvlLgAABm6oQYkQjvW7ixUUAHm/RsOXddF
-  artifact: '*.miz'
+  artifact: 'TRMT'
   draft: true
   on:
     branch: develop
