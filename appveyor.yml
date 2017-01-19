@@ -1,4 +1,8 @@
-version: 1.0.{build}
+version: 1.1.{build}
+branches:
+  only:
+  - master
+  - develop
 environment:
   fast_finish: true
 install:
@@ -7,9 +11,16 @@ cache:
 - C:\ProgramData\chocolatey\lib
 - C:\ProgramData\chocolatey\bin
 build_script:
-- cmd: 7za a -bb0 dummy.miz C:\projects\132nd-virtual-wing-training-mission-tblisi\* -xr!.git -x!*.miz -x!*.yml
-- cmd: ren dummy.miz TRMT.miz
+- cmd: 7za a -bb0 dummy.miz C:\projects\132nd-virtual-wing-training-mission-tblisi\*
 test: off
 artifacts:
 - path: '*.miz'
   name: TRMT
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: 0z8hLheB4py2rGdfk52a05hTf8knuSwzt3SxvPCzXH4peEo81X9wNyqaKhlpJyVt
+  artifact: '*.miz'
+  draft: true
+  on:
+    branch: develop
