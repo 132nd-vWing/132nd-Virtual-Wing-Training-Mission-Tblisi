@@ -22,7 +22,8 @@ deploy:
   auth_token:
     secure: pSZSIGECKsAVKeW3cxW8/fvsGAjGAmqvlLgAABm6oQYkQjvW7ixUUAHm/RsOXddF
   artifact: 'TRMT'
-  draft: true
+  draft: false
+  force_update: true
   on:
-    branch: develop
+    branch: master
     APPVEYOR_REPO_TAG: true
