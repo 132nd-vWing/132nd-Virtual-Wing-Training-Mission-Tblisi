@@ -98,18 +98,11 @@ local function SARhostiles()
   -- innercircle:SmokeZone( SMOKECOLOR.Green )
   
   -- This will spawn in enemies from random locations outside the crashsite
-  SARtemplate1 = SPAWN:New("SARenemy1"):InitRandomizeUnits( true, 13000, 9000 ):SpawnFromVec3(SARpos)
-  SARtemplate2 = SPAWN:New("SARenemy2"):InitRandomizeUnits( true, 12000, 7000 ):SpawnFromVec3(SARpos)
-  SARtemplate3 = SPAWN:New("SARenemy3"):InitRandomizeUnits( true, 19000, 9000 ):SpawnFromVec3(SARpos)
-  SARtemplate4 = SPAWN:New("SARenemy4"):InitRandomizeUnits( true, 17000, 7000 ):SpawnFromVec3(SARpos)
-  SARtemplate5 = SPAWN:New("SARenemy5"):InitRandomizeUnits( true, 16000, 6000 ):SpawnFromVec3(SARpos)
-  
-  -- This will make the Enemies move towards the crashsite
-  SARtemplate1:TaskRouteToVec3(SARpos, 15)
-  SARtemplate2:TaskRouteToVec3(SARpos, 15)
-  SARtemplate3:TaskRouteToVec3(SARpos, 15)
-  SARtemplate4:TaskRouteToVec3(SARpos, 15)
-  SARtemplate5:TaskRouteToVec3(SARpos, 15)
+  SARtemplate1 = SPAWN:New("SARenemy1"):InitRandomizeUnits( true, 13000, 9000 ):SpawnFromVec3(SARpos):TaskRouteToVec3(SARpos, 15)
+  SARtemplate2 = SPAWN:New("SARenemy2"):InitRandomizeUnits( true, 12000, 7000 ):SpawnFromVec3(SARpos):TaskRouteToVec3(SARpos, 15)
+  SARtemplate3 = SPAWN:New("SARenemy3"):InitRandomizeUnits( true, 19000, 9000 ):SpawnFromVec3(SARpos):TaskRouteToVec3(SARpos, 15)
+  SARtemplate4 = SPAWN:New("SARenemy4"):InitRandomizeUnits( true, 17000, 7000 ):SpawnFromVec3(SARpos):TaskRouteToVec3(SARpos, 15)
+  SARtemplate5 = SPAWN:New("SARenemy5"):InitRandomizeUnits( true, 16000, 6000 ):SpawnFromVec3(SARpos):TaskRouteToVec3(SARpos, 15)
 
   SARtemplate1_engage = SCHEDULER:New( nil,
     function()
