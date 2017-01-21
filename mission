@@ -22,6 +22,10 @@ mission =
             [16] = "a_group_off(1124);a_group_off(1123);a_group_off(1130);a_group_off(1119);a_group_off(1126);a_group_off(1127);a_group_off(1128);a_group_off(1129);a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2288\"), 10, false);",
             [17] = "a_group_on(1117);a_group_on(1116);a_group_on(1118);a_group_on(1115);a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2289\"), 10, false);",
             [18] = "a_group_on(1124);a_group_on(1123);a_group_on(1130);a_group_on(1119);a_group_on(1126);a_group_on(1127);a_group_on(1128);a_group_on(1129);a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2290\"), 10, false);",
+            [19] = "a_clear_flag(20);",
+            [20] = "a_clear_flag(30);",
+            [21] = "a_clear_flag(40);",
+            [22] = "a_clear_flag(50);",
         }, -- end of ["actions"]
         ["events"] = 
         {
