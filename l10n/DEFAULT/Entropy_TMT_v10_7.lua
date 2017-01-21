@@ -166,15 +166,19 @@ end
 
 --- RANGE Options --
 Range_Options = MENU_COALITION:New( coalition.side.BLUE, "Range Options" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize TETRA Movement", Range_Options, randomize_range_movement, 20, "TETRA" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize TIANETI Movement", Range_Options, randomize_range_movement, 30, "TIANETI" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize DUSHETI Movement", Range_Options, randomize_range_movement, 40, "DUSHETI" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize MARNUELI Movement", Range_Options, randomize_range_movement, 50, "MARNUELI" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Smoke on Bomb Circle at MARNUELI", Range_Options, SmokeMARNUELI )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at TETRA", Range_Options, ctld.unloadTransport, "TETRA_Transport 1" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at TIANETI", Range_Options, ctld.unloadTransport, "TIANETI_Transport 1" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at DUSHETI", Range_Options, ctld.unloadTransport, "DUSHETI_Transport 1" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at MARNUELI", Range_Options, ctld.unloadTransport, "MARNUELI_Transport 1" )
+range_menu_tetra = MENU_COALITION:New( coalition.side.BLUE, "Tetra", Range_Options )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize TETRA Movement", range_menu_tetra, randomize_range_movement, 20, "TETRA" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at TETRA", range_menu_tetra, ctld.unloadTransport, "TETRA_Transport 1" )
+range_menu_tianeti = MENU_COALITION:New( coalition.side.BLUE, "Tianeti", Range_Options )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize TIANETI Movement", range_menu_tianeti, randomize_range_movement, 30, "TIANETI" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at TIANETI", range_menu_tianeti, ctld.unloadTransport, "TIANETI_Transport 1" )
+range_menu_dusheti = MENU_COALITION:New( coalition.side.BLUE, "Dusheti", Range_Options )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize DUSHETI Movement", range_menu_dusheti, randomize_range_movement, 40, "DUSHETI" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at DUSHETI", range_menu_dusheti, ctld.unloadTransport, "DUSHETI_Transport 1" )
+range_menu_marnueli = MENU_COALITION:New( coalition.side.BLUE, "Marnueli", Range_Options )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize MARNUELI Movement", range_menu_marnueli, randomize_range_movement, 50, "MARNUELI" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at MARNUELI", range_menu_marnueli, ctld.unloadTransport, "MARNUELI_Transport 1" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Smoke on Bomb Circle at MARNUELI", range_menu_marnueli, SmokeMARNUELI )
 
 --- BEACON options
 Beacon_Options = MENU_COALITION:New( coalition.side.BLUE, "ARK-UD Beacons" )
