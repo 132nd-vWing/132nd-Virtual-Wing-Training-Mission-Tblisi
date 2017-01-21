@@ -54,33 +54,6 @@ function ctld.spawnGroupAtPoint_SAR(_groupSide, _number, _point, _searchRadius)
 end
 
 
---- RANGE  Functions-ARKUD --
--- using those flags as I could not figure out how to activate ARK-UD beacons via script
-local function BeaconDUSHETI() 
-  trigger.action.setUserFlag(11, true)
-end
-
-local function BeaconTIANETI() 
-  trigger.action.setUserFlag(12, true)
-end
-
-local function BeaconTETRA() 
-  trigger.action.setUserFlag(13, true)
-end
-
-local function BeaconMARNUELI() 
-  trigger.action.setUserFlag(14, true)
-end
-
-local function BeaconLOCHINI() 
-  trigger.action.setUserFlag(15, true)
-end
-
-local function BeaconsOFF() 
-  trigger.action.setUserFlag(16, true)
-end
-
-
 --- RANGE  Functions-randomize movement --
 -- will spread out the targets at the respective ranges. Respawned units will hold but can be spread out by calling the function again--
 local function randomizeTETRA() 
@@ -247,12 +220,12 @@ MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at MARNUELI", 
 
 --- BEACON options
 Beacon_Options = MENU_COALITION:New( coalition.side.BLUE, "ARK-UD Beacons" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Ark-UD at DUSHETI", Beacon_Options, BeaconDUSHETI )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Ark-UD at TIANETI", Beacon_Options, BeaconTIANETI )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Ark-UD at TETRA", Beacon_Options, BeaconTETRA )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Ark-UD at MARNUELI", Beacon_Options, BeaconMARNUELI )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Ark-UD at LOCHINI", Beacon_Options, BeaconLOCHINI )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deactivate all Ark-UD Beacons", Beacon_Options, BeaconsOFF )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Ark-UD at DUSHETI", Beacon_Options, trigger.action.setUserFlag, 11, true )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Ark-UD at TIANETI", Beacon_Options, trigger.action.setUserFlag, 12, true )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Ark-UD at TETRA", Beacon_Options, trigger.action.setUserFlag, 13, true )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Ark-UD at MARNUELI", Beacon_Options, trigger.action.setUserFlag, 14, true )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Ark-UD at LOCHINI", Beacon_Options, trigger.action.setUserFlag, 15, true )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deactivate all Ark-UD Beacons", Beacon_Options, trigger.action.setUserFlag, 16, true )
 
 --- SAR options
 SAR_Options = MENU_COALITION:New( coalition.side.BLUE, "Search and Rescue" )
