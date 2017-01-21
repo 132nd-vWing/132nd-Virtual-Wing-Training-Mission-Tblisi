@@ -53,26 +53,7 @@ function ctld.spawnGroupAtPoint_SAR(_groupSide, _number, _point, _searchRadius)
         table.insert(ctld.droppedTroopsBLUE, _droppedTroops:getName())
 end
 
---- RANGE  Functions-deploy Infantry --
--- Infantry can be deployed from the Transport Vehicles parked at the ranges. The Transported can be controlled by a GFC and all CTLD options are available. If FAC(A) players 
--- dont want to leave their aircraft, they can move the Transporters around the map without 'piloting' them and then use this function to deploy Infantry at the transport location.
--- More Infantry will be picked up if the Transport Vehicles is driven back to the range storage
-local function deployTETRA() 
-  ctld.unloadTransport('TETRA_Transport 1')
-end
-
-local function deployTIANETI() 
-  ctld.unloadTransport('TIANETI_Transport 1')
-end
-
-local function deployDUSHETI() 
-  ctld.unloadTransport('DUSHETI_Transport 1')
-end
-
-local function deployMARNUELI() 
-  ctld.unloadTransport('MARNUELI_Transport 1')
-end
-
+--- RANGE Smoke activation
 local function SmokeMARNUELI() 
   Marnueli_Smoke = ZONE:New( "MARNUELI ConvCircleWest" ):SmokeZone( SMOKECOLOR.Green, 30 )
 end
@@ -197,10 +178,10 @@ MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize TIANETI Movement", R
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize DUSHETI Movement", Range_Options, randomize_range_movement, 40, "DUSHETI" )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize MARNUELI Movement", Range_Options, randomize_range_movement, 50, "MARNUELI" )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Smoke on Bomb Circle at MARNUELI", Range_Options, SmokeMARNUELI )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at TETRA", Range_Options, deployTETRA )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at TIANETI", Range_Options, deployTIANETI )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at DUSHETI", Range_Options, deployDUSHETI )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at MARNUELI", Range_Options, deployMARNUELI )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at TETRA", Range_Options, ctld.unloadTransport, "TETRA_Transport 1" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at TIANETI", Range_Options, ctld.unloadTransport, "TIANETI_Transport 1" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at DUSHETI", Range_Options, ctld.unloadTransport, "DUSHETI_Transport 1" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at MARNUELI", Range_Options, ctld.unloadTransport, "MARNUELI_Transport 1" )
 
 --- BEACON options
 Beacon_Options = MENU_COALITION:New( coalition.side.BLUE, "ARK-UD Beacons" )
