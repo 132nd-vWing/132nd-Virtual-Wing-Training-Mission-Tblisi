@@ -57,27 +57,27 @@ end
 -- RANGE  Functions-ARKUD --
 -- using those flags as I could not figure out how to activate ARK-UD beacons via script
 local function BeaconDUSHETI() 
-trigger.action.setUserFlag(11, true)
+  trigger.action.setUserFlag(11, true)
 end
 
 local function BeaconTIANETI() 
-trigger.action.setUserFlag(12, true)
+  trigger.action.setUserFlag(12, true)
 end
 
 local function BeaconTETRA() 
-trigger.action.setUserFlag(13, true)
+  trigger.action.setUserFlag(13, true)
 end
 
 local function BeaconMARNUELI() 
-trigger.action.setUserFlag(14, true)
+  trigger.action.setUserFlag(14, true)
 end
 
 local function BeaconLOCHINI() 
-trigger.action.setUserFlag(15, true)
+  trigger.action.setUserFlag(15, true)
 end
 
 local function BeaconsOFF() 
-trigger.action.setUserFlag(16, true)
+  trigger.action.setUserFlag(16, true)
 end
 -- /RANGE  Functions-ARKUD --
 
@@ -85,23 +85,23 @@ end
 -- RANGE  Functions-randomize movement --
 -- will spread out the targets at the respective ranges. Respawned units will hold but can be spread out by calling the function again--
 local function randomizeTETRA() 
-trigger.action.setUserFlag(20, true)
-MESSAGE:New( "Targets spreading out at TETRA", 7):ToBlue()
+  trigger.action.setUserFlag(20, true)
+  MESSAGE:New( "Targets spreading out at TETRA", 7):ToBlue()
 end
 
 local function randomizeTIANETI() 
-trigger.action.setUserFlag(30, true)
-MESSAGE:New( "Targets spreading out at TIANETI", 7):ToBlue()
+  trigger.action.setUserFlag(30, true)
+  MESSAGE:New( "Targets spreading out at TIANETI", 7):ToBlue()
 end
 
 local function randomizeDUSHETI() 
-trigger.action.setUserFlag(40, true)
-MESSAGE:New( "Targets spreading out at DUSHETI", 7):ToBlue()
+  trigger.action.setUserFlag(40, true)
+  MESSAGE:New( "Targets spreading out at DUSHETI", 7):ToBlue()
 end
 
 local function randomizeMARNUELI() 
-trigger.action.setUserFlag(80, true)
-MESSAGE:New( "Targets spreading out at MARNUELI", 7):ToBlue()
+  trigger.action.setUserFlag(80, true)
+  MESSAGE:New( "Targets spreading out at MARNUELI", 7):ToBlue()
 end
 -- /RANGE  Functions-ARKUD --
 
@@ -112,23 +112,23 @@ end
 -- dont want to leave their aircraft, they can move the Transporters around the map without 'piloting' them and then use this function to deploy Infantry at the transport location.
 -- More Infantry will be picked up if the Transport Vehicles is driven back to the range storage
 local function deployTETRA() 
-ctld.unloadTransport('TETRA_Transport 1')
+  ctld.unloadTransport('TETRA_Transport 1')
 end
 
 local function deployTIANETI() 
-ctld.unloadTransport('TIANETI_Transport 1')
+  ctld.unloadTransport('TIANETI_Transport 1')
 end
 
 local function deployDUSHETI() 
-ctld.unloadTransport('DUSHETI_Transport 1')
+  ctld.unloadTransport('DUSHETI_Transport 1')
 end
 
 local function deployMARNUELI() 
-ctld.unloadTransport('MARNUELI_Transport 1')
+  ctld.unloadTransport('MARNUELI_Transport 1')
 end
 
 local function SmokeMARNUELI() 
-Marnueli_Smoke = ZONE:New( "MARNUELI ConvCircleWest" ):SmokeZone( SMOKECOLOR.Green, 30 )
+  Marnueli_Smoke = ZONE:New( "MARNUELI ConvCircleWest" ):SmokeZone( SMOKECOLOR.Green, 30 )
 end
 -- /RANGE  Functions-deploy Infantry --
 
@@ -139,13 +139,13 @@ end
 -- This will spawn a simulated planewreck, at a random location within TETRA range, together with a CTLD-compatible Manpad unit that can be rescued or used as a JTAC. 
 -- The 'downed pilot' will automatically deploy a CTLD radio beacon -- The 'downed pilot' will automatically deploy a CTLD radio beacon 
 function SARTETRA()
-SARtemplate = SPAWN:New("SARtemplate"):InitRandomizeUnits( true, 11000, 8000 ):Spawn()  -- SARtemplate can be any unit that is simply used as a spawn location for the pilot
-SARpos = SARtemplate:GetVec3()
-SPAWN:New("crashplane"):SpawnFromVec3(SARpos) -- this line is optional and could be commented out. This will spawn an A10 without fuel at the crash site so a 'real' wreck will be produced close by 
-ctld.spawnGroupAtPoint_SAR("blue", {aa=1}, SARpos, 10) -- This calls the modified CTLD function to spawn a single Manpad as 'downed pilot'
-ctld.beaconCount = ctld.beaconCount + 1
-ctld.createRadioBeacon(SARpos, 2, 2, "CRASHSITE TETRA" .. ctld.beaconCount - 1, 120)
-MESSAGE:New( "Simulated Plane Crash at TETRA. Radio Beacon active at the Crashsite (use CTLD Beacons to home in)", 7):ToBlue()
+  SARtemplate = SPAWN:New("SARtemplate"):InitRandomizeUnits( true, 11000, 8000 ):Spawn()  -- SARtemplate can be any unit that is simply used as a spawn location for the pilot
+  SARpos = SARtemplate:GetVec3()
+  SPAWN:New("crashplane"):SpawnFromVec3(SARpos) -- this line is optional and could be commented out. This will spawn an A10 without fuel at the crash site so a 'real' wreck will be produced close by 
+  ctld.spawnGroupAtPoint_SAR("blue", {aa=1}, SARpos, 10) -- This calls the modified CTLD function to spawn a single Manpad as 'downed pilot'
+  ctld.beaconCount = ctld.beaconCount + 1
+  ctld.createRadioBeacon(SARpos, 2, 2, "CRASHSITE TETRA" .. ctld.beaconCount - 1, 120)
+  MESSAGE:New( "Simulated Plane Crash at TETRA. Radio Beacon active at the Crashsite (use CTLD Beacons to home in)", 7):ToBlue()
 end
 -- /TETRA Range activate Search and Rescue Tasking--
 
@@ -154,74 +154,79 @@ end
 
 -- TETRA deploy smoke on downed pilot Range Search and Rescue Tasking--
 local function SARSmoke()
-trigger.action.smoke(SARpos,SMOKECOLOR.Green)
-MESSAGE:New( "Green Smoke on the Deck at Downed Pilot Location!", 7):ToBlue()
+  trigger.action.smoke(SARpos,SMOKECOLOR.Green)
+  MESSAGE:New( "Green Smoke on the Deck at Downed Pilot Location!", 7):ToBlue()
 end
 -- /TETRA deploy smoke on downed pilot Range Search and Rescue Tasking--
 
 
 -- TETRA activate hostiles moving towards the crashsite Range Search and Rescue Tasking--
 local function SARhostiles()
-vec2Target = SARtemplate:GetVec2()
-innercircle = ZONE_GROUP:New("innercircle",SARtemplate,1000) -- this will generate a zone around the crashsite which is used to stop armored vehicles from rolling over the downed pilot
-innercircle2 = ZONE_GROUP:New("innercircle2",SARtemplate,600) -- this will generate a smaller zone around the crashsite like above, for infantrycarriers
+  vec2Target = SARtemplate:GetVec2()
+  innercircle = ZONE_GROUP:New("innercircle",SARtemplate,1000) -- this will generate a zone around the crashsite which is used to stop armored vehicles from rolling over the downed pilot
+  innercircle2 = ZONE_GROUP:New("innercircle2",SARtemplate,600) -- this will generate a smaller zone around the crashsite like above, for infantrycarriers
 
--- innercircle:SmokeZone( SMOKECOLOR.Green ) -- for debugging, uncomment to make the above zone visible
-SARtemplate1 = SPAWN:New("SARenemy1"):InitRandomizeUnits( true, 13000, 9000 ):SpawnFromVec3(SARpos) -- This will spawn in enemies from random locations outside the crashsite
-SARtemplate2 = SPAWN:New("SARenemy2"):InitRandomizeUnits( true, 12000, 7000 ):SpawnFromVec3(SARpos)
-SARtemplate3 = SPAWN:New("SARenemy3"):InitRandomizeUnits( true, 19000, 9000 ):SpawnFromVec3(SARpos)
-SARtemplate4 = SPAWN:New("SARenemy4"):InitRandomizeUnits( true, 17000, 7000 ):SpawnFromVec3(SARpos)
-SARtemplate5 = SPAWN:New("SARenemy5"):InitRandomizeUnits( true, 16000, 6000 ):SpawnFromVec3(SARpos)
-SARtemplate1:TaskRouteToVec3(SARpos, 15) -- This will make the Enemies move towards the crashsite
-SARtemplate2:TaskRouteToVec3(SARpos, 15)
-SARtemplate3:TaskRouteToVec3(SARpos, 15)
-SARtemplate4:TaskRouteToVec3(SARpos, 15)
-SARtemplate5:TaskRouteToVec3(SARpos, 15)
+  -- innercircle:SmokeZone( SMOKECOLOR.Green ) -- for debugging, uncomment to make the above zone visible
+  SARtemplate1 = SPAWN:New("SARenemy1"):InitRandomizeUnits( true, 13000, 9000 ):SpawnFromVec3(SARpos) -- This will spawn in enemies from random locations outside the crashsite
+  SARtemplate2 = SPAWN:New("SARenemy2"):InitRandomizeUnits( true, 12000, 7000 ):SpawnFromVec3(SARpos)
+  SARtemplate3 = SPAWN:New("SARenemy3"):InitRandomizeUnits( true, 19000, 9000 ):SpawnFromVec3(SARpos)
+  SARtemplate4 = SPAWN:New("SARenemy4"):InitRandomizeUnits( true, 17000, 7000 ):SpawnFromVec3(SARpos)
+  SARtemplate5 = SPAWN:New("SARenemy5"):InitRandomizeUnits( true, 16000, 6000 ):SpawnFromVec3(SARpos)
+  SARtemplate1:TaskRouteToVec3(SARpos, 15) -- This will make the Enemies move towards the crashsite
+  SARtemplate2:TaskRouteToVec3(SARpos, 15)
+  SARtemplate3:TaskRouteToVec3(SARpos, 15)
+  SARtemplate4:TaskRouteToVec3(SARpos, 15)
+  SARtemplate5:TaskRouteToVec3(SARpos, 15)
 
-SARtemplate1_engage = SCHEDULER:New( nil,
-  function()
-    if SARtemplate1:IsCompletelyInZone( innercircle ) then
-       SARtemplate1:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 50, y=vec2Target.y + 70, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
-       SARtemplate1_engage:Stop()
-            end 
-end,{}, 0, 15 )
+  SARtemplate1_engage = SCHEDULER:New( nil,
+    function()
+      if SARtemplate1:IsCompletelyInZone( innercircle ) then
+        SARtemplate1:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 50, y=vec2Target.y + 70, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARtemplate1_engage:Stop()
+      end 
+    end,
+  {}, 0, 15 )
 
-SARtemplate2_engage = SCHEDULER:New( nil,
-  function()  
-  if SARtemplate2:IsCompletelyInZone( innercircle2 ) then
-SARtemplate2:TaskRouteToVec3(SARpos, 0) -- slow down the transporter
-SARInfantry_location = SARtemplate2:GetVec3()
-SARInfantry = SPAWN:New("SARInfantry"):SpawnFromVec3(SARInfantry_location)
-SARInfantry:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 40, y=vec2Target.y + 40, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
-SARtemplate2_engage:Stop()
-end 
-end,{}, 0, 15 )
+  SARtemplate2_engage = SCHEDULER:New( nil,
+    function()  
+      if SARtemplate2:IsCompletelyInZone( innercircle2 ) then
+        SARtemplate2:TaskRouteToVec3(SARpos, 0) -- slow down the transporter
+        SARInfantry_location = SARtemplate2:GetVec3()
+        SARInfantry = SPAWN:New("SARInfantry"):SpawnFromVec3(SARInfantry_location)
+        SARInfantry:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 40, y=vec2Target.y + 40, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARtemplate2_engage:Stop()
+      end 
+    end,
+  {}, 0, 15 )
 
 
-SARtemplate3_engage = SCHEDULER:New( nil,
-  function()
+  SARtemplate3_engage = SCHEDULER:New( nil,
+    function()
 
-  if SARtemplate3:IsCompletelyInZone( innercircle ) then
-SARtemplate3:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 100, y=vec2Target.y + 100, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
-SARtemplate3_engage:Stop()
-end 
-end,{}, 0, 15 )
+      if SARtemplate3:IsCompletelyInZone( innercircle ) then
+        SARtemplate3:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 100, y=vec2Target.y + 100, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARtemplate3_engage:Stop()
+      end 
+    end,
+  {}, 0, 15 )
 
-SARtemplate4_engage = SCHEDULER:New( nil,
-  function()
-  if SARtemplate4:IsCompletelyInZone( innercircle ) then
-SARtemplate4:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 80, y=vec2Target.y + 120, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
-SARtemplate4_engage:Stop()
-end 
-end,{}, 0, 15 )
+  SARtemplate4_engage = SCHEDULER:New( nil,
+    function()
+      if SARtemplate4:IsCompletelyInZone( innercircle ) then
+        SARtemplate4:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 80, y=vec2Target.y + 120, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARtemplate4_engage:Stop()
+      end 
+    end,
+  {}, 0, 15 )
 
-SARtemplate5_engage = SCHEDULER:New( nil,
-  function()
-if SARtemplate5:IsCompletelyInZone( innercircle ) then
-SARtemplate5:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 40 , y=vec2Target.y + 90, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
-SARtemplate5_engage:Stop()
-end 
-end,{}, 0, 15 )
+  SARtemplate5_engage = SCHEDULER:New( nil,
+    function()
+      if SARtemplate5:IsCompletelyInZone( innercircle ) then
+        SARtemplate5:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 40 , y=vec2Target.y + 90, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARtemplate5_engage:Stop()
+      end 
+    end,
+   {}, 0, 15 )
 end  
   
 
