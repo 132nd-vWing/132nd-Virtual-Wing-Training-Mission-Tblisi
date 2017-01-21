@@ -131,10 +131,15 @@ end
 -- This will spawn a simulated planewreck, at a random location within TETRA range, together with a CTLD-compatible Manpad unit that can be rescued or used as a JTAC. 
 -- The 'downed pilot' will automatically deploy a CTLD radio beacon -- The 'downed pilot' will automatically deploy a CTLD radio beacon 
 function SARTETRA()
-  SARtemplate = SPAWN:New("SARtemplate"):InitRandomizeUnits( true, 11000, 8000 ):Spawn()  -- SARtemplate can be any unit that is simply used as a spawn location for the pilot
+  -- SARtemplate can be any unit that is simply used as a spawn location for the pilot
+  SARtemplate = SPAWN:New("SARtemplate"):InitRandomizeUnits( true, 11000, 8000 ):Spawn()
   SARpos = SARtemplate:GetVec3()
-  SPAWN:New("crashplane"):SpawnFromVec3(SARpos) -- this line is optional and could be commented out. This will spawn an A10 without fuel at the crash site so a 'real' wreck will be produced close by 
-  ctld.spawnGroupAtPoint_SAR("blue", {aa=1}, SARpos, 10) -- This calls the modified CTLD function to spawn a single Manpad as 'downed pilot'
+  
+  -- this line is optional and could be commented out. This will spawn an A10 without fuel at the crash site so a 'real' wreck will be produced close by
+  SPAWN:New("crashplane"):SpawnFromVec3(SARpos)  
+  
+  -- This calls the modified CTLD function to spawn a single Manpad as 'downed pilot'
+  ctld.spawnGroupAtPoint_SAR("blue", {aa=1}, SARpos, 10)
   ctld.beaconCount = ctld.beaconCount + 1
   ctld.createRadioBeacon(SARpos, 2, 2, "CRASHSITE TETRA" .. ctld.beaconCount - 1, 120)
   MESSAGE:New( "Simulated Plane Crash at TETRA. Radio Beacon active at the Crashsite (use CTLD Beacons to home in)", 7):ToBlue()
@@ -150,16 +155,26 @@ end
 --- TETRA activate hostiles moving towards the crashsite Range Search and Rescue Tasking--
 local function SARhostiles()
   vec2Target = SARtemplate:GetVec2()
-  innercircle = ZONE_GROUP:New("innercircle",SARtemplate,1000) -- this will generate a zone around the crashsite which is used to stop armored vehicles from rolling over the downed pilot
-  innercircle2 = ZONE_GROUP:New("innercircle2",SARtemplate,600) -- this will generate a smaller zone around the crashsite like above, for infantrycarriers
+  
+  -- this will generate a zone around the crashsite which is used to stop armored vehicles from rolling over the downed pilot
+  innercircle = ZONE_GROUP:New("innercircle",SARtemplate,1000)
+  
+  -- this will generate a smaller zone around the crashsite like above, for infantrycarriers
+  innercircle2 = ZONE_GROUP:New("innercircle2",SARtemplate,600) 
 
-  -- innercircle:SmokeZone( SMOKECOLOR.Green ) -- for debugging, uncomment to make the above zone visible
-  SARtemplate1 = SPAWN:New("SARenemy1"):InitRandomizeUnits( true, 13000, 9000 ):SpawnFromVec3(SARpos) -- This will spawn in enemies from random locations outside the crashsite
+
+  -- -- for debugging, uncomment to make the above zone visible
+  -- innercircle:SmokeZone( SMOKECOLOR.Green )
+  
+  -- This will spawn in enemies from random locations outside the crashsite
+  SARtemplate1 = SPAWN:New("SARenemy1"):InitRandomizeUnits( true, 13000, 9000 ):SpawnFromVec3(SARpos)
   SARtemplate2 = SPAWN:New("SARenemy2"):InitRandomizeUnits( true, 12000, 7000 ):SpawnFromVec3(SARpos)
   SARtemplate3 = SPAWN:New("SARenemy3"):InitRandomizeUnits( true, 19000, 9000 ):SpawnFromVec3(SARpos)
   SARtemplate4 = SPAWN:New("SARenemy4"):InitRandomizeUnits( true, 17000, 7000 ):SpawnFromVec3(SARpos)
   SARtemplate5 = SPAWN:New("SARenemy5"):InitRandomizeUnits( true, 16000, 6000 ):SpawnFromVec3(SARpos)
-  SARtemplate1:TaskRouteToVec3(SARpos, 15) -- This will make the Enemies move towards the crashsite
+  
+  -- This will make the Enemies move towards the crashsite
+  SARtemplate1:TaskRouteToVec3(SARpos, 15)
   SARtemplate2:TaskRouteToVec3(SARpos, 15)
   SARtemplate3:TaskRouteToVec3(SARpos, 15)
   SARtemplate4:TaskRouteToVec3(SARpos, 15)
@@ -177,7 +192,8 @@ local function SARhostiles()
   SARtemplate2_engage = SCHEDULER:New( nil,
     function()  
       if SARtemplate2:IsCompletelyInZone( innercircle2 ) then
-        SARtemplate2:TaskRouteToVec3(SARpos, 0) -- slow down the transporter
+        -- slow down the transporter
+        SARtemplate2:TaskRouteToVec3(SARpos, 0) 
         SARInfantry_location = SARtemplate2:GetVec3()
         SARInfantry = SPAWN:New("SARInfantry"):SpawnFromVec3(SARInfantry_location)
         SARInfantry:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 40, y=vec2Target.y + 40, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
