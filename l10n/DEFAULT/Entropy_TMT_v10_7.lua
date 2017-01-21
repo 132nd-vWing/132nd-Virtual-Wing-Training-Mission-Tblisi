@@ -53,29 +53,6 @@ function ctld.spawnGroupAtPoint_SAR(_groupSide, _number, _point, _searchRadius)
         table.insert(ctld.droppedTroopsBLUE, _droppedTroops:getName())
 end
 
-
---- RANGE  Functions-randomize movement --
--- will spread out the targets at the respective ranges. Respawned units will hold but can be spread out by calling the function again--
-local function randomizeTETRA() 
-  trigger.action.setUserFlag(20, true)
-  MESSAGE:New( "Targets spreading out at TETRA", 7):ToBlue()
-end
-
-local function randomizeTIANETI() 
-  trigger.action.setUserFlag(30, true)
-  MESSAGE:New( "Targets spreading out at TIANETI", 7):ToBlue()
-end
-
-local function randomizeDUSHETI() 
-  trigger.action.setUserFlag(40, true)
-  MESSAGE:New( "Targets spreading out at DUSHETI", 7):ToBlue()
-end
-
-local function randomizeMARNUELI() 
-  trigger.action.setUserFlag(80, true)
-  MESSAGE:New( "Targets spreading out at MARNUELI", 7):ToBlue()
-end
-
 --- RANGE  Functions-deploy Infantry --
 -- Infantry can be deployed from the Transport Vehicles parked at the ranges. The Transported can be controlled by a GFC and all CTLD options are available. If FAC(A) players 
 -- dont want to leave their aircraft, they can move the Transporters around the map without 'piloting' them and then use this function to deploy Infantry at the transport location.
@@ -204,14 +181,21 @@ local function SARhostiles()
     end,
    {}, 0, 15 )
 end  
-  
+
+--- RANGE  Functions-randomize movement --
+-- will spread out the targets at the respective ranges. Respawned units will hold but can be spread out by calling the function again--
+
+local function randomize_range_movement(flag, range_name)
+  trigger.action.setUserFlag(flag, true)
+  MESSAGE:New( "Targets spreading out at " .. range_name, 7):ToBlue()
+end
 
 --- RANGE Options --
 Range_Options = MENU_COALITION:New( coalition.side.BLUE, "Range Options" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize TETRA Movement", Range_Options, randomizeTETRA )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize TIANETI Movement", Range_Options, randomizeTIANETI )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize DUSHETI Movement", Range_Options, randomizeDUSHETI )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize MARNUELI Movement", Range_Options, randomizeMARNUELI )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize TETRA Movement", Range_Options, randomize_range_movement, 20, "TETRA" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize TIANETI Movement", Range_Options, randomize_range_movement, 30, "TIANETI" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize DUSHETI Movement", Range_Options, randomize_range_movement, 40, "DUSHETI" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize MARNUELI Movement", Range_Options, randomize_range_movement, 50, "MARNUELI" )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Smoke on Bomb Circle at MARNUELI", Range_Options, SmokeMARNUELI )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at TETRA", Range_Options, deployTETRA )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at TIANETI", Range_Options, deployTIANETI )
