@@ -60,7 +60,7 @@ end
 
 --- TETRA Range activated Search and Rescue Tasking--
 -- This will spawn a simulated planewreck, at a random location within TETRA range, together with a CTLD-compatible Manpad unit that can be rescued or used as a JTAC. 
--- The 'downed pilot' will automatically deploy a CTLD radio beacon -- The 'downed pilot' will automatically deploy a CTLD radio beacon 
+-- The 'downed pilot' will automatically deploy a CTLD radio beacon
 function SARTETRA()
   -- SARtemplate can be any unit that is simply used as a spawn location for the pilot
   SARtemplate = SPAWN:New("SARtemplate"):InitRandomizeUnits( true, 11000, 8000 ):Spawn()
