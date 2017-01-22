@@ -22,6 +22,10 @@ mission =
             [16] = "a_group_off(1124);a_group_off(1123);a_group_off(1130);a_group_off(1119);a_group_off(1126);a_group_off(1127);a_group_off(1128);a_group_off(1129);a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2288\"), 10, false);",
             [17] = "a_group_on(1117);a_group_on(1116);a_group_on(1118);a_group_on(1115);a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2289\"), 10, false);",
             [18] = "a_group_on(1124);a_group_on(1123);a_group_on(1130);a_group_on(1119);a_group_on(1126);a_group_on(1127);a_group_on(1128);a_group_on(1129);a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2290\"), 10, false);",
+            [19] = "a_clear_flag(20);",
+            [20] = "a_clear_flag(30);",
+            [21] = "a_clear_flag(40);",
+            [22] = "a_clear_flag(50);",
         }, -- end of ["actions"]
         ["events"] = 
         {
@@ -49,6 +53,10 @@ mission =
             [16] = "if mission.trig.conditions[16]() then if not mission.trig.flag[16] then mission.trig.actions[16](); mission.trig.flag[16] = true;end; else mission.trig.flag[16] = false; end;",
             [17] = "if mission.trig.conditions[17]() then if not mission.trig.flag[17] then mission.trig.actions[17](); mission.trig.flag[17] = true;end; else mission.trig.flag[17] = false; end;",
             [18] = "if mission.trig.conditions[18]() then if not mission.trig.flag[18] then mission.trig.actions[18](); mission.trig.flag[18] = true;end; else mission.trig.flag[18] = false; end;",
+            [19] = "if mission.trig.conditions[19]() then if not mission.trig.flag[19] then mission.trig.actions[19](); mission.trig.flag[19] = true;end; else mission.trig.flag[19] = false; end;",
+            [20] = "if mission.trig.conditions[20]() then if not mission.trig.flag[20] then mission.trig.actions[20](); mission.trig.flag[20] = true;end; else mission.trig.flag[20] = false; end;",
+            [21] = "if mission.trig.conditions[21]() then if not mission.trig.flag[21] then mission.trig.actions[21](); mission.trig.flag[21] = true;end; else mission.trig.flag[21] = false; end;",
+            [22] = "if mission.trig.conditions[22]() then if not mission.trig.flag[22] then mission.trig.actions[22](); mission.trig.flag[22] = true;end; else mission.trig.flag[22] = false; end;",
         }, -- end of ["func"]
         ["flag"] = 
         {
@@ -70,6 +78,10 @@ mission =
             [16] = true,
             [17] = true,
             [18] = true,
+            [19] = true,
+            [20] = true,
+            [21] = true,
+            [22] = true,
         }, -- end of ["flag"]
         ["conditions"] = 
         {
@@ -91,6 +103,10 @@ mission =
             [16] = "return(c_all_of_coalition_out_zone(\"blue\", 1892) )",
             [17] = "return(c_part_of_coalition_in_zone(\"blue\", 1891) )",
             [18] = "return(c_part_of_coalition_in_zone(\"blue\", 1892) )",
+            [19] = "return(c_flag_is_true(20) )",
+            [20] = "return(c_flag_is_true(30) )",
+            [21] = "return(c_flag_is_true(40) )",
+            [22] = "return(c_flag_is_true(50) )",
         }, -- end of ["conditions"]
         ["customStartup"] = 
         {
@@ -1927,6 +1943,122 @@ mission =
                 }, -- end of [9]
             }, -- end of ["actions"]
         }, -- end of [18]
+        [19] = 
+        {
+            ["rules"] = 
+            {
+                [1] = 
+                {
+                    ["flag"] = 20,
+                    ["coalitionlist"] = "red",
+                    ["predicate"] = "c_flag_is_true",
+                    ["zone"] = 808,
+                }, -- end of [1]
+            }, -- end of ["rules"]
+            ["comment"] = "RESET_RandomMov_TETRA",
+            ["eventlist"] = "",
+            ["actions"] = 
+            {
+                [1] = 
+                {
+                    ["flag"] = 20,
+                    ["predicate"] = "a_clear_flag",
+                    ["ai_task"] = 
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                }, -- end of [1]
+            }, -- end of ["actions"]
+            ["predicate"] = "triggerFront",
+        }, -- end of [19]
+        [20] = 
+        {
+            ["rules"] = 
+            {
+                [1] = 
+                {
+                    ["flag"] = 30,
+                    ["coalitionlist"] = "red",
+                    ["predicate"] = "c_flag_is_true",
+                    ["zone"] = 808,
+                }, -- end of [1]
+            }, -- end of ["rules"]
+            ["eventlist"] = "",
+            ["predicate"] = "triggerFront",
+            ["actions"] = 
+            {
+                [1] = 
+                {
+                    ["flag"] = 30,
+                    ["predicate"] = "a_clear_flag",
+                    ["ai_task"] = 
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                }, -- end of [1]
+            }, -- end of ["actions"]
+            ["comment"] = "RESET_RandomMov_TIANETI",
+        }, -- end of [20]
+        [21] = 
+        {
+            ["rules"] = 
+            {
+                [1] = 
+                {
+                    ["flag"] = 40,
+                    ["coalitionlist"] = "red",
+                    ["predicate"] = "c_flag_is_true",
+                    ["zone"] = 808,
+                }, -- end of [1]
+            }, -- end of ["rules"]
+            ["eventlist"] = "",
+            ["comment"] = "RESET_RandomMov_DUSHETI",
+            ["predicate"] = "triggerFront",
+            ["actions"] = 
+            {
+                [1] = 
+                {
+                    ["flag"] = 40,
+                    ["predicate"] = "a_clear_flag",
+                    ["ai_task"] = 
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                }, -- end of [1]
+            }, -- end of ["actions"]
+        }, -- end of [21]
+        [22] = 
+        {
+            ["rules"] = 
+            {
+                [1] = 
+                {
+                    ["flag"] = 50,
+                    ["coalitionlist"] = "red",
+                    ["predicate"] = "c_flag_is_true",
+                    ["zone"] = 808,
+                }, -- end of [1]
+            }, -- end of ["rules"]
+            ["comment"] = "RESET_RandomMov_MARNUELI",
+            ["actions"] = 
+            {
+                [1] = 
+                {
+                    ["flag"] = 50,
+                    ["predicate"] = "a_clear_flag",
+                    ["ai_task"] = 
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                }, -- end of [1]
+            }, -- end of ["actions"]
+            ["predicate"] = "triggerFront",
+            ["eventlist"] = "",
+        }, -- end of [22]
     }, -- end of ["trigrules"]
     ["coalition"] = 
     {
