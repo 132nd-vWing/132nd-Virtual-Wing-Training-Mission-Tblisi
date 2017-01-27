@@ -22,5 +22,4 @@ deploy:
   draft: false
   force_update: true
   on:
-    branch: master
     APPVEYOR_REPO_TAG: true
