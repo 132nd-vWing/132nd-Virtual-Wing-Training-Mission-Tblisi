@@ -58,8 +58,9 @@ end
 -- The 'downed pilot' will automatically deploy a CTLD radio beacon
 function SARTETRA()
   -- SARtemplate can be any unit that is simply used as a spawn location for the pilot
-  SARtemplate = SPAWN:New("SARtemplate"):InitRandomizeUnits( true, 11000, 8000 ):Spawn()
-  SARpos = SARtemplate:GetVec3()
+  -- SARtemplate = SPAWN:New("SARtemplate"):InitRandomizeUnits( true, 11000, 8000 ):Spawn()
+  SARpos = mist.utils.makeVec3GL(ZONE:New("SAR_TETRA_1"):GetRandomVec2(10000), 0)
+  
   
   -- this line is optional and could be commented out. This will spawn an A10 without fuel at the crash site so a 'real' wreck will be produced close by
   SPAWN:New("crashplane"):SpawnFromVec3(SARpos)  
@@ -80,13 +81,15 @@ end
 
 --- TETRA activate hostiles moving towards the crashsite Range Search and Rescue Tasking--
 local function SARhostiles()
-  vec2Target = SARtemplate:GetVec2()
+  vec2Target = mist.utils.makeVec2(SARpos)
   
   -- this will generate a zone around the crashsite which is used to stop armored vehicles from rolling over the downed pilot
-  innercircle = ZONE_GROUP:New("innercircle",SARtemplate,1000)
+  -- innercircle = ZONE_GROUP:New("innercircle",SARtemplate,1000)
+  innercircle = ZONE_RADIUS:New("innercircle",vec2Target,1000)
   
   -- this will generate a smaller zone around the crashsite like above, for infantrycarriers
-  innercircle2 = ZONE_GROUP:New("innercircle2",SARtemplate,600) 
+  -- innercircle2 = ZONE_GROUP:New("innercircle2",SARtemplate,600) 
+  innercircle = ZONE_RADIUS:New("innercircle2",vec2Target,600)
 
 
   -- -- for debugging, uncomment to make the above zone visible
