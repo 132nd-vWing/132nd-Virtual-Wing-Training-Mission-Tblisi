@@ -41,16 +41,11 @@ awacs_respawn = SPAWN:New( 'AWACS' ):InitLimit(1,10):InitRepeatOnEngineShutDown(
 
 --- CTLD Modified Functions--
 -- borrowed this function from CTLD to spawn just a single Manpad as CTLD-compatible group at a vec3
-function ctld.spawnGroupAtPoint_SAR(_groupSide, _number, _point, _searchRadius)
-
-    local 
-        _groupSide = 2
-        _country = 2      
-        _searchRadius = 0
-    local _groupDetails = ctld.generateTroopTypes(_groupSide, _number, _country)
-
-    local _droppedTroops = ctld.spawnDroppedGroup(_point, _groupDetails, false, _searchRadius);
-        table.insert(ctld.droppedTroopsBLUE, _droppedTroops:getName())
+function ctld.spawnGroupAtPoint_SAR(_position)
+    local _groupDetails = ctld.generateTroopTypes(2, {aa=1}, 2)
+    local _droppedTroops = ctld.spawnDroppedGroup(_position, _groupDetails, false, 0);
+    table.insert(ctld.droppedTroopsBLUE, _droppedTroops:getName())
+    return _groupDetails
 end
 
 --- RANGE Smoke activation
@@ -70,7 +65,7 @@ function SARTETRA()
   SPAWN:New("crashplane"):SpawnFromVec3(SARpos)  
   
   -- This calls the modified CTLD function to spawn a single Manpad as 'downed pilot'
-  ctld.spawnGroupAtPoint_SAR("blue", {aa=1}, SARpos, 10)
+  SARtemplate = GROUP:Register(ctld.spawnGroupAtPoint_SAR(SARpos).name)
   ctld.beaconCount = ctld.beaconCount + 1
   ctld.createRadioBeacon(SARpos, 2, 2, "CRASHSITE TETRA" .. ctld.beaconCount - 1, 120)
   MESSAGE:New( "Simulated Plane Crash at TETRA. Radio Beacon active at the Crashsite (use CTLD Beacons to home in)", 7):ToBlue()
