@@ -41,16 +41,11 @@ awacs_respawn = SPAWN:New( 'AWACS' ):InitLimit(1,10):InitRepeatOnEngineShutDown(
 
 --- CTLD Modified Functions--
 -- borrowed this function from CTLD to spawn just a single Manpad as CTLD-compatible group at a vec3
-function ctld.spawnGroupAtPoint_SAR(_groupSide, _number, _point, _searchRadius)
-
-    local 
-        _groupSide = 2
-        _country = 2      
-        _searchRadius = 0
-    local _groupDetails = ctld.generateTroopTypes(_groupSide, _number, _country)
-
-    local _droppedTroops = ctld.spawnDroppedGroup(_point, _groupDetails, false, _searchRadius);
-        table.insert(ctld.droppedTroopsBLUE, _droppedTroops:getName())
+function ctld.spawnGroupAtPoint_SAR(_position)
+    local _groupDetails = ctld.generateTroopTypes(2, {aa=1}, 2)
+    local _droppedTroops = ctld.spawnDroppedGroup(_position, _groupDetails, false, 0);
+    table.insert(ctld.droppedTroopsBLUE, _droppedTroops:getName())
+    return _groupDetails
 end
 
 --- RANGE Smoke activation
@@ -63,14 +58,15 @@ end
 -- The 'downed pilot' will automatically deploy a CTLD radio beacon
 function SARTETRA()
   -- SARtemplate can be any unit that is simply used as a spawn location for the pilot
-  SARtemplate = SPAWN:New("SARtemplate"):InitRandomizeUnits( true, 11000, 8000 ):Spawn()
-  SARpos = SARtemplate:GetVec3()
+  -- SARtemplate = SPAWN:New("SARtemplate"):InitRandomizeUnits( true, 11000, 8000 ):Spawn()
+  SARpos = mist.utils.makeVec3GL(ZONE:New("SAR_TETRA_1"):GetRandomVec2(10000), 0)
+  
   
   -- this line is optional and could be commented out. This will spawn an A10 without fuel at the crash site so a 'real' wreck will be produced close by
   SPAWN:New("crashplane"):SpawnFromVec3(SARpos)  
   
   -- This calls the modified CTLD function to spawn a single Manpad as 'downed pilot'
-  ctld.spawnGroupAtPoint_SAR("blue", {aa=1}, SARpos, 10)
+  SARtemplate = GROUP:Register(ctld.spawnGroupAtPoint_SAR(SARpos).name)
   ctld.beaconCount = ctld.beaconCount + 1
   ctld.createRadioBeacon(SARpos, 2, 2, "CRASHSITE TETRA" .. ctld.beaconCount - 1, 120)
   MESSAGE:New( "Simulated Plane Crash at TETRA. Radio Beacon active at the Crashsite (use CTLD Beacons to home in)", 7):ToBlue()
@@ -85,13 +81,15 @@ end
 
 --- TETRA activate hostiles moving towards the crashsite Range Search and Rescue Tasking--
 local function SARhostiles()
-  vec2Target = SARtemplate:GetVec2()
+  vec2Target = mist.utils.makeVec2(SARpos)
   
   -- this will generate a zone around the crashsite which is used to stop armored vehicles from rolling over the downed pilot
-  innercircle = ZONE_GROUP:New("innercircle",SARtemplate,1000)
+  -- innercircle = ZONE_GROUP:New("innercircle",SARtemplate,1000)
+  innercircle = ZONE_RADIUS:New("innercircle",vec2Target,1000)
   
   -- this will generate a smaller zone around the crashsite like above, for infantrycarriers
-  innercircle2 = ZONE_GROUP:New("innercircle2",SARtemplate,600) 
+  -- innercircle2 = ZONE_GROUP:New("innercircle2",SARtemplate,600) 
+  innercircle = ZONE_RADIUS:New("innercircle2",vec2Target,600)
 
 
   -- -- for debugging, uncomment to make the above zone visible
