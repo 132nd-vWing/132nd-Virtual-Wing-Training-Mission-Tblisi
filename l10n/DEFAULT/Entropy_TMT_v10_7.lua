@@ -1,4 +1,3 @@
-
 --- MOOSE config
 local Trainer = MISSILETRAINER
   :New( 100, "132nd Missile Trainer is active" )
@@ -33,9 +32,9 @@ Trainer:InitAlertsToAll(true)
 
 
 --- Tanker and AWACS respawns
-texaco_respawn = SPAWN:New( 'Tanker Texaco' ):InitLimit(1,10):InitRepeatOnEngineShutDown():SpawnScheduled( 120, 0 )
-arco_respawn = SPAWN:New( 'Arco' ):InitLimit(1,10):InitRepeatOnEngineShutDown():SpawnScheduled( 120, 0 )
--- shell_respawn = SPAWN:New( 'Shell' ):InitLimit(1,10):InitRepeatOnEngineShutDown():SpawnScheduled( 120, 0 )
+texaco_respawn = SPAWN:New( 'Tanker Texaco' ):InitLimit( 1,0 ):InitRepeatOnEngineShutDown():SpawnScheduled( 120, 0 )
+arco_respawn = SPAWN:New( 'Arco' ):InitLimit( 1,0 ):InitRepeatOnEngineShutDown():SpawnScheduled( 120, 0 )
+-- shell_respawn = SPAWN:New( 'Shell' ):InitLimit( 1,0 ):InitRepeatOnEngineShutDown():SpawnScheduled( 120, 0 )
 awacs_respawn = SPAWN:New( 'AWACS' ):InitLimit(1,10):InitRepeatOnEngineShutDown():SpawnScheduled( 120, 0 )
 
 
@@ -199,36 +198,36 @@ MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Hostile Forces", SAR_
 --- RANGE targets respawn - TETRA
 -- Flags for Tetra 20-29 --
 -- JTAC FLAGS for TETRA 70-79
-TET_Shilka = SPAWN:New( "TETRA_Shilka" ):InitLimit( 2, 20 ):InitRandomizeRoute(1,0,4000):SpawnScheduled( 20, 0 )
-TET_T55 = SPAWN:New( "TETRA_T55" ):InitLimit( 5, 20 ):InitRandomizeRoute(1,0,4000):SpawnScheduled( 20, 0 )
-TET_Sa13 = SPAWN:New( "TETRA_Sa13" ):InitLimit( 1, 20 ):InitRandomizeRoute(1,0,4000):SpawnScheduled( 20, 0 )
-TET_BMP = SPAWN:New( "TETRA_BMP" ):InitLimit( 4, 20 ):InitRandomizeRoute(1,0,4000):SpawnScheduled( 20, 0 )
-TET_Sa19 = SPAWN:New( "TETRA_Sa19" ):InitLimit( 1, 20 ):InitRandomizeRoute(1,0,4000):SpawnScheduled( 20, 0 )
+TET_Shilka = SPAWN:New( "TETRA_Shilka" ):InitLimit( 2, 0 ):InitRandomizeRoute(1,0,4000):SpawnScheduled( 20, 0 )
+TET_T55 = SPAWN:New( "TETRA_T55" ):InitLimit( 5, 0 ):InitRandomizeRoute(1,0,4000):SpawnScheduled( 20, 0 )
+TET_Sa13 = SPAWN:New( "TETRA_Sa13" ):InitLimit( 1, 0 ):InitRandomizeRoute(1,0,4000):SpawnScheduled( 20, 0 )
+TET_BMP = SPAWN:New( "TETRA_BMP" ):InitLimit( 4, 0 ):InitRandomizeRoute(1,0,4000):SpawnScheduled( 20, 0 )
+TET_Sa19 = SPAWN:New( "TETRA_Sa19" ):InitLimit( 1, 0 ):InitRandomizeRoute(1,0,4000):SpawnScheduled( 20, 0 )
 
 --- RANGE targets respawn - TIANETI 
 -- FLAGS FOR TIANETI 30-39 --
 -- JTAC FLAGS for TIANETI 50-59
-TIA_Shilka = SPAWN:New( "TIANETI_Shilka" ):InitLimit( 2, 20 ):InitRandomizeRoute(1,0,3000):SpawnScheduled( 20, 0 )
-TIA_T55 = SPAWN:New( "TIANETI_T55" ):InitLimit( 5, 20 ):InitRandomizeRoute(1,0,3000):SpawnScheduled( 20, 0 )
-TIA_Sa13 = SPAWN:New( "TIANETI_Sa13" ):InitLimit( 1, 20 ):InitRandomizeRoute(1,0,3000):SpawnScheduled( 20, 0 )
-TIA_BMP = SPAWN:New( "TIANETI_BMP" ):InitLimit( 4, 20 ):InitRandomizeRoute(1,0,3000):SpawnScheduled( 20, 0 )
-TIA_Sa19 = SPAWN:New( "TIANETI_Sa19" ):InitLimit( 1, 20 ):InitRandomizeRoute(1,0,3000):SpawnScheduled( 20, 0 )
+TIA_Shilka = SPAWN:New( "TIANETI_Shilka" ):InitLimit( 2, 0 ):InitRandomizeRoute(1,0,3000):SpawnScheduled( 20, 0 )
+TIA_T55 = SPAWN:New( "TIANETI_T55" ):InitLimit( 5, 0 ):InitRandomizeRoute(1,0,3000):SpawnScheduled( 20, 0 )
+TIA_Sa13 = SPAWN:New( "TIANETI_Sa13" ):InitLimit( 1, 0 ):InitRandomizeRoute(1,0,3000):SpawnScheduled( 20, 0 )
+TIA_BMP = SPAWN:New( "TIANETI_BMP" ):InitLimit( 4, 0 ):InitRandomizeRoute(1,0,3000):SpawnScheduled( 20, 0 )
+TIA_Sa19 = SPAWN:New( "TIANETI_Sa19" ):InitLimit( 1, 0 ):InitRandomizeRoute(1,0,3000):SpawnScheduled( 20, 0 )
 
 --- RANGE targets respawn - DUSHETI
 -- FLAGS FOR DUSEHTI 40-49 --
 -- JTAC FLAGS for DUSHETI 60-69
-DUS_Shilka = SPAWN:New( "DUSHETI_Shilka" ):InitLimit( 2, 20 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
-DUS_Sa13 = SPAWN:New( "DUSHETI_Sa13" ):InitLimit( 1, 20 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
-DUS_BMP = SPAWN:New( "DUSHETI_BMP" ):InitLimit( 4, 20 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
-DUS_Sa19 = SPAWN:New( "DUSHETI_Sa19" ):InitLimit( 1, 20 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
-DUS_T55 = SPAWN:New( "DUSHETI_T55" ):InitLimit( 5, 20 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
+DUS_Shilka = SPAWN:New( "DUSHETI_Shilka" ):InitLimit( 2, 0 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
+DUS_Sa13 = SPAWN:New( "DUSHETI_Sa13" ):InitLimit( 1, 0 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
+DUS_BMP = SPAWN:New( "DUSHETI_BMP" ):InitLimit( 4, 0 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
+DUS_Sa19 = SPAWN:New( "DUSHETI_Sa19" ):InitLimit( 1, 0 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
+DUS_T55 = SPAWN:New( "DUSHETI_T55" ):InitLimit( 5, 0 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
 
 --- RANGE targets respawn - MARNUELI
 -- FLAGS FOR MARNUELI 80-89 --
 -- JTAC FLAGS for MARNUELI 90-99
-MAN_Shilka = SPAWN:New( "MARNUELI_Shilka" ):InitLimit( 2, 20 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
-MAN_Sa13 = SPAWN:New( "MARNUELI_Sa13" ):InitLimit( 1, 20 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
-MAN_BMP = SPAWN:New( "MARNUELI_BMP" ):InitLimit( 4, 20 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
-MAN_Sa19 = SPAWN:New( "MARNUELI_Sa19" ):InitLimit( 1, 20 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
-MAN_T55 = SPAWN:New( "MARNUELI_T55" ):InitLimit( 5, 20 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
+MAN_Shilka = SPAWN:New( "MARNUELI_Shilka" ):InitLimit( 2, 0 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
+MAN_Sa13 = SPAWN:New( "MARNUELI_Sa13" ):InitLimit( 1, 0 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
+MAN_BMP = SPAWN:New( "MARNUELI_BMP" ):InitLimit( 4, 0 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
+MAN_Sa19 = SPAWN:New( "MARNUELI_Sa19" ):InitLimit( 1, 0 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
+MAN_T55 = SPAWN:New( "MARNUELI_T55" ):InitLimit( 5, 0 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
 
