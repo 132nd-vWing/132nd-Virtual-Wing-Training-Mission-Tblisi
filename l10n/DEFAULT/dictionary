@@ -761,7 +761,7 @@ TET_T55 = SPAWN:New( \"TETRA_T55\" ):InitLimit( 5, 99 ):InitRandomizeRoute(1,0,4
 TET_Sa13 = SPAWN:New( \"TETRA_Sa13\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0,4000):SpawnScheduled( 20, 0 )\
 TET_BMP = SPAWN:New( \"TETRA_BMP\" ):InitLimit( 4, 99 ):InitRandomizeRoute(1,0,4000):SpawnScheduled( 20, 0 )\
 TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0,4000):SpawnScheduled( 20, 0 )",
-    ["DictKey_ActionText_2350"] = "formation_respawn = SPAWN:New( 'FORMATION' ):InitLimit( 1, 10 ):InitRepeatOnEngineShutDown():SpawnScheduled( 120, 0 )",
+    ["DictKey_ActionText_2350"] = "formation_respawn = SPAWN:New( 'FORMATION' ):InitLimit( 1,0 ):InitRepeatOnEngineShutDown():SpawnScheduled( 120, 0 )",
     ["DictKey_ActionText_2455"] = "SCHEDULER:New(  SmokeOff )",
     ["DictKey_ActionText_2510"] = "Dusheti Beacon Preset 1 activated",
     ["DictKey_ActionText_2511"] = "TIANETI Beacon Preset 2 activated",
