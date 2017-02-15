@@ -1,5 +1,5 @@
 env.info( '*** MOOSE STATIC INCLUDE START *** ' ) 
-env.info( 'Moose Generation Timestamp: 20170208_1506' ) 
+env.info( 'Moose Generation Timestamp: 20170214_1649' ) 
 local base = _G
 
 Include = {}
@@ -4173,6 +4173,10 @@ end
 --
 -- @module Event
 
+
+
+
+
 --- The EVENT structure
 -- @type EVENT
 -- @field #EVENT.Events Events
@@ -5158,6 +5162,21 @@ function EVENT:onEvent( Event )
   end
 end
 
+--- The EVENTHANDLER structure
+-- @type EVENTHANDLER
+-- @extends Core.Base#BASE
+EVENTHANDLER = {
+  ClassName = "EVENTHANDLER",
+  ClassID = 0,
+}
+
+--- The EVENTHANDLER constructor
+-- @param #EVENTHANDLER self
+-- @return #EVENTHANDLER
+function EVENTHANDLER:New()
+  self = BASE:Inherit( self, BASE:New() ) -- #EVENTHANDLER
+  return self
+end
 --- This module contains the MENU classes.
 -- 
 -- ===
@@ -11566,16 +11585,20 @@ do -- FSM
     return function( self, DelaySeconds, ... )
       self:T2( "Delayed Event: " .. EventName )
       local CallID = 0
-      if DelaySeconds < 0 then -- Only call the event ONCE!
-        DelaySeconds = math.abs( DelaySeconds )
-        if not self._EventSchedules[EventName] then
-          CallID = self.CallScheduler:Schedule( self, self._handler, { EventName, ... }, DelaySeconds or 1 )
-          self._EventSchedules[EventName] = CallID
+      if DelaySeconds ~= nil then
+        if DelaySeconds < 0 then -- Only call the event ONCE!
+          DelaySeconds = math.abs( DelaySeconds )
+          if not self._EventSchedules[EventName] then
+            CallID = self.CallScheduler:Schedule( self, self._handler, { EventName, ... }, DelaySeconds or 1 )
+            self._EventSchedules[EventName] = CallID
+          else
+            -- reschedule
+          end
         else
-          -- reschedule
+          CallID = self.CallScheduler:Schedule( self, self._handler, { EventName, ... }, DelaySeconds or 1 )
         end
       else
-        CallID = self.CallScheduler:Schedule( self, self._handler, { EventName, ... }, DelaySeconds or 1 )
+        error( "FSM: An asynchronous event trigger requires a DelaySeconds parameter!!! This can be positive or negative! Sorry, but will not process this." )
       end
       self:T2( { CallID = CallID } )
     end
@@ -22269,9 +22292,8 @@ function MISSILETRAINER:_EventShot( Event )
     end
   else
      -- TODO: some weapons don't know the target unit... Need to develop a workaround for this.
-    SCHEDULER:New( TrainerWeapon, TrainerWeapon.destroy, {}, 2 )
-		if ( TrainerWeapon:getTypeName() == "9M311" ) then
-		SCHEDULER:New( TrainerWeapon, TrainerWeapon.destroy, {}, 2 )
+    if ( TrainerWeapon:getTypeName() == "9M311" ) then
+		SCHEDULER:New( TrainerWeapon, TrainerWeapon.destroy, {}, 1,1 )
 		else
 		end
   end
@@ -25560,7 +25582,7 @@ function AI_PATROL_ZONE:onafterStart( Controllable, From, Event, To )
   self.Controllable:OnReSpawn(
     function( PatrolGroup )
       self:E( "ReSpawn" )
-      self:__Reset()
+      self:__Reset( 1 )
       self:__Route( 5 )
     end
   )
@@ -31079,7 +31101,7 @@ function TASK:onenterAssigned( From, Event, To )
   self:E("Task Assigned")
   
   self:MessageToGroups( "Task " .. self:GetName() .. " has been assigned to your group." )
-  self:GetMission():__Start()
+  self:GetMission():__Start( 1 )
 end
 
 
@@ -31095,7 +31117,7 @@ function TASK:onenterSuccess( From, Event, To )
   self:MessageToGroups( "Task " .. self:GetName() .. " is successful! Good job!" )
   self:UnAssignFromGroups()
   
-  self:GetMission():__Complete()
+  self:GetMission():__Complete( 1 )
   
 end
 

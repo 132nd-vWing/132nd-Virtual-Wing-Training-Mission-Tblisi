@@ -14938,8 +14938,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -360378.57142858,
-                                            ["y"] = 925165.71428572,
+                                            ["x"] = -360618.00000001,
+                                            ["y"] = 925153.99999999,
                                         }, -- end of [1]
                                         [2] =
                                         {
@@ -15061,7 +15061,8 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -1.7155873631149,
+                                        ["hardpoint_racks"] = true,
+                                        ["heading"] = -1.7102247282401,
                                         ["livery_id"] = "132 617th Standard skin",
                                         ["name"] = "DictKey_UnitName_244",
                                         ["onboard_num"] = "010",
@@ -15076,17 +15077,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 1.7155873631149,
+                                        ["psi"] = 1.7102247282401,
                                         ["skill"] = "Client",
                                         ["speed"] = 133.09722222222,
                                         ["type"] = "A-10C",
                                         ["unitId"] = 1039,
-                                        ["x"] = -360378.57142858,
-                                        ["y"] = 925165.71428572,
+                                        ["x"] = -360618.00000001,
+                                        ["y"] = 925153.99999999,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -360378.57142858,
-                                ["y"] = 925165.71428572,
+                                ["x"] = -360618.00000001,
+                                ["y"] = 925153.99999999,
                             }, -- end of [17]
                             [18] =
                             {
@@ -43517,7 +43518,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3300712,
+    ["currentKey"] = 3303500,
     ["date"] =
     {
         ["Day"] = 23,
@@ -46609,11 +46610,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -284975.14285715,
-        ["centerY"] = 899011.14285713,
-        ["zoom"] = 500000,
+        ["centerX"] = -355789.42857144,
+        ["centerY"] = 924411.14285713,
+        ["zoom"] = 200000,
     }, -- end of ["map"]
-    ["maxDictId"] = 2788,
+    ["maxDictId"] = 2793,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
@@ -46671,7 +46672,7 @@ mission =
     {
         ["actions"] =
         {
-            [1] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2788\")); mission.trig.func[1]=nil;",
+            [1] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2789\")); mission.trig.func[1]=nil;",
             [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2294\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2531\")); mission.trig.func[3]=nil;",
             [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2787\")); mission.trig.func[4]=nil;",
@@ -47297,7 +47298,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_2788",
+                    ["file"] = "ResKey_Action_2789",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -47448,7 +47449,7 @@ mission =
                         [2] = "",
                     }, -- end of ["ai_task"]
                     ["file"] = "ResKey_Action_2492",
-                    ["frequency"] = 114167,
+                    ["frequency"] = 114.167,
                     ["loop"] = true,
                     ["modulation"] = true,
                     ["name"] = "Dusheti Beacon Preset 1",
@@ -47503,7 +47504,7 @@ mission =
                         [2] = "",
                     }, -- end of ["ai_task"]
                     ["file"] = "ResKey_Action_2493",
-                    ["frequency"] = 114333,
+                    ["frequency"] = 114.333,
                     ["loop"] = true,
                     ["modulation"] = true,
                     ["name"] = "TIANETI Beacon Preset 2",
@@ -47558,7 +47559,7 @@ mission =
                         [2] = "",
                     }, -- end of ["ai_task"]
                     ["file"] = "ResKey_Action_2494",
-                    ["frequency"] = 114584,
+                    ["frequency"] = 114.584,
                     ["loop"] = true,
                     ["modulation"] = true,
                     ["name"] = "TETRA Beacon Preset 3",
@@ -47613,7 +47614,7 @@ mission =
                         [2] = "",
                     }, -- end of ["ai_task"]
                     ["file"] = "ResKey_Action_2495",
-                    ["frequency"] = 121500,
+                    ["frequency"] = 121.5,
                     ["loop"] = true,
                     ["modulation"] = true,
                     ["name"] = "MARNUELI Beacon Preset 4",
@@ -47668,7 +47669,7 @@ mission =
                         [2] = "",
                     }, -- end of ["ai_task"]
                     ["file"] = "ResKey_Action_2496",
-                    ["frequency"] = 123100,
+                    ["frequency"] = 123.1,
                     ["loop"] = true,
                     ["modulation"] = true,
                     ["name"] = "LOCHINI Beacon Preset 5",
@@ -48562,7 +48563,7 @@ mission =
             }, -- end of ["rules"]
         }, -- end of [22]
     }, -- end of ["trigrules"]
-    ["version"] = 12,
+    ["version"] = 13,
     ["weather"] =
     {
         ["atmosphere_type"] = 0,
