@@ -24,3 +24,4 @@ deploy:
   on:
     branch: master
     APPVEYOR_REPO_TAG: true
+    
