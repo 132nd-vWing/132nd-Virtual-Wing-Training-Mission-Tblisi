@@ -43518,7 +43518,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3303500,
+    ["currentKey"] = 3309066,
     ["date"] =
     {
         ["Day"] = 23,
@@ -46610,11 +46610,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -355789.42857144,
-        ["centerY"] = 924411.14285713,
-        ["zoom"] = 200000,
+        ["centerX"] = -276321.42857143,
+        ["centerY"] = 925514.28571429,
+        ["zoom"] = 500000,
     }, -- end of ["map"]
-    ["maxDictId"] = 2793,
+    ["maxDictId"] = 2795,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
@@ -46672,10 +46672,10 @@ mission =
     {
         ["actions"] =
         {
-            [1] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2789\")); mission.trig.func[1]=nil;",
+            [1] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2794\")); mission.trig.func[1]=nil;",
             [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2294\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2531\")); mission.trig.func[3]=nil;",
-            [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2787\")); mission.trig.func[4]=nil;",
+            [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2795\")); mission.trig.func[4]=nil;",
             [5] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[5]=nil;",
             [6] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2492\"), 1737, true, true, 114167, 1000, \"Dusheti Beacon Preset 1\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2510\"), 10, false);",
             [7] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2493\"), 1736, true, true, 114333, 1000, \"TIANETI Beacon Preset 2\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2511\"), 10, false);",
@@ -47272,17 +47272,177 @@ mission =
                 ["color"] =
                 {
                     [1] = 1,
-                    [2] = 1,
-                    [3] = 1,
-                    [4] = 0.15,
+                    [2] = 0,
+                    [3] = 0,
+                    [4] = 0.14901960784314,
                 }, -- end of ["color"]
                 ["hidden"] = false,
                 ["name"] = "SAR_TETRA_1",
                 ["radius"] = 15000,
-                ["x"] = -337281.7142857,
-                ["y"] = 858614.57142856,
+                ["x"] = -324867.42857141,
+                ["y"] = 836993.14285713,
                 ["zoneId"] = 5236,
             }, -- end of [31]
+            [32] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 0,
+                    [3] = 0,
+                    [4] = 0.14901960784314,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "SAR1",
+                ["radius"] = 15.24,
+                ["x"] = -343660.28571428,
+                ["y"] = 853248.85714284,
+                ["zoneId"] = 5389,
+            }, -- end of [32]
+            [33] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 0,
+                    [3] = 0,
+                    [4] = 0.14901960784314,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "SAR2",
+                ["radius"] = 15.24,
+                ["x"] = -320345.99999999,
+                ["y"] = 860120.28571428,
+                ["zoneId"] = 5390,
+            }, -- end of [33]
+            [34] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 0,
+                    [3] = 0,
+                    [4] = 0.14901960784314,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "SAR3",
+                ["radius"] = 15.24,
+                ["x"] = -342531.71428571,
+                ["y"] = 871177.42857141,
+                ["zoneId"] = 5391,
+            }, -- end of [34]
+            [35] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 0,
+                    [3] = 0,
+                    [4] = 0.14901960784314,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "SAR4",
+                ["radius"] = 15.24,
+                ["x"] = -328188.85714285,
+                ["y"] = 868291.7142857,
+                ["zoneId"] = 5392,
+            }, -- end of [35]
+            [36] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 0,
+                    [3] = 0,
+                    [4] = 0.14901960784314,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "SAR5",
+                ["radius"] = 15.24,
+                ["x"] = -336903.14285714,
+                ["y"] = 847534.57142856,
+                ["zoneId"] = 5393,
+            }, -- end of [36]
+            [37] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 0,
+                    [3] = 0,
+                    [4] = 0.14901960784314,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "SAR6",
+                ["radius"] = 15.24,
+                ["x"] = -323845.99999999,
+                ["y"] = 854834.57142856,
+                ["zoneId"] = 5394,
+            }, -- end of [37]
+            [38] =
+            {
+                ["color"] =
+                {
+                    [1] = 0.50196078431373,
+                    [2] = 0,
+                    [3] = 1,
+                    [4] = 0.14901960784314,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "SAR7",
+                ["radius"] = 15.24,
+                ["x"] = -328517.42857143,
+                ["y"] = 843063.14285714,
+                ["zoneId"] = 5395,
+            }, -- end of [38]
+            [39] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 0,
+                    [3] = 0,
+                    [4] = 0.14901960784314,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "SAR8",
+                ["radius"] = 15.24,
+                ["x"] = -346117.42857142,
+                ["y"] = 836105.99999998,
+                ["zoneId"] = 5396,
+            }, -- end of [39]
+            [40] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 0,
+                    [3] = 0,
+                    [4] = 0.14901960784314,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "SAR9",
+                ["radius"] = 15.24,
+                ["x"] = -349065.99999999,
+                ["y"] = 859595.99999999,
+                ["zoneId"] = 5397,
+            }, -- end of [40]
+            [41] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 0,
+                    [3] = 0,
+                    [4] = 0.14901960784314,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "SAR10",
+                ["radius"] = 15.24,
+                ["x"] = -319403.14285713,
+                ["y"] = 847020.28571427,
+                ["zoneId"] = 5398,
+            }, -- end of [41]
         }, -- end of ["zones"]
     }, -- end of ["triggers"]
     ["trigrules"] =
@@ -47298,7 +47458,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_2789",
+                    ["file"] = "ResKey_Action_2794",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -47378,7 +47538,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_2787",
+                    ["file"] = "ResKey_Action_2795",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]

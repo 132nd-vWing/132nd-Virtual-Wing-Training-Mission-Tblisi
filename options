@@ -101,12 +101,17 @@ options =
         {
             ["CPLocalList"] = "Ricardo HD",
         }, -- end of ["A-10C"]
-        ["Ka-50"] = 
+        ["FC3"] = 
         {
-            ["altTrimmingMethod"] = false,
-            ["Ka50RudderTrimmer"] = false,
-            ["CPLocalList"] = "default",
-        }, -- end of ["Ka-50"]
+            ["CPLocalList_F-15C"] = "default",
+            ["CPLocalList_MiG-29S"] = "default",
+            ["CPLocalList_MiG-29A"] = "default",
+            ["CPLocalList_Su-25"] = "default",
+            ["CPLocalList_A-10A"] = "default",
+            ["CPLocalList_Su-27"] = "default",
+            ["CPLocalList_MiG-29G"] = "default",
+            ["CPLocalList_Su-33"] = "default",
+        }, -- end of ["FC3"]
         ["L-39C"] = 
         {
             ["dismountGunSight"] = false,
@@ -124,6 +129,15 @@ options =
             ["Reticle"] = false,
             ["Freeze"] = false,
         }, -- end of ["MiG-21Bis"]
+        ["Tacview"] = 
+        {
+            ["dataRecordingEnabled"] = true,
+            ["debugModeEnabled"] = false,
+            ["bookmarkShortcut"] = 0,
+            ["recordClientsSessionsEnabled"] = false,
+            ["playbackDelay"] = 600,
+            ["profilingPeriod"] = 600,
+        }, -- end of ["Tacview"]
         ["CA"] = 
         {
             ["kompass_options"] = 1,
@@ -162,17 +176,12 @@ options =
             ["ControlsDisplayLocation"] = 0,
             ["CPLocalListM"] = "default",
         }, -- end of ["SA342"]
-        ["FC3"] = 
+        ["Ka-50"] = 
         {
-            ["CPLocalList_F-15C"] = "default",
-            ["CPLocalList_MiG-29S"] = "default",
-            ["CPLocalList_MiG-29A"] = "default",
-            ["CPLocalList_Su-25"] = "default",
-            ["CPLocalList_A-10A"] = "default",
-            ["CPLocalList_Su-27"] = "default",
-            ["CPLocalList_MiG-29G"] = "default",
-            ["CPLocalList_Su-33"] = "default",
-        }, -- end of ["FC3"]
+            ["altTrimmingMethod"] = false,
+            ["Ka50RudderTrimmer"] = false,
+            ["CPLocalList"] = "default",
+        }, -- end of ["Ka-50"]
     }, -- end of ["plugins"]
     ["format"] = 1,
     ["sound"] = 
