@@ -1,5 +1,5 @@
 env.info( '*** MOOSE STATIC INCLUDE START *** ' ) 
-env.info( 'Moose Generation Timestamp: 20170214_1649' ) 
+env.info( 'Moose Generation Timestamp: 20170226_1531' ) 
 local base = _G
 
 Include = {}
@@ -4059,7 +4059,7 @@ end
 -- 
 -- ![Objects](..\Presentations\EVENT\Dia6.JPG)
 -- 
--- For most DCS events, the above order of updating will be followed.1
+-- For most DCS events, the above order of updating will be followed.
 -- 
 -- ![Objects](..\Presentations\EVENT\Dia7.JPG)
 -- 
@@ -4145,6 +4145,22 @@ end
 -- 
 -- ![Objects](..\Presentations\EVENT\Dia14.JPG)
 -- 
+-- **IMPORTANT NOTE:** Some events can involve not just UNIT objects, but also STATIC objects!!! 
+-- In that case the initiator or target unit fields will refer to a STATIC object!
+-- In case a STATIC object is involved, the documentation indicates which fields will and won't not be populated.
+-- The fields **IniCategory** and **TgtCategory** contain the indicator which **kind of object is involved** in the event.
+-- You can use the enumerator **Object.Category.UNIT** and **Object.Category.STATIC** to check on IniCategory and TgtCategory.
+-- Example code snippet:
+--      
+--      if Event.IniCategory == Object.Category.UNIT then
+--       ...
+--      end
+--      if Event.IniCategory == Object.Category.STATIC then
+--       ...
+--      end 
+-- 
+-- When a static object is involved in the event, the Group and Player fields won't be populated.
+-- 
 -- ====
 -- 
 -- # **API CHANGE HISTORY**
@@ -4173,7 +4189,8 @@ end
 --
 -- @module Event
 
-
+-- TODO: Need to update the EVENTDATA documentation with IniPlayerName and TgtPlayerName
+-- TODO: Need to update the EVENTDATA documentation with IniCategory and TgtCategory
 
 
 
@@ -4216,23 +4233,39 @@ EVENTS = {
 }
 
 --- The Event structure
+-- Note that at the beginning of each field description, there is an indication which field will be populated depending on the object type involved in the Event:
+--   
+--   * A (Object.Category.)UNIT : A UNIT object type is involved in the Event.
+--   * A (Object.Category.)STATIC : A STATIC object type is involved in the Event.µ
+--   
 -- @type EVENTDATA
--- @field id
--- @field initiator
--- @field target
--- @field weapon
--- @field IniDCSUnit
--- @field IniDCSUnitName
--- @field Wrapper.Unit#UNIT           IniUnit
--- @field #string             IniUnitName
--- @field IniDCSGroup
--- @field IniDCSGroupName
--- @field TgtDCSUnit
--- @field TgtDCSUnitName
--- @field Wrapper.Unit#UNIT           TgtUnit
--- @field #string             TgtUnitName
--- @field TgtDCSGroup
--- @field TgtDCSGroupName
+-- @field #number id The identifier of the event.
+-- 
+-- @field Dcs.DCSUnit#Unit                  initiator         (UNIT/STATIC) The initiating @{Dcs.DCSUnit#Unit} or @{Dcs.DCSStaticObject#StaticObject}.
+-- @field Dcs.DCSObject#Object.Category     IniCategory       (UNIT/STATIC) The initiator object category ( Object.Category.UNIT or Object.Category.STATIC ).
+-- @field Dcs.DCSUnit#Unit                  IniDCSUnit        (UNIT/STATIC) The initiating @{Dcs.DCSUnit#Unit} or @{Dcs.DCSStaticObject#StaticObject}.
+-- @field #string                           IniDCSUnitName    (UNIT/STATIC) The initiating Unit name.
+-- @field Wrapper.Unit#UNIT                 IniUnit           (UNIT/STATIC) The initiating MOOSE wrapper @{Wrapper.Unit#UNIT} of the initiator Unit object.
+-- @field #string                           IniUnitName       (UNIT/STATIC) The initiating UNIT name (same as IniDCSUnitName).
+-- @field Dcs.DCSGroup#Group                IniDCSGroup       (UNIT) The initiating {Dcs.DCSGroup#Group}.
+-- @field #string                           IniDCSGroupName   (UNIT) The initiating Group name.
+-- @field Wrapper.Group#GROUP               IniGroup          (UNIT) The initiating MOOSE wrapper @{Wrapper.Group#GROUP} of the initiator Group object.
+-- @field #string                           IniGroupName      (UNIT) The initiating GROUP name (same as IniDCSGroupName).
+-- @field #string                           IniPlayerName     (UNIT) The name of the initiating player in case the Unit is a client or player slot.
+-- 
+-- @field Dcs.DCSUnit#Unit                  target            (UNIT/STATIC) The target @{Dcs.DCSUnit#Unit} or @{Dcs.DCSStaticObject#StaticObject}.
+-- @field Dcs.DCSObject#Object.Category     TgtCategory       (UNIT/STATIC) The target object category ( Object.Category.UNIT or Object.Category.STATIC ).
+-- @field Dcs.DCSUnit#Unit                  TgtDCSUnit        (UNIT/STATIC) The target @{Dcs.DCSUnit#Unit} or @{Dcs.DCSStaticObject#StaticObject}.
+-- @field #string                           TgtDCSUnitName    (UNIT/STATIC) The target Unit name.
+-- @field Wrapper.Unit#UNIT                 TgtUnit           (UNIT/STATIC) The target MOOSE wrapper @{Wrapper.Unit#UNIT} of the target Unit object.
+-- @field #string                           TgtUnitName       (UNIT/STATIC) The target UNIT name (same as TgtDCSUnitName).
+-- @field Dcs.DCSGroup#Group                TgtDCSGroup       (UNIT) The target {Dcs.DCSGroup#Group}.
+-- @field #string                           TgtDCSGroupName   (UNIT) The target Group name.
+-- @field Wrapper.Group#GROUP               TgtGroup          (UNIT) The target MOOSE wrapper @{Wrapper.Group#GROUP} of the target Group object.
+-- @field #string                           TgtGroupName      (UNIT) The target GROUP name (same as TgtDCSGroupName).
+-- @field #string                           TgtPlayerName     (UNIT) The name of the target player in case the Unit is a client or player slot.
+-- 
+-- @field weapon The weapon used during the event.
 -- @field Weapon
 -- @field WeaponName
 -- @field WeaponTgtDCSUnit
@@ -5035,25 +5068,40 @@ function EVENT:onEvent( Event )
   end
 
   if self and self.Events and self.Events[Event.id] then
-    if Event.initiator and Event.initiator:getCategory() == Object.Category.UNIT then
-      Event.IniDCSUnit = Event.initiator
-      Event.IniDCSGroup = Event.IniDCSUnit:getGroup()
-      Event.IniDCSUnitName = Event.IniDCSUnit:getName()
-      Event.IniUnitName = Event.IniDCSUnitName
-      Event.IniUnit = UNIT:FindByName( Event.IniDCSUnitName )
-      if not Event.IniUnit then
-        -- Unit can be a CLIENT. Most likely this will be the case ...
-        Event.IniUnit = CLIENT:FindByName( Event.IniDCSUnitName, '', true )
+  
+
+    if Event.initiator then    
+      Event.IniCategory = Event.initiator:getCategory()
+      if Event.IniCategory == Object.Category.UNIT then
+        Event.IniDCSUnit = Event.initiator
+        Event.IniDCSUnitName = Event.IniDCSUnit:getName()
+        Event.IniUnitName = Event.IniDCSUnitName
+        Event.IniDCSGroup = Event.IniDCSUnit:getGroup()
+        Event.IniUnit = UNIT:FindByName( Event.IniDCSUnitName )
+        if not Event.IniUnit then
+          -- Unit can be a CLIENT. Most likely this will be the case ...
+          Event.IniUnit = CLIENT:FindByName( Event.IniDCSUnitName, '', true )
+        end
+        Event.IniDCSGroupName = ""
+        if Event.IniDCSGroup and Event.IniDCSGroup:isExist() then
+          Event.IniDCSGroupName = Event.IniDCSGroup:getName()
+          Event.IniGroup = GROUP:FindByName( Event.IniDCSGroupName )
+          self:E( { IniGroup = Event.IniGroup } )
+        end
+        Event.IniPlayerName = Event.IniDCSUnit:getPlayerName()
       end
-      Event.IniDCSGroupName = ""
-      if Event.IniDCSGroup and Event.IniDCSGroup:isExist() then
-        Event.IniDCSGroupName = Event.IniDCSGroup:getName()
-        Event.IniGroup = GROUP:FindByName( Event.IniDCSGroupName )
-        self:E( { IniGroup = Event.IniGroup } )
+      
+      if Event.IniCategory == Object.Category.STATIC then
+        Event.IniDCSUnit = Event.initiator
+        Event.IniDCSUnitName = Event.IniDCSUnit:getName()
+        Event.IniUnitName = Event.IniDCSUnitName
+        Event.IniUnit = STATIC:FindByName( Event.IniDCSUnitName )
       end
     end
+    
     if Event.target then
-      if Event.target and Event.target:getCategory() == Object.Category.UNIT then
+      Event.TgtCategory = Event.target:getCategory()
+      if Event.TgtCategory == Object.Category.UNIT then 
         Event.TgtDCSUnit = Event.target
         Event.TgtDCSGroup = Event.TgtDCSUnit:getGroup()
         Event.TgtDCSUnitName = Event.TgtDCSUnit:getName()
@@ -5063,8 +5111,19 @@ function EVENT:onEvent( Event )
         if Event.TgtDCSGroup and Event.TgtDCSGroup:isExist() then
           Event.TgtDCSGroupName = Event.TgtDCSGroup:getName()
         end
+        Event.TgtPlayerName = Event.TgtDCSUnit:getPlayerName()
+      end
+      
+      if Event.TgtCategory == Object.Category.STATIC then
+        Event.TgtDCSUnit = Event.target
+        Event.TgtDCSUnitName = Event.TgtDCSUnit:getName()
+        Event.TgtUnitName = Event.TgtDCSUnitName
+        Event.TgtUnit = STATIC:FindByName( Event.TgtDCSUnitName )
       end
     end
+    
+    
+    
     if Event.weapon then
       Event.Weapon = Event.weapon
       Event.WeaponName = Event.Weapon:getTypeName()
@@ -6069,7 +6128,8 @@ do
 
 end
 
---- This module contains the ZONE classes, inherited from @{Zone#ZONE_BASE}.
+--- This core module contains the ZONE classes, inherited from @{Zone#ZONE_BASE}.
+-- 
 -- There are essentially two core functions that zones accomodate:
 -- 
 --   * Test if an object is within the zone boundaries.
@@ -6095,94 +6155,111 @@ end
 -- 
 -- ===
 -- 
--- 1) @{Zone#ZONE_BASE} class, extends @{Base#BASE}
--- ================================================
+-- # 1) @{Zone#ZONE_BASE} class, extends @{Base#BASE}
+-- 
 -- This class is an abstract BASE class for derived classes, and is not meant to be instantiated.
 -- 
--- ### 1.1) Each zone has a name:
+-- ## 1.1) Each zone has a name:
 -- 
 --   * @{#ZONE_BASE.GetName}(): Returns the name of the zone.
 -- 
--- ### 1.2) Each zone implements two polymorphic functions defined in @{Zone#ZONE_BASE}:
+-- ## 1.2) Each zone implements two polymorphic functions defined in @{Zone#ZONE_BASE}:
 -- 
 --   * @{#ZONE_BASE.IsPointVec2InZone}(): Returns if a @{Point#POINT_VEC2} is within the zone.
 --   * @{#ZONE_BASE.IsPointVec3InZone}(): Returns if a @{Point#POINT_VEC3} is within the zone.
 --   
--- ### 1.3) A zone has a probability factor that can be set to randomize a selection between zones:
+-- ## 1.3) A zone has a probability factor that can be set to randomize a selection between zones:
 -- 
 --   * @{#ZONE_BASE.SetRandomizeProbability}(): Set the randomization probability of a zone to be selected, taking a value between 0 and 1 ( 0 = 0%, 1 = 100% )
 --   * @{#ZONE_BASE.GetRandomizeProbability}(): Get the randomization probability of a zone to be selected, passing a value between 0 and 1 ( 0 = 0%, 1 = 100% )
 --   * @{#ZONE_BASE.GetZoneMaybe}(): Get the zone taking into account the randomization probability. nil is returned if this zone is not a candidate.
 -- 
--- ### 1.4) A zone manages Vectors:
+-- ## 1.4) A zone manages Vectors:
 -- 
 --   * @{#ZONE_BASE.GetVec2}(): Returns the @{DCSTypes#Vec2} coordinate of the zone.
 --   * @{#ZONE_BASE.GetRandomVec2}(): Define a random @{DCSTypes#Vec2} within the zone.
 -- 
--- ### 1.5) A zone has a bounding square:
+-- ## 1.5) A zone has a bounding square:
 -- 
 --   * @{#ZONE_BASE.GetBoundingSquare}(): Get the outer most bounding square of the zone.
 -- 
--- ### 1.6) A zone can be marked: 
+-- ## 1.6) A zone can be marked: 
 -- 
 --   * @{#ZONE_BASE.SmokeZone}(): Smokes the zone boundaries in a color.
 --   * @{#ZONE_BASE.FlareZone}(): Flares the zone boundaries in a color.
 -- 
 -- ===
 -- 
--- 2) @{Zone#ZONE_RADIUS} class, extends @{Zone#ZONE_BASE}
--- =======================================================
+-- # 2) @{Zone#ZONE_RADIUS} class, extends @{Zone#ZONE_BASE}
+-- 
 -- The ZONE_RADIUS class defined by a zone name, a location and a radius.
 -- This class implements the inherited functions from Core.Zone#ZONE_BASE taking into account the own zone format and properties.
 -- 
--- ### 2.1) @{Zone#ZONE_RADIUS} constructor:
+-- ## 2.1) @{Zone#ZONE_RADIUS} constructor
 -- 
---   * @{#ZONE_BASE.New}(): Constructor.
+--   * @{#ZONE_RADIUS.New}(): Constructor.
 --   
--- ### 2.2) Manage the radius of the zone:
+-- ## 2.2) Manage the radius of the zone
 -- 
---   * @{#ZONE_BASE.SetRadius}(): Sets the radius of the zone.
---   * @{#ZONE_BASE.GetRadius}(): Returns the radius of the zone.
+--   * @{#ZONE_RADIUS.SetRadius}(): Sets the radius of the zone.
+--   * @{#ZONE_RADIUS.GetRadius}(): Returns the radius of the zone.
 -- 
--- ### 2.3) Manage the location of the zone:
+-- ## 2.3) Manage the location of the zone
 -- 
---   * @{#ZONE_BASE.SetVec2}(): Sets the @{DCSTypes#Vec2} of the zone.
---   * @{#ZONE_BASE.GetVec2}(): Returns the @{DCSTypes#Vec2} of the zone.
---   * @{#ZONE_BASE.GetVec3}(): Returns the @{DCSTypes#Vec3} of the zone, taking an additional height parameter.
+--   * @{#ZONE_RADIUS.SetVec2}(): Sets the @{DCSTypes#Vec2} of the zone.
+--   * @{#ZONE_RADIUS.GetVec2}(): Returns the @{DCSTypes#Vec2} of the zone.
+--   * @{#ZONE_RADIUS.GetVec3}(): Returns the @{DCSTypes#Vec3} of the zone, taking an additional height parameter.
+-- 
+-- ## 2.4) Zone point randomization
+-- 
+-- Various functions exist to find random points within the zone.
+-- 
+--   * @{#ZONE_RADIUS.GetRandomVec2}(): Gets a random 2D point in the zone.
+--   * @{#ZONE_RADIUS.GetRandomPointVec2}(): Gets a @{Point#POINT_VEC2} object representing a random 2D point in the zone.
+--   * @{#ZONE_RADIUS.GetRandomPointVec3}(): Gets a @{Point#POINT_VEC3} object representing a random 3D point in the zone. Note that the height of the point is at landheight.
 -- 
 -- ===
 -- 
--- 3) @{Zone#ZONE} class, extends @{Zone#ZONE_RADIUS}
--- ==========================================
+-- # 3) @{Zone#ZONE} class, extends @{Zone#ZONE_RADIUS}
+-- 
 -- The ZONE class, defined by the zone name as defined within the Mission Editor.
 -- This class implements the inherited functions from {Core.Zone#ZONE_RADIUS} taking into account the own zone format and properties.
 -- 
 -- ===
 -- 
--- 4) @{Zone#ZONE_UNIT} class, extends @{Zone#ZONE_RADIUS}
--- =======================================================
+-- # 4) @{Zone#ZONE_UNIT} class, extends @{Zone#ZONE_RADIUS}
+-- 
 -- The ZONE_UNIT class defined by a zone around a @{Unit#UNIT} with a radius.
 -- This class implements the inherited functions from @{Zone#ZONE_RADIUS} taking into account the own zone format and properties.
 -- 
 -- ===
 -- 
--- 5) @{Zone#ZONE_GROUP} class, extends @{Zone#ZONE_RADIUS}
--- =======================================================
+-- # 5) @{Zone#ZONE_GROUP} class, extends @{Zone#ZONE_RADIUS}
+-- 
 -- The ZONE_GROUP class defines by a zone around a @{Group#GROUP} with a radius. The current leader of the group defines the center of the zone.
 -- This class implements the inherited functions from @{Zone#ZONE_RADIUS} taking into account the own zone format and properties.
 -- 
 -- ===
 -- 
--- 6) @{Zone#ZONE_POLYGON_BASE} class, extends @{Zone#ZONE_BASE}
--- ========================================================
+-- # 6) @{Zone#ZONE_POLYGON_BASE} class, extends @{Zone#ZONE_BASE}
+-- 
 -- The ZONE_POLYGON_BASE class defined by a sequence of @{Group#GROUP} waypoints within the Mission Editor, forming a polygon.
 -- This class implements the inherited functions from @{Zone#ZONE_RADIUS} taking into account the own zone format and properties.
 -- This class is an abstract BASE class for derived classes, and is not meant to be instantiated.
 -- 
+-- ## 6.1) Zone point randomization
+-- 
+-- Various functions exist to find random points within the zone.
+-- 
+--   * @{#ZONE_POLYGON_BASE.GetRandomVec2}(): Gets a random 2D point in the zone.
+--   * @{#ZONE_POLYGON_BASE.GetRandomPointVec2}(): Return a @{Point#POINT_VEC2} object representing a random 2D point within the zone.
+--   * @{#ZONE_POLYGON_BASE.GetRandomPointVec3}(): Return a @{Point#POINT_VEC3} object representing a random 3D point at landheight within the zone.
+-- 
+-- 
 -- ===
 -- 
--- 7) @{Zone#ZONE_POLYGON} class, extends @{Zone#ZONE_POLYGON_BASE}
--- ================================================================
+-- # 7) @{Zone#ZONE_POLYGON} class, extends @{Zone#ZONE_POLYGON_BASE}
+-- 
 -- The ZONE_POLYGON class defined by a sequence of @{Group#GROUP} waypoints within the Mission Editor, forming a polygon.
 -- This class implements the inherited functions from @{Zone#ZONE_RADIUS} taking into account the own zone format and properties.
 -- 
@@ -6197,6 +6274,14 @@ end
 --   * _Removed_ parts are expressed in italic type face.
 -- 
 -- Hereby the change log:
+-- 
+-- 2017-02-18: ZONE_POLYGON_BASE:**GetRandomPointVec2()** added.
+-- 
+-- 2017-02-18: ZONE_POLYGON_BASE:**GetRandomPointVec3()** added.
+-- 
+-- 2017-02-18: ZONE_RADIUS:**GetRandomPointVec3( inner, outer )** added.
+-- 
+-- 2017-02-18: ZONE_RADIUS:**GetRandomPointVec2( inner, outer )** added.
 -- 
 -- 2016-08-15: ZONE_BASE:**GetName()** added.
 -- 
@@ -6283,10 +6368,18 @@ function ZONE_BASE:GetVec2()
 
   return nil 
 end
+
 --- Define a random @{DCSTypes#Vec2} within the zone.
 -- @param #ZONE_BASE self
 -- @return Dcs.DCSTypes#Vec2 The Vec2 coordinates.
 function ZONE_BASE:GetRandomVec2()
+  return nil
+end
+
+--- Define a random @{Point#POINT_VEC2} within the zone.
+-- @param #ZONE_BASE self
+-- @return Core.Point#POINT_VEC2 The PointVec2 coordinates.
+function ZONE_BASE:GetRandomPointVec2()
   return nil
 end
 
@@ -6518,12 +6611,12 @@ function ZONE_RADIUS:IsPointVec3InZone( Vec3 )
   return InZone
 end
 
---- Returns a random location within the zone.
+--- Returns a random Vec2 location within the zone.
 -- @param #ZONE_RADIUS self
--- @param #number inner minimal distance from the center of the zone
--- @param #number outer minimal distance from the outer edge of the zone
+-- @param #number inner (optional) Minimal distance from the center of the zone. Default is 0.
+-- @param #number outer (optional) Maximal distance from the outer edge of the zone. Default is the radius of the zone.
 -- @return Dcs.DCSTypes#Vec2 The random location within the zone.
-function ZONE_RADIUS:GetRandomVec2(inner, outer)
+function ZONE_RADIUS:GetRandomVec2( inner, outer )
 	self:F( self.ZoneName, inner, outer )
 
 	local Point = {}
@@ -6538,6 +6631,36 @@ function ZONE_RADIUS:GetRandomVec2(inner, outer)
 	self:T( { Point } )
 	
 	return Point
+end
+
+--- Returns a @{Point#POINT_VEC2} object reflecting a random 2D location within the zone.
+-- @param #ZONE_RADIUS self
+-- @param #number inner (optional) Minimal distance from the center of the zone. Default is 0.
+-- @param #number outer (optional) Maximal distance from the outer edge of the zone. Default is the radius of the zone.
+-- @return Core.Point#POINT_VEC2 The @{Point#POINT_VEC2} object reflecting the random 3D location within the zone.
+function ZONE_RADIUS:GetRandomPointVec2( inner, outer )
+  self:F( self.ZoneName, inner, outer )
+
+  local PointVec2 = POINT_VEC2:NewFromVec2( self:GetRandomVec2() )
+
+  self:T3( { PointVec2 } )
+  
+  return PointVec2
+end
+
+--- Returns a @{Point#POINT_VEC3} object reflecting a random 3D location within the zone.
+-- @param #ZONE_RADIUS self
+-- @param #number inner (optional) Minimal distance from the center of the zone. Default is 0.
+-- @param #number outer (optional) Maximal distance from the outer edge of the zone. Default is the radius of the zone.
+-- @return Core.Point#POINT_VEC3 The @{Point#POINT_VEC3} object reflecting the random 3D location within the zone.
+function ZONE_RADIUS:GetRandomPointVec3( inner, outer )
+  self:F( self.ZoneName, inner, outer )
+
+  local PointVec3 = POINT_VEC3:NewFromVec2( self:GetRandomVec2() )
+
+  self:T3( { PointVec3 } )
+  
+  return PointVec3
 end
 
 
@@ -6853,6 +6976,33 @@ function ZONE_POLYGON_BASE:GetRandomVec2()
 
   return Vec2
 end
+
+--- Return a @{Point#POINT_VEC2} object representing a random 2D point at landheight within the zone.
+-- @param #ZONE_POLYGON_BASE self
+-- @return @{Point#POINT_VEC2}
+function ZONE_POLYGON_BASE:GetRandomPointVec2()
+  self:F2()
+
+  local PointVec2 = POINT_VEC2:NewFromVec2( self:GetRandomVec2() )
+  
+  self:T2( PointVec2 )
+
+  return PointVec2
+end
+
+--- Return a @{Point#POINT_VEC3} object representing a random 3D point at landheight within the zone.
+-- @param #ZONE_POLYGON_BASE self
+-- @return @{Point#POINT_VEC3}
+function ZONE_POLYGON_BASE:GetRandomPointVec3()
+  self:F2()
+
+  local PointVec3 = POINT_VEC3:NewFromVec2( self:GetRandomVec2() )
+  
+  self:T2( PointVec3 )
+
+  return PointVec3
+end
+
 
 --- Get the bounding square the zone.
 -- @param #ZONE_POLYGON_BASE self
@@ -10013,6 +10163,8 @@ end
 -- 
 -- Hereby the change log:
 -- 
+-- 2017-02-18: POINT_VEC3:**NewFromVec2( Vec2, LandHeightAdd )** added.
+-- 
 -- 2016-08-12: POINT_VEC3:**Translate( Distance, Angle )** added.
 -- 
 -- 2016-08-06: Made PointVec3 and Vec3, PointVec2 and Vec2 terminology used in the code consistent.
@@ -10099,6 +10251,24 @@ function POINT_VEC3:New( x, y, z )
   self.y = y
   self.z = z
   
+  return self
+end
+
+--- Create a new POINT_VEC3 object from Vec2 coordinates.
+-- @param #POINT_VEC3 self
+-- @param Dcs.DCSTypes#Vec2 Vec2 The Vec2 point.
+-- @return Core.Point#POINT_VEC3 self
+function POINT_VEC3:NewFromVec2( Vec2, LandHeightAdd )
+
+  local LandHeight = land.getHeight( Vec2 )
+
+  LandHeightAdd = LandHeightAdd or 0
+  LandHeight = LandHeight + LandHeightAdd
+  
+  self = self:New( Vec2.x, LandHeight, Vec2.y )
+  
+  self:F2( self )
+
   return self
 end
 
@@ -15248,7 +15418,7 @@ function GROUP:IsAlive()
   local DCSGroup = self:GetDCSObject()
 
   if DCSGroup then
-    local GroupIsAlive = DCSGroup:isExist()
+    local GroupIsAlive = DCSGroup:isExist() and DCSGroup:getUnit(1) ~= nil
     self:T3( GroupIsAlive )
     return GroupIsAlive
   end
@@ -16501,45 +16671,129 @@ end
 --   * Threat level  8: Unit is a Short Range SAM, radar guided.
 --   * Threat level  9: Unit is a Medium Range SAM, radar guided.
 --   * Threat level 10: Unit is a Long Range SAM, radar guided.
+--   @param #UNIT self
 function UNIT:GetThreatLevel()
 
   local Attributes = self:GetDesc().attributes
+  self:E( Attributes )
+
   local ThreatLevel = 0
+  local ThreatText = ""
+
+  if self:IsGround() then
   
-  local ThreatLevels = {
-    "Unarmed", 
-    "Infantry", 
-    "Old Tanks & APCs", 
-    "Tanks & IFVs without ATGM",   
-    "Tanks & IFV with ATGM",
-    "Modern Tanks",
-    "AAA",
-    "IR Guided SAMs",
-    "SR SAMs",
-    "MR SAMs",
-    "LR SAMs"
-  }
+    self:E( "Ground" )
   
-  self:T2( Attributes )
+    local ThreatLevels = {
+      "Unarmed", 
+      "Infantry", 
+      "Old Tanks & APCs", 
+      "Tanks & IFVs without ATGM",   
+      "Tanks & IFV with ATGM",
+      "Modern Tanks",
+      "AAA",
+      "IR Guided SAMs",
+      "SR SAMs",
+      "MR SAMs",
+      "LR SAMs"
+    }
+    
+    
+    if     Attributes["LR SAM"]                                                     then ThreatLevel = 10
+    elseif Attributes["MR SAM"]                                                     then ThreatLevel = 9
+    elseif Attributes["SR SAM"] and
+           not Attributes["IR Guided SAM"]                                          then ThreatLevel = 8
+    elseif ( Attributes["SR SAM"] or Attributes["MANPADS"] ) and
+           Attributes["IR Guided SAM"]                                              then ThreatLevel = 7
+    elseif Attributes["AAA"]                                                        then ThreatLevel = 6
+    elseif Attributes["Modern Tanks"]                                               then ThreatLevel = 5
+    elseif ( Attributes["Tanks"] or Attributes["IFV"] ) and
+           Attributes["ATGM"]                                                       then ThreatLevel = 4
+    elseif ( Attributes["Tanks"] or Attributes["IFV"] ) and
+           not Attributes["ATGM"]                                                   then ThreatLevel = 3
+    elseif Attributes["Old Tanks"] or Attributes["APC"] or Attributes["Artillery"]  then ThreatLevel = 2
+    elseif Attributes["Infantry"]                                                   then ThreatLevel = 1
+    end
+    
+    ThreatText = ThreatLevels[ThreatLevel+1]
+  end
   
-  if     Attributes["LR SAM"]                                   then ThreatLevel = 10
-  elseif Attributes["MR SAM"]                                   then ThreatLevel = 9
-  elseif Attributes["SR SAM"] and
-         not Attributes["IR Guided SAM"]                        then ThreatLevel = 8
-  elseif ( Attributes["SR SAM"] or Attributes["MANPADS"] ) and
-         Attributes["IR Guided SAM"]                            then ThreatLevel = 7
-  elseif Attributes["AAA"]                                      then ThreatLevel = 6
-  elseif Attributes["Modern Tanks"]                             then ThreatLevel = 5
-  elseif ( Attributes["Tanks"] or Attributes["IFV"] ) and
-         Attributes["ATGM"]                                     then ThreatLevel = 4
-  elseif ( Attributes["Tanks"] or Attributes["IFV"] ) and
-         not Attributes["ATGM"]                                 then ThreatLevel = 3
-  elseif Attributes["Old Tanks"] or Attributes["APC"]           then ThreatLevel = 2
-  elseif Attributes["Infantry"]                                 then ThreatLevel = 1
+  if self:IsAir() then
+  
+    self:E( "Air" )
+
+    local ThreatLevels = {
+      "Unarmed", 
+      "Tanker", 
+      "AWACS", 
+      "Transport Helicpter",   
+      "UAV",
+      "Bomber",
+      "Strategic Bomber",
+      "Attack Helicopter",
+      "Interceptor",
+      "Multirole Fighter",
+      "Fighter"
+    }
+    
+    
+    if     Attributes["Fighters"]                                 then ThreatLevel = 10
+    elseif Attributes["Multirole fighters"]                       then ThreatLevel = 9
+    elseif Attributes["Battleplanes"]                             then ThreatLevel = 8
+    elseif Attributes["Attack helicopters"]                       then ThreatLevel = 7
+    elseif Attributes["Strategic bombers"]                        then ThreatLevel = 6
+    elseif Attributes["Bombers"]                                  then ThreatLevel = 5
+    elseif Attributes["UAVs"]                                     then ThreatLevel = 4
+    elseif Attributes["Transport helicopters"]                    then ThreatLevel = 3
+    elseif Attributes["AWACS"]                                    then ThreatLevel = 2
+    elseif Attributes["Tankers"]                                  then ThreatLevel = 1
+    end
+
+    ThreatText = ThreatLevels[ThreatLevel+1]
+  end
+  
+  if self:IsShip() then
+
+    self:E( "Ship" )
+
+--["Aircraft Carriers"] = {"Heavy armed ships",},
+--["Cruisers"] = {"Heavy armed ships",},
+--["Destroyers"] = {"Heavy armed ships",},
+--["Frigates"] = {"Heavy armed ships",},
+--["Corvettes"] = {"Heavy armed ships",},
+--["Heavy armed ships"] = {"Armed ships", "Armed Air Defence", "HeavyArmoredUnits",},
+--["Light armed ships"] = {"Armed ships","NonArmoredUnits"},
+--["Armed ships"] = {"Ships"},
+--["Unarmed ships"] = {"Ships","HeavyArmoredUnits",},
+  
+    local ThreatLevels = {
+      "Unarmed ship", 
+      "Light armed ships", 
+      "Corvettes",
+      "",
+      "Frigates",
+      "",
+      "Cruiser",
+      "",
+      "Destroyer",
+      "",
+      "Aircraft Carrier"
+    }
+    
+    
+    if     Attributes["Aircraft Carriers"]                        then ThreatLevel = 10
+    elseif Attributes["Destroyers"]                               then ThreatLevel = 8
+    elseif Attributes["Cruisers"]                                 then ThreatLevel = 6
+    elseif Attributes["Frigates"]                                 then ThreatLevel = 4
+    elseif Attributes["Corvettes"]                                then ThreatLevel = 2
+    elseif Attributes["Light armed ships"]                        then ThreatLevel = 1
+    end
+
+    ThreatText = ThreatLevels[ThreatLevel+1]
   end
 
   self:T2( ThreatLevel )
-  return ThreatLevel, ThreatLevels[ThreatLevel+1]
+  return ThreatLevel, ThreatText
 
 end
 
@@ -17382,7 +17636,11 @@ function STATIC:GetDCSObject()
     
   return nil
 end
---- This module contains the AIRBASE classes.
+
+function STATIC:GetThreatLevel()
+
+  return 1, "Static"
+end--- This module contains the AIRBASE classes.
 -- 
 -- ===
 -- 
@@ -17491,7 +17749,19 @@ end
 
 
 
---- Scoring system for MOOSE.
+--- Single-Player:**Yes** / Multi-Player:**Yes** / Core:**Yes** -- **Administer the scoring of player achievements, 
+-- and create a CSV file logging the scoring events for use at team or squadron websites.**
+-- 
+-- -- ![Banner Image](..\Presentations\AI_Balancer\Dia1.JPG)
+--  
+-- ===
+-- 
+-- # 1) @{Scoring#SCORING} class, extends @{Base#BASE}
+-- 
+-- The @{#SCORING} class administers the scoring of player achievements, 
+-- and creates a CSV file logging the scoring events for use at team or squadron websites.
+-- In other words, use AI_BALANCER to simulate human behaviour by spawning in replacement AI in multi player missions.
+-- 
 -- This scoring class calculates the hits and kills that players make within a simulation session.
 -- Scoring is calculated using a defined algorithm.
 -- With a small change in MissionScripting.lua, the scoring can also be logged in a CSV file, that can then be uploaded
@@ -17549,7 +17819,7 @@ function SCORING:New( GameName )
   self:HandleEvent( EVENTS.Hit, self._EventOnHit )
 
   --self.SchedulerId = routines.scheduleFunction( SCORING._FollowPlayersScheduled, { self }, 0, 5 )
-  self.SchedulerId = SCHEDULER:New( self, self._FollowPlayersScheduled, {}, 0, 5 )
+  --self.SchedulerId = SCHEDULER:New( self, self._FollowPlayersScheduled, {}, 0, 5 )
 
   self:ScoreMenu()
   
@@ -17591,110 +17861,21 @@ function SCORING:_FollowPlayersScheduled()
 end
 
 
---- Track  DEAD or CRASH events for the scoring.
--- @param #SCORING self
--- @param Core.Event#EVENTDATA Event
-function SCORING:_EventOnDeadOrCrash( Event )
-  self:F( { Event } )
-
-  local TargetUnit = nil
-  local TargetGroup = nil
-  local TargetUnitName = ""
-  local TargetGroupName = ""
-  local TargetPlayerName = ""
-  local TargetCoalition = nil
-  local TargetCategory = nil
-  local TargetType = nil
-  local TargetUnitCoalition = nil
-  local TargetUnitCategory = nil
-  local TargetUnitType = nil
-
-  if Event.IniDCSUnit then
-
-    TargetUnit = Event.IniDCSUnit
-    TargetUnitName = Event.IniDCSUnitName
-    TargetGroup = Event.IniDCSGroup
-    TargetGroupName = Event.IniDCSGroupName
-    TargetPlayerName = TargetUnit:getPlayerName()
-
-    TargetCoalition = TargetUnit:getCoalition()
-    --TargetCategory = TargetUnit:getCategory()
-    TargetCategory = TargetUnit:getDesc().category  -- Workaround
-    TargetType = TargetUnit:getTypeName()
-
-    TargetUnitCoalition = _SCORINGCoalition[TargetCoalition]
-    TargetUnitCategory = _SCORINGCategory[TargetCategory]
-    TargetUnitType = TargetType
-
-    self:T( { TargetUnitName, TargetGroupName, TargetPlayerName, TargetCoalition, TargetCategory, TargetType } )
-  end
-
-  for PlayerName, PlayerData in pairs( self.Players ) do
-    if PlayerData then -- This should normally not happen, but i'll test it anyway.
-      self:T( "Something got killed" )
-
-      -- Some variables
-      local InitUnitName = PlayerData.UnitName
-      local InitUnitType = PlayerData.UnitType
-      local InitCoalition = PlayerData.UnitCoalition
-      local InitCategory = PlayerData.UnitCategory
-      local InitUnitCoalition = _SCORINGCoalition[InitCoalition]
-      local InitUnitCategory = _SCORINGCategory[InitCategory]
-
-      self:T( { InitUnitName, InitUnitType, InitUnitCoalition, InitCoalition, InitUnitCategory, InitCategory } )
-
-      -- What is he hitting?
-      if TargetCategory then
-        if PlayerData and PlayerData.Hit and PlayerData.Hit[TargetCategory] and PlayerData.Hit[TargetCategory][TargetUnitName] then -- Was there a hit for this unit for this player before registered???
-          if not PlayerData.Kill[TargetCategory] then
-            PlayerData.Kill[TargetCategory] = {}
-        end
-        if not PlayerData.Kill[TargetCategory][TargetType] then
-          PlayerData.Kill[TargetCategory][TargetType] = {}
-          PlayerData.Kill[TargetCategory][TargetType].Score = 0
-          PlayerData.Kill[TargetCategory][TargetType].ScoreKill = 0
-          PlayerData.Kill[TargetCategory][TargetType].Penalty = 0
-          PlayerData.Kill[TargetCategory][TargetType].PenaltyKill = 0
-        end
-
-        if InitCoalition == TargetCoalition then
-          PlayerData.Penalty = PlayerData.Penalty + 25
-          PlayerData.Kill[TargetCategory][TargetType].Penalty = PlayerData.Kill[TargetCategory][TargetType].Penalty + 25
-          PlayerData.Kill[TargetCategory][TargetType].PenaltyKill = PlayerData.Kill[TargetCategory][TargetType].PenaltyKill + 1
-          MESSAGE:New( "Player '" .. PlayerName .. "' killed a friendly " .. TargetUnitCategory .. " ( " .. TargetType .. " ) " ..
-            PlayerData.Kill[TargetCategory][TargetType].PenaltyKill .. " times. Penalty: -" .. PlayerData.Kill[TargetCategory][TargetType].Penalty ..
-            ".  Score Total:" .. PlayerData.Score - PlayerData.Penalty,
-            5 ):ToAll()
-          self:ScoreCSV( PlayerName, "KILL_PENALTY", 1, -125, InitUnitName, InitUnitCoalition, InitUnitCategory, InitUnitType, TargetUnitName, TargetUnitCoalition, TargetUnitCategory, TargetUnitType )
-        else
-          PlayerData.Score = PlayerData.Score + 10
-          PlayerData.Kill[TargetCategory][TargetType].Score = PlayerData.Kill[TargetCategory][TargetType].Score + 10
-          PlayerData.Kill[TargetCategory][TargetType].ScoreKill = PlayerData.Kill[TargetCategory][TargetType].ScoreKill + 1
-          MESSAGE:New( "Player '" .. PlayerName .. "' killed an enemy " .. TargetUnitCategory .. " ( " .. TargetType .. " ) " ..
-            PlayerData.Kill[TargetCategory][TargetType].ScoreKill .. " times. Score: " .. PlayerData.Kill[TargetCategory][TargetType].Score ..
-            ".  Score Total:" .. PlayerData.Score - PlayerData.Penalty,
-            5 ):ToAll()
-          self:ScoreCSV( PlayerName, "KILL_SCORE", 1, 10, InitUnitName, InitUnitCoalition, InitUnitCategory, InitUnitType, TargetUnitName, TargetUnitCoalition, TargetUnitCategory, TargetUnitType )
-        end
-        end
-      end
-    end
-  end
-end
-
 
 
 --- Add a new player entering a Unit.
+-- @param #SCORING self
+-- @param Wrapper.Unit#UNIT UnitData
 function SCORING:_AddPlayerFromUnit( UnitData )
   self:F( UnitData )
 
-  if UnitData and UnitData:isExist() then
-    local UnitName = UnitData:getName()
-    local PlayerName = UnitData:getPlayerName()
-    local UnitDesc = UnitData:getDesc()
+  if UnitData:IsAlive() then
+    local UnitName = UnitData:GetName()
+    local PlayerName = UnitData:GetPlayerName()
+    local UnitDesc = UnitData:GetDesc()
     local UnitCategory = UnitDesc.category
-    local UnitCoalition = UnitData:getCoalition()
-    local UnitTypeName = UnitData:getTypeName()
+    local UnitCoalition = UnitData:GetCoalition()
+    local UnitTypeName = UnitData:GetTypeName()
 
     self:T( { PlayerName, UnitName, UnitCategory, UnitCoalition, UnitTypeName } )
 
@@ -17709,7 +17890,6 @@ function SCORING:_AddPlayerFromUnit( UnitData )
       -- self.Players[PlayerName].Kill[CategoryID] = {}
       -- end
       self.Players[PlayerName].HitPlayers = {}
-      self.Players[PlayerName].HitUnits = {}
       self.Players[PlayerName].Score = 0
       self.Players[PlayerName].Penalty = 0
       self.Players[PlayerName].PenaltyCoalition = 0
@@ -17734,6 +17914,7 @@ function SCORING:_AddPlayerFromUnit( UnitData )
     self.Players[PlayerName].UnitCoalition = UnitCoalition
     self.Players[PlayerName].UnitCategory = UnitCategory
     self.Players[PlayerName].UnitType = UnitTypeName
+    self.Players[PlayerName].UNIT = UnitData 
 
     if self.Players[PlayerName].Penalty > 100 then
       if self.Players[PlayerName].PenaltyWarning < 1 then
@@ -17745,7 +17926,7 @@ function SCORING:_AddPlayerFromUnit( UnitData )
     end
 
     if self.Players[PlayerName].Penalty > 150 then
-      ClientGroup = GROUP:NewFromDCSUnit( UnitData )
+      local ClientGroup = GROUP:NewFromDCSUnit( UnitData )
       ClientGroup:Destroy()
       MESSAGE:New( "Player '" .. PlayerName .. "' committed FRATRICIDE, he will be COURT MARTIALED and is DISMISSED from this mission!",
         10
@@ -17831,6 +18012,7 @@ function SCORING:_EventOnHit( Event )
   self:F( { Event } )
 
   local InitUnit = nil
+  local InitUNIT = nil
   local InitUnitName = ""
   local InitGroup = nil
   local InitGroupName = ""
@@ -17844,10 +18026,11 @@ function SCORING:_EventOnHit( Event )
   local InitUnitType = nil
 
   local TargetUnit = nil
+  local TargetUNIT = nil
   local TargetUnitName = ""
   local TargetGroup = nil
   local TargetGroupName = ""
-  local TargetPlayerName = ""
+  local TargetPlayerName = nil
 
   local TargetCoalition = nil
   local TargetCategory = nil
@@ -17859,10 +18042,11 @@ function SCORING:_EventOnHit( Event )
   if Event.IniDCSUnit then
 
     InitUnit = Event.IniDCSUnit
+    InitUNIT = Event.IniUnit
     InitUnitName = Event.IniDCSUnitName
     InitGroup = Event.IniDCSGroup
     InitGroupName = Event.IniDCSGroupName
-    InitPlayerName = InitUnit:getPlayerName()
+    InitPlayerName = Event.IniPlayerName
 
     InitCoalition = InitUnit:getCoalition()
     --TODO: Workaround Client DCS Bug
@@ -17881,10 +18065,11 @@ function SCORING:_EventOnHit( Event )
   if Event.TgtDCSUnit then
 
     TargetUnit = Event.TgtDCSUnit
+    TargetUNIT = Event.TgtUnit
     TargetUnitName = Event.TgtDCSUnitName
     TargetGroup = Event.TgtDCSGroup
     TargetGroupName = Event.TgtDCSGroupName
-    TargetPlayerName = TargetUnit:getPlayerName()
+    TargetPlayerName = Event.TgtPlayerName
 
     TargetCoalition = TargetUnit:getCoalition()
     --TODO: Workaround Client DCS Bug
@@ -17900,52 +18085,210 @@ function SCORING:_EventOnHit( Event )
   end
 
   if InitPlayerName ~= nil then -- It is a player that is hitting something
-    self:_AddPlayerFromUnit( InitUnit )
+    self:_AddPlayerFromUnit( InitUNIT )
     if self.Players[InitPlayerName] then -- This should normally not happen, but i'll test it anyway.
       if TargetPlayerName ~= nil then -- It is a player hitting another player ...
-        self:_AddPlayerFromUnit( TargetUnit )
-        self.Players[InitPlayerName].HitPlayers = self.Players[InitPlayerName].HitPlayers + 1
-    end
+        self:_AddPlayerFromUnit( TargetUNIT )
+      end
 
-    self:T( "Hitting Something" )
-    -- What is he hitting?
-    if TargetCategory then
-      if not self.Players[InitPlayerName].Hit[TargetCategory] then
-        self.Players[InitPlayerName].Hit[TargetCategory] = {}
+      self:T( "Hitting Something" )
+      
+      -- What is he hitting?
+      if TargetCategory then
+  
+        -- A target got hit, score it.
+        -- Player contains the score data from self.Players[InitPlayerName]
+        local Player = self.Players[InitPlayerName]
+        
+        -- Ensure there is a hit table per TargetCategory and TargetUnitName.
+        Player.Hit[TargetCategory] = Player.Hit[TargetCategory] or {}
+        Player.Hit[TargetCategory][TargetUnitName] = Player.Hit[TargetCategory][TargetUnitName] or {}
+        
+        -- PlayerHit contains the score counters and data per unit that was hit.
+        local PlayerHit = Player.Hit[TargetCategory][TargetUnitName]
+         
+        PlayerHit.Score = PlayerHit.Score or 0
+        PlayerHit.Penalty = PlayerHit.Penalty or 0
+        PlayerHit.ScoreHit = PlayerHit.ScoreHit or 0
+        PlayerHit.PenaltyHit = PlayerHit.PenaltyHit or 0
+        PlayerHit.TimeStamp = PlayerHit.TimeStamp or 0
+        PlayerHit.UNIT = PlayerHit.UNIT or TargetUNIT
+
+        -- Only grant hit scores if there was more than one second between the last hit.        
+        if timer.getTime() - PlayerHit.TimeStamp > 1 then
+          PlayerHit.TimeStamp = timer.getTime()
+        
+          if TargetPlayerName ~= nil then -- It is a player hitting another player ...
+    
+            -- Ensure there is a Player to Player hit reference table.
+            Player.HitPlayers[TargetPlayerName] = true
+          end
+          
+          local Score = 0
+          if InitCoalition == TargetCoalition then
+            Player.Penalty = Player.Penalty + 10
+            PlayerHit.Penalty = PlayerHit.Penalty + 10
+            PlayerHit.PenaltyHit = PlayerHit.PenaltyHit + 1
+    
+            if TargetPlayerName ~= nil then -- It is a player hitting another player ...
+              MESSAGE:New( "Player '" .. InitPlayerName .. "' hit friendly player '" .. TargetPlayerName .. "' " .. TargetUnitCategory .. " ( " .. TargetType .. " ) " ..
+                PlayerHit.PenaltyHit .. " times. Penalty: -" .. PlayerHit.Penalty ..
+                ".  Score Total:" .. Player.Score - Player.Penalty,
+                2
+              ):ToAll()
+            else
+              MESSAGE:New( "Player '" .. InitPlayerName .. "' hit a friendly " .. TargetUnitCategory .. " ( " .. TargetType .. " ) " ..
+                PlayerHit.PenaltyHit .. " times. Penalty: -" .. PlayerHit.Penalty ..
+                ".  Score Total:" .. Player.Score - Player.Penalty,
+                2
+              ):ToAll()
+            end
+            self:ScoreCSV( InitPlayerName, "HIT_PENALTY", 1, -25, InitUnitName, InitUnitCoalition, InitUnitCategory, InitUnitType, TargetUnitName, TargetUnitCoalition, TargetUnitCategory, TargetUnitType )
+          else
+            Player.Score = Player.Score + 1
+            PlayerHit.Score = PlayerHit.Score + 1
+            PlayerHit.ScoreHit = PlayerHit.ScoreHit + 1
+            if TargetPlayerName ~= nil then -- It is a player hitting another player ...
+              MESSAGE:New( "Player '" .. InitPlayerName .. "' hit enemy player '" .. TargetPlayerName .. "' "  .. TargetUnitCategory .. " ( " .. TargetType .. " ) " ..
+                PlayerHit.ScoreHit .. " times. Score: " .. PlayerHit.Score ..
+                ".  Score Total:" .. Player.Score - Player.Penalty,
+                2
+              ):ToAll()
+            else
+              MESSAGE:New( "Player '" .. InitPlayerName .. "' hit an enemy " .. TargetUnitCategory .. " ( " .. TargetType .. " ) " ..
+                PlayerHit.ScoreHit .. " times. Score: " .. PlayerHit.Score ..
+                ".  Score Total:" .. Player.Score - Player.Penalty,
+                2
+              ):ToAll()
+            end
+            self:ScoreCSV( InitPlayerName, "HIT_SCORE", 1, 1, InitUnitName, InitUnitCoalition, InitUnitCategory, InitUnitType, TargetUnitName, TargetUnitCoalition, TargetUnitCategory, TargetUnitType )
+          end
+        end
       end
-      if not self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName] then
-        self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName] = {}
-        self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].Score = 0
-        self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].Penalty = 0
-        self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].ScoreHit = 0
-        self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].PenaltyHit = 0
-      end
-      local Score = 0
-      if InitCoalition == TargetCoalition then
-        self.Players[InitPlayerName].Penalty = self.Players[InitPlayerName].Penalty + 10
-        self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].Penalty = self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].Penalty + 10
-        self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].PenaltyHit = self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].PenaltyHit + 1
-        MESSAGE:New( "Player '" .. InitPlayerName .. "' hit a friendly " .. TargetUnitCategory .. " ( " .. TargetType .. " ) " ..
-          self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].PenaltyHit .. " times. Penalty: -" .. self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].Penalty ..
-          ".  Score Total:" .. self.Players[InitPlayerName].Score - self.Players[InitPlayerName].Penalty,
-          2
-        ):ToAll()
-        self:ScoreCSV( InitPlayerName, "HIT_PENALTY", 1, -25, InitUnitName, InitUnitCoalition, InitUnitCategory, InitUnitType, TargetUnitName, TargetUnitCoalition, TargetUnitCategory, TargetUnitType )
-      else
-        self.Players[InitPlayerName].Score = self.Players[InitPlayerName].Score + 1
-        self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].Score = self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].Score + 1
-        self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].ScoreHit = self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].ScoreHit + 1
-        MESSAGE:New( "Player '" .. InitPlayerName .. "' hit a target " .. TargetUnitCategory .. " ( " .. TargetType .. " ) " ..
-          self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].ScoreHit .. " times. Score: " .. self.Players[InitPlayerName].Hit[TargetCategory][TargetUnitName].Score ..
-          ".  Score Total:" .. self.Players[InitPlayerName].Score - self.Players[InitPlayerName].Penalty,
-          2
-        ):ToAll()
-        self:ScoreCSV( InitPlayerName, "HIT_SCORE", 1, 1, InitUnitName, InitUnitCoalition, InitUnitCategory, InitUnitType, TargetUnitName, TargetUnitCoalition, TargetUnitCategory, TargetUnitType )
-      end
-    end
     end
   elseif InitPlayerName == nil then -- It is an AI hitting a player???
 
+  end
+end
+
+--- Track  DEAD or CRASH events for the scoring.
+-- @param #SCORING self
+-- @param Core.Event#EVENTDATA Event
+function SCORING:_EventOnDeadOrCrash( Event )
+  self:F( { Event } )
+
+  local TargetUnit = nil
+  local TargetGroup = nil
+  local TargetUnitName = ""
+  local TargetGroupName = ""
+  local TargetPlayerName = ""
+  local TargetCoalition = nil
+  local TargetCategory = nil
+  local TargetType = nil
+  local TargetUnitCoalition = nil
+  local TargetUnitCategory = nil
+  local TargetUnitType = nil
+
+  if Event.IniDCSUnit then
+
+    TargetUnit = Event.IniDCSUnit
+    TargetUnitName = Event.IniDCSUnitName
+    TargetGroup = Event.IniDCSGroup
+    TargetGroupName = Event.IniDCSGroupName
+    TargetPlayerName = Event.IniPlayerName
+
+    TargetCoalition = TargetUnit:getCoalition()
+    --TargetCategory = TargetUnit:getCategory()
+    TargetCategory = TargetUnit:getDesc().category  -- Workaround
+    TargetType = TargetUnit:getTypeName()
+
+    TargetUnitCoalition = _SCORINGCoalition[TargetCoalition]
+    TargetUnitCategory = _SCORINGCategory[TargetCategory]
+    TargetUnitType = TargetType
+
+    self:T( { TargetUnitName, TargetGroupName, TargetPlayerName, TargetCoalition, TargetCategory, TargetType } )
+  end
+
+  -- Player contains the score and reference data for the player.
+  for PlayerName, Player in pairs( self.Players ) do
+    if Player then -- This should normally not happen, but i'll test it anyway.
+      self:T( "Something got killed" )
+
+      -- Some variables
+      local InitUnitName = Player.UnitName
+      local InitUnitType = Player.UnitType
+      local InitCoalition = Player.UnitCoalition
+      local InitCategory = Player.UnitCategory
+      local InitUnitCoalition = _SCORINGCoalition[InitCoalition]
+      local InitUnitCategory = _SCORINGCategory[InitCategory]
+
+      self:T( { InitUnitName, InitUnitType, InitUnitCoalition, InitCoalition, InitUnitCategory, InitCategory } )
+
+      -- What is he hitting?
+      if TargetCategory then
+        if Player and Player.Hit and Player.Hit[TargetCategory] and Player.Hit[TargetCategory][TargetUnitName] then -- Was there a hit for this unit for this player before registered???
+        
+          
+          Player.Kill[TargetCategory] = Player.Kill[TargetCategory] or {}
+          Player.Kill[TargetCategory][TargetType] = Player.Kill[TargetCategory][TargetType] or {}
+
+          -- PlayerKill contains the kill score data per category and target type of the player.
+          local PlayerKill = Player.Kill[TargetCategory][TargetType]
+          Player.Kill[TargetCategory][TargetType] = {}
+          PlayerKill.Score = PlayerKill.Score or 0
+          PlayerKill.ScoreKill = PlayerKill.ScoreKill or 0
+          PlayerKill.Penalty =  PlayerKill.Penalty or 0
+          PlayerKill.PenaltyKill = PlayerKill.PenaltyKill or 0
+          PlayerKill.UNIT = PlayerKill.UNIT or Player.Hit[TargetCategory][TargetUnitName].UNIT
+  
+          if InitCoalition == TargetCoalition then
+            local ThreatLevelTarget, ThreatTypeTarget = PlayerKill.UNIT:GetThreatLevel()
+            local ThreatLevelPlayer = Player.UNIT:GetThreatLevel()
+            local ThreatLevel = math.ceil( ThreatLevelTarget / ThreatLevelPlayer * 100 )
+            self:E( { ThreatLevel = ThreatLevel, ThreatLevelTarget = ThreatLevelTarget, ThreatTypeTarget = ThreatTypeTarget, ThreatLevelPlayer = ThreatLevelPlayer  } )
+            
+            Player.Penalty = Player.Penalty + ThreatLevel * 4
+            PlayerKill.Penalty = PlayerKill.Penalty + ThreatLevel * 4
+            PlayerKill.PenaltyKill = PlayerKill.PenaltyKill + 1
+            
+            if Player.HitPlayers[TargetPlayerName] then -- A player killed another player
+              MESSAGE:New( "Player '" .. PlayerName .. "' killed friendly player '" .. TargetPlayerName .. "' " .. TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " ..
+                PlayerKill.PenaltyKill .. " times. Penalty: -" .. PlayerKill.Penalty ..
+                ".  Score Total:" .. Player.Score - Player.Penalty,
+                5 ):ToAll()
+            else
+              MESSAGE:New( "Player '" .. PlayerName .. "' killed a friendly " .. TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " ..
+                PlayerKill.PenaltyKill .. " times. Penalty: -" .. PlayerKill.Penalty ..
+                ".  Score Total:" .. Player.Score - Player.Penalty,
+                5 ):ToAll()
+            end
+            self:ScoreCSV( PlayerName, "KILL_PENALTY", 1, -125, InitUnitName, InitUnitCoalition, InitUnitCategory, InitUnitType, TargetUnitName, TargetUnitCoalition, TargetUnitCategory, TargetUnitType )
+          else
+
+            local ThreatLevelTarget, ThreatTypeTarget = PlayerKill.UNIT:GetThreatLevel()
+            local ThreatLevelPlayer = Player.UNIT:GetThreatLevel()
+            local ThreatLevel = math.ceil( ThreatLevelTarget / ThreatLevelPlayer * 100 )
+            self:E( { ThreatLevel = ThreatLevel, ThreatLevelTarget = ThreatLevelTarget, ThreatTypeTarget = ThreatTypeTarget, ThreatLevelPlayer = ThreatLevelPlayer  } )
+
+            Player.Score = Player.Score + ThreatLevel
+            PlayerKill.Score = PlayerKill.Score + ThreatLevel
+            PlayerKill.ScoreKill = PlayerKill.ScoreKill + 1
+            if Player.HitPlayers[TargetPlayerName] then -- A player killed another player
+              MESSAGE:New( "Player '" .. PlayerName .. "' killed enemy player '" .. TargetPlayerName .. "' " .. TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " ..
+                PlayerKill.ScoreKill .. " times. Score: " .. PlayerKill.Score ..
+                ".  Score Total:" .. Player.Score - Player.Penalty,
+                5 ):ToAll()
+            else
+              MESSAGE:New( "Player '" .. PlayerName .. "' killed an enemy " .. TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " ..
+                PlayerKill.ScoreKill .. " times. Score: " .. PlayerKill.Score ..
+                ".  Score Total:" .. Player.Score - Player.Penalty,
+                5 ):ToAll()
+            end
+            self:ScoreCSV( PlayerName, "KILL_SCORE", 1, 10, InitUnitName, InitUnitCoalition, InitUnitCategory, InitUnitType, TargetUnitName, TargetUnitCoalition, TargetUnitCategory, TargetUnitType )
+          end
+        end
+      end
+    end
   end
 end
 
@@ -18639,7 +18982,7 @@ function CLEANUP:_CleanUpScheduler()
 	return true
 end
 
---- Single-Player:**Yes** / Mulit-Player:**Yes** / AI:**Yes** / Human:**No** / Types:**All** --  
+--- Single-Player:**Yes** / Multi-Player:**Yes** / AI:**Yes** / Human:**No** / Types:**All** --  
 -- **Spawn groups of units dynamically in your missions.**
 --  
 -- ![Banner Image](..\Presentations\SPAWN\SPAWN.JPG)
@@ -19945,10 +20288,12 @@ function SPAWN:_RandomizeTemplate( SpawnIndex )
     self.SpawnGroups[SpawnIndex].SpawnTemplate.x = self.SpawnTemplate.x
     self.SpawnGroups[SpawnIndex].SpawnTemplate.y = self.SpawnTemplate.y
     self.SpawnGroups[SpawnIndex].SpawnTemplate.start_time = self.SpawnTemplate.start_time
+    local OldX = self.SpawnGroups[SpawnIndex].SpawnTemplate.units[1].x
+    local OldY = self.SpawnGroups[SpawnIndex].SpawnTemplate.units[1].y
     for UnitID = 1, #self.SpawnGroups[SpawnIndex].SpawnTemplate.units do
       self.SpawnGroups[SpawnIndex].SpawnTemplate.units[UnitID].heading = self.SpawnTemplate.units[1].heading
-      self.SpawnGroups[SpawnIndex].SpawnTemplate.units[UnitID].x = self.SpawnTemplate.units[1].x
-      self.SpawnGroups[SpawnIndex].SpawnTemplate.units[UnitID].y = self.SpawnTemplate.units[1].y
+      self.SpawnGroups[SpawnIndex].SpawnTemplate.units[UnitID].x = self.SpawnTemplate.units[1].x + ( self.SpawnGroups[SpawnIndex].SpawnTemplate.units[UnitID].x - OldX ) 
+      self.SpawnGroups[SpawnIndex].SpawnTemplate.units[UnitID].y = self.SpawnTemplate.units[1].y + ( self.SpawnGroups[SpawnIndex].SpawnTemplate.units[UnitID].y - OldY )
       self.SpawnGroups[SpawnIndex].SpawnTemplate.units[UnitID].alt = self.SpawnTemplate.units[1].alt
     end
   end
@@ -24676,7 +25021,7 @@ function DETECTION_AREAS:CreateDetectionSets()
 end
 
 
---- Single-Player:**No** / Mulit-Player:**Yes** / AI:**Yes** / Human:**No** / Types:**All** -- **AI Balancing will replace in multi player missions 
+--- Single-Player:**No** / Multi-Player:**Yes** / AI:**Yes** / Human:**No** / Types:**All** -- **AI Balancing will replace in multi player missions 
 -- non-occupied human slots with AI groups, in order to provide an engaging simulation environment, 
 -- even when there are hardly any players in the mission.**
 -- 
@@ -24979,7 +25324,7 @@ end
 
 
 
---- Single-Player:**Yes** / Mulit-Player:**Yes** / AI:**Yes** / Human:**No** / Types:**Air** -- 
+--- Single-Player:**Yes** / Multi-Player:**Yes** / AI:**Yes** / Human:**No** / Types:**Air** -- 
 -- **Air Patrolling or Staging.**
 -- 
 -- ![Banner Image](..\Presentations\AI_PATROL\Dia1.JPG)
@@ -25870,7 +26215,7 @@ function AI_PATROL_ZONE:OnPilotDead( EventData )
     self:__PilotDead( 1, EventData )
   end
 end
---- Single-Player:**Yes** / Mulit-Player:**Yes** / AI:**Yes** / Human:**No** / Types:**Air** -- 
+--- Single-Player:**Yes** / Multi-Player:**Yes** / AI:**Yes** / Human:**No** / Types:**Air** -- 
 -- **Provide Close Air Support to friendly ground troops.**
 --
 -- ![Banner Image](..\Presentations\AI_CAS\Dia1.JPG)
@@ -26008,8 +26353,8 @@ AI_CAS_ZONE = {
 -- @param Dcs.DCSTypes#Altitude PatrolCeilingAltitude The highest altitude in meters where to execute the patrol.
 -- @param Dcs.DCSTypes#Speed  PatrolMinSpeed The minimum speed of the @{Controllable} in km/h.
 -- @param Dcs.DCSTypes#Speed  PatrolMaxSpeed The maximum speed of the @{Controllable} in km/h.
+-- @param Core.Zone#ZONE_BASE EngageZone The zone where the engage will happen.
 -- @param Dcs.DCSTypes#AltitudeType PatrolAltType The altitude type ("RADIO"=="AGL", "BARO"=="ASL"). Defaults to RADIO
--- @param Core.Zone#ZONE EngageZone
 -- @return #AI_CAS_ZONE self
 function AI_CAS_ZONE:New( PatrolZone, PatrolFloorAltitude, PatrolCeilingAltitude, PatrolMinSpeed, PatrolMaxSpeed, EngageZone, PatrolAltType )
 
@@ -26442,7 +26787,7 @@ function AI_CAS_ZONE:OnDead( EventData )
 end
 
 
---- Single-Player:**Yes** / Mulit-Player:**Yes** / AI:**Yes** / Human:**No** / Types:**Air** -- **Execute Combat Air Patrol (CAP).**
+--- Single-Player:**Yes** / Multi-Player:**Yes** / AI:**Yes** / Human:**No** / Types:**Air** -- **Execute Combat Air Patrol (CAP).**
 --
 -- ![Banner Image](..\Presentations\AI_CAP\Dia1.JPG)
 -- 
@@ -26970,7 +27315,7 @@ function AI_CAP_ZONE:onafterAccomplish( Controllable, From, Event, To )
 end
 
 
----Single-Player:**Yes** / Mulit-Player:**Yes** / AI:**Yes** / Human:**No** / Types:**Ground** --  
+---Single-Player:**Yes** / Multi-Player:**Yes** / AI:**Yes** / Human:**No** / Types:**Ground** --  
 -- **Management of logical cargo objects, that can be transported from and to transportation carriers.**
 --
 -- ![Banner Image](..\Presentations\AI_CARGO\CARGO.JPG)
