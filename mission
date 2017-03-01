@@ -16433,50 +16433,6 @@ mission =
                                                                 }, -- end of ["task"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 8,
-                                                                        ["frequency"] = 1095000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [4]
-                                                        [5] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 5,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 0,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [5]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -16730,50 +16686,6 @@ mission =
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [2]
-                                                        [3] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 3,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 9,
-                                                                        ["frequency"] = 1096000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 0,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [4]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -17728,25 +17640,6 @@ mission =
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 0,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [4]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -17969,25 +17862,6 @@ mission =
                                                             {
                                                             }, -- end of ["params"]
                                                         }, -- end of [1]
-                                                        [2] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 2,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 0,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [2]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -43756,7 +43630,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3393536,
+    ["currentKey"] = 3396316,
     ["date"] =
     {
         ["Day"] = 23,
@@ -46852,7 +46726,7 @@ mission =
         ["centerY"] = 902408.85714288,
         ["zoom"] = 1000,
     }, -- end of ["map"]
-    ["maxDictId"] = 2873,
+    ["maxDictId"] = 2874,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
@@ -46913,7 +46787,7 @@ mission =
             [1] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2805\")); mission.trig.func[1]=nil;",
             [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2294\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2831\")); mission.trig.func[3]=nil;",
-            [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2873\")); mission.trig.func[4]=nil;",
+            [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2874\")); mission.trig.func[4]=nil;",
             [5] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[5]=nil;",
             [6] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2492\"), 1737, true, true, 114167, 1000, \"Dusheti Beacon Preset 1\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2510\"), 10, false);",
             [7] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2493\"), 1736, true, true, 114333, 1000, \"TIANETI Beacon Preset 2\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2511\"), 10, false);",
@@ -47776,7 +47650,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_2873",
+                    ["file"] = "ResKey_Action_2874",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
