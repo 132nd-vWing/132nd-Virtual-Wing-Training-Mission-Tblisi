@@ -42,8 +42,8 @@ awacs_respawn = SPAWN:New( 'AWACS' ):InitLimit(1,10):InitRepeatOnEngineShutDown(
 -- borrowed this function from CTLD to spawn just a single Manpad as CTLD-compatible group at a vec3
 function ctld.spawnGroupAtPoint_SAR(_position)
     local _groupDetails = ctld.generateTroopTypes(2, {aa=1}, 2)
-    local _droppedTroops = ctld.spawnDroppedGroup(_position, _groupDetails, false, 0);
-    table.insert(ctld.droppedTroopsBLUE, _droppedTroops:getName())
+    SARmanpad = ctld.spawnDroppedGroup(_position, _groupDetails, false, 0);
+    table.insert(ctld.droppedTroopsBLUE, SARmanpad:getName())
     return _groupDetails
 end
 
@@ -64,6 +64,7 @@ function SARTETRA()
                    ZONE:New( "SAR6" ), ZONE:New( "SAR7" ), ZONE:New( "SAR8" ), ZONE:New( "SAR9" ), ZONE:New( "SAR10" ) } -- this creates 10 possible zones where the crashite can occur
   SARtemplate = SPAWN:New("SARtemplate"):InitRandomizeZones( SARzoneTable ):Spawn() -- this will spawn the template at one of the above zones 
   SARpos = SARtemplate:GetVec3()
+  SARpos2 = SARtemplate:GetVec2()
   SPAWN:New("crashplane"):SpawnFromVec3(SARpos) -- this line is optional and could be commented out. This will spawn an A10 without fuel at the crash site so a 'real' wreck will be produced close by 
   
   -- This calls the modified CTLD function to spawn a single Manpad as 'downed pilot'
@@ -71,6 +72,7 @@ function SARTETRA()
   ctld.beaconCount = ctld.beaconCount + 1
   ctld.createRadioBeacon(SARpos, 2, 2, "CRASHSITE TETRA" .. ctld.beaconCount - 1, 120)
   MESSAGE:New( "Simulated Plane Crash at TETRA. Radio Beacon active at the Crashsite (use CTLD Beacons to home in)", 7):ToBlue()
+  SARzone = ZONE_RADIUS:New("SARzone",vec2Target,200)
 end
 
 
@@ -80,6 +82,36 @@ local function SARSmoke()
   trigger.action.smoke(SARpos,SMOKECOLOR.Green)
   MESSAGE:New( "Green Smoke on the Deck at Downed Pilot Location!", 7):ToBlue()
 end
+
+--- TETRA activate AI SAR helicopter--
+local function SARhelo()
+  MESSAGE:New( "Search and Rescue Helicopter starting up from FARP MARNUELI, we are inbound the crashsite", 7):ToBlue()
+  GROUP:FindByName("SARhelo1dummy"):Destroy()
+  SARhelo = SPAWN:New("SARhelo1"):Spawn()
+  SARhelo:SetTask({id = 'Land', params = {point = SARpos2,true,40}}, 1)
+  -- MESSAGE:New( "Search and Rescue Helicopter picking up the Pilot", 7):ToBlue())
+  SARrescue = ZONE_RADIUS:New("SARrescue",SARpos2,25)
+  Extraction1 = SCHEDULER:New( nil,
+    function()
+      if SARhelo:IsCompletelyInZone( SARrescue ) then
+        MESSAGE:New( "Rescue Helicopter reached landing site, we prepare for extraction, give us cover!", 10):ToBlue()
+        Extraction2:Start()
+        Extraction1:Stop()
+      end 
+    end,
+  {}, 0, 10 )
+  Extraction2 = SCHEDULER:New( nil,
+    function()
+        SARmanpad:destroy()
+        MESSAGE:New( "Pilot is on Board, enroute back to FARP MARNUELI", 17):ToBlue()
+        Farp_Marnueli = GROUP:FindByName("FARP MARNUEL Vehicle do not rename"):GetVec2()
+        SARhelo:SetTask({id = 'Land', params = {point = Farp_Marnueli,false,5}}, 1)
+        Extraction2:Stop() 
+    end,
+  {}, 60, 20 )
+  Extraction2:Stop()
+end
+
 
 --- TETRA activate hostiles moving towards the crashsite Range Search and Rescue Tasking--
 local function SARhostiles()
@@ -91,7 +123,7 @@ local function SARhostiles()
   
   -- this will generate a smaller zone around the crashsite like above, for infantrycarriers
   -- innercircle2 = ZONE_GROUP:New("innercircle2",SARtemplate,600) 
-  innercircle = ZONE_RADIUS:New("innercircle2",vec2Target,600)
+  innercircle2 = ZONE_RADIUS:New("innercircle2",vec2Target,600)
 
 
   -- -- for debugging, uncomment to make the above zone visible
@@ -192,6 +224,7 @@ MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deactivate all Ark-UD Beacons"
 --- SAR options
 SAR_Options = MENU_COALITION:New( coalition.side.BLUE, "Search and Rescue" )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Crashsite", SAR_Options, SARTETRA )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Dispatch Rescue Helicopter from FARP MARNUELI", SAR_Options, SARhelo )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Request Smoke on the Crashsite", SAR_Options, SARSmoke )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Hostile Forces", SAR_Options, SARhostiles )
 
