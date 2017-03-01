@@ -17301,6 +17301,152 @@ mission =
                                 ["x"] = -315053.375,
                                 ["y"] = 897047.5,
                             }, -- end of [29]
+                            [30] =
+                            {
+                                ["communication"] = true,
+                                ["frequency"] = 138.1,
+                                ["groupId"] = 1261,
+                                ["hidden"] = false,
+                                ["modulation"] = 0,
+                                ["name"] = "DictKey_GroupName_2876",
+                                ["radioSet"] = true,
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "From Parking Area",
+                                            ["airdromeId"] = 29,
+                                            ["alt"] = 88,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2878",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 138.88888888889,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                        [1] =
+                                                        {
+                                                            ["auto"] = false,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 1,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "Option",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["name"] = 6,
+                                                                        ["value"] = true,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [1]
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "TakeOffParking",
+                                            ["x"] = -315082.9375,
+                                            ["y"] = 897027.25,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Attack",
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["uncontrolled"] = true,
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["AddPropAircraft"] =
+                                        {
+                                            ["Rb04GroupTarget"] = 3,
+                                            ["Rb04VinkelHopp"] = 0,
+                                            ["WeapSafeHeight"] = 1,
+                                        }, -- end of ["AddPropAircraft"]
+                                        ["alt"] = 88,
+                                        ["alt_type"] = "BARO",
+                                        ["callsign"] =
+                                        {
+                                            [1] = 5,
+                                            [2] = 2,
+                                            [3] = 1,
+                                            ["name"] = "Dodge21",
+                                        }, -- end of ["callsign"]
+                                        ["hardpoint_racks"] = true,
+                                        ["heading"] = 0,
+                                        ["livery_id"] = "BareMetal",
+                                        ["name"] = "DictKey_UnitName_2877",
+                                        ["onboard_num"] = "6980",
+                                        ["parking"] = 21,
+                                        ["parking_id"] = "27",
+                                        ["payload"] =
+                                        {
+                                            ["chaff"] = 105,
+                                            ["flare"] = 36,
+                                            ["fuel"] = 0,
+                                            ["gun"] = 100,
+                                            ["pylons"] =
+                                            {
+                                                [1] =
+                                                {
+                                                    ["CLSID"] = "{Robot24J}",
+                                                }, -- end of [1]
+                                                [2] =
+                                                {
+                                                    ["CLSID"] = "{M71BOMBD}",
+                                                }, -- end of [2]
+                                                [3] =
+                                                {
+                                                    ["CLSID"] = "{M71BOMBD}",
+                                                }, -- end of [3]
+                                                [5] =
+                                                {
+                                                    ["CLSID"] = "{M71BOMBD}",
+                                                }, -- end of [5]
+                                                [6] =
+                                                {
+                                                    ["CLSID"] = "{M71BOMBD}",
+                                                }, -- end of [6]
+                                                [7] =
+                                                {
+                                                    ["CLSID"] = "{Robot24J}",
+                                                }, -- end of [7]
+                                            }, -- end of ["pylons"]
+                                        }, -- end of ["payload"]
+                                        ["psi"] = 0,
+                                        ["skill"] = "Excellent",
+                                        ["speed"] = 138.88888888889,
+                                        ["type"] = "AJS37",
+                                        ["unitId"] = 1666,
+                                        ["x"] = -315082.9375,
+                                        ["y"] = 897027.25,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -315082.9375,
+                                ["y"] = 897027.25,
+                            }, -- end of [30]
                         }, -- end of ["group"]
                     }, -- end of ["plane"]
                 }, -- end of [7]
@@ -40633,7 +40779,7 @@ mission =
                 }, -- end of [794]
                 [795] =
                 {
-                    ["callsignStr"] = "STRELA1",
+                    ["callsignStr"] = "STRELA_SA9",
                     ["comment"] = "",
                     ["id"] = 3846,
                     ["properties"] =
@@ -40649,7 +40795,7 @@ mission =
                 }, -- end of [795]
                 [796] =
                 {
-                    ["callsignStr"] = "STRELA2",
+                    ["callsignStr"] = "STRELA_SA13",
                     ["comment"] = "",
                     ["id"] = 3847,
                     ["properties"] =
@@ -40692,8 +40838,8 @@ mission =
                         ["vangle"] = 0,
                         ["vnav"] = 1,
                     }, -- end of ["properties"]
-                    ["x"] = -391569.14285712,
-                    ["y"] = 901531.71428575,
+                    ["x"] = -391570.28571426,
+                    ["y"] = 901406.00000004,
                 }, -- end of [798]
                 [799] =
                 {
@@ -40708,8 +40854,8 @@ mission =
                         ["vangle"] = 0,
                         ["vnav"] = 1,
                     }, -- end of ["properties"]
-                    ["x"] = -399789.99999998,
-                    ["y"] = 906074.00000004,
+                    ["x"] = -399799.14285712,
+                    ["y"] = 905922.28571433,
                 }, -- end of [799]
                 [800] =
                 {
@@ -40724,8 +40870,8 @@ mission =
                         ["vangle"] = 0,
                         ["vnav"] = 1,
                     }, -- end of ["properties"]
-                    ["x"] = -407769.99999998,
-                    ["y"] = 910987.14285718,
+                    ["x"] = -407747.14285712,
+                    ["y"] = 910895.71428575,
                 }, -- end of [800]
                 [801] =
                 {
@@ -40740,12 +40886,12 @@ mission =
                         ["vangle"] = 0,
                         ["vnav"] = 1,
                     }, -- end of ["properties"]
-                    ["x"] = -415619.99999998,
-                    ["y"] = 915080.00000004,
+                    ["x"] = -415571.42857141,
+                    ["y"] = 914955.42857147,
                 }, -- end of [801]
                 [802] =
                 {
-                    ["callsignStr"] = "SA8",
+                    ["callsignStr"] = "SA8_EAST",
                     ["comment"] = "",
                     ["id"] = 3853,
                     ["properties"] =
@@ -42390,8 +42536,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -392632.93303571,
-                                            ["y"] = 823081.99999999,
+                                            ["x"] = -392632.57142856,
+                                            ["y"] = 823083.42857143,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                     ["routeRelativeTOT"] = false,
@@ -42424,7 +42570,7 @@ mission =
                                     {
                                         ["heading"] = 0.67474094222351,
                                         ["name"] = "DictKey_UnitName_1476",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
@@ -42432,14 +42578,14 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Osa 9A33 ln",
                                         ["unitId"] = 1332,
-                                        ["x"] = -392632.93303571,
-                                        ["y"] = 823081.99999999,
+                                        ["x"] = -392632.57142856,
+                                        ["y"] = 823083.42857143,
                                     }, -- end of [1]
                                     [2] =
                                     {
                                         ["heading"] = 0.67474094222351,
                                         ["name"] = "DictKey_UnitName_1477",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
@@ -42447,14 +42593,14 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Osa 9A33 ln",
                                         ["unitId"] = 1333,
-                                        ["x"] = -392664.16778809,
-                                        ["y"] = 823057.01219809,
+                                        ["x"] = -392667.42857141,
+                                        ["y"] = 823071.42857143,
                                     }, -- end of [2]
                                     [3] =
                                     {
                                         ["heading"] = 0.67474094222351,
                                         ["name"] = "DictKey_UnitName_1478",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
@@ -42462,13 +42608,13 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Osa 9A33 ln",
                                         ["unitId"] = 1334,
-                                        ["x"] = -392695.40254047,
-                                        ["y"] = 823032.02439619,
+                                        ["x"] = -392695.04093332,
+                                        ["y"] = 823033.45296763,
                                     }, -- end of [3]
                                 }, -- end of ["units"]
                                 ["visible"] = false,
-                                ["x"] = -392632.93303571,
-                                ["y"] = 823081.99999999,
+                                ["x"] = -392632.57142856,
+                                ["y"] = 823083.42857143,
                             }, -- end of [2]
                             [3] =
                             {
@@ -42536,7 +42682,7 @@ mission =
                                     {
                                         ["heading"] = 0.67474094222351,
                                         ["name"] = "DictKey_UnitName_1481",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
@@ -42551,7 +42697,7 @@ mission =
                                     {
                                         ["heading"] = 0.67474094222351,
                                         ["name"] = "DictKey_UnitName_1482",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
@@ -42827,13 +42973,13 @@ mission =
                                     {
                                         ["heading"] = 4.1243863768371,
                                         ["name"] = "DictKey_UnitName_1550",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "Strela-1 9P31",
+                                        ["type"] = "Strela-10M3",
                                         ["unitId"] = 1345,
                                         ["x"] = -385386,
                                         ["y"] = 925315.42857143,
@@ -42842,7 +42988,7 @@ mission =
                                     {
                                         ["heading"] = 4.1243863768371,
                                         ["name"] = "DictKey_UnitName_1551",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
@@ -42924,7 +43070,7 @@ mission =
                                     {
                                         ["heading"] = 4.1243863768371,
                                         ["name"] = "DictKey_UnitName_1554",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
@@ -42939,7 +43085,7 @@ mission =
                                     {
                                         ["heading"] = 4.1243863768371,
                                         ["name"] = "DictKey_UnitName_1555",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
@@ -42947,8 +43093,8 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Osa 9A33 ln",
                                         ["unitId"] = 1348,
-                                        ["x"] = -415662.41517857,
-                                        ["y"] = 882955.65178572,
+                                        ["x"] = -415669.42857141,
+                                        ["y"] = 882937.71428572,
                                     }, -- end of [2]
                                 }, -- end of ["units"]
                                 ["visible"] = false,
@@ -43021,7 +43167,7 @@ mission =
                                     {
                                         ["heading"] = 4.1243863768371,
                                         ["name"] = "DictKey_UnitName_1566",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
@@ -43118,7 +43264,7 @@ mission =
                                     {
                                         ["heading"] = 4.1243863768371,
                                         ["name"] = "DictKey_UnitName_1570",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
@@ -43215,7 +43361,7 @@ mission =
                                     {
                                         ["heading"] = 4.1243863768371,
                                         ["name"] = "DictKey_UnitName_1574",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
@@ -43312,7 +43458,7 @@ mission =
                                     {
                                         ["heading"] = 4.1243863768371,
                                         ["name"] = "DictKey_UnitName_1578",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
@@ -43358,7 +43504,7 @@ mission =
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
                                             ["action"] = "Off Road",
-                                            ["alt"] = 1169,
+                                            ["alt"] = 1171,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_1584",
@@ -43375,8 +43521,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -389543.14285714,
-                                            ["y"] = 916092.57142857,
+                                            ["x"] = -389550.85714284,
+                                            ["y"] = 916091.71428572,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                     ["routeRelativeTOT"] = false,
@@ -43409,7 +43555,7 @@ mission =
                                     {
                                         ["heading"] = 4.1243863768371,
                                         ["name"] = "DictKey_UnitName_1582",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
@@ -43417,28 +43563,28 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Strela-1 9P31",
                                         ["unitId"] = 1358,
-                                        ["x"] = -389543.14285714,
-                                        ["y"] = 916092.57142857,
+                                        ["x"] = -389550.85714284,
+                                        ["y"] = 916091.71428572,
                                     }, -- end of [1]
                                     [2] =
                                     {
                                         ["heading"] = 4.1243863768371,
                                         ["name"] = "DictKey_UnitName_1583",
-                                        ["playerCanDrive"] = false,
+                                        ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
                                         ["transportable"] =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "Strela-10M3",
+                                        ["type"] = "Strela-1 9P31",
                                         ["unitId"] = 1359,
-                                        ["x"] = -389583.14285714,
-                                        ["y"] = 916092.57142857,
+                                        ["x"] = -389590.85714284,
+                                        ["y"] = 916088,
                                     }, -- end of [2]
                                 }, -- end of ["units"]
                                 ["visible"] = false,
-                                ["x"] = -389543.14285714,
-                                ["y"] = 916092.57142857,
+                                ["x"] = -389550.85714284,
+                                ["y"] = 916091.71428572,
                             }, -- end of [12]
                             [13] =
                             {
@@ -43756,7 +43902,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3394926,
+    ["currentKey"] = 3404730,
     ["date"] =
     {
         ["Day"] = 23,
@@ -46848,11 +46994,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -347163.28571427,
-        ["centerY"] = 902408.85714288,
-        ["zoom"] = 1000,
+        ["centerX"] = -326796.9375,
+        ["centerY"] = 890497.98214286,
+        ["zoom"] = 200000,
     }, -- end of ["map"]
-    ["maxDictId"] = 2874,
+    ["maxDictId"] = 2878,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
@@ -46913,7 +47059,7 @@ mission =
             [1] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2805\")); mission.trig.func[1]=nil;",
             [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2294\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2831\")); mission.trig.func[3]=nil;",
-            [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2874\")); mission.trig.func[4]=nil;",
+            [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2875\")); mission.trig.func[4]=nil;",
             [5] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[5]=nil;",
             [6] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2492\"), 1737, true, true, 114167, 1000, \"Dusheti Beacon Preset 1\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2510\"), 10, false);",
             [7] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2493\"), 1736, true, true, 114333, 1000, \"TIANETI Beacon Preset 2\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2511\"), 10, false);",
@@ -47776,7 +47922,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_2874",
+                    ["file"] = "ResKey_Action_2875",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
