@@ -8,10 +8,10 @@ mapResource =
     ["ResKey_Action_2342"] = "beacon.ogg",
     ["ResKey_Action_2495"] = "beep_beep.ogg",
     ["ResKey_Action_2875"] = "Entropy_TMT.lua",
-    ["ResKey_Action_2888"] = "Moose.lua",
+    ["ResKey_Action_2343"] = "beaconsilent.ogg",
     ["ResKey_Action_2294"] = "mist.lua",
     [""] = "Entropy_TMT_v10_5.lua",
     ["ResKey_Action_2494"] = "beep_beep.ogg",
-    ["ResKey_Action_2343"] = "beaconsilent.ogg",
+    ["ResKey_Action_2888"] = "Moose.lua",
     ["ResKey_Action_1851"] = "beep_beep.ogg",
 } -- end of mapResource

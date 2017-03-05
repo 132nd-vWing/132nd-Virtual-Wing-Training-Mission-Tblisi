@@ -14134,7 +14134,7 @@ mission =
                                             ["name"] = "Colt51",
                                         }, -- end of ["callsign"]
                                         ["heading"] = 0,
-                                        ["livery_id"] = "132 617th Standard skin",
+                                        ["livery_id"] = "132 617th Kimkiller",
                                         ["name"] = "DictKey_UnitName_226",
                                         ["onboard_num"] = "0015",
                                         ["parking"] = 69,
@@ -19690,7 +19690,7 @@ mission =
                                             ["name"] = "Enfield11",
                                         }, -- end of ["callsign"]
                                         ["hardpoint_racks"] = true,
-                                        ["heading"] = -0.98776722234537,
+                                        ["heading"] = 0,
                                         ["livery_id"] = "12th Fighter SQN (AK) Kf-62 Photun",
                                         ["name"] = "DictKey_UnitName_308",
                                         ["onboard_num"] = "300",
@@ -44316,7 +44316,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3407600,
+    ["currentKey"] = 3409020,
     ["date"] =
     {
         ["Day"] = 23,
@@ -47408,9 +47408,9 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -315164.19196429,
-        ["centerY"] = 904770,
-        ["zoom"] = 50000,
+        ["centerX"] = -315004.40625,
+        ["centerY"] = 896638.38392857,
+        ["zoom"] = 2000,
     }, -- end of ["map"]
     ["maxDictId"] = 2888,
     ["needModules"] =
