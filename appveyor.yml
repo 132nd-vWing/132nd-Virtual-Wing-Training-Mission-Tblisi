@@ -1,4 +1,4 @@
-version: 2.7.4.{build}
+version: 2.7.41.{build}
 skip_branch_with_pr: true
 environment:
   fast_finish: true
