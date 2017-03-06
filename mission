@@ -8881,7 +8881,7 @@ mission =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "BMP-3",
+                                        ["type"] = "BMP-1",
                                         ["unitId"] = 1597,
                                         ["x"] = -335331.71428572,
                                         ["y"] = 859403.14285713,
@@ -14938,7 +14938,7 @@ mission =
                                             ["name"] = "Colt51",
                                         }, -- end of ["callsign"]
                                         ["heading"] = 0,
-                                        ["livery_id"] = "132 617th Dejjvid",
+                                        ["livery_id"] = "132 617th Level",
                                         ["name"] = "DictKey_UnitName_240",
                                         ["onboard_num"] = "020",
                                         ["parking"] = 41,
@@ -19690,7 +19690,7 @@ mission =
                                             ["name"] = "Enfield11",
                                         }, -- end of ["callsign"]
                                         ["hardpoint_racks"] = true,
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98776722234537,
                                         ["livery_id"] = "12th Fighter SQN (AK) Kf-62 Photun",
                                         ["name"] = "DictKey_UnitName_308",
                                         ["onboard_num"] = "300",
@@ -44316,11 +44316,11 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3409020,
+    ["currentKey"] = 3416068,
     ["date"] =
     {
-        ["Day"] = 23,
-        ["Month"] = 1,
+        ["Day"] = 6,
+        ["Month"] = 3,
         ["Year"] = 2011,
     }, -- end of ["date"]
     ["descriptionBlueTask"] = "DictKey_descriptionBlueTask_651",
@@ -47408,11 +47408,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -315004.40625,
-        ["centerY"] = 896638.38392857,
-        ["zoom"] = 2000,
+        ["centerX"] = -348204.99999998,
+        ["centerY"] = 903788.85714288,
+        ["zoom"] = 25000,
     }, -- end of ["map"]
-    ["maxDictId"] = 2888,
+    ["maxDictId"] = 2890,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
@@ -47470,10 +47470,10 @@ mission =
     {
         ["actions"] =
         {
-            [1] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2888\")); mission.trig.func[1]=nil;",
+            [1] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2889\")); mission.trig.func[1]=nil;",
             [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2294\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2831\")); mission.trig.func[3]=nil;",
-            [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2875\")); mission.trig.func[4]=nil;",
+            [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2890\")); mission.trig.func[4]=nil;",
             [5] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[5]=nil;",
             [6] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2492\"), 1737, true, true, 114167, 1000, \"Dusheti Beacon Preset 1\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2510\"), 10, false);",
             [7] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2493\"), 1736, true, true, 114333, 1000, \"TIANETI Beacon Preset 2\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2511\"), 10, false);",
@@ -48256,7 +48256,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_2888",
+                    ["file"] = "ResKey_Action_2889",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -48336,7 +48336,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_2875",
+                    ["file"] = "ResKey_Action_2890",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]

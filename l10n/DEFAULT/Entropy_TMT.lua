@@ -130,11 +130,11 @@ local function SARhostiles()
   -- innercircle:SmokeZone( SMOKECOLOR.Green )
   
   -- This will spawn in enemies from random locations outside the crashsite
-  SARtemplate1 = SPAWN:New("SARenemy1"):InitRandomizeUnits( true, 13000, 9000 ):SpawnFromVec3(SARpos):TaskRouteToVec3(SARpos, 15)
-  SARtemplate2 = SPAWN:New("SARenemy2"):InitRandomizeUnits( true, 12000, 7000 ):SpawnFromVec3(SARpos):TaskRouteToVec3(SARpos, 15)
-  SARtemplate3 = SPAWN:New("SARenemy3"):InitRandomizeUnits( true, 19000, 9000 ):SpawnFromVec3(SARpos):TaskRouteToVec3(SARpos, 15)
-  SARtemplate4 = SPAWN:New("SARenemy4"):InitRandomizeUnits( true, 17000, 7000 ):SpawnFromVec3(SARpos):TaskRouteToVec3(SARpos, 15)
-  SARtemplate5 = SPAWN:New("SARenemy5"):InitRandomizeUnits( true, 16000, 6000 ):SpawnFromVec3(SARpos):TaskRouteToVec3(SARpos, 15)
+  SARtemplate1 = SPAWN:New("SARenemy1"):InitRandomizeUnits( true, 13000, 9000 ):SpawnFromVec3(SARpos):RouteToVec3(SARpos, 15)
+  SARtemplate2 = SPAWN:New("SARenemy2"):InitRandomizeUnits( true, 12000, 7000 ):SpawnFromVec3(SARpos):RouteToVec3(SARpos, 15)
+  SARtemplate3 = SPAWN:New("SARenemy3"):InitRandomizeUnits( true, 19000, 9000 ):SpawnFromVec3(SARpos):RouteToVec3(SARpos, 15)
+  SARtemplate4 = SPAWN:New("SARenemy4"):InitRandomizeUnits( true, 17000, 7000 ):SpawnFromVec3(SARpos):RouteToVec3(SARpos, 15)
+  SARtemplate5 = SPAWN:New("SARenemy5"):InitRandomizeUnits( true, 16000, 6000 ):SpawnFromVec3(SARpos):RouteToVec3(SARpos, 15)
 
   SARtemplate1_engage = SCHEDULER:New( nil,
     function()
@@ -149,7 +149,7 @@ local function SARhostiles()
     function()  
       if SARtemplate2:IsCompletelyInZone( innercircle2 ) then
         -- slow down the transporter
-        SARtemplate2:TaskRouteToVec3(SARpos, 0) 
+        SARtemplate2:RouteToVec3(SARpos, 0) 
         SARInfantry_location = SARtemplate2:GetVec3()
         SARInfantry = SPAWN:New("SARInfantry"):SpawnFromVec3(SARInfantry_location)
         SARInfantry:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 40, y=vec2Target.y + 40, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
