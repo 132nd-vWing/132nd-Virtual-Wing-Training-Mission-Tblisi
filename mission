@@ -787,7 +787,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -0.97428793591193,
+                                        ["heading"] = 0,
                                         ["livery_id"] = "-3D- David M-2000C",
                                         ["name"] = "DictKey_UnitName_1153",
                                         ["onboard_num"] = "010",
@@ -1032,7 +1032,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -0.97257874790384,
+                                        ["heading"] = 0,
                                         ["livery_id"] = "-3D- Danny  M-2000C",
                                         ["name"] = "DictKey_UnitName_1530",
                                         ["onboard_num"] = "012",
@@ -1277,7 +1277,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -0.97073229524528,
+                                        ["heading"] = 0,
                                         ["livery_id"] = "-3D- Teddy M-2000C",
                                         ["name"] = "DictKey_UnitName_1527",
                                         ["onboard_num"] = "011",
@@ -1522,7 +1522,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -0.97426063537282,
+                                        ["heading"] = 0,
                                         ["livery_id"] = "-3D- General M-2000C",
                                         ["name"] = "DictKey_UnitName_1533",
                                         ["onboard_num"] = "013",
@@ -17447,6 +17447,986 @@ mission =
                                 ["x"] = -315082.9375,
                                 ["y"] = 897027.25,
                             }, -- end of [30]
+                            [31] =
+                            {
+                                ["communication"] = true,
+                                ["frequency"] = 237,
+                                ["groupId"] = 1265,
+                                ["hidden"] = false,
+                                ["modulation"] = 0,
+                                ["name"] = "DictKey_GroupName_2891",
+                                ["radioSet"] = true,
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "From Parking Area",
+                                            ["airdromeId"] = 29,
+                                            ["alt"] = 88,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2893",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 138.88888888889,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                        [1] =
+                                                        {
+                                                            ["auto"] = true,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "EngageTargets",
+                                                            ["key"] = "CAP",
+                                                            ["number"] = 1,
+                                                            ["params"] =
+                                                            {
+                                                                ["priority"] = 0,
+                                                                ["targetTypes"] =
+                                                                {
+                                                                    [1] = "Air",
+                                                                }, -- end of ["targetTypes"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [1]
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "TakeOffParking",
+                                            ["x"] = -315166.40625,
+                                            ["y"] = 897212.5,
+                                        }, -- end of [1]
+                                        [2] =
+                                        {
+                                            ["ETA"] = 115.71197494135,
+                                            ["ETA_locked"] = false,
+                                            ["action"] = "Turning Point",
+                                            ["alt"] = 540,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2894",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 138.88888888889,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = -306187.73214286,
+                                            ["y"] = 883934.59821427,
+                                        }, -- end of [2]
+                                        [3] =
+                                        {
+                                            ["ETA"] = 295.30775892442,
+                                            ["ETA_locked"] = false,
+                                            ["action"] = "Landing",
+                                            ["airdromeId"] = 29,
+                                            ["alt"] = 471,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2895",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 138.88888888889,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Land",
+                                            ["x"] = -315743.82589286,
+                                            ["y"] = 897279.74107142,
+                                        }, -- end of [3]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "CAP",
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["uncontrolled"] = false,
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["AddPropAircraft"] =
+                                        {
+                                            ["ForceINSRules"] = false,
+                                            ["LaserCode1"] = 8,
+                                            ["LaserCode10"] = 8,
+                                            ["LaserCode100"] = 6,
+                                            ["LaserCode"] = 1688,
+                                            ["NoDDMSensor"] = false,
+                                            ["RocketBurst"] = 6,
+                                            ["WpBullseye"] = 0,
+                                        }, -- end of ["AddPropAircraft"]
+                                        ["Radio"] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 237,
+                                                    [2] = 226.25,
+                                                    [3] = 247.5,
+                                                    [4] = 248.5,
+                                                    [5] = 225.75,
+                                                    [6] = 243.5,
+                                                    [7] = 239.5,
+                                                    [8] = 227.1,
+                                                    [9] = 245.25,
+                                                    [10] = 236.5,
+                                                    [11] = 241.25,
+                                                    [12] = 243,
+                                                    [13] = 238.25,
+                                                    [14] = 229,
+                                                    [15] = 231.5,
+                                                    [16] = 227.5,
+                                                    [17] = 237.5,
+                                                    [18] = 230,
+                                                    [19] = 233,
+                                                    [20] = 234.75,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [1]
+                                            [2] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 138.1,
+                                                    [2] = 138.2,
+                                                    [3] = 127.2,
+                                                    [4] = 237,
+                                                    [5] = 226.25,
+                                                    [6] = 247.5,
+                                                    [7] = 248.5,
+                                                    [8] = 225.75,
+                                                    [9] = 243.5,
+                                                    [10] = 239.5,
+                                                    [11] = 127.75,
+                                                    [12] = 227.1,
+                                                    [13] = 245.25,
+                                                    [14] = 236.5,
+                                                    [15] = 241.25,
+                                                    [16] = 134.25,
+                                                    [17] = 130.25,
+                                                    [18] = 139.1,
+                                                    [19] = 139.2,
+                                                    [20] = 243,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [2]
+                                        }, -- end of ["Radio"]
+                                        ["alt"] = 88,
+                                        ["alt_type"] = "BARO",
+                                        ["callsign"] =
+                                        {
+                                            [1] = 3,
+                                            [2] = 1,
+                                            [3] = 1,
+                                            ["name"] = "Uzi11",
+                                        }, -- end of ["callsign"]
+                                        ["heading"] = 0,
+                                        ["livery_id"] = "132nd 765th squadron standard",
+                                        ["name"] = "DictKey_UnitName_2892",
+                                        ["onboard_num"] = "013",
+                                        ["parking"] = "1",
+                                        ["parking_id"] = "36",
+                                        ["payload"] =
+                                        {
+                                            ["chaff"] = 112,
+                                            ["flare"] = 16,
+                                            ["fuel"] = 3165,
+                                            ["gun"] = 100,
+                                            ["pylons"] =
+                                            {
+                                            }, -- end of ["pylons"]
+                                        }, -- end of ["payload"]
+                                        ["psi"] = 0.9762146207642,
+                                        ["skill"] = "Client",
+                                        ["speed"] = 138.88888888889,
+                                        ["type"] = "M-2000C",
+                                        ["unitId"] = 1670,
+                                        ["x"] = -315166.40625,
+                                        ["y"] = 897212.5,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -315166.40625,
+                                ["y"] = 897212.5,
+                            }, -- end of [31]
+                            [32] =
+                            {
+                                ["communication"] = true,
+                                ["frequency"] = 237,
+                                ["groupId"] = 1268,
+                                ["hidden"] = false,
+                                ["modulation"] = 0,
+                                ["name"] = "DictKey_GroupName_2906",
+                                ["radioSet"] = true,
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "From Parking Area",
+                                            ["airdromeId"] = 29,
+                                            ["alt"] = 88,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2908",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 138.88888888889,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                        [1] =
+                                                        {
+                                                            ["auto"] = true,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "EngageTargets",
+                                                            ["key"] = "CAP",
+                                                            ["number"] = 1,
+                                                            ["params"] =
+                                                            {
+                                                                ["priority"] = 0,
+                                                                ["targetTypes"] =
+                                                                {
+                                                                    [1] = "Air",
+                                                                }, -- end of ["targetTypes"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [1]
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "TakeOffParking",
+                                            ["x"] = -315195.96875,
+                                            ["y"] = 897192.25,
+                                        }, -- end of [1]
+                                        [2] =
+                                        {
+                                            ["ETA"] = 115.71197494135,
+                                            ["ETA_locked"] = false,
+                                            ["action"] = "Turning Point",
+                                            ["alt"] = 540,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2909",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 138.88888888889,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = -307819.12053572,
+                                            ["y"] = 879271.50892855,
+                                        }, -- end of [2]
+                                        [3] =
+                                        {
+                                            ["ETA"] = 295.30775892442,
+                                            ["ETA_locked"] = false,
+                                            ["action"] = "Landing",
+                                            ["airdromeId"] = 29,
+                                            ["alt"] = 471,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2910",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 138.88888888889,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Land",
+                                            ["x"] = -317375.21428572,
+                                            ["y"] = 892616.6517857,
+                                        }, -- end of [3]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "CAP",
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["uncontrolled"] = false,
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["AddPropAircraft"] =
+                                        {
+                                            ["ForceINSRules"] = false,
+                                            ["LaserCode1"] = 8,
+                                            ["LaserCode10"] = 8,
+                                            ["LaserCode100"] = 6,
+                                            ["LaserCode"] = 1688,
+                                            ["NoDDMSensor"] = false,
+                                            ["RocketBurst"] = 6,
+                                            ["WpBullseye"] = 0,
+                                        }, -- end of ["AddPropAircraft"]
+                                        ["Radio"] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 237,
+                                                    [2] = 226.25,
+                                                    [3] = 247.5,
+                                                    [4] = 248.5,
+                                                    [5] = 225.75,
+                                                    [6] = 243.5,
+                                                    [7] = 239.5,
+                                                    [8] = 227.1,
+                                                    [9] = 245.25,
+                                                    [10] = 236.5,
+                                                    [11] = 241.25,
+                                                    [12] = 243,
+                                                    [13] = 238.25,
+                                                    [14] = 229,
+                                                    [15] = 231.5,
+                                                    [16] = 227.5,
+                                                    [17] = 237.5,
+                                                    [18] = 230,
+                                                    [19] = 233,
+                                                    [20] = 234.75,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [1]
+                                            [2] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 138.1,
+                                                    [2] = 138.2,
+                                                    [3] = 127.2,
+                                                    [4] = 237,
+                                                    [5] = 226.25,
+                                                    [6] = 247.5,
+                                                    [7] = 248.5,
+                                                    [8] = 225.75,
+                                                    [9] = 243.5,
+                                                    [10] = 239.5,
+                                                    [11] = 127.75,
+                                                    [12] = 227.1,
+                                                    [13] = 245.25,
+                                                    [14] = 236.5,
+                                                    [15] = 241.25,
+                                                    [16] = 134.25,
+                                                    [17] = 130.25,
+                                                    [18] = 139.1,
+                                                    [19] = 139.2,
+                                                    [20] = 243,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [2]
+                                        }, -- end of ["Radio"]
+                                        ["alt"] = 88,
+                                        ["alt_type"] = "BARO",
+                                        ["callsign"] =
+                                        {
+                                            [1] = 3,
+                                            [2] = 1,
+                                            [3] = 1,
+                                            ["name"] = "Uzi11",
+                                        }, -- end of ["callsign"]
+                                        ["heading"] = 0,
+                                        ["livery_id"] = "132nd 765th squadron standard",
+                                        ["name"] = "DictKey_UnitName_2907",
+                                        ["onboard_num"] = "0131",
+                                        ["parking"] = 3,
+                                        ["parking_id"] = "37",
+                                        ["payload"] =
+                                        {
+                                            ["chaff"] = 112,
+                                            ["flare"] = 16,
+                                            ["fuel"] = 3165,
+                                            ["gun"] = 100,
+                                            ["pylons"] =
+                                            {
+                                            }, -- end of ["pylons"]
+                                        }, -- end of ["payload"]
+                                        ["psi"] = 1.1802980927718,
+                                        ["skill"] = "Client",
+                                        ["speed"] = 138.88888888889,
+                                        ["type"] = "M-2000C",
+                                        ["unitId"] = 1673,
+                                        ["x"] = -315195.96875,
+                                        ["y"] = 897192.25,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -315195.96875,
+                                ["y"] = 897192.25,
+                            }, -- end of [32]
+                            [33] =
+                            {
+                                ["communication"] = true,
+                                ["frequency"] = 237,
+                                ["groupId"] = 1266,
+                                ["hidden"] = false,
+                                ["modulation"] = 0,
+                                ["name"] = "DictKey_GroupName_2896",
+                                ["radioSet"] = true,
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "From Parking Area",
+                                            ["airdromeId"] = 29,
+                                            ["alt"] = 88,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2898",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 138.88888888889,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                        [1] =
+                                                        {
+                                                            ["auto"] = true,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "EngageTargets",
+                                                            ["key"] = "CAP",
+                                                            ["number"] = 1,
+                                                            ["params"] =
+                                                            {
+                                                                ["priority"] = 0,
+                                                                ["targetTypes"] =
+                                                                {
+                                                                    [1] = "Air",
+                                                                }, -- end of ["targetTypes"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [1]
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "TakeOffParking",
+                                            ["x"] = -315225.53125,
+                                            ["y"] = 897172,
+                                        }, -- end of [1]
+                                        [2] =
+                                        {
+                                            ["ETA"] = 115.71197494135,
+                                            ["ETA_locked"] = false,
+                                            ["action"] = "Turning Point",
+                                            ["alt"] = 540,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2899",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 138.88888888889,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = -306188.7544643,
+                                            ["y"] = 883934.38392854,
+                                        }, -- end of [2]
+                                        [3] =
+                                        {
+                                            ["ETA"] = 295.30775892442,
+                                            ["ETA_locked"] = false,
+                                            ["action"] = "Landing",
+                                            ["airdromeId"] = 29,
+                                            ["alt"] = 471,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2900",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 138.88888888889,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Land",
+                                            ["x"] = -315744.8482143,
+                                            ["y"] = 897279.52678569,
+                                        }, -- end of [3]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "CAP",
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["uncontrolled"] = false,
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["AddPropAircraft"] =
+                                        {
+                                            ["ForceINSRules"] = false,
+                                            ["LaserCode1"] = 8,
+                                            ["LaserCode10"] = 8,
+                                            ["LaserCode100"] = 6,
+                                            ["LaserCode"] = 1688,
+                                            ["NoDDMSensor"] = false,
+                                            ["RocketBurst"] = 6,
+                                            ["WpBullseye"] = 0,
+                                        }, -- end of ["AddPropAircraft"]
+                                        ["Radio"] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 237,
+                                                    [2] = 226.25,
+                                                    [3] = 247.5,
+                                                    [4] = 248.5,
+                                                    [5] = 225.75,
+                                                    [6] = 243.5,
+                                                    [7] = 239.5,
+                                                    [8] = 227.1,
+                                                    [9] = 245.25,
+                                                    [10] = 236.5,
+                                                    [11] = 241.25,
+                                                    [12] = 243,
+                                                    [13] = 238.25,
+                                                    [14] = 229,
+                                                    [15] = 231.5,
+                                                    [16] = 227.5,
+                                                    [17] = 237.5,
+                                                    [18] = 230,
+                                                    [19] = 233,
+                                                    [20] = 234.75,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [1]
+                                            [2] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 138.1,
+                                                    [2] = 138.2,
+                                                    [3] = 127.2,
+                                                    [4] = 237,
+                                                    [5] = 226.25,
+                                                    [6] = 247.5,
+                                                    [7] = 248.5,
+                                                    [8] = 225.75,
+                                                    [9] = 243.5,
+                                                    [10] = 239.5,
+                                                    [11] = 127.75,
+                                                    [12] = 227.1,
+                                                    [13] = 245.25,
+                                                    [14] = 236.5,
+                                                    [15] = 241.25,
+                                                    [16] = 134.25,
+                                                    [17] = 130.25,
+                                                    [18] = 139.1,
+                                                    [19] = 139.2,
+                                                    [20] = 243,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [2]
+                                        }, -- end of ["Radio"]
+                                        ["alt"] = 88,
+                                        ["alt_type"] = "BARO",
+                                        ["callsign"] =
+                                        {
+                                            [1] = 3,
+                                            [2] = 1,
+                                            [3] = 1,
+                                            ["name"] = "Uzi11",
+                                        }, -- end of ["callsign"]
+                                        ["heading"] = 0,
+                                        ["livery_id"] = "132nd 765th squadron standard",
+                                        ["name"] = "DictKey_UnitName_2897",
+                                        ["onboard_num"] = "01311",
+                                        ["parking"] = 5,
+                                        ["parking_id"] = "39",
+                                        ["payload"] =
+                                        {
+                                            ["chaff"] = 112,
+                                            ["flare"] = 16,
+                                            ["fuel"] = 3165,
+                                            ["gun"] = 100,
+                                            ["pylons"] =
+                                            {
+                                            }, -- end of ["pylons"]
+                                        }, -- end of ["payload"]
+                                        ["psi"] = 0.97180372170283,
+                                        ["skill"] = "Client",
+                                        ["speed"] = 138.88888888889,
+                                        ["type"] = "M-2000C",
+                                        ["unitId"] = 1671,
+                                        ["x"] = -315225.53125,
+                                        ["y"] = 897172,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -315225.53125,
+                                ["y"] = 897172,
+                            }, -- end of [33]
+                            [34] =
+                            {
+                                ["communication"] = true,
+                                ["frequency"] = 237,
+                                ["groupId"] = 1267,
+                                ["hidden"] = false,
+                                ["modulation"] = 0,
+                                ["name"] = "DictKey_GroupName_2901",
+                                ["radioSet"] = true,
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "From Parking Area",
+                                            ["airdromeId"] = 29,
+                                            ["alt"] = 88,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2903",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 138.88888888889,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                        [1] =
+                                                        {
+                                                            ["auto"] = true,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "EngageTargets",
+                                                            ["key"] = "CAP",
+                                                            ["number"] = 1,
+                                                            ["params"] =
+                                                            {
+                                                                ["priority"] = 0,
+                                                                ["targetTypes"] =
+                                                                {
+                                                                    [1] = "Air",
+                                                                }, -- end of ["targetTypes"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [1]
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "TakeOffParking",
+                                            ["x"] = -315255.09375,
+                                            ["y"] = 897151.75,
+                                        }, -- end of [1]
+                                        [2] =
+                                        {
+                                            ["ETA"] = 115.71197494135,
+                                            ["ETA_locked"] = false,
+                                            ["action"] = "Turning Point",
+                                            ["alt"] = 540,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2904",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 138.88888888889,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = -307819.12053572,
+                                            ["y"] = 879271.50892855,
+                                        }, -- end of [2]
+                                        [3] =
+                                        {
+                                            ["ETA"] = 295.30775892442,
+                                            ["ETA_locked"] = false,
+                                            ["action"] = "Landing",
+                                            ["airdromeId"] = 29,
+                                            ["alt"] = 471,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2905",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 138.88888888889,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Land",
+                                            ["x"] = -317375.21428572,
+                                            ["y"] = 892616.6517857,
+                                        }, -- end of [3]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "CAP",
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["uncontrolled"] = false,
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["AddPropAircraft"] =
+                                        {
+                                            ["ForceINSRules"] = false,
+                                            ["LaserCode1"] = 8,
+                                            ["LaserCode10"] = 8,
+                                            ["LaserCode100"] = 6,
+                                            ["LaserCode"] = 1688,
+                                            ["NoDDMSensor"] = false,
+                                            ["RocketBurst"] = 6,
+                                            ["WpBullseye"] = 0,
+                                        }, -- end of ["AddPropAircraft"]
+                                        ["Radio"] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 237,
+                                                    [2] = 226.25,
+                                                    [3] = 247.5,
+                                                    [4] = 248.5,
+                                                    [5] = 225.75,
+                                                    [6] = 243.5,
+                                                    [7] = 239.5,
+                                                    [8] = 227.1,
+                                                    [9] = 245.25,
+                                                    [10] = 236.5,
+                                                    [11] = 241.25,
+                                                    [12] = 243,
+                                                    [13] = 238.25,
+                                                    [14] = 229,
+                                                    [15] = 231.5,
+                                                    [16] = 227.5,
+                                                    [17] = 237.5,
+                                                    [18] = 230,
+                                                    [19] = 233,
+                                                    [20] = 234.75,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [1]
+                                            [2] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 138.1,
+                                                    [2] = 138.2,
+                                                    [3] = 127.2,
+                                                    [4] = 237,
+                                                    [5] = 226.25,
+                                                    [6] = 247.5,
+                                                    [7] = 248.5,
+                                                    [8] = 225.75,
+                                                    [9] = 243.5,
+                                                    [10] = 239.5,
+                                                    [11] = 127.75,
+                                                    [12] = 227.1,
+                                                    [13] = 245.25,
+                                                    [14] = 236.5,
+                                                    [15] = 241.25,
+                                                    [16] = 134.25,
+                                                    [17] = 130.25,
+                                                    [18] = 139.1,
+                                                    [19] = 139.2,
+                                                    [20] = 243,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [2]
+                                        }, -- end of ["Radio"]
+                                        ["alt"] = 88,
+                                        ["alt_type"] = "BARO",
+                                        ["callsign"] =
+                                        {
+                                            [1] = 3,
+                                            [2] = 1,
+                                            [3] = 1,
+                                            ["name"] = "Uzi11",
+                                        }, -- end of ["callsign"]
+                                        ["heading"] = 0,
+                                        ["livery_id"] = "132nd 765th squadron standard",
+                                        ["name"] = "DictKey_UnitName_2902",
+                                        ["onboard_num"] = "01312",
+                                        ["parking"] = 7,
+                                        ["parking_id"] = "38",
+                                        ["payload"] =
+                                        {
+                                            ["chaff"] = 112,
+                                            ["flare"] = 16,
+                                            ["fuel"] = 3165,
+                                            ["gun"] = 100,
+                                            ["pylons"] =
+                                            {
+                                            }, -- end of ["pylons"]
+                                        }, -- end of ["payload"]
+                                        ["psi"] = 1.1766786197525,
+                                        ["skill"] = "Client",
+                                        ["speed"] = 138.88888888889,
+                                        ["type"] = "M-2000C",
+                                        ["unitId"] = 1672,
+                                        ["x"] = -315255.09375,
+                                        ["y"] = 897151.75,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -315255.09375,
+                                ["y"] = 897151.75,
+                            }, -- end of [34]
                         }, -- end of ["group"]
                     }, -- end of ["plane"]
                 }, -- end of [7]
@@ -19520,465 +20500,6 @@ mission =
                             [9] =
                             {
                                 ["communication"] = true,
-                                ["frequency"] = 124,
-                                ["groupId"] = 913,
-                                ["hidden"] = false,
-                                ["modulation"] = 0,
-                                ["name"] = "DictKey_GroupName_307",
-                                ["radioSet"] = false,
-                                ["route"] =
-                                {
-                                    ["points"] =
-                                    {
-                                        [1] =
-                                        {
-                                            ["ETA"] = 0,
-                                            ["ETA_locked"] = true,
-                                            ["action"] = "From Parking Area",
-                                            ["airdromeId"] = 29,
-                                            ["alt"] = 88,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_734",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "TakeOffParking",
-                                            ["x"] = -315166.40625,
-                                            ["y"] = 897212.5,
-                                        }, -- end of [1]
-                                        [2] =
-                                        {
-                                            ["ETA"] = 120.94171771386,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Turning Point",
-                                            ["alt"] = 525,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1634",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Turning Point",
-                                            ["x"] = -305918.47767857,
-                                            ["y"] = 883190,
-                                        }, -- end of [2]
-                                        [3] =
-                                        {
-                                            ["ETA"] = 312.67773537079,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Turning Point",
-                                            ["alt"] = 525,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1635",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Turning Point",
-                                            ["x"] = -292408.47767857,
-                                            ["y"] = 860241.42857143,
-                                        }, -- end of [3]
-                                        [4] =
-                                        {
-                                            ["ETA"] = 676.40146505494,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Landing",
-                                            ["airdromeId"] = 31,
-                                            ["alt"] = 455,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1636",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Land",
-                                            ["x"] = -319069.063,
-                                            ["y"] = 903150.625,
-                                        }, -- end of [4]
-                                    }, -- end of ["points"]
-                                }, -- end of ["route"]
-                                ["start_time"] = 0,
-                                ["task"] = "CAP",
-                                ["tasks"] =
-                                {
-                                }, -- end of ["tasks"]
-                                ["uncontrolled"] = false,
-                                ["units"] =
-                                {
-                                    [1] =
-                                    {
-                                        ["AddPropAircraft"] =
-                                        {
-                                            ["MW50TankContents"] = 1,
-                                        }, -- end of ["AddPropAircraft"]
-                                        ["alt"] = 88,
-                                        ["alt_type"] = "BARO",
-                                        ["callsign"] =
-                                        {
-                                            [1] = 1,
-                                            [2] = 1,
-                                            [3] = 1,
-                                            ["name"] = "Enfield11",
-                                        }, -- end of ["callsign"]
-                                        ["hardpoint_racks"] = true,
-                                        ["heading"] = -0.98776722234537,
-                                        ["livery_id"] = "12th Fighter SQN (AK) Kf-62 Photun",
-                                        ["name"] = "DictKey_UnitName_308",
-                                        ["onboard_num"] = "300",
-                                        ["parking"] = "1",
-                                        ["parking_id"] = "36",
-                                        ["payload"] =
-                                        {
-                                            ["chaff"] = 120,
-                                            ["flare"] = 60,
-                                            ["fuel"] = "6103",
-                                            ["gun"] = 100,
-                                            ["pylons"] =
-                                            {
-                                                [1] =
-                                                {
-                                                    ["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
-                                                }, -- end of [1]
-                                                [2] =
-                                                {
-                                                    ["CLSID"] = "{E1F29B21-F291-4589-9FD8-3272EEC69506}",
-                                                }, -- end of [2]
-                                                [3] =
-                                                {
-                                                    ["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
-                                                }, -- end of [3]
-                                                [4] =
-                                                {
-                                                    ["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
-                                                }, -- end of [4]
-                                                [5] =
-                                                {
-                                                    ["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
-                                                }, -- end of [5]
-                                                [6] =
-                                                {
-                                                    ["CLSID"] = "{E1F29B21-F291-4589-9FD8-3272EEC69506}",
-                                                }, -- end of [6]
-                                                [7] =
-                                                {
-                                                    ["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
-                                                }, -- end of [7]
-                                                [8] =
-                                                {
-                                                    ["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
-                                                }, -- end of [8]
-                                                [9] =
-                                                {
-                                                    ["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
-                                                }, -- end of [9]
-                                                [10] =
-                                                {
-                                                    ["CLSID"] = "{E1F29B21-F291-4589-9FD8-3272EEC69506}",
-                                                }, -- end of [10]
-                                                [11] =
-                                                {
-                                                    ["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
-                                                }, -- end of [11]
-                                            }, -- end of ["pylons"]
-                                        }, -- end of ["payload"]
-                                        ["psi"] = 0.98776722234537,
-                                        ["skill"] = "Client",
-                                        ["speed"] = 138.88888888889,
-                                        ["type"] = "F-15C",
-                                        ["unitId"] = 1007,
-                                        ["x"] = -315166.40625,
-                                        ["y"] = 897212.5,
-                                    }, -- end of [1]
-                                }, -- end of ["units"]
-                                ["x"] = -315166.40625,
-                                ["y"] = 897212.5,
-                            }, -- end of [9]
-                            [10] =
-                            {
-                                ["communication"] = true,
-                                ["frequency"] = 124,
-                                ["groupId"] = 914,
-                                ["hidden"] = false,
-                                ["modulation"] = 0,
-                                ["name"] = "DictKey_GroupName_309",
-                                ["radioSet"] = false,
-                                ["route"] =
-                                {
-                                    ["points"] =
-                                    {
-                                        [1] =
-                                        {
-                                            ["ETA"] = 0,
-                                            ["ETA_locked"] = true,
-                                            ["action"] = "From Parking Area",
-                                            ["airdromeId"] = 29,
-                                            ["alt"] = 88,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_741",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                        [1] =
-                                                        {
-                                                            ["auto"] = true,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "Orbit",
-                                                            ["number"] = 1,
-                                                            ["params"] =
-                                                            {
-                                                                ["altitude"] = 7924.8,
-                                                                ["altitudeEdited"] = true,
-                                                                ["pattern"] = "Race-Track",
-                                                                ["speed"] = 138.88888888889,
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [1]
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "TakeOffParking",
-                                            ["x"] = -315195.96875,
-                                            ["y"] = 897192.25,
-                                        }, -- end of [1]
-                                        [2] =
-                                        {
-                                            ["ETA"] = 120.9101328659,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Turning Point",
-                                            ["alt"] = 525,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1631",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Turning Point",
-                                            ["x"] = -305921.33482143,
-                                            ["y"] = 883192.66071432,
-                                        }, -- end of [2]
-                                        [3] =
-                                        {
-                                            ["ETA"] = 312.76852459024,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Turning Point",
-                                            ["alt"] = 525,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1632",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Turning Point",
-                                            ["x"] = -292404.19196428,
-                                            ["y"] = 860228.57142857,
-                                        }, -- end of [3]
-                                        [4] =
-                                        {
-                                            ["ETA"] = 622.5245273966,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Landing",
-                                            ["airdromeId"] = 29,
-                                            ["alt"] = 471,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1633",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Land",
-                                            ["x"] = -315478.57142857,
-                                            ["y"] = 896538.85714286,
-                                        }, -- end of [4]
-                                    }, -- end of ["points"]
-                                }, -- end of ["route"]
-                                ["start_time"] = 0,
-                                ["task"] = "CAP",
-                                ["tasks"] =
-                                {
-                                }, -- end of ["tasks"]
-                                ["uncontrolled"] = false,
-                                ["units"] =
-                                {
-                                    [1] =
-                                    {
-                                        ["AddPropAircraft"] =
-                                        {
-                                            ["MW50TankContents"] = 1,
-                                        }, -- end of ["AddPropAircraft"]
-                                        ["alt"] = 88,
-                                        ["alt_type"] = "BARO",
-                                        ["callsign"] =
-                                        {
-                                            [1] = 1,
-                                            [2] = 2,
-                                            [3] = 1,
-                                            ["name"] = "Enfield21",
-                                        }, -- end of ["callsign"]
-                                        ["heading"] = -0.98568855367367,
-                                        ["livery_id"] = "12th Fighter SQN (AK) Kf-03 sp@t",
-                                        ["name"] = "DictKey_UnitName_310",
-                                        ["onboard_num"] = "301",
-                                        ["parking"] = 3,
-                                        ["parking_id"] = "37",
-                                        ["payload"] =
-                                        {
-                                            ["chaff"] = 120,
-                                            ["flare"] = 60,
-                                            ["fuel"] = "6103",
-                                            ["gun"] = 100,
-                                            ["pylons"] =
-                                            {
-                                            }, -- end of ["pylons"]
-                                        }, -- end of ["payload"]
-                                        ["psi"] = 0.98568855367367,
-                                        ["skill"] = "Client",
-                                        ["speed"] = 138.88888888889,
-                                        ["type"] = "F-15C",
-                                        ["unitId"] = 1008,
-                                        ["x"] = -315195.96875,
-                                        ["y"] = 897192.25,
-                                    }, -- end of [1]
-                                }, -- end of ["units"]
-                                ["x"] = -315195.96875,
-                                ["y"] = 897192.25,
-                            }, -- end of [10]
-                            [11] =
-                            {
-                                ["communication"] = true,
                                 ["frequency"] = 251,
                                 ["groupId"] = 917,
                                 ["hidden"] = false,
@@ -20113,253 +20634,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314996.875,
                                 ["y"] = 896964.9375,
-                            }, -- end of [11]
-                            [12] =
-                            {
-                                ["communication"] = true,
-                                ["frequency"] = 124,
-                                ["groupId"] = 1137,
-                                ["hidden"] = false,
-                                ["modulation"] = 0,
-                                ["name"] = "DictKey_GroupName_1669",
-                                ["radioSet"] = false,
-                                ["route"] =
-                                {
-                                    ["points"] =
-                                    {
-                                        [1] =
-                                        {
-                                            ["ETA"] = 0,
-                                            ["ETA_locked"] = true,
-                                            ["action"] = "From Parking Area",
-                                            ["airdromeId"] = 29,
-                                            ["alt"] = 88,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1671",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "TakeOffParking",
-                                            ["x"] = -315255.09375,
-                                            ["y"] = 897151.75,
-                                        }, -- end of [1]
-                                        [2] =
-                                        {
-                                            ["ETA"] = 120.94171771386,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Turning Point",
-                                            ["alt"] = 525,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1672",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Turning Point",
-                                            ["x"] = -305920.54910714,
-                                            ["y"] = 883190.64285715,
-                                        }, -- end of [2]
-                                        [3] =
-                                        {
-                                            ["ETA"] = 312.67773537079,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Turning Point",
-                                            ["alt"] = 525,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1673",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Turning Point",
-                                            ["x"] = -292410.54910714,
-                                            ["y"] = 860242.07142858,
-                                        }, -- end of [3]
-                                        [4] =
-                                        {
-                                            ["ETA"] = 676.40146505494,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Landing",
-                                            ["airdromeId"] = 31,
-                                            ["alt"] = 455,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1674",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Land",
-                                            ["x"] = -319071.13442857,
-                                            ["y"] = 903151.26785715,
-                                        }, -- end of [4]
-                                    }, -- end of ["points"]
-                                }, -- end of ["route"]
-                                ["start_time"] = 0,
-                                ["task"] = "CAP",
-                                ["tasks"] =
-                                {
-                                }, -- end of ["tasks"]
-                                ["uncontrolled"] = false,
-                                ["units"] =
-                                {
-                                    [1] =
-                                    {
-                                        ["AddPropAircraft"] =
-                                        {
-                                            ["MW50TankContents"] = 1,
-                                        }, -- end of ["AddPropAircraft"]
-                                        ["alt"] = 88,
-                                        ["alt_type"] = "BARO",
-                                        ["callsign"] =
-                                        {
-                                            [1] = 1,
-                                            [2] = 3,
-                                            [3] = 1,
-                                            ["name"] = "Enfield31",
-                                        }, -- end of ["callsign"]
-                                        ["hardpoint_racks"] = true,
-                                        ["heading"] = -0.98144910966628,
-                                        ["livery_id"] = "12th Fighter SQN (AK)",
-                                        ["name"] = "DictKey_UnitName_1670",
-                                        ["onboard_num"] = "303",
-                                        ["parking"] = "7",
-                                        ["parking_id"] = "38",
-                                        ["payload"] =
-                                        {
-                                            ["chaff"] = 120,
-                                            ["flare"] = 60,
-                                            ["fuel"] = "6103",
-                                            ["gun"] = 100,
-                                            ["pylons"] =
-                                            {
-                                                [1] =
-                                                {
-                                                    ["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
-                                                }, -- end of [1]
-                                                [2] =
-                                                {
-                                                    ["CLSID"] = "{E1F29B21-F291-4589-9FD8-3272EEC69506}",
-                                                }, -- end of [2]
-                                                [3] =
-                                                {
-                                                    ["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
-                                                }, -- end of [3]
-                                                [4] =
-                                                {
-                                                    ["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
-                                                }, -- end of [4]
-                                                [5] =
-                                                {
-                                                    ["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
-                                                }, -- end of [5]
-                                                [6] =
-                                                {
-                                                    ["CLSID"] = "{E1F29B21-F291-4589-9FD8-3272EEC69506}",
-                                                }, -- end of [6]
-                                                [7] =
-                                                {
-                                                    ["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
-                                                }, -- end of [7]
-                                                [8] =
-                                                {
-                                                    ["CLSID"] = "{C8E06185-7CD6-4C90-959F-044679E90751}",
-                                                }, -- end of [8]
-                                                [9] =
-                                                {
-                                                    ["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
-                                                }, -- end of [9]
-                                                [10] =
-                                                {
-                                                    ["CLSID"] = "{E1F29B21-F291-4589-9FD8-3272EEC69506}",
-                                                }, -- end of [10]
-                                                [11] =
-                                                {
-                                                    ["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
-                                                }, -- end of [11]
-                                            }, -- end of ["pylons"]
-                                        }, -- end of ["payload"]
-                                        ["psi"] = 0.98144910966628,
-                                        ["skill"] = "Client",
-                                        ["speed"] = 138.88888888889,
-                                        ["type"] = "F-15C",
-                                        ["unitId"] = 1366,
-                                        ["x"] = -315255.09375,
-                                        ["y"] = 897151.75,
-                                    }, -- end of [1]
-                                }, -- end of ["units"]
-                                ["x"] = -315255.09375,
-                                ["y"] = 897151.75,
-                            }, -- end of [12]
-                            [13] =
+                            }, -- end of [9]
+                            [10] =
                             {
                                 ["communication"] = true,
                                 ["frequency"] = 251,
@@ -20496,8 +20772,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -315109.90625,
                                 ["y"] = 897130,
-                            }, -- end of [13]
-                            [14] =
+                            }, -- end of [10]
+                            [11] =
                             {
                                 ["communication"] = true,
                                 ["frequency"] = 251,
@@ -20634,8 +20910,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -315112.5,
                                 ["y"] = 897007,
-                            }, -- end of [14]
-                            [15] =
+                            }, -- end of [11]
+                            [12] =
                             {
                                 ["communication"] = true,
                                 ["frequency"] = 251,
@@ -20772,7 +21048,7 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314983.3125,
                                 ["y"] = 896467.0625,
-                            }, -- end of [15]
+                            }, -- end of [12]
                         }, -- end of ["group"]
                     }, -- end of ["plane"]
                     ["static"] =
@@ -27788,7 +28064,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield61",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -0.9835939725264,
+                                        ["heading"] = 0,
                                         ["livery_id"] = "Cambresis",
                                         ["name"] = "DictKey_UnitName_1638",
                                         ["onboard_num"] = "331",
@@ -28278,7 +28554,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield51",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -0.98124652079239,
+                                        ["heading"] = 0,
                                         ["livery_id"] = "Cambresis",
                                         ["name"] = "DictKey_UnitName_1648",
                                         ["onboard_num"] = "333",
@@ -28306,251 +28582,6 @@ mission =
                                 ["x"] = -315198.59375,
                                 ["y"] = 897069.25,
                             }, -- end of [11]
-                            [12] =
-                            {
-                                ["communication"] = true,
-                                ["frequency"] = 237,
-                                ["groupId"] = 1135,
-                                ["hidden"] = false,
-                                ["modulation"] = 0,
-                                ["name"] = "DictKey_GroupName_1652",
-                                ["radioSet"] = true,
-                                ["route"] =
-                                {
-                                    ["points"] =
-                                    {
-                                        [1] =
-                                        {
-                                            ["ETA"] = 0,
-                                            ["ETA_locked"] = true,
-                                            ["action"] = "From Parking Area",
-                                            ["airdromeId"] = 29,
-                                            ["alt"] = 88,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1654",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                        [1] =
-                                                        {
-                                                            ["auto"] = true,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "EngageTargets",
-                                                            ["key"] = "CAP",
-                                                            ["number"] = 1,
-                                                            ["params"] =
-                                                            {
-                                                                ["priority"] = 0,
-                                                                ["targetTypes"] =
-                                                                {
-                                                                    [1] = "Air",
-                                                                }, -- end of ["targetTypes"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [1]
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "TakeOffParking",
-                                            ["x"] = -315225.53125,
-                                            ["y"] = 897172,
-                                        }, -- end of [1]
-                                        [2] =
-                                        {
-                                            ["ETA"] = 116.28061995261,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Turning Point",
-                                            ["alt"] = 530,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1655",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Turning Point",
-                                            ["x"] = -305911.99107142,
-                                            ["y"] = 883186.99107143,
-                                        }, -- end of [2]
-                                        [3] =
-                                        {
-                                            ["ETA"] = 234.47484378018,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Landing",
-                                            ["airdromeId"] = 29,
-                                            ["alt"] = 471,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1656",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Land",
-                                            ["x"] = -315472.08482142,
-                                            ["y"] = 896531.84821429,
-                                        }, -- end of [3]
-                                    }, -- end of ["points"]
-                                }, -- end of ["route"]
-                                ["start_time"] = 0,
-                                ["task"] = "CAP",
-                                ["tasks"] =
-                                {
-                                }, -- end of ["tasks"]
-                                ["uncontrolled"] = false,
-                                ["units"] =
-                                {
-                                    [1] =
-                                    {
-                                        ["AddPropAircraft"] =
-                                        {
-                                            ["ForceINSRules"] = false,
-                                            ["LaserCode1"] = 8,
-                                            ["LaserCode10"] = 8,
-                                            ["LaserCode100"] = 6,
-                                            ["LaserCode"] = 1688,
-                                            ["NoDDMSensor"] = false,
-                                            ["RocketBurst"] = 6,
-                                            ["WpBullseye"] = 0,
-                                        }, -- end of ["AddPropAircraft"]
-                                        ["Radio"] =
-                                        {
-                                            [1] =
-                                            {
-                                                ["channels"] =
-                                                {
-                                                    [1] = 237,
-                                                    [2] = 226.25,
-                                                    [3] = 247.5,
-                                                    [4] = 248.5,
-                                                    [5] = 225.75,
-                                                    [6] = 243.5,
-                                                    [7] = 239.5,
-                                                    [8] = 227.1,
-                                                    [9] = 245.25,
-                                                    [10] = 236.5,
-                                                    [11] = 241.25,
-                                                    [12] = 243,
-                                                    [13] = 238.25,
-                                                    [14] = 229,
-                                                    [15] = 231.5,
-                                                    [16] = 227.5,
-                                                    [17] = 237.5,
-                                                    [18] = 230,
-                                                    [19] = 233,
-                                                    [20] = 234.75,
-                                                }, -- end of ["channels"]
-                                            }, -- end of [1]
-                                            [2] =
-                                            {
-                                                ["channels"] =
-                                                {
-                                                    [1] = 138.1,
-                                                    [2] = 138.2,
-                                                    [3] = 127.2,
-                                                    [4] = 237,
-                                                    [5] = 226.25,
-                                                    [6] = 247.5,
-                                                    [7] = 248.5,
-                                                    [8] = 225.75,
-                                                    [9] = 243.5,
-                                                    [10] = 239.5,
-                                                    [11] = 127.75,
-                                                    [12] = 227.1,
-                                                    [13] = 245.25,
-                                                    [14] = 236.5,
-                                                    [15] = 241.25,
-                                                    [16] = 134.25,
-                                                    [17] = 130.25,
-                                                    [18] = 139.1,
-                                                    [19] = 139.2,
-                                                    [20] = 243,
-                                                }, -- end of ["channels"]
-                                            }, -- end of [2]
-                                        }, -- end of ["Radio"]
-                                        ["alt"] = 88,
-                                        ["alt_type"] = "BARO",
-                                        ["callsign"] =
-                                        {
-                                            [1] = 1,
-                                            [2] = 4,
-                                            [3] = 1,
-                                            ["name"] = "Enfield41",
-                                        }, -- end of ["callsign"]
-                                        ["heading"] = -0.98327897079779,
-                                        ["livery_id"] = "Cambresis",
-                                        ["name"] = "DictKey_UnitName_1653",
-                                        ["onboard_num"] = "334",
-                                        ["parking"] = "5",
-                                        ["parking_id"] = "39",
-                                        ["payload"] =
-                                        {
-                                            ["chaff"] = 112,
-                                            ["flare"] = 16,
-                                            ["fuel"] = 3165,
-                                            ["gun"] = 100,
-                                            ["pylons"] =
-                                            {
-                                            }, -- end of ["pylons"]
-                                        }, -- end of ["payload"]
-                                        ["psi"] = 0.98327897079779,
-                                        ["skill"] = "Client",
-                                        ["speed"] = 138.88888888889,
-                                        ["type"] = "M-2000C",
-                                        ["unitId"] = 1364,
-                                        ["x"] = -315225.53125,
-                                        ["y"] = 897172,
-                                    }, -- end of [1]
-                                }, -- end of ["units"]
-                                ["x"] = -315225.53125,
-                                ["y"] = 897172,
-                            }, -- end of [12]
                         }, -- end of ["group"]
                     }, -- end of ["plane"]
                 }, -- end of [13]
@@ -44316,10 +44347,10 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3416068,
+    ["currentKey"] = 3417626,
     ["date"] =
     {
-        ["Day"] = 6,
+        ["Day"] = 22,
         ["Month"] = 3,
         ["Year"] = 2011,
     }, -- end of ["date"]
@@ -47408,11 +47439,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -348204.99999998,
-        ["centerY"] = 903788.85714288,
-        ["zoom"] = 25000,
+        ["centerX"] = -315346.36607143,
+        ["centerY"] = 897413.69642857,
+        ["zoom"] = 10000,
     }, -- end of ["map"]
-    ["maxDictId"] = 2890,
+    ["maxDictId"] = 2910,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
