@@ -267,3 +267,74 @@ MAN_BMP = SPAWN:New( "MARNUELI_BMP" ):InitLimit( 4, 0 ):InitRandomizeRoute(1,0,2
 MAN_Sa19 = SPAWN:New( "MARNUELI_Sa19" ):InitLimit( 1, 0 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
 MAN_T55 = SPAWN:New( "MARNUELI_T55" ):InitLimit( 5, 0 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
 
+
+-- ON DEMAND SPAWNING IN THE RANGES
+
+OD = {
+  zones = {
+    TIA = ZONE:New("__ON_DEMAND_TIANETI"),
+    MAR = ZONE:New("__ON_DEMAND_MARNUELI"),
+    TET = ZONE:New("__ON_DEMAND_TETRA"),
+    DUS = ZONE:New("__ON_DEMAND_DUSHETI")
+  
+  },
+  units = {
+    blue = {
+      inf_squad =     SPAWN:New("__ON_DEMAND_B_INFANTRY_SQUAD"),
+      recce_platoon = SPAWN:New("__ON_DEMAND_B_RECCE_PLATOON"),
+      laad_platoon =  SPAWN:New("__ON_DEMAND_B_LAAD_PLATOON"),
+      armd_platoon =  SPAWN:New("__ON_DEMAND_B_ARMD_PLATOON"),
+      arty_platoon =  SPAWN:New("__ON_DEMAND_B_ARTY_PLATOON")
+    },
+    red = {
+      inf_squad =     SPAWN:New("__ON_DEMAND_R_INFANTRY_SQUAD"),
+      recce_platoon = SPAWN:New("__ON_DEMAND_R_RECCE_PLATOON"),
+      laad_platoon =  SPAWN:New("__ON_DEMAND_R_LAAD_PLATOON"),
+      armd_platoon =  SPAWN:New("__ON_DEMAND_R_ARMD_PLATOON"),
+      arty_platoon =  SPAWN:New("__ON_DEMAND_R_ARTY_PLATOON")
+    }
+  }
+}
+
+local function od_spawn_units(zone, spawner)
+  spawner:SpawnInZone(zone, true)
+end
+
+menu_tianeti_spawner = MENU_COALITION:New( coalition.side.BLUE, "Spawn units", range_menu_tianeti )
+--- Commented out since spawning of RED UNITS will need further discussion between us
+--menu_tianeti_spawner_red = MENU_COALITION:New( coalition.side.BLUE, "Red units (DANGER)", menu_tianeti_spawner )
+--MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn infantry squad", menu_tianeti_spawner_red, od_spawn_units, OD.zones.TIA, OD.units.red.inf_squad )
+--MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn RECCE platoon", menu_tianeti_spawner_red, od_spawn_units, OD.zones.TIA, OD.units.red.recce_platoon )
+--MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn LAAD platoon", menu_tianeti_spawner_red, od_spawn_units, OD.zones.TIA, OD.units.red.laad_platoon )
+--MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn armored platoon", menu_tianeti_spawner_red, od_spawn_units, OD.zones.TIA, OD.units.red.armd_platoon )
+--MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn artillery platoon", menu_tianeti_spawner_red, od_spawn_units, OD.zones.TIA, OD.units.red.arty_platoon )
+menu_tianeti_spawner_blue = MENU_COALITION:New( coalition.side.BLUE, "Blue units", menu_tianeti_spawner )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn infantry squad", menu_tianeti_spawner_blue, od_spawn_units, OD.zones.TIA, OD.units.blue.inf_squad )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn RECCE platoon", menu_tianeti_spawner_blue, od_spawn_units, OD.zones.TIA, OD.units.blue.recce_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn LAAD platoon", menu_tianeti_spawner_blue, od_spawn_units, OD.zones.TIA, OD.units.blue.laad_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn armored platoon", menu_tianeti_spawner_blue, od_spawn_units, OD.zones.TIA, OD.units.blue.armd_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn artillery platoon", menu_tianeti_spawner_blue, od_spawn_units, OD.zones.TIA, OD.units.blue.arty_platoon )
+
+menu_dusheti_spawner = MENU_COALITION:New( coalition.side.BLUE, "Spawn units", range_menu_dusheti )
+menu_dusheti_spawner_blue = MENU_COALITION:New( coalition.side.BLUE, "Blue units", menu_dusheti_spawner )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn infantry squad", menu_dusheti_spawner_blue, od_spawn_units, OD.zones.DUS, OD.units.blue.inf_squad )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn RECCE platoon", menu_dusheti_spawner_blue, od_spawn_units, OD.zones.DUS, OD.units.blue.recce_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn LAAD platoon", menu_dusheti_spawner_blue, od_spawn_units, OD.zones.DUS, OD.units.blue.laad_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn armored platoon", menu_dusheti_spawner_blue, od_spawn_units, OD.zones.DUS, OD.units.blue.armd_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn artillery platoon", menu_dusheti_spawner_blue, od_spawn_units, OD.zones.DUS, OD.units.blue.arty_platoon )
+
+menu_tetra_spawner = MENU_COALITION:New( coalition.side.BLUE, "Spawn units", range_menu_tetra )
+menu_tetra_spawner_blue = MENU_COALITION:New( coalition.side.BLUE, "Blue units", menu_tetra_spawner )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn infantry squad", menu_tetra_spawner_blue, od_spawn_units, OD.zones.TET, OD.units.blue.inf_squad )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn RECCE platoon", menu_tetra_spawner_blue, od_spawn_units, OD.zones.TET, OD.units.blue.recce_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn LAAD platoon", menu_tetra_spawner_blue, od_spawn_units, OD.zones.TET, OD.units.blue.laad_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn armored platoon", menu_tetra_spawner_blue, od_spawn_units, OD.zones.TET, OD.units.blue.armd_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn artillery platoon", menu_tetra_spawner_blue, od_spawn_units, OD.zones.TET, OD.units.blue.arty_platoon )
+
+menu_marnueli_spawner = MENU_COALITION:New( coalition.side.BLUE, "Spawn units", range_menu_marnueli )
+menu_marnueli_spawner_blue = MENU_COALITION:New( coalition.side.BLUE, "Blue units", menu_marnueli_spawner )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn infantry squad", menu_marnueli_spawner_blue, od_spawn_units, OD.zones.MAR, OD.units.blue.inf_squad )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn RECCE platoon", menu_marnueli_spawner_blue, od_spawn_units, OD.zones.MAR, OD.units.blue.recce_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn LAAD platoon", menu_marnueli_spawner_blue, od_spawn_units, OD.zones.MAR, OD.units.blue.laad_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn armored platoon", menu_marnueli_spawner_blue, od_spawn_units, OD.zones.MAR, OD.units.blue.armd_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn artillery platoon", menu_marnueli_spawner_blue, od_spawn_units, OD.zones.MAR, OD.units.blue.arty_platoon )
