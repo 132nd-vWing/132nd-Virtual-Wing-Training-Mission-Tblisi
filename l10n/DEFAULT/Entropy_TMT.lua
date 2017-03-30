@@ -139,7 +139,7 @@ local function SARhostiles()
   SARtemplate1_engage = SCHEDULER:New( nil,
     function()
       if SARtemplate1:IsCompletelyInZone( innercircle ) then
-        SARtemplate1:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 50, y=vec2Target.y + 70, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARtemplate1:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 150, y=vec2Target.y + 170, radius=100, expendQty=100, expendQtyEnabled=false}}, 1)
         SARtemplate1_engage:Stop()
       end 
     end,
@@ -152,7 +152,7 @@ local function SARhostiles()
         SARtemplate2:RouteToVec3(SARpos, 0) 
         SARInfantry_location = SARtemplate2:GetVec3()
         SARInfantry = SPAWN:New("SARInfantry"):SpawnFromVec3(SARInfantry_location)
-        SARInfantry:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 40, y=vec2Target.y + 40, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARInfantry:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 140, y=vec2Target.y + 140, radius=100, expendQty=100, expendQtyEnabled=false}}, 1)
         SARtemplate2_engage:Stop()
       end 
     end,
@@ -163,7 +163,7 @@ local function SARhostiles()
     function()
 
       if SARtemplate3:IsCompletelyInZone( innercircle ) then
-        SARtemplate3:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 100, y=vec2Target.y + 100, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARtemplate3:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 200, y=vec2Target.y + 200, radius=100, expendQty=100, expendQtyEnabled=false}}, 1)
         SARtemplate3_engage:Stop()
       end 
     end,
@@ -172,7 +172,7 @@ local function SARhostiles()
   SARtemplate4_engage = SCHEDULER:New( nil,
     function()
       if SARtemplate4:IsCompletelyInZone( innercircle ) then
-        SARtemplate4:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 80, y=vec2Target.y + 120, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARtemplate4:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 180, y=vec2Target.y + 220, radius=100, expendQty=100, expendQtyEnabled=false}}, 1)
         SARtemplate4_engage:Stop()
       end 
     end,
@@ -181,7 +181,7 @@ local function SARhostiles()
   SARtemplate5_engage = SCHEDULER:New( nil,
     function()
       if SARtemplate5:IsCompletelyInZone( innercircle ) then
-        SARtemplate5:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 40 , y=vec2Target.y + 90, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARtemplate5:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 140 , y=vec2Target.y + 190, radius=100, expendQty=100, expendQtyEnabled=false}}, 1)
         SARtemplate5_engage:Stop()
       end 
     end,
@@ -200,16 +200,16 @@ end
 Range_Options = MENU_COALITION:New( coalition.side.BLUE, "Range Options" )
 range_menu_tetra = MENU_COALITION:New( coalition.side.BLUE, "Tetra", Range_Options )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize TETRA Movement", range_menu_tetra, randomize_range_movement, 20, "TETRA" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at TETRA", range_menu_tetra, ctld.unloadTransport, "TETRA_Transport 1" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Disembark Infantry from TETRA Logistics vehicle", range_menu_tetra, ctld.unloadTransport, "TETRA_Transport 1" )
 range_menu_tianeti = MENU_COALITION:New( coalition.side.BLUE, "Tianeti", Range_Options )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize TIANETI Movement", range_menu_tianeti, randomize_range_movement, 30, "TIANETI" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at TIANETI", range_menu_tianeti, ctld.unloadTransport, "TIANETI_Transport 1" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Disembark Infantry from TIANETI Logistics vehicle", range_menu_tianeti, ctld.unloadTransport, "TIANETI_Transport 1" )
 range_menu_dusheti = MENU_COALITION:New( coalition.side.BLUE, "Dusheti", Range_Options )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize DUSHETI Movement", range_menu_dusheti, randomize_range_movement, 40, "DUSHETI" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at DUSHETI", range_menu_dusheti, ctld.unloadTransport, "DUSHETI_Transport 1" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Disembark Infantry from DUSHETI Logistics vehicle", range_menu_dusheti, ctld.unloadTransport, "DUSHETI_Transport 1" )
 range_menu_marnueli = MENU_COALITION:New( coalition.side.BLUE, "Marnueli", Range_Options )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize MARNUELI Movement", range_menu_marnueli, randomize_range_movement, 50, "MARNUELI" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at MARNUELI", range_menu_marnueli, ctld.unloadTransport, "MARNUELI_Transport 1" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Disembark Infantry from MARNUELI Logistics vehicle", range_menu_marnueli, ctld.unloadTransport, "MARNUELI_Transport 1" )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Smoke on Bomb Circle at MARNUELI", range_menu_marnueli, SmokeMARNUELI )
 
 --- BEACON options

@@ -3090,7 +3090,7 @@ SAM groups can be located via nav point:\
 1xSA-3 gropu; SA3\
 1xSA-6 group; SA6\
 \
-METAR by DAWS: UGTB 231130Z 31021KT CAVOK 07/M05 Q1029 R31L/CLRD70 NOSIG",
+",
     ["DictKey_sortie_652"] = "132nd - Training mission",
     ["DictKey_subtitle_1843"] = "",
     ["DictKey_subtitle_1845"] = "",
