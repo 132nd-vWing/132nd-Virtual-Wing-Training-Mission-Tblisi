@@ -56,9 +56,6 @@ end
 -- This will spawn a simulated planewreck, at a random location within TETRA range, together with a CTLD-compatible Manpad unit that can be rescued or used as a JTAC. 
 -- The 'downed pilot' will automatically deploy a CTLD radio beacon
 function SARTETRA()
-  -- SARtemplate can be any unit that is simply used as a spawn location for the pilot
-  -- SARtemplate = SPAWN:New("SARtemplate"):InitRandomizeUnits( true, 11000, 8000 ):Spawn()
-  -- SARpos = mist.utils.makeVec3GL(ZONE:New("SAR_TETRA_1"):GetRandomVec2(10000), 0) -- this can be used to make SARpos at any random point within Tetra range. We will use randomize zones instead now
   
   SARzoneTable = { ZONE:New( "SAR1" ), ZONE:New( "SAR2" ), ZONE:New( "SAR3" ), ZONE:New( "SAR4" ), ZONE:New( "SAR5" ), 
                    ZONE:New( "SAR6" ), ZONE:New( "SAR7" ), ZONE:New( "SAR8" ), ZONE:New( "SAR9" ), ZONE:New( "SAR10" ) } -- this creates 10 possible zones where the crashite can occur
