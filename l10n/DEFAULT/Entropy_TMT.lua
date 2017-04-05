@@ -56,9 +56,6 @@ end
 -- This will spawn a simulated planewreck, at a random location within TETRA range, together with a CTLD-compatible Manpad unit that can be rescued or used as a JTAC. 
 -- The 'downed pilot' will automatically deploy a CTLD radio beacon
 function SARTETRA()
-  -- SARtemplate can be any unit that is simply used as a spawn location for the pilot
-  -- SARtemplate = SPAWN:New("SARtemplate"):InitRandomizeUnits( true, 11000, 8000 ):Spawn()
-  -- SARpos = mist.utils.makeVec3GL(ZONE:New("SAR_TETRA_1"):GetRandomVec2(10000), 0) -- this can be used to make SARpos at any random point within Tetra range. We will use randomize zones instead now
   
   SARzoneTable = { ZONE:New( "SAR1" ), ZONE:New( "SAR2" ), ZONE:New( "SAR3" ), ZONE:New( "SAR4" ), ZONE:New( "SAR5" ), 
                    ZONE:New( "SAR6" ), ZONE:New( "SAR7" ), ZONE:New( "SAR8" ), ZONE:New( "SAR9" ), ZONE:New( "SAR10" ) } -- this creates 10 possible zones where the crashite can occur
@@ -139,7 +136,7 @@ local function SARhostiles()
   SARtemplate1_engage = SCHEDULER:New( nil,
     function()
       if SARtemplate1:IsCompletelyInZone( innercircle ) then
-        SARtemplate1:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 50, y=vec2Target.y + 70, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARtemplate1:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 150, y=vec2Target.y + 170, radius=100, expendQty=100, expendQtyEnabled=false}}, 1)
         SARtemplate1_engage:Stop()
       end 
     end,
@@ -152,7 +149,7 @@ local function SARhostiles()
         SARtemplate2:RouteToVec3(SARpos, 0) 
         SARInfantry_location = SARtemplate2:GetVec3()
         SARInfantry = SPAWN:New("SARInfantry"):SpawnFromVec3(SARInfantry_location)
-        SARInfantry:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 40, y=vec2Target.y + 40, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARInfantry:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 140, y=vec2Target.y + 140, radius=100, expendQty=100, expendQtyEnabled=false}}, 1)
         SARtemplate2_engage:Stop()
       end 
     end,
@@ -163,7 +160,7 @@ local function SARhostiles()
     function()
 
       if SARtemplate3:IsCompletelyInZone( innercircle ) then
-        SARtemplate3:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 100, y=vec2Target.y + 100, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARtemplate3:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 200, y=vec2Target.y + 200, radius=100, expendQty=100, expendQtyEnabled=false}}, 1)
         SARtemplate3_engage:Stop()
       end 
     end,
@@ -172,7 +169,7 @@ local function SARhostiles()
   SARtemplate4_engage = SCHEDULER:New( nil,
     function()
       if SARtemplate4:IsCompletelyInZone( innercircle ) then
-        SARtemplate4:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 80, y=vec2Target.y + 120, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARtemplate4:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 180, y=vec2Target.y + 220, radius=100, expendQty=100, expendQtyEnabled=false}}, 1)
         SARtemplate4_engage:Stop()
       end 
     end,
@@ -181,7 +178,7 @@ local function SARhostiles()
   SARtemplate5_engage = SCHEDULER:New( nil,
     function()
       if SARtemplate5:IsCompletelyInZone( innercircle ) then
-        SARtemplate5:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 40 , y=vec2Target.y + 90, radius=200, expendQty=100, expendQtyEnabled=false}}, 1)
+        SARtemplate5:SetTask({id = 'FireAtPoint', params = {x=vec2Target.x + 140 , y=vec2Target.y + 190, radius=100, expendQty=100, expendQtyEnabled=false}}, 1)
         SARtemplate5_engage:Stop()
       end 
     end,
@@ -200,16 +197,16 @@ end
 Range_Options = MENU_COALITION:New( coalition.side.BLUE, "Range Options" )
 range_menu_tetra = MENU_COALITION:New( coalition.side.BLUE, "Tetra", Range_Options )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize TETRA Movement", range_menu_tetra, randomize_range_movement, 20, "TETRA" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at TETRA", range_menu_tetra, ctld.unloadTransport, "TETRA_Transport 1" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Disembark Infantry from TETRA Logistics vehicle", range_menu_tetra, ctld.unloadTransport, "TETRA_Transport 1" )
 range_menu_tianeti = MENU_COALITION:New( coalition.side.BLUE, "Tianeti", Range_Options )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize TIANETI Movement", range_menu_tianeti, randomize_range_movement, 30, "TIANETI" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at TIANETI", range_menu_tianeti, ctld.unloadTransport, "TIANETI_Transport 1" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Disembark Infantry from TIANETI Logistics vehicle", range_menu_tianeti, ctld.unloadTransport, "TIANETI_Transport 1" )
 range_menu_dusheti = MENU_COALITION:New( coalition.side.BLUE, "Dusheti", Range_Options )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize DUSHETI Movement", range_menu_dusheti, randomize_range_movement, 40, "DUSHETI" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at DUSHETI", range_menu_dusheti, ctld.unloadTransport, "DUSHETI_Transport 1" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Disembark Infantry from DUSHETI Logistics vehicle", range_menu_dusheti, ctld.unloadTransport, "DUSHETI_Transport 1" )
 range_menu_marnueli = MENU_COALITION:New( coalition.side.BLUE, "Marnueli", Range_Options )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Randomize MARNUELI Movement", range_menu_marnueli, randomize_range_movement, 50, "MARNUELI" )
-MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Deploy Infantry at MARNUELI", range_menu_marnueli, ctld.unloadTransport, "MARNUELI_Transport 1" )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Disembark Infantry from MARNUELI Logistics vehicle", range_menu_marnueli, ctld.unloadTransport, "MARNUELI_Transport 1" )
 MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Smoke on Bomb Circle at MARNUELI", range_menu_marnueli, SmokeMARNUELI )
 
 --- BEACON options
@@ -267,3 +264,74 @@ MAN_BMP = SPAWN:New( "MARNUELI_BMP" ):InitLimit( 4, 0 ):InitRandomizeRoute(1,0,2
 MAN_Sa19 = SPAWN:New( "MARNUELI_Sa19" ):InitLimit( 1, 0 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
 MAN_T55 = SPAWN:New( "MARNUELI_T55" ):InitLimit( 5, 0 ):InitRandomizeRoute(1,0,2000):SpawnScheduled( 20, 0 )
 
+
+-- ON DEMAND SPAWNING IN THE RANGES
+
+OD = {
+  zones = {
+    TIA = ZONE:New("__ON_DEMAND_TIANETI"),
+    MAR = ZONE:New("__ON_DEMAND_MARNUELI"),
+    TET = ZONE:New("__ON_DEMAND_TETRA"),
+    DUS = ZONE:New("__ON_DEMAND_DUSHETI")
+  
+  },
+  units = {
+    blue = {
+      inf_squad =     SPAWN:New("__ON_DEMAND_B_INFANTRY_SQUAD"),
+      recce_platoon = SPAWN:New("__ON_DEMAND_B_RECCE_PLATOON"),
+      laad_platoon =  SPAWN:New("__ON_DEMAND_B_LAAD_PLATOON"),
+      armd_platoon =  SPAWN:New("__ON_DEMAND_B_ARMD_PLATOON"),
+      arty_platoon =  SPAWN:New("__ON_DEMAND_B_ARTY_PLATOON")
+    },
+    red = {
+      inf_squad =     SPAWN:New("__ON_DEMAND_R_INFANTRY_SQUAD"),
+      recce_platoon = SPAWN:New("__ON_DEMAND_R_RECCE_PLATOON"),
+      laad_platoon =  SPAWN:New("__ON_DEMAND_R_LAAD_PLATOON"),
+      armd_platoon =  SPAWN:New("__ON_DEMAND_R_ARMD_PLATOON"),
+      arty_platoon =  SPAWN:New("__ON_DEMAND_R_ARTY_PLATOON")
+    }
+  }
+}
+
+local function od_spawn_units(zone, spawner)
+  spawner:SpawnInZone(zone, true)
+end
+
+menu_tianeti_spawner = MENU_COALITION:New( coalition.side.BLUE, "Spawn units", range_menu_tianeti )
+--- Commented out since spawning of RED UNITS will need further discussion between us
+--menu_tianeti_spawner_red = MENU_COALITION:New( coalition.side.BLUE, "Red units (DANGER)", menu_tianeti_spawner )
+--MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn infantry squad", menu_tianeti_spawner_red, od_spawn_units, OD.zones.TIA, OD.units.red.inf_squad )
+--MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn RECCE platoon", menu_tianeti_spawner_red, od_spawn_units, OD.zones.TIA, OD.units.red.recce_platoon )
+--MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn LAAD platoon", menu_tianeti_spawner_red, od_spawn_units, OD.zones.TIA, OD.units.red.laad_platoon )
+--MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn armored platoon", menu_tianeti_spawner_red, od_spawn_units, OD.zones.TIA, OD.units.red.armd_platoon )
+--MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn artillery platoon", menu_tianeti_spawner_red, od_spawn_units, OD.zones.TIA, OD.units.red.arty_platoon )
+menu_tianeti_spawner_blue = MENU_COALITION:New( coalition.side.BLUE, "Blue units", menu_tianeti_spawner )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn infantry squad", menu_tianeti_spawner_blue, od_spawn_units, OD.zones.TIA, OD.units.blue.inf_squad )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn RECCE platoon", menu_tianeti_spawner_blue, od_spawn_units, OD.zones.TIA, OD.units.blue.recce_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn LAAD platoon", menu_tianeti_spawner_blue, od_spawn_units, OD.zones.TIA, OD.units.blue.laad_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn armored platoon", menu_tianeti_spawner_blue, od_spawn_units, OD.zones.TIA, OD.units.blue.armd_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn artillery platoon", menu_tianeti_spawner_blue, od_spawn_units, OD.zones.TIA, OD.units.blue.arty_platoon )
+
+menu_dusheti_spawner = MENU_COALITION:New( coalition.side.BLUE, "Spawn units", range_menu_dusheti )
+menu_dusheti_spawner_blue = MENU_COALITION:New( coalition.side.BLUE, "Blue units", menu_dusheti_spawner )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn infantry squad", menu_dusheti_spawner_blue, od_spawn_units, OD.zones.DUS, OD.units.blue.inf_squad )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn RECCE platoon", menu_dusheti_spawner_blue, od_spawn_units, OD.zones.DUS, OD.units.blue.recce_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn LAAD platoon", menu_dusheti_spawner_blue, od_spawn_units, OD.zones.DUS, OD.units.blue.laad_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn armored platoon", menu_dusheti_spawner_blue, od_spawn_units, OD.zones.DUS, OD.units.blue.armd_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn artillery platoon", menu_dusheti_spawner_blue, od_spawn_units, OD.zones.DUS, OD.units.blue.arty_platoon )
+
+menu_tetra_spawner = MENU_COALITION:New( coalition.side.BLUE, "Spawn units", range_menu_tetra )
+menu_tetra_spawner_blue = MENU_COALITION:New( coalition.side.BLUE, "Blue units", menu_tetra_spawner )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn infantry squad", menu_tetra_spawner_blue, od_spawn_units, OD.zones.TET, OD.units.blue.inf_squad )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn RECCE platoon", menu_tetra_spawner_blue, od_spawn_units, OD.zones.TET, OD.units.blue.recce_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn LAAD platoon", menu_tetra_spawner_blue, od_spawn_units, OD.zones.TET, OD.units.blue.laad_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn armored platoon", menu_tetra_spawner_blue, od_spawn_units, OD.zones.TET, OD.units.blue.armd_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn artillery platoon", menu_tetra_spawner_blue, od_spawn_units, OD.zones.TET, OD.units.blue.arty_platoon )
+
+menu_marnueli_spawner = MENU_COALITION:New( coalition.side.BLUE, "Spawn units", range_menu_marnueli )
+menu_marnueli_spawner_blue = MENU_COALITION:New( coalition.side.BLUE, "Blue units", menu_marnueli_spawner )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn infantry squad", menu_marnueli_spawner_blue, od_spawn_units, OD.zones.MAR, OD.units.blue.inf_squad )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn RECCE platoon", menu_marnueli_spawner_blue, od_spawn_units, OD.zones.MAR, OD.units.blue.recce_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn LAAD platoon", menu_marnueli_spawner_blue, od_spawn_units, OD.zones.MAR, OD.units.blue.laad_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn armored platoon", menu_marnueli_spawner_blue, od_spawn_units, OD.zones.MAR, OD.units.blue.armd_platoon )
+MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Spawn artillery platoon", menu_marnueli_spawner_blue, od_spawn_units, OD.zones.MAR, OD.units.blue.arty_platoon )

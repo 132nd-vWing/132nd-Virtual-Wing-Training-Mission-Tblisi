@@ -1,4 +1,4 @@
-mission =
+mission = 
 {
     ["coalition"] =
     {
@@ -715,10 +715,10 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
                                             ["LaserCode100"] = 6,
-                                            ["LaserCode"] = 1688,
                                             ["NoDDMSensor"] = false,
                                             ["RocketBurst"] = 6,
                                             ["WpBullseye"] = 0,
@@ -787,7 +787,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.97428793591193,
                                         ["livery_id"] = "-3D- David M-2000C",
                                         ["name"] = "DictKey_UnitName_1153",
                                         ["onboard_num"] = "010",
@@ -960,10 +960,10 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
                                             ["LaserCode100"] = 6,
-                                            ["LaserCode"] = 1688,
                                             ["NoDDMSensor"] = false,
                                             ["RocketBurst"] = 6,
                                             ["WpBullseye"] = 0,
@@ -1032,7 +1032,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.97257874790384,
                                         ["livery_id"] = "-3D- Danny  M-2000C",
                                         ["name"] = "DictKey_UnitName_1530",
                                         ["onboard_num"] = "012",
@@ -1205,10 +1205,10 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
                                             ["LaserCode100"] = 6,
-                                            ["LaserCode"] = 1688,
                                             ["NoDDMSensor"] = false,
                                             ["RocketBurst"] = 6,
                                             ["WpBullseye"] = 0,
@@ -1277,7 +1277,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.97073229524528,
                                         ["livery_id"] = "-3D- Teddy M-2000C",
                                         ["name"] = "DictKey_UnitName_1527",
                                         ["onboard_num"] = "011",
@@ -1450,10 +1450,10 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
                                             ["LaserCode100"] = 6,
-                                            ["LaserCode"] = 1688,
                                             ["NoDDMSensor"] = false,
                                             ["RocketBurst"] = 6,
                                             ["WpBullseye"] = 0,
@@ -1522,7 +1522,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.97426063537282,
                                         ["livery_id"] = "-3D- General M-2000C",
                                         ["name"] = "DictKey_UnitName_1533",
                                         ["onboard_num"] = "013",
@@ -17592,10 +17592,10 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
                                             ["LaserCode100"] = 6,
-                                            ["LaserCode"] = 1688,
                                             ["NoDDMSensor"] = false,
                                             ["RocketBurst"] = 6,
                                             ["WpBullseye"] = 0,
@@ -17664,7 +17664,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.97621462076388,
                                         ["livery_id"] = "132nd 765th squadron standard",
                                         ["name"] = "DictKey_UnitName_2892",
                                         ["onboard_num"] = "013",
@@ -17680,7 +17680,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.9762146207642,
+                                        ["psi"] = 0.97621462076388,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -17837,10 +17837,10 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
                                             ["LaserCode100"] = 6,
-                                            ["LaserCode"] = 1688,
                                             ["NoDDMSensor"] = false,
                                             ["RocketBurst"] = 6,
                                             ["WpBullseye"] = 0,
@@ -17909,7 +17909,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -1.1802980927718,
                                         ["livery_id"] = "132nd 765th squadron standard",
                                         ["name"] = "DictKey_UnitName_2907",
                                         ["onboard_num"] = "0131",
@@ -18082,10 +18082,10 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
                                             ["LaserCode100"] = 6,
-                                            ["LaserCode"] = 1688,
                                             ["NoDDMSensor"] = false,
                                             ["RocketBurst"] = 6,
                                             ["WpBullseye"] = 0,
@@ -18154,7 +18154,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.97180372170257,
                                         ["livery_id"] = "132nd 765th squadron standard",
                                         ["name"] = "DictKey_UnitName_2897",
                                         ["onboard_num"] = "01311",
@@ -18170,7 +18170,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.97180372170283,
+                                        ["psi"] = 0.97180372170257,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -18327,10 +18327,10 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
                                             ["LaserCode100"] = 6,
-                                            ["LaserCode"] = 1688,
                                             ["NoDDMSensor"] = false,
                                             ["RocketBurst"] = 6,
                                             ["WpBullseye"] = 0,
@@ -18399,7 +18399,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -1.1766786197525,
                                         ["livery_id"] = "132nd 765th squadron standard",
                                         ["name"] = "DictKey_UnitName_2902",
                                         ["onboard_num"] = "01312",
@@ -26115,6 +26115,852 @@ mission =
                                 ["x"] = -347123.99999999,
                                 ["y"] = 902394.85714287,
                             }, -- end of [28]
+                            [29] =
+                            {
+                                ["groupId"] = 1269,
+                                ["hidden"] = false,
+                                ["lateActivation"] = true,
+                                ["name"] = "DictKey_GroupName_2914",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = false,
+                                            ["action"] = "Off Road",
+                                            ["alt"] = 50,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2927",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = 12342.857142856,
+                                            ["y"] = -23457.142857143,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                    ["routeRelativeTOT"] = true,
+                                    ["spans"] =
+                                    {
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2915",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier M4",
+                                        ["unitId"] = 1674,
+                                        ["x"] = 12342.857142856,
+                                        ["y"] = -23457.142857143,
+                                    }, -- end of [1]
+                                    [2] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2916",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier M4",
+                                        ["unitId"] = 1675,
+                                        ["x"] = 12336.57142857,
+                                        ["y"] = -23443.428571429,
+                                    }, -- end of [2]
+                                    [3] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2917",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier M4",
+                                        ["unitId"] = 1676,
+                                        ["x"] = 12335.142857142,
+                                        ["y"] = -23470.857142858,
+                                    }, -- end of [3]
+                                    [4] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2918",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier M4",
+                                        ["unitId"] = 1677,
+                                        ["x"] = 12325.142857142,
+                                        ["y"] = -23443.428571429,
+                                    }, -- end of [4]
+                                    [5] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2919",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier M4",
+                                        ["unitId"] = 1678,
+                                        ["x"] = 12313.714285713,
+                                        ["y"] = -23470.571428572,
+                                    }, -- end of [5]
+                                    [6] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2920",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier M4",
+                                        ["unitId"] = 1679,
+                                        ["x"] = 12309.142857142,
+                                        ["y"] = -23456.857142858,
+                                    }, -- end of [6]
+                                    [7] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2921",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier M249",
+                                        ["unitId"] = 1680,
+                                        ["x"] = 12331.999999999,
+                                        ["y"] = -23456.857142858,
+                                    }, -- end of [7]
+                                    [8] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2922",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier M249",
+                                        ["unitId"] = 1681,
+                                        ["x"] = 12319.714285713,
+                                        ["y"] = -23456.571428572,
+                                    }, -- end of [8]
+                                    [9] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2923",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier M249",
+                                        ["unitId"] = 1682,
+                                        ["x"] = 12323.999999999,
+                                        ["y"] = -23470.285714286,
+                                    }, -- end of [9]
+                                    [10] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2924",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier M249",
+                                        ["unitId"] = 1683,
+                                        ["x"] = 12299.428571428,
+                                        ["y"] = -23443.142857144,
+                                    }, -- end of [10]
+                                    [11] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2925",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier M249",
+                                        ["unitId"] = 1684,
+                                        ["x"] = 12313.428571428,
+                                        ["y"] = -23443.428571429,
+                                    }, -- end of [11]
+                                    [12] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2926",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier M249",
+                                        ["unitId"] = 1685,
+                                        ["x"] = 12299.714285713,
+                                        ["y"] = -23470.000000001,
+                                    }, -- end of [12]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = 12342.857142856,
+                                ["y"] = -23457.142857143,
+                            }, -- end of [29]
+                            [30] =
+                            {
+                                ["groupId"] = 1270,
+                                ["hidden"] = false,
+                                ["lateActivation"] = true,
+                                ["name"] = "DictKey_GroupName_2928",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "Off Road",
+                                            ["alt"] = 50,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2931",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = 9828.5714285707,
+                                            ["y"] = -23228.571428571,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                    ["routeRelativeTOT"] = true,
+                                    ["spans"] =
+                                    {
+                                        [1] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["x"] = 15282.857142856,
+                                                ["y"] = -24927.428571428,
+                                            }, -- end of [1]
+                                            [2] =
+                                            {
+                                                ["x"] = 15461.428571427,
+                                                ["y"] = -24917.428571428,
+                                            }, -- end of [2]
+                                        }, -- end of [1]
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 0.055941571233561,
+                                        ["name"] = "DictKey_UnitName_2929",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "LAV-25",
+                                        ["unitId"] = 1686,
+                                        ["x"] = 9828.5714285707,
+                                        ["y"] = -23228.571428571,
+                                    }, -- end of [1]
+                                    [2] =
+                                    {
+                                        ["heading"] = 0.055941571233561,
+                                        ["name"] = "DictKey_UnitName_2930",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "LAV-25",
+                                        ["unitId"] = 1687,
+                                        ["x"] = 9788.6340014377,
+                                        ["y"] = -23230.80792449,
+                                    }, -- end of [2]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = 9828.5714285707,
+                                ["y"] = -23228.571428571,
+                            }, -- end of [30]
+                            [31] =
+                            {
+                                ["groupId"] = 1271,
+                                ["hidden"] = false,
+                                ["lateActivation"] = true,
+                                ["name"] = "DictKey_GroupName_2932",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "Off Road",
+                                            ["alt"] = 50,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2937",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                        [1] =
+                                                        {
+                                                            ["auto"] = true,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 1,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "EPLRS",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["groupId"] = 4,
+                                                                        ["value"] = true,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [1]
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = 5814.2857142849,
+                                            ["y"] = -23171.428571428,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                    ["routeRelativeTOT"] = true,
+                                    ["spans"] =
+                                    {
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2933",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M-1 Abrams",
+                                        ["unitId"] = 1688,
+                                        ["x"] = 5814.2857142849,
+                                        ["y"] = -23171.428571428,
+                                    }, -- end of [1]
+                                    [2] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2934",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M-1 Abrams",
+                                        ["unitId"] = 1689,
+                                        ["x"] = 5774.2857142849,
+                                        ["y"] = -23171.428571428,
+                                    }, -- end of [2]
+                                    [3] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2935",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M-1 Abrams",
+                                        ["unitId"] = 1690,
+                                        ["x"] = 5734.2857142849,
+                                        ["y"] = -23171.428571428,
+                                    }, -- end of [3]
+                                    [4] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2936",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M-1 Abrams",
+                                        ["unitId"] = 1691,
+                                        ["x"] = 5694.2857142849,
+                                        ["y"] = -23171.428571428,
+                                    }, -- end of [4]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = 5814.2857142849,
+                                ["y"] = -23171.428571428,
+                            }, -- end of [31]
+                            [32] =
+                            {
+                                ["groupId"] = 1272,
+                                ["hidden"] = false,
+                                ["lateActivation"] = true,
+                                ["name"] = "DictKey_GroupName_2938",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "Off Road",
+                                            ["alt"] = 50,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2943",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = 7714.285714285,
+                                            ["y"] = -23228.571428571,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                    ["routeRelativeTOT"] = true,
+                                    ["spans"] =
+                                    {
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2939",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier M4",
+                                        ["unitId"] = 1692,
+                                        ["x"] = 7714.285714285,
+                                        ["y"] = -23228.571428571,
+                                    }, -- end of [1]
+                                    [2] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2940",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier stinger",
+                                        ["unitId"] = 1693,
+                                        ["x"] = 7674.285714285,
+                                        ["y"] = -23228.571428571,
+                                    }, -- end of [2]
+                                    [3] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2941",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier stinger",
+                                        ["unitId"] = 1694,
+                                        ["x"] = 7634.285714285,
+                                        ["y"] = -23228.571428571,
+                                    }, -- end of [3]
+                                    [4] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2942",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Soldier stinger",
+                                        ["unitId"] = 1695,
+                                        ["x"] = 7594.285714285,
+                                        ["y"] = -23228.571428571,
+                                    }, -- end of [4]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = 7714.285714285,
+                                ["y"] = -23228.571428571,
+                            }, -- end of [32]
+                            [33] =
+                            {
+                                ["groupId"] = 1273,
+                                ["hidden"] = false,
+                                ["lateActivation"] = true,
+                                ["name"] = "DictKey_GroupName_2944",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "Off Road",
+                                            ["alt"] = 50,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2959",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                        [1] =
+                                                        {
+                                                            ["auto"] = true,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 1,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "EPLRS",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["groupId"] = 6,
+                                                                        ["value"] = true,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [1]
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = 4042.8571428564,
+                                            ["y"] = -23142.857142857,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                    ["routeRelativeTOT"] = true,
+                                    ["spans"] =
+                                    {
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2945",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M-109",
+                                        ["unitId"] = 1696,
+                                        ["x"] = 4042.8571428564,
+                                        ["y"] = -23142.857142857,
+                                    }, -- end of [1]
+                                    [2] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2946",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M-109",
+                                        ["unitId"] = 1697,
+                                        ["x"] = 4002.8571428564,
+                                        ["y"] = -23142.857142857,
+                                    }, -- end of [2]
+                                    [3] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2947",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M-109",
+                                        ["unitId"] = 1698,
+                                        ["x"] = 3962.8571428564,
+                                        ["y"] = -23142.857142857,
+                                    }, -- end of [3]
+                                    [4] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2948",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M-109",
+                                        ["unitId"] = 1699,
+                                        ["x"] = 3922.8571428564,
+                                        ["y"] = -23142.857142857,
+                                    }, -- end of [4]
+                                    [5] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2949",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M-109",
+                                        ["unitId"] = 1700,
+                                        ["x"] = 3882.8571428564,
+                                        ["y"] = -23142.857142857,
+                                    }, -- end of [5]
+                                    [6] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2950",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M-109",
+                                        ["unitId"] = 1701,
+                                        ["x"] = 3842.8571428564,
+                                        ["y"] = -23142.857142857,
+                                    }, -- end of [6]
+                                    [7] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2951",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M-2 Bradley",
+                                        ["unitId"] = 1702,
+                                        ["x"] = 3802.8571428564,
+                                        ["y"] = -23142.857142857,
+                                    }, -- end of [7]
+                                    [8] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2952",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M 818",
+                                        ["unitId"] = 1703,
+                                        ["x"] = 3762.8571428564,
+                                        ["y"] = -23142.857142857,
+                                    }, -- end of [8]
+                                    [9] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2953",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M 818",
+                                        ["unitId"] = 1704,
+                                        ["x"] = 3722.8571428564,
+                                        ["y"] = -23142.857142857,
+                                    }, -- end of [9]
+                                    [10] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2954",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M 818",
+                                        ["unitId"] = 1705,
+                                        ["x"] = 3682.8571428564,
+                                        ["y"] = -23142.857142857,
+                                    }, -- end of [10]
+                                    [11] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2955",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M 818",
+                                        ["unitId"] = 1706,
+                                        ["x"] = 3642.8571428564,
+                                        ["y"] = -23142.857142857,
+                                    }, -- end of [11]
+                                    [12] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2956",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "M978 HEMTT Tanker",
+                                        ["unitId"] = 1707,
+                                        ["x"] = 3602.8571428564,
+                                        ["y"] = -23142.857142857,
+                                    }, -- end of [12]
+                                    [13] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2957",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "HEMTT TFFT",
+                                        ["unitId"] = 1708,
+                                        ["x"] = 3562.8571428564,
+                                        ["y"] = -23142.857142857,
+                                    }, -- end of [13]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = 4042.8571428564,
+                                ["y"] = -23142.857142857,
+                            }, -- end of [33]
                         }, -- end of ["group"]
                     }, -- end of ["vehicle"]
                 }, -- end of [9]
@@ -27992,10 +28838,10 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
                                             ["LaserCode100"] = 6,
-                                            ["LaserCode"] = 1688,
                                             ["NoDDMSensor"] = false,
                                             ["RocketBurst"] = 6,
                                             ["WpBullseye"] = 0,
@@ -28064,7 +28910,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield61",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.9835939725264,
                                         ["livery_id"] = "Cambresis",
                                         ["name"] = "DictKey_UnitName_1638",
                                         ["onboard_num"] = "331",
@@ -28237,10 +29083,10 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
                                             ["LaserCode100"] = 6,
-                                            ["LaserCode"] = 1688,
                                             ["NoDDMSensor"] = false,
                                             ["RocketBurst"] = 6,
                                             ["WpBullseye"] = 0,
@@ -28482,10 +29328,10 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
                                             ["LaserCode100"] = 6,
-                                            ["LaserCode"] = 1688,
                                             ["NoDDMSensor"] = false,
                                             ["RocketBurst"] = 6,
                                             ["WpBullseye"] = 0,
@@ -28554,7 +29400,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield51",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98124652079239,
                                         ["livery_id"] = "Cambresis",
                                         ["name"] = "DictKey_UnitName_1648",
                                         ["onboard_num"] = "333",
@@ -44299,6 +45145,827 @@ mission =
                                 ["x"] = -334067.53571429,
                                 ["y"] = 871507.1875,
                             }, -- end of [13]
+                            [14] =
+                            {
+                                ["groupId"] = 1274,
+                                ["hidden"] = false,
+                                ["lateActivation"] = true,
+                                ["name"] = "DictKey_GroupName_2960",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "Off Road",
+                                            ["alt"] = 50,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2971",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = 12299.999999999,
+                                            ["y"] = -20657.142857143,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                    ["routeRelativeTOT"] = true,
+                                    ["spans"] =
+                                    {
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2961",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 1710,
+                                        ["x"] = 12299.999999999,
+                                        ["y"] = -20657.142857143,
+                                    }, -- end of [1]
+                                    [2] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2962",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 1711,
+                                        ["x"] = 12283.714285713,
+                                        ["y"] = -20670,
+                                    }, -- end of [2]
+                                    [3] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2963",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 1712,
+                                        ["x"] = 12270.857142856,
+                                        ["y"] = -20670.571428572,
+                                    }, -- end of [3]
+                                    [4] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2964",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 1713,
+                                        ["x"] = 12295.142857141,
+                                        ["y"] = -20644.285714286,
+                                    }, -- end of [4]
+                                    [5] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2965",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 1714,
+                                        ["x"] = 12282.57142857,
+                                        ["y"] = -20644.285714286,
+                                    }, -- end of [5]
+                                    [6] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2966",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 1715,
+                                        ["x"] = 12261.428571428,
+                                        ["y"] = -20644.857142857,
+                                    }, -- end of [6]
+                                    [7] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2967",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Paratrooper AKS-74",
+                                        ["unitId"] = 1716,
+                                        ["x"] = 12289.428571427,
+                                        ["y"] = -20657.142857143,
+                                    }, -- end of [7]
+                                    [8] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2968",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Paratrooper AKS-74",
+                                        ["unitId"] = 1717,
+                                        ["x"] = 12260.285714285,
+                                        ["y"] = -20670.857142857,
+                                    }, -- end of [8]
+                                    [9] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2969",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Paratrooper RPG-16",
+                                        ["unitId"] = 1718,
+                                        ["x"] = 12272.571428571,
+                                        ["y"] = -20644.571428571,
+                                    }, -- end of [9]
+                                    [10] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2970",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "BTR-80",
+                                        ["unitId"] = 1719,
+                                        ["x"] = 12276.571428571,
+                                        ["y"] = -20656.857142857,
+                                    }, -- end of [10]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = 12299.999999999,
+                                ["y"] = -20657.142857143,
+                            }, -- end of [14]
+                            [15] =
+                            {
+                                ["groupId"] = 1275,
+                                ["hidden"] = false,
+                                ["lateActivation"] = true,
+                                ["name"] = "DictKey_GroupName_2972",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "Off Road",
+                                            ["alt"] = 50,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2975",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = 9957.1428571421,
+                                            ["y"] = -20542.857142857,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                    ["routeRelativeTOT"] = true,
+                                    ["spans"] =
+                                    {
+                                        [1] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["x"] = 15282.857142856,
+                                                ["y"] = -24927.428571428,
+                                            }, -- end of [1]
+                                            [2] =
+                                            {
+                                                ["x"] = 15461.428571427,
+                                                ["y"] = -24917.428571428,
+                                            }, -- end of [2]
+                                        }, -- end of [1]
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 0.055941571233561,
+                                        ["name"] = "DictKey_UnitName_2973",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "BRDM-2",
+                                        ["unitId"] = 1720,
+                                        ["x"] = 9957.1428571421,
+                                        ["y"] = -20542.857142857,
+                                    }, -- end of [1]
+                                    [2] =
+                                    {
+                                        ["heading"] = 0.055941571233561,
+                                        ["name"] = "DictKey_UnitName_2974",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "BRDM-2",
+                                        ["unitId"] = 1721,
+                                        ["x"] = 9917.2054300091,
+                                        ["y"] = -20545.093638777,
+                                    }, -- end of [2]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = 9957.1428571421,
+                                ["y"] = -20542.857142857,
+                            }, -- end of [15]
+                            [16] =
+                            {
+                                ["groupId"] = 1276,
+                                ["hidden"] = false,
+                                ["lateActivation"] = true,
+                                ["name"] = "DictKey_GroupName_2976",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "Off Road",
+                                            ["alt"] = 50,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2981",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = 7899.9999999992,
+                                            ["y"] = -20257.142857142,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                    ["routeRelativeTOT"] = true,
+                                    ["spans"] =
+                                    {
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2977",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "SA-18 Igla-S comm",
+                                        ["unitId"] = 1722,
+                                        ["x"] = 7899.9999999992,
+                                        ["y"] = -20257.142857142,
+                                    }, -- end of [1]
+                                    [2] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2978",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "SA-18 Igla-S manpad",
+                                        ["unitId"] = 1723,
+                                        ["x"] = 7859.9999999992,
+                                        ["y"] = -20257.142857142,
+                                    }, -- end of [2]
+                                    [3] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2979",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "SA-18 Igla-S manpad",
+                                        ["unitId"] = 1724,
+                                        ["x"] = 7819.9999999992,
+                                        ["y"] = -20257.142857142,
+                                    }, -- end of [3]
+                                    [4] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2980",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "SA-18 Igla-S manpad",
+                                        ["unitId"] = 1725,
+                                        ["x"] = 7779.9999999992,
+                                        ["y"] = -20257.142857142,
+                                    }, -- end of [4]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = 7899.9999999992,
+                                ["y"] = -20257.142857142,
+                            }, -- end of [16]
+                            [17] =
+                            {
+                                ["groupId"] = 1277,
+                                ["hidden"] = false,
+                                ["lateActivation"] = true,
+                                ["name"] = "DictKey_GroupName_2982",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "Off Road",
+                                            ["alt"] = 50,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_2988",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = 6042.8571428564,
+                                            ["y"] = -20285.714285714,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                    ["routeRelativeTOT"] = true,
+                                    ["spans"] =
+                                    {
+                                        [1] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["x"] = 14607.999999998,
+                                                ["y"] = -24582.285714285,
+                                            }, -- end of [1]
+                                            [2] =
+                                            {
+                                                ["x"] = 14607.999999998,
+                                                ["y"] = -24933.714285714,
+                                            }, -- end of [2]
+                                        }, -- end of [1]
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 4.7123889803847,
+                                        ["name"] = "DictKey_UnitName_2983",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "T-72B",
+                                        ["unitId"] = 1726,
+                                        ["x"] = 6042.8571428564,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [1]
+                                    [2] =
+                                    {
+                                        ["heading"] = 4.7123889803847,
+                                        ["name"] = "DictKey_UnitName_2984",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "T-72B",
+                                        ["unitId"] = 1727,
+                                        ["x"] = 6002.8571428564,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [2]
+                                    [3] =
+                                    {
+                                        ["heading"] = 4.7123889803847,
+                                        ["name"] = "DictKey_UnitName_2985",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "T-72B",
+                                        ["unitId"] = 1728,
+                                        ["x"] = 5962.8571428564,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [3]
+                                    [4] =
+                                    {
+                                        ["heading"] = 4.7123889803847,
+                                        ["name"] = "DictKey_UnitName_2986",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "T-72B",
+                                        ["unitId"] = 1729,
+                                        ["x"] = 5922.8571428564,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [4]
+                                    [5] =
+                                    {
+                                        ["heading"] = 4.7123889803847,
+                                        ["name"] = "DictKey_UnitName_2987",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "T-72B",
+                                        ["unitId"] = 1730,
+                                        ["x"] = 5882.8571428564,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [5]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = 6042.8571428564,
+                                ["y"] = -20285.714285714,
+                            }, -- end of [17]
+                            [18] =
+                            {
+                                ["groupId"] = 1278,
+                                ["hidden"] = false,
+                                ["lateActivation"] = true,
+                                ["name"] = "DictKey_GroupName_2989",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "Off Road",
+                                            ["alt"] = 50,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_3004",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = 4357.1428571421,
+                                            ["y"] = -20285.714285714,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                    ["routeRelativeTOT"] = true,
+                                    ["spans"] =
+                                    {
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2990",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "SAU Gvozdika",
+                                        ["unitId"] = 1731,
+                                        ["x"] = 4357.1428571421,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [1]
+                                    [2] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2991",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "SAU Gvozdika",
+                                        ["unitId"] = 1732,
+                                        ["x"] = 4317.1428571421,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [2]
+                                    [3] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2992",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "SAU Gvozdika",
+                                        ["unitId"] = 1733,
+                                        ["x"] = 4277.1428571421,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [3]
+                                    [4] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2993",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "SAU Gvozdika",
+                                        ["unitId"] = 1734,
+                                        ["x"] = 4237.1428571421,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [4]
+                                    [5] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2994",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "SAU Gvozdika",
+                                        ["unitId"] = 1735,
+                                        ["x"] = 4197.1428571421,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [5]
+                                    [6] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2995",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "SAU Gvozdika",
+                                        ["unitId"] = 1736,
+                                        ["x"] = 4157.1428571421,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [6]
+                                    [7] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2996",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "BTR-80",
+                                        ["unitId"] = 1737,
+                                        ["x"] = 4117.1428571421,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [7]
+                                    [8] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2997",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Ural-375",
+                                        ["unitId"] = 1738,
+                                        ["x"] = 4077.1428571421,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [8]
+                                    [9] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2998",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Ural-375",
+                                        ["unitId"] = 1739,
+                                        ["x"] = 4037.1428571421,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [9]
+                                    [10] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_2999",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Ural-4320T",
+                                        ["unitId"] = 1740,
+                                        ["x"] = 3994.8571428564,
+                                        ["y"] = -20287.428571428,
+                                    }, -- end of [10]
+                                    [11] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_3000",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Ural-4320T",
+                                        ["unitId"] = 1741,
+                                        ["x"] = 3957.7142857135,
+                                        ["y"] = -20284,
+                                    }, -- end of [11]
+                                    [12] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_3001",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Ural-4320T",
+                                        ["unitId"] = 1742,
+                                        ["x"] = 3917.1428571421,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [12]
+                                    [13] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_3002",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "ZIL-131 KUNG",
+                                        ["unitId"] = 1743,
+                                        ["x"] = 3877.1428571421,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [13]
+                                    [14] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_3003",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "ZiL-131 APA-80",
+                                        ["unitId"] = 1744,
+                                        ["x"] = 3837.1428571421,
+                                        ["y"] = -20285.714285714,
+                                    }, -- end of [14]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = 4357.1428571421,
+                                ["y"] = -20285.714285714,
+                            }, -- end of [18]
                         }, -- end of ["group"]
                     }, -- end of ["vehicle"]
                 }, -- end of [1]
@@ -44347,11 +46014,11 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3417626,
+    ["currentKey"] = 3446308,
     ["date"] =
     {
-        ["Day"] = 22,
-        ["Month"] = 3,
+        ["Day"] = 5,
+        ["Month"] = 4,
         ["Year"] = 2011,
     }, -- end of ["date"]
     ["descriptionBlueTask"] = "DictKey_descriptionBlueTask_651",
@@ -47439,11 +49106,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -315346.36607143,
-        ["centerY"] = 897413.69642857,
-        ["zoom"] = 10000,
+        ["centerX"] = -326571.71428572,
+        ["centerY"] = 840600,
+        ["zoom"] = 100000,
     }, -- end of ["map"]
-    ["maxDictId"] = 2910,
+    ["maxDictId"] = 3005,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
@@ -47501,10 +49168,10 @@ mission =
     {
         ["actions"] =
         {
-            [1] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2889\")); mission.trig.func[1]=nil;",
+            [1] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2911\")); mission.trig.func[1]=nil;",
             [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2294\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2831\")); mission.trig.func[3]=nil;",
-            [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2890\")); mission.trig.func[4]=nil;",
+            [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3005\")); mission.trig.func[4]=nil;",
             [5] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[5]=nil;",
             [6] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2492\"), 1737, true, true, 114167, 1000, \"Dusheti Beacon Preset 1\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2510\"), 10, false);",
             [7] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2493\"), 1736, true, true, 114333, 1000, \"TIANETI Beacon Preset 2\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2511\"), 10, false);",
@@ -48106,29 +49773,13 @@ mission =
                     [4] = 0.14901960784314,
                 }, -- end of ["color"]
                 ["hidden"] = false,
-                ["name"] = "SAR_TETRA_1",
-                ["radius"] = 15000,
-                ["x"] = -325410.28571427,
-                ["y"] = 834550.28571427,
-                ["zoneId"] = 5236,
-            }, -- end of [31]
-            [32] =
-            {
-                ["color"] =
-                {
-                    [1] = 1,
-                    [2] = 0,
-                    [3] = 0,
-                    [4] = 0.14901960784314,
-                }, -- end of ["color"]
-                ["hidden"] = false,
                 ["name"] = "SAR1",
                 ["radius"] = 15.24,
                 ["x"] = -343660.28571428,
                 ["y"] = 853248.85714284,
                 ["zoneId"] = 5389,
-            }, -- end of [32]
-            [33] =
+            }, -- end of [31]
+            [32] =
             {
                 ["color"] =
                 {
@@ -48143,8 +49794,8 @@ mission =
                 ["x"] = -320345.99999999,
                 ["y"] = 860120.28571428,
                 ["zoneId"] = 5390,
-            }, -- end of [33]
-            [34] =
+            }, -- end of [32]
+            [33] =
             {
                 ["color"] =
                 {
@@ -48159,8 +49810,8 @@ mission =
                 ["x"] = -342531.71428571,
                 ["y"] = 871177.42857141,
                 ["zoneId"] = 5391,
-            }, -- end of [34]
-            [35] =
+            }, -- end of [33]
+            [34] =
             {
                 ["color"] =
                 {
@@ -48175,8 +49826,8 @@ mission =
                 ["x"] = -328374.57142856,
                 ["y"] = 868598.85714284,
                 ["zoneId"] = 5392,
-            }, -- end of [35]
-            [36] =
+            }, -- end of [34]
+            [35] =
             {
                 ["color"] =
                 {
@@ -48191,8 +49842,8 @@ mission =
                 ["x"] = -336903.14285714,
                 ["y"] = 847534.57142856,
                 ["zoneId"] = 5393,
-            }, -- end of [36]
-            [37] =
+            }, -- end of [35]
+            [36] =
             {
                 ["color"] =
                 {
@@ -48207,8 +49858,8 @@ mission =
                 ["x"] = -323845.99999999,
                 ["y"] = 854834.57142856,
                 ["zoneId"] = 5394,
-            }, -- end of [37]
-            [38] =
+            }, -- end of [36]
+            [37] =
             {
                 ["color"] =
                 {
@@ -48223,8 +49874,8 @@ mission =
                 ["x"] = -322274.57142857,
                 ["y"] = 840648.85714285,
                 ["zoneId"] = 5395,
-            }, -- end of [38]
-            [39] =
+            }, -- end of [37]
+            [38] =
             {
                 ["color"] =
                 {
@@ -48239,8 +49890,8 @@ mission =
                 ["x"] = -346117.42857142,
                 ["y"] = 836105.99999998,
                 ["zoneId"] = 5396,
-            }, -- end of [39]
-            [40] =
+            }, -- end of [38]
+            [39] =
             {
                 ["color"] =
                 {
@@ -48255,8 +49906,8 @@ mission =
                 ["x"] = -347147.42857142,
                 ["y"] = 858918.85714284,
                 ["zoneId"] = 5397,
-            }, -- end of [40]
-            [41] =
+            }, -- end of [39]
+            [40] =
             {
                 ["color"] =
                 {
@@ -48271,7 +49922,71 @@ mission =
                 ["x"] = -319377.42857142,
                 ["y"] = 846828.85714284,
                 ["zoneId"] = 5398,
+            }, -- end of [40]
+            [41] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 1,
+                    [3] = 1,
+                    [4] = 0.15,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "__ON_DEMAND_TIANETI",
+                ["radius"] = 304.8,
+                ["x"] = -265202.85714286,
+                ["y"] = 891257.14285714,
+                ["zoneId"] = 5551,
             }, -- end of [41]
+            [42] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 1,
+                    [3] = 1,
+                    [4] = 0.15,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "__ON_DEMAND_MARNUELI",
+                ["radius"] = 304.8,
+                ["x"] = -352835.71428572,
+                ["y"] = 892285.71428572,
+                ["zoneId"] = 5552,
+            }, -- end of [42]
+            [43] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 1,
+                    [3] = 1,
+                    [4] = 0.15,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "__ON_DEMAND_TETRA",
+                ["radius"] = 304.8,
+                ["x"] = -335042.85714286,
+                ["y"] = 859085.71428572,
+                ["zoneId"] = 5553,
+            }, -- end of [43]
+            [44] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 1,
+                    [3] = 1,
+                    [4] = 0.15,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "__ON_DEMAND_DUSHETI",
+                ["radius"] = 304.8,
+                ["x"] = -272930.00000001,
+                ["y"] = 869392.85714285,
+                ["zoneId"] = 5554,
+            }, -- end of [44]
         }, -- end of ["zones"]
     }, -- end of ["triggers"]
     ["trigrules"] =
@@ -48287,7 +50002,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_2889",
+                    ["file"] = "ResKey_Action_2911",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -48367,7 +50082,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_2890",
+                    ["file"] = "ResKey_Action_3005",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
