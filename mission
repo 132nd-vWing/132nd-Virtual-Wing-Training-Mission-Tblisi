@@ -9727,7 +9727,7 @@ mission =
                                         }, -- end of ["callsign"]
                                         ["hardpoint_racks"] = true,
                                         ["heading"] = 0,
-                                        ["livery_id"] = "132 696th Standard",
+                                        ["livery_id"] = "132 696th Lion",
                                         ["name"] = "DictKey_UnitName_256",
                                         ["onboard_num"] = "6963",
                                         ["parking"] = 146,
@@ -9743,6 +9743,7 @@ mission =
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
                                         ["psi"] = 0,
+                                        ["ropeLength"] = 15,
                                         ["skill"] = "Client",
                                         ["speed"] = 41.666666666667,
                                         ["type"] = "Ka-50",
@@ -11352,8 +11353,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "TakeOffParking",
-                                            ["x"] = -314336.625,
-                                            ["y"] = 895987.625,
+                                            ["x"] = -314394.9375,
+                                            ["y"] = 895595.125,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                 }, -- end of ["route"]
@@ -11421,8 +11422,8 @@ mission =
                                         ["livery_id"] = "132 696th Makeshift",
                                         ["name"] = "DictKey_UnitName_1586",
                                         ["onboard_num"] = "6971",
-                                        ["parking"] = 149,
-                                        ["parking_id"] = "74",
+                                        ["parking"] = 122,
+                                        ["parking_id"] = "65",
                                         ["payload"] =
                                         {
                                             ["chaff"] = 0,
@@ -11439,12 +11440,12 @@ mission =
                                         ["speed"] = 41.666666666667,
                                         ["type"] = "Ka-50",
                                         ["unitId"] = 1360,
-                                        ["x"] = -314336.625,
-                                        ["y"] = 895987.625,
+                                        ["x"] = -314394.9375,
+                                        ["y"] = 895595.125,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -314336.625,
-                                ["y"] = 895987.625,
+                                ["x"] = -314394.9375,
+                                ["y"] = 895595.125,
                             }, -- end of [13]
                             [14] =
                             {
@@ -11490,8 +11491,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "TakeOffParking",
-                                            ["x"] = -314422.5,
-                                            ["y"] = 895756.75,
+                                            ["x"] = -314370.125,
+                                            ["y"] = 895537.3125,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                 }, -- end of ["route"]
@@ -11554,8 +11555,8 @@ mission =
                                         ["livery_id"] = "132 Huey",
                                         ["name"] = "DictKey_UnitName_1704",
                                         ["onboard_num"] = "6301",
-                                        ["parking"] = 154,
-                                        ["parking_id"] = "57",
+                                        ["parking"] = 131,
+                                        ["parking_id"] = "67",
                                         ["payload"] =
                                         {
                                             ["chaff"] = 0,
@@ -11572,12 +11573,12 @@ mission =
                                         ["speed"] = 0,
                                         ["type"] = "UH-1H",
                                         ["unitId"] = 1371,
-                                        ["x"] = -314422.5,
-                                        ["y"] = 895756.75,
+                                        ["x"] = -314370.125,
+                                        ["y"] = 895537.3125,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -314422.5,
-                                ["y"] = 895756.75,
+                                ["x"] = -314370.125,
+                                ["y"] = 895537.3125,
                             }, -- end of [14]
                             [15] =
                             {
@@ -11623,8 +11624,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "TakeOffParking",
-                                            ["x"] = -314482.53125,
-                                            ["y"] = 895824.4375,
+                                            ["x"] = -314336.625,
+                                            ["y"] = 895987.625,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                 }, -- end of ["route"]
@@ -11687,8 +11688,8 @@ mission =
                                         ["livery_id"] = "132 Huey",
                                         ["name"] = "DictKey_UnitName_1714",
                                         ["onboard_num"] = "6302",
-                                        ["parking"] = 156,
-                                        ["parking_id"] = "58",
+                                        ["parking"] = 149,
+                                        ["parking_id"] = "74",
                                         ["payload"] =
                                         {
                                             ["chaff"] = 0,
@@ -11705,12 +11706,12 @@ mission =
                                         ["speed"] = 0,
                                         ["type"] = "UH-1H",
                                         ["unitId"] = 1373,
-                                        ["x"] = -314482.53125,
-                                        ["y"] = 895824.4375,
+                                        ["x"] = -314336.625,
+                                        ["y"] = 895987.625,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -314482.53125,
-                                ["y"] = 895824.4375,
+                                ["x"] = -314336.625,
+                                ["y"] = 895987.625,
                             }, -- end of [15]
                             [16] =
                             {
@@ -45909,7 +45910,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3455189,
+    ["currentKey"] = 3458219,
     ["date"] =
     {
         ["Day"] = 5,
@@ -49001,9 +49002,9 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -265577,
-        ["centerY"] = 891518,
-        ["zoom"] = 25000,
+        ["centerX"] = -314444.80357142,
+        ["centerY"] = 895729.29464286,
+        ["zoom"] = 1000,
     }, -- end of ["map"]
     ["maxDictId"] = 3060,
     ["needModules"] =
