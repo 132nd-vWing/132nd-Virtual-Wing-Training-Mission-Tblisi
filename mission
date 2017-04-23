@@ -43563,7 +43563,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3468092,
+    ["currentKey"] = 3469487,
     ["date"] =
     {
         ["Day"] = 5,
@@ -46717,7 +46717,7 @@ mission =
     {
         ["actions"] =
         {
-            [1] = "a_set_flag_value(2501, 3);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3009\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3010\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3011\"), 1, false);",
+            [1] = "a_set_flag_value(2501, 1);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3009\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3010\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3011\"), 1, false);",
             [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3008\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2294\")); mission.trig.func[3]=nil;",
             [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2831\")); mission.trig.func[4]=nil;",
@@ -47885,7 +47885,7 @@ mission =
                     }, -- end of ["ai_task"]
                     ["flag"] = 2501,
                     ["predicate"] = "a_set_flag_value",
-                    ["value"] = 3,
+                    ["value"] = 1,
                 }, -- end of [1]
                 [2] =
                 {
