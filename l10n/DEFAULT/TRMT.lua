@@ -67,7 +67,7 @@ TRMT.RANGES = {
     { SPAWNER=SPAWN:New( '__ON_DEMAND_B_SA13' ),           MENU_TEXT='Spawn SA13' },
   },
   SPAWNERS = {},
-  SPAWNER_SCHEDULER_INTERVAL = 20,
+  SPAWNER_SCHEDULER_INTERVAL = 20, 
   ON_SPAWN = function( group, range )            
     local dest_zone = range.RESPAWN.DEST[ math.random( #range.RESPAWN.DEST ) ]
     local speed = math.random(30, 120)
