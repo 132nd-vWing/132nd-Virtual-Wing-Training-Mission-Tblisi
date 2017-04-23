@@ -6401,8 +6401,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = 17292.857142856,
-                                            ["y"] = 6857.1428571431,
+                                            ["x"] = 17298.571428571,
+                                            ["y"] = 6878.5714285715,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                     ["routeRelativeTOT"] = true,
@@ -6441,15 +6441,15 @@ mission =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "BMP-1",
+                                        ["type"] = "BRDM-2",
                                         ["unitId"] = 1597,
-                                        ["x"] = 17292.857142856,
-                                        ["y"] = 6857.1428571431,
+                                        ["x"] = 17298.571428571,
+                                        ["y"] = 6878.5714285715,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
                                 ["visible"] = false,
-                                ["x"] = 17292.857142856,
-                                ["y"] = 6857.1428571431,
+                                ["x"] = 17298.571428571,
+                                ["y"] = 6878.5714285715,
                             }, -- end of [41]
                             [42] =
                             {
@@ -6483,8 +6483,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = 17078.571428571,
-                                            ["y"] = 6842.8571428574,
+                                            ["x"] = 17098.571428571,
+                                            ["y"] = 6844.2857142858,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                     ["routeRelativeTOT"] = true,
@@ -6525,13 +6525,13 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "MTLB",
                                         ["unitId"] = 1598,
-                                        ["x"] = 17078.571428571,
-                                        ["y"] = 6842.8571428574,
+                                        ["x"] = 17098.571428571,
+                                        ["y"] = 6844.2857142858,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
                                 ["visible"] = false,
-                                ["x"] = 17078.571428571,
-                                ["y"] = 6842.8571428574,
+                                ["x"] = 17098.571428571,
+                                ["y"] = 6844.2857142858,
                             }, -- end of [42]
                             [43] =
                             {
@@ -6605,7 +6605,7 @@ mission =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "BMD-1",
+                                        ["type"] = "BTR-80",
                                         ["unitId"] = 1599,
                                         ["x"] = 16842.857142856,
                                         ["y"] = 6857.1428571431,
@@ -6647,8 +6647,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = 16631.428571428,
-                                            ["y"] = 6852.8571428574,
+                                            ["x"] = 16632.857142857,
+                                            ["y"] = 6852.8571428572,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                     ["routeRelativeTOT"] = true,
@@ -6689,13 +6689,13 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "BTR-80",
                                         ["unitId"] = 1600,
-                                        ["x"] = 16631.428571428,
-                                        ["y"] = 6852.8571428574,
+                                        ["x"] = 16632.857142857,
+                                        ["y"] = 6852.8571428572,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
                                 ["visible"] = false,
-                                ["x"] = 16631.428571428,
-                                ["y"] = 6852.8571428574,
+                                ["x"] = 16632.857142857,
+                                ["y"] = 6852.8571428572,
                             }, -- end of [44]
                             [45] =
                             {
@@ -6769,7 +6769,7 @@ mission =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "BMD-1",
+                                        ["type"] = "BRDM-2",
                                         ["unitId"] = 1601,
                                         ["x"] = 16402.857142856,
                                         ["y"] = 6852.8571428574,
@@ -43563,7 +43563,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3469487,
+    ["currentKey"] = 3472310,
     ["date"] =
     {
         ["Day"] = 5,
@@ -46655,9 +46655,9 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = 15306.428571428,
-        ["centerY"] = 8317.1428571431,
-        ["zoom"] = 25000,
+        ["centerX"] = 16585.714285714,
+        ["centerY"] = 7430.0000000001,
+        ["zoom"] = 10000,
     }, -- end of ["map"]
     ["maxDictId"] = 3063,
     ["needModules"] =
