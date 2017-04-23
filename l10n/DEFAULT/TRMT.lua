@@ -271,7 +271,7 @@ TRMT.SAR = {
 TRMT.SAR.SPAWN_SMOKE = function()
   TRMT.DEBUG('SAR: spawning smoke')
   trigger.action.smoke(TRMT.SAR.VEC3,SMOKECOLOR.Green)
-  MESSAGE:New( 'Green smoke on the dexk at downed pilot location', 7):ToBlue()
+  MESSAGE:New( 'Green smoke on the deck at downed pilot location', 7):ToBlue()
 end
 
 TRMT.SAR.SPAWN_HELO = function()
