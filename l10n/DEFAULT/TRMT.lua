@@ -63,6 +63,8 @@ TRMT.RANGES = {
     { SPAWNER=SPAWN:New( '__ON_DEMAND_B_LAAD_PLATOON' ),   MENU_TEXT='Spawn LAAD platoon' },
     { SPAWNER=SPAWN:New( '__ON_DEMAND_B_ARMD_PLATOON' ),   MENU_TEXT='Spawn armored platoon' },
     { SPAWNER=SPAWN:New( '__ON_DEMAND_B_ARTY_PLATOON' ),   MENU_TEXT='Spawn artillery platoon' },
+    { SPAWNER=SPAWN:New( '__ON_DEMAND_B_AAA' ),            MENU_TEXT='Spawn ZSU-23-4' },
+    { SPAWNER=SPAWN:New( '__ON_DEMAND_B_SA13' ),           MENU_TEXT='Spawn SA13' },
   },
   SPAWNERS = {},
   SPAWNER_SCHEDULER_INTERVAL = 20,
