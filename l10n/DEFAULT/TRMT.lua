@@ -48,7 +48,7 @@ end
 
 TRMT.RANGES = {
   MENU = {
-    ROOT = MENU_COALITION:New( coalition.side.BLUE, "Range Options"),
+    ROOT = MENU_COALITION:New( coalition.side.BLUE, 'Range Options'),
   },
   RESPAWN_UNITS = {
     { NAME='S_Shilka', MAX_UNIT=2 },
@@ -58,11 +58,11 @@ TRMT.RANGES = {
     { NAME='S_Sa19',   MAX_UNIT=1 },
   },
   ON_DEMAND_UNITS = {
-    { SPAWNER=SPAWN:New( "__ON_DEMAND_B_INFANTRY_SQUAD" ), MENU_TEXT='Spawn infantry squad' },
-    { SPAWNER=SPAWN:New( "__ON_DEMAND_B_RECCE_PLATOON" ),  MENU_TEXT='Spawn RECE platoon' },
-    { SPAWNER=SPAWN:New( "__ON_DEMAND_B_LAAD_PLATOON" ),   MENU_TEXT='Spawn LAAD platoon' },
-    { SPAWNER=SPAWN:New( "__ON_DEMAND_B_ARMD_PLATOON" ),   MENU_TEXT='Spawn armored platoon' },
-    { SPAWNER=SPAWN:New( "__ON_DEMAND_B_ARTY_PLATOON" ),   MENU_TEXT='Spawn artillery platoon' },
+    { SPAWNER=SPAWN:New( '__ON_DEMAND_B_INFANTRY_SQUAD' ), MENU_TEXT='Spawn infantry squad' },
+    { SPAWNER=SPAWN:New( '__ON_DEMAND_B_RECCE_PLATOON' ),  MENU_TEXT='Spawn RECE platoon' },
+    { SPAWNER=SPAWN:New( '__ON_DEMAND_B_LAAD_PLATOON' ),   MENU_TEXT='Spawn LAAD platoon' },
+    { SPAWNER=SPAWN:New( '__ON_DEMAND_B_ARMD_PLATOON' ),   MENU_TEXT='Spawn armored platoon' },
+    { SPAWNER=SPAWN:New( '__ON_DEMAND_B_ARTY_PLATOON' ),   MENU_TEXT='Spawn artillery platoon' },
   },
   SPAWNERS = {},
   SPAWNER_SCHEDULER_INTERVAL = 20,
@@ -152,11 +152,11 @@ TRMT.RANGES.INITIALIZE = function()
     -- Add command to randomize movements
     MENU_COALITION_COMMAND:New(
       coalition.side.BLUE,
-      "Randomize movement",
+      'Randomize movement',
       range.MENU,
       function()
         trigger.action.setUserFlag(range.RESPAWN.RANDOM_MOV_FLAG, true)
-        MESSAGE:New( "Targets spreading out at " .. range.NAME, 7):ToBlue()
+        MESSAGE:New( 'Targets spreading out at ' .. range.NAME, 7):ToBlue()
       end
     )
     
@@ -173,16 +173,16 @@ end
 TRMT.ARK_UD = {}
 
 TRMT.ARK_UD.BEACONS = {
-  {text="Activate Ark-UD at DUSHETI",    flag=11},
-  {text="Activate Ark-UD at TIANETI",    flag=12},
-  {text="Activate Ark-UD at TETRA",      flag=13},
-  {text="Activate Ark-UD at MARNUELI",   flag=14},
-  {text="Activate Ark-UD at MARNUELI",   flag=15},
-  {text="Deactivate all Ark-UD Beacons", flag=16},
+  {text='Activate Ark-UD at DUSHETI',    flag=11},
+  {text='Activate Ark-UD at TIANETI',    flag=12},
+  {text='Activate Ark-UD at TETRA',      flag=13},
+  {text='Activate Ark-UD at MARNUELI',   flag=14},
+  {text='Activate Ark-UD at MARNUELI',   flag=15},
+  {text='Deactivate all Ark-UD Beacons', flag=16},
 }
 
 TRMT.ARK_UD.MENU      = {}  
-TRMT.ARK_UD.MENU.ROOT = MENU_COALITION:New( coalition.side.BLUE, "ARK UD beacons")
+TRMT.ARK_UD.MENU.ROOT = MENU_COALITION:New( coalition.side.BLUE, 'ARK UD beacons')
 TRMT.ARK_UD.INITIALIZE = function()
 
   TRMT.DEBUG('ARK UD: INIT: START')
@@ -198,7 +198,7 @@ TRMT.MISSILE_TRAINER = {}
 
 TRMT.MISSILE_TRAINER.INITIALIZE = function()
   TRMT.INFO('MISSILE TRAINER: INIT: START')
-  TRMT.MISSILE_TRAINER.MISSILE_TRAINER = MISSILETRAINER:New( 100, "132nd Missile Trainer is active" )
+  TRMT.MISSILE_TRAINER.MISSILE_TRAINER = MISSILETRAINER:New( 100, '132nd Missile Trainer is active' )
                                                        :InitMessagesOnOff       ( true  )
                                                        :InitAlertsToAll         ( true  ) 
                                                        :InitAlertsHitsOnOff     ( true  )
@@ -239,7 +239,7 @@ TRMT.SMOKE.INITIALIZE = function()
 end
 
 TRMT.SAR = {
-  MENU = MENU_COALITION:New( coalition.side.BLUE, "Search and Rescue" ),
+  MENU = MENU_COALITION:New( coalition.side.BLUE, 'Search and Rescue' ),
   HELO_GROUP_NAME = 'SARhelo1',
   DUMMY_HELO_GROUP_NAME = 'SARhelo1dummy',
   TEMPLATE_GROUP_NAME = 'SARtemplate',
@@ -276,7 +276,7 @@ end
 
 TRMT.SAR.SPAWN_HELO = function()
   TRMT.DEBUG('SAR: RESCUE HELO: start')
-  MESSAGE:New( "Search and Rescue Helicopter starting up from FARP MARNUELI, we are inbound the crashsite", 7):ToBlue()
+  MESSAGE:New( 'Search and Rescue Helicopter starting up from FARP MARNUELI, we are inbound the crashsite', 7):ToBlue()
   
   TRMT.DEBUG('SAR: RESCUE HELO: destroying dummy')
   GROUP:FindByName(TRMT.SAR.DUMMY_HELO_GROUP_NAME):Destroy()
@@ -286,14 +286,14 @@ TRMT.SAR.SPAWN_HELO = function()
   TRMT.DEBUG('SAR: RESCUE HELO: setting task')
   TRMT.SAR.HELO:SetTask({id = 'Land', params = {point = TRMT.SAR.VEC2,true,40}}, 1)
   TRMT.DEBUG('SAR: RESCUE HELO: creating rescue zone')
-  TRMT.SAR.RESCUE_ZONE = ZONE_RADIUS:New("SARrescue",TRMT.SAR.VEC2,25)
+  TRMT.SAR.RESCUE_ZONE = ZONE_RADIUS:New('SARrescue',TRMT.SAR.VEC2,25)
   
   TRMT.DEBUG('SAR: RESCUE HELO: scheduling arrival')
   TRMT.SAR.SCHED_EXTRACT1 = SCHEDULER:New( nil,
     function()
       if TRMT.SAR.HELO:IsCompletelyInZone( TRMT.SAR.RESCUE_ZONE ) then
         TRMT.DEBUG('SAR: RESCUE HELO: rescue helo has arrive at pilot location')
-        MESSAGE:New( "Rescue Helicopter reached landing site, we prepare for extraction, give us cover!", 10):ToBlue()
+        MESSAGE:New( 'Rescue Helicopter reached landing site, we prepare for extraction, give us cover!', 10):ToBlue()
         TRMT.SAR.SCHED_EXTRACT2:Start()
         TRMT.SAR.SCHED_EXTRACT1:Stop()
       end 
@@ -305,8 +305,8 @@ TRMT.SAR.SPAWN_HELO = function()
     function()
       TRMT.DEBUG('SAR: RESCUE HELO: leaving rescue zone')
       TRMT.SAR.MANPAD:destroy()
-      MESSAGE:New( "Pilot is on Board, enroute back to FARP MARNUELI", 17):ToBlue()
-      TRMT.SAR.HELO:SetTask({id = 'Land', params = {point = GROUP:FindByName("FARP MARNUEL Vehicle do not rename"):GetVec2(),false,5}}, 1)
+      MESSAGE:New( 'Pilot is on Board, enroute back to FARP MARNUELI', 17):ToBlue()
+      TRMT.SAR.HELO:SetTask({id = 'Land', params = {point = GROUP:FindByName('FARP MARNUEL Vehicle do not rename'):GetVec2(),false,5}}, 1)
       TRMT.SAR.SCHED_EXTRACT2:Stop() 
     end,
   {}, 60, 20 )
@@ -416,10 +416,10 @@ TRMT.SAR.INITIALIZE = function()
     table.insert( TRMT.SAR.ZONES, ZONE:New( 'SAR'..i ))
   end
   
-  MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Crashsite", TRMT.SAR.MENU, TRMT.SAR.START )
-  MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Dispatch Rescue Helicopter from FARP MARNUELI", TRMT.SAR.MENU, TRMT.SAR.SPAWN_HELO )
-  MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Request Smoke on the Crashsite", TRMT.SAR.MENU, TRMT.SAR.SPAWN_SMOKE )
-  MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Hostile Forces", TRMT.SAR.MENU, TRMT.SAR.SPAWN_HOSTILES )
+  MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Activate Crashsite', TRMT.SAR.MENU, TRMT.SAR.START )
+  MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Dispatch Rescue Helicopter from FARP MARNUELI', TRMT.SAR.MENU, TRMT.SAR.SPAWN_HELO )
+  MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Request Smoke on the Crashsite', TRMT.SAR.MENU, TRMT.SAR.SPAWN_SMOKE )
+  MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Activate Hostile Forces', TRMT.SAR.MENU, TRMT.SAR.SPAWN_HOSTILES )
 
   TRMT.INFO('SAR: INIT: DONE')  
   
