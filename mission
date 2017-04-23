@@ -715,6 +715,7 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["GunBurst"] = 1,
                                             ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
@@ -960,6 +961,7 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["GunBurst"] = 1,
                                             ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
@@ -1205,6 +1207,7 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["GunBurst"] = 1,
                                             ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
@@ -1450,6 +1453,7 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["GunBurst"] = 1,
                                             ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
@@ -15149,6 +15153,7 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["GunBurst"] = 1,
                                             ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
@@ -15394,6 +15399,7 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["GunBurst"] = 1,
                                             ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
@@ -15639,6 +15645,7 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["GunBurst"] = 1,
                                             ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
@@ -15884,6 +15891,7 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["GunBurst"] = 1,
                                             ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
@@ -26376,6 +26384,7 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["GunBurst"] = 1,
                                             ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
@@ -26621,6 +26630,7 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["GunBurst"] = 1,
                                             ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
@@ -26866,6 +26876,7 @@ mission =
                                         ["AddPropAircraft"] =
                                         {
                                             ["ForceINSRules"] = false,
+                                            ["GunBurst"] = 1,
                                             ["LaserCode"] = 1688,
                                             ["LaserCode1"] = 8,
                                             ["LaserCode10"] = 8,
