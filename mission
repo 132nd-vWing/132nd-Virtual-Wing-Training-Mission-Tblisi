@@ -43637,7 +43637,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3479860,
+    ["currentKey"] = 3482670,
     ["date"] =
     {
         ["Day"] = 5,
@@ -46733,7 +46733,7 @@ mission =
         ["centerY"] = -22089.714285714,
         ["zoom"] = 25000,
     }, -- end of ["map"]
-    ["maxDictId"] = 3108,
+    ["maxDictId"] = 3109,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
@@ -46795,7 +46795,7 @@ mission =
             [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3008\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2294\")); mission.trig.func[3]=nil;",
             [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2831\")); mission.trig.func[4]=nil;",
-            [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3012\")); mission.trig.func[5]=nil;",
+            [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3109\")); mission.trig.func[5]=nil;",
             [6] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3018\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3014\")); mission.trig.func[6]=nil;",
             [7] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3019\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3016\")); mission.trig.func[7]=nil;",
             [8] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[8]=nil;",
@@ -48115,7 +48115,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3012",
+                    ["file"] = "ResKey_Action_3109",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [2]
             }, -- end of ["actions"]

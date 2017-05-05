@@ -209,7 +209,7 @@ TRMT.MISSILE_TRAINER.INITIALIZE = function()
                                                        :InitRangeOnOff          ( true  )
                                                        :InitTrackingOnOff       ( true  )
                                                        :InitTrackingToAll       ( true  )
-                                                       :InitMenusOnOff          ( false )
+                                                       :InitMenusOnOff          ( true )
   TRMT.INFO('MISSILE TRAINER: INIT: DONE')
 end
 
