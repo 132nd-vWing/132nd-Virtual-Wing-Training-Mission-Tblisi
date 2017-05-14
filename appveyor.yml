@@ -17,7 +17,7 @@ artifacts:
 deploy:
 - provider: GitHub
   auth_token:
-    secure: pSZSIGECKsAVKeW3cxW8/fvsGAjGAmqvlLgAABm6oQYkQjvW7ixUUAHm/RsOXddF
+    secure: Ix78ww8GMatkp3Npbpv9uDkfJ7E6V9F6aZ98ciTEUIkA5DfGQB2kJduSCjMbg7wg
   artifact: 'TRMT'
   draft: false
   force_update: true
