@@ -11,10 +11,10 @@ There are 4 ranges in the vicinity of Tblisi: Marnueli range, Tetra range, Dushe
 
 ### Stable version
 
-The latest stable version can be found on Github: https://github.com/132nd-Entropy/132nd-Virtual-Wing-Training-Mission-Tblisi/releases
+The latest stable version can be found on the [release page](https://github.com/132nd-vWing/132nd-Virtual-Wing-Training-Mission-Tblisi/releases)
 
 ### Development version
 
 Every change triggers an automated build of the MIZ file. Be aware that this build may be unstable; it exists only for testing and debugging purpose.
 
-Latest build artifact can be downloaded from: https://ci.appveyor.com/project/132nd-Entropy/132nd-virtual-wing-training-mission-tblisi/build/artifacts
+Latest build artifact can be downloaded from (Appveyor)[https://ci.appveyor.com/project/132nd-etcher/132nd-virtual-wing-training-mission-tblisi]
