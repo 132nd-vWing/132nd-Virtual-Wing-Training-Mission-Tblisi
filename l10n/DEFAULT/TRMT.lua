@@ -427,6 +427,11 @@ TRMT.SAR.INITIALIZE = function()
   
 end
 
+TRMT.MOOSE_CONFIG = {}
+
+TRMT.MOOSE_CONFIG.INITIALIZE = function()
+end
+
 --- Start TRMT
 do
 
@@ -437,6 +442,7 @@ do
     TRMT.MISSILE_TRAINER,
     TRMT.SMOKE,
     TRMT.SAR,
+    TRMT.MOOSE_CONFIG,
   }
 
   for _, module in ipairs( modules_to_load ) do
