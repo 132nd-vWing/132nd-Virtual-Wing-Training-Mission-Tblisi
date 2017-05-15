@@ -430,6 +430,8 @@ end
 TRMT.MOOSE_CONFIG = {}
 
 TRMT.MOOSE_CONFIG.INITIALIZE = function()
+  BASE:TraceOnOff( false )
+  debug = false
 end
 
 --- Start TRMT
