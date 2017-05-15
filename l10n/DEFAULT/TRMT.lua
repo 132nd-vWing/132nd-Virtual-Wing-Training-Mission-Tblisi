@@ -437,6 +437,7 @@ end
 --- Start TRMT
 do
 
+  --- The list below exists so it is easy enough to switch modules on & off
   local modules_to_load = {
     TRMT.RANGES,
     TRMT.SUPPORT_AIRCRAFT,
