@@ -1,5 +1,7 @@
 TRMT = {}
 
+TRMT.DEBUG_MENU = MENU_COALITION:New( coalition.side.BLUE, 'DEBUG')
+
 do -- DEBUG
 
   TRMT.DEBUG = function(text)
