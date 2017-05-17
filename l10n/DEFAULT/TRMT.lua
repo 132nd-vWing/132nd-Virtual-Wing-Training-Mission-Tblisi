@@ -352,8 +352,8 @@ end -- TANKERS
 do -- SUPPORT AIRCRAFTS
   TRMT.SUPPORT_AIRCRAFT = {
     UNITS= {
-      { NAME='Tanker Texaco', COUNT=1, TOTAL=0  },
-      { NAME='Arco',          COUNT=1, TOTAL=0  },
+--      { NAME='Tanker Texaco', COUNT=1, TOTAL=0  },
+--      { NAME='Arco',          COUNT=1, TOTAL=0  },
       { NAME='AWACS',         COUNT=1, TOTAL=10 },
     },
     SCHEDULER_INTERVAL = 120,
