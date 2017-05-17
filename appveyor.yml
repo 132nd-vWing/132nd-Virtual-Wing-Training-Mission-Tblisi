@@ -1,26 +1,84 @@
-version: 2.9.1.{build}
+version: 2.9.0.{build}
 skip_branch_with_pr: true
+skip_commits:
+  message: /!nobuild]/
+
 environment:
   fast_finish: true
+  PYTHON: "C:\\Python35"
+  PYTHON_VERSION: "3.5.2"
+  GH_MAIL:
+    secure: lRD0NTgFubnB8Ms3IyTAeWVODbX6j5pgcn3Q4Ye3a9Y=
+  GH_TOKEN:
+    secure: fGdNEWbgMiH+/aWoqWQs5g+O34ulAARcUReCq6IyeH0fH1bdQm6xR6kj2BEEujFQ
+
+init:
+  # If there is a newer build queued for the same PR, cancel this one.
+  # The AppVeyor 'rollout builds' option is supposed to serve the same
+  # purpose but is problematic because it tends to cancel builds pushed
+  # directly to master instead of just PR builds.
+  # credits: JuliaLang developers.
+  - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
+        https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
+        Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
+        throw "There are newer queued builds for this pull request, failing early." }
+
+  # Check that we have the expected version and architecture for Python
+  - "python --version"
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+  - "pip --version"
+  
+  # Setup Git for push
+  - git config --global credential.helper store
+  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GH_TOKEN):x-oauth-basic@github.com`n"
+  - "git config --global user.email %GH_MAIL%"
+  - "git config --global user.name %APPVEYOR_ACCOUNT_NAME%"  
+
+  - cmd: echo %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%
+  - cmd: echo %APPVEYOR_BUILD_WORKER_IMAGE%
+  - cmd: echo %APPVEYOR_REPO_COMMIT_TIMESTAMP%
+  - cmd: echo %APPVEYOR_REPO_COMMIT_MESSAGE%
+  - cmd: echo %APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED%
+  
 install:
-- cmd: choco install 7zip.commandline
+  - cmd: choco install 7zip.commandline
+  - "%PYTHON%/Scripts/pip.exe install --disable-pip-version-check --user --upgrade pip"
+  - cmd: pip install gitversion
+  - cmd: pip install gitchangelog
+  
+
 cache:
-- C:\ProgramData\chocolatey\lib
-- C:\ProgramData\chocolatey\bin
+  - C:\ProgramData\chocolatey\lib
+  - C:\ProgramData\chocolatey\bin
+  
+before_build:
+  - cmd: gitversion
+  - cmd: gitchangelog
+
 build_script:
-- cmd: 7za a -bb0 dummy.miz C:\projects\132nd-virtual-wing-training-mission-tblisi\* -xr!.git -x!*.miz -x!*.yml
-- cmd: IF /I "%APPVEYOR_REPO_TAG%"=="true" (ren dummy.miz TRMT_%APPVEYOR_REPO_TAG_NAME%.miz) ELSE (ren dummy.miz TRMT_%APPVEYOR_BUILD_VERSION%.miz)
+  - cmd: 7za a -bb0 dummy.miz C:\projects\132nd-virtual-wing-training-mission-tblisi\* -xr!.git -x!*.miz -x!*.yml
+  - cmd: IF /I "%APPVEYOR_REPO_TAG%"=="true" (ren dummy.miz TRMT_%APPVEYOR_REPO_TAG_NAME%.miz) ELSE (ren dummy.miz TRMT_%APPVEYOR_BUILD_VERSION%.miz)
+  
+after_build:
+  - cmd: gitchangelog > CHANGELOG.md
+  - cmd: git add CHANGELOG.md & exit 0
+  - cmd: >
+      git commit -m "chg: update changelog !minor !nobuild" & exit 0
+  - cmd: git push & exit 0
+
 test: off
+
 artifacts:
-- path: '*.miz'
-  name: TRMT
+  - path: '*.miz'
+    name: TRMT
+  
 deploy:
-- provider: GitHub
-  auth_token:
-    secure: Ix78ww8GMatkp3Npbpv9uDkfJ7E6V9F6aZ98ciTEUIkA5DfGQB2kJduSCjMbg7wg
-  artifact: 'TRMT'
-  draft: false
-  force_update: true
-  on:
-    branch: master
-    APPVEYOR_REPO_TAG: true
+  - provider: GitHub
+    auth_token:
+      secure: pSZSIGECKsAVKeW3cxW8/fvsGAjGAmqvlLgAABm6oQYkQjvW7ixUUAHm/RsOXddF
+    artifact: 'TRMT'
+    draft: false
+    force_update: true
+    on:
+      branch: master
+      APPVEYOR_REPO_TAG: true
