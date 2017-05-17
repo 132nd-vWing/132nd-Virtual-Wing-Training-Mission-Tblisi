@@ -60,10 +60,11 @@ build_script:
   - cmd: IF /I "%APPVEYOR_REPO_TAG%"=="true" (ren dummy.miz TRMT_%APPVEYOR_REPO_TAG_NAME%.miz) ELSE (ren dummy.miz TRMT_%APPVEYOR_BUILD_VERSION%.miz)
   
 after_build:
-  - cmd: gitchangelog > CHANGELOG.md
-  - cmd: git add CHANGELOG.md & exit 0
+  - cmd: git fetch && git checkout %APPVEYOR_REPO_BRANCH%
+  - cmd: gitchangelog > CHANGELOG.rst
+  - cmd: git add CHANGELOG.rst & exit 0
   - cmd: >
-      git commit -m "chg: update changelog !minor !nobuild" & exit 0
+      git commit -m "chg: update changelog !minor [skip ci]" & exit 0
   - cmd: git push & exit 0
 
 test: off
