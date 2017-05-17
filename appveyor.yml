@@ -1,7 +1,7 @@
 version: 2.9.0.{build}
 skip_branch_with_pr: true
 skip_commits:
-  message: /!nobuild]/
+  message: /!nobuild/
 
 environment:
   fast_finish: true
