@@ -30,9 +30,9 @@ do -- TANKERS
   TRMT.TANKERS = {
     UNITS = {
       'Tanker Texaco',
---      'Arco',
+      'Arco',
     },
-    DEBUG=true,     -- set this to true for extra messages about the tankers
+    DEBUG=false,     -- set this to true for extra messages about the tankers
     MIN_FUEL = 0.2, -- minimum amount of fuel before RTB, expressed as a percentage
   }
   
@@ -316,9 +316,7 @@ do -- TANKERS
   end
   
   function TRMT.TANKERS.FSM:Debug( text )
-    if TRMT.TANKERS.DEBUG then
-      TRMT.DEBUG('TANKER: '..self.template_name..': '..text)
-    end
+    TRMT.DEBUG('TANKER: '..self.template_name..': '..text)
   end
   
   -- Start the tanker module
@@ -795,7 +793,7 @@ do
     TRMT.MISSILE_TRAINER,
     TRMT.SMOKE,
     TRMT.SAR,
---    TRMT.TANKERS,
+    TRMT.TANKERS,
   }
 
   for _, module in ipairs( modules_to_load ) do
