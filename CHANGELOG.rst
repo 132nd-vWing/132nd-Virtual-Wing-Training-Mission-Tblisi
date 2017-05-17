@@ -2,6 +2,31 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+New
+~~~
+- Enable changelog support. [132nd-etcher]
+
+  fixes #16
+
+Changes
+~~~~~~~
+- Re-vamped the tanker management system. [132nd-etcher]
+
+  fixes #17
+  closes #29
+
+Other
+~~~~~
+- Merge remote-tracking branch 'origin/master' into develop. [132nd-
+  etcher]
+
+  # Conflicts:
+  #	appveyor.yml
+
+
 2.9.0 (2017-05-05)
 ------------------
 - Release. [entropySG]
