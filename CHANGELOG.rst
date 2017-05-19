@@ -18,6 +18,11 @@ Changes
   fixes #17
   closes #29
 
+Fix
+~~~
+- Rename all tankers and make them spawn with etchers code chg: add 2nd
+  AWACS as per necks request. [entropySG]
+
 Other
 ~~~~~
 - Merge remote-tracking branch 'origin/master' into develop. [132nd-
