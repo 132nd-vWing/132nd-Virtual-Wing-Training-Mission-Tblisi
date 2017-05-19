@@ -29,9 +29,12 @@ do -- TANKERS
 
   TRMT.TANKERS = {
     UNITS = {
-      'Tanker Texaco',
-      'Arco',
-    },
+      'Tanker_Texaco',
+      'Tanker_Arco1_1',
+      'Tanker_Arco1_2',
+      'Tanker_Shell2_1',
+      'Tanker_Shell2_2',
+       },
     DEBUG=false,     -- set this to true for extra messages about the tankers
     MIN_FUEL = 0.2, -- minimum amount of fuel before RTB, expressed as a percentage
   }
@@ -350,9 +353,8 @@ end -- TANKERS
 do -- SUPPORT AIRCRAFTS
   TRMT.SUPPORT_AIRCRAFT = {
     UNITS= {
---      { NAME='Tanker Texaco', COUNT=1, TOTAL=0  },
---      { NAME='Arco',          COUNT=1, TOTAL=0  },
-      { NAME='AWACS',         COUNT=1, TOTAL=10 },
+         { NAME='AWACS1',         COUNT=1, TOTAL=10 },
+         { NAME='AWACS2',         COUNT=1, TOTAL=10 },
     },
     SCHEDULER_INTERVAL = 120,
     SPAWNERS = {},
