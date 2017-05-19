@@ -379,8 +379,8 @@ ctld.extractableGroups = {
     "extract9",
     "extract10",
 
-    "extract11",
-    "extract12",
+    "DUSHETI_Medevac1",
+    "DUSHETI_Medevac2",
     "extract13",
     "extract14",
     "extract15",
