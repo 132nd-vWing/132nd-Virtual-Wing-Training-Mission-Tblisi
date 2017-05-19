@@ -7,69 +7,12 @@ Changelog
 
 New
 ~~~
-- Added SA-6 at TKIBULO range (smokey sam controlled by JTAC) [Neck]
-
-  -JTAC at TKIBULO can turn on/off the SA-6 SAM
-  -JTAC placed at hill EAST of range area
-  -Range veichles places NORTH of impact area
-- Added KUTAISI range airspace, added 2x MOA's, added TKIBULO range
-  airspace. [Neck]
-- Added hospital directly WEST of Lochini. Added 2x transportable
-  infantry groups at DUSHETI range. [Neck]
-
-  - Intention with infantry at Dusheti is to use these for CASEVAC/MEDEVAC. For some reason I was unable to give them waypoints, so I located them at two different areas at DUSHETI to give the JTAC flexibility.
-
-  - Hospital is a new mod. I will post details and NOTAM on 132nd website to make sure everyone have the hospital. The hospital have a landing pad for RW coming it with patients.
 - Enable changelog support. [132nd-etcher]
 
   fixes #16
 
 Changes
 ~~~~~~~
-- Adjusted skill level at SA-6 at TKIBULI range. [Neck]
-- Added Navpoints for KUTAISI range, TKIBULI range and MOA NORTH and MOA
-  SOUTH. [Neck]
-
-  - KUTAISI: KR1-KR5
-  - TKIBULI: TK1-TK6
-  - MOA SOUTH: M1-M4
-  - MOA NORTH: M21-M26
-- Deleted navpoints from OP GT campaign. [Neck]
-
-  OP GT navpoints is not relevant for the training mission.
-- Added 3x JTAC vehicles at DUSHETI for absic JTAC training. Co-located
-  with existing JTAC vehicle (SOUTHWEST) [Neck]
-- Added 3x JTAC vehicles for basic JTAC training (dont have access to
-  the newest F10 range options as the 2 JTAC vehicles inplace) [Neck]
-- Adjusted Tanker TEXACO track from E-W to N-S in order to not come in
-  conflict with new airspace. [Neck]
-
-  - Also moved landing WP for ARCO 2, so it dont come in conflict with the airspace (so it dont fly straight throuhg)
-- Adjust airspaces to align them properly. [Neck]
-- Added latest MOOSE-lua (per request from Entropy) [Neck]
-- Added 1 radar static tgt at range TKIBULO. Also set airspace A-10Cs to
-  late activation. [Neck]
-- Deleted Kutasi OCA range impact area airspace. [Neck]
-
-  Not needed.
-- Adjustet ARCO2 track to N-S EAST of MOA SOUTH. [Neck]
-- Adjusted SHELL2 track to N-S WEST of MOA SOUTH. [Neck]
-- Moved shell2 tanker to N-S obit west of MOA south, moved Arco2 tanker
-  N-S orbit EAST of MOA south. [Neck]
-- Moved SHELL2 tanker to N-S orbit WEST of MOA_SOUTH (reverted from
-  commit b59849155437bd76c9aab82cdf35ff0c4608cb35) [Neck]
-- Moved SHELL2 tanker to N-S orbit WEST of MOA_SOUTH. [Neck]
-- Changed skins on 3rd Wing Mirage to 4/33 skins from DArt update.
-  [Neck]
-
-  Also changed last 3Drifters Mirage to a spare 4/33 Mirage for Photun since he dont have own skin
-- Added Hummer ambulances at Dusheti and static ambulances at Lochini
-  hospital. [Neck]
-- Edit CTLD lua: Added DUSHETI_medevac1 and DUSHETI_medevac2 as
-  extractable groups. [Neck]
-- Added SA-6, and moved SAM/AAA into locations at KUTAISI Range. [Neck]
-- Added static AC's at KUTAISI Range. Added fuel/ammo vehicles to
-  simulate rearm/refuel. [Neck]
 - Re-vamped the tanker management system. [132nd-etcher]
 
   fixes #17
@@ -77,13 +20,6 @@ Changes
 
 Other
 ~~~~~
-- Change: Changes to tankers. [Neck]
-- Added a new target vehicle at KUTAISI. [Neck]
-
-  Intention is to make a new range (OCA strike range) at KUTAISI (
-- Added a new target vehicle at KUTAISI. [Neck]
-
-  Intention is to make a new range (OCA strike range) at KUTAISI
 - Merge remote-tracking branch 'origin/master' into develop. [132nd-
   etcher]
 
