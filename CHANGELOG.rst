@@ -20,9 +20,10 @@ Changes
 
 Fix
 ~~~
+- Update in game Mission Briefing to include new tanker freq and Tacan.
+  [132nd-Entropy]
 - Rename all tankers and make them spawn with etchers code chg: add 2nd
   AWACS as per necks request. [entropySG]
-- Update Mission Brief to include new tanker Frequencies and TACAN [entropySG]
 
 Other
 ~~~~~
