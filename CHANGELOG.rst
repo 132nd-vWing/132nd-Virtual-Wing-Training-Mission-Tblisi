@@ -20,6 +20,9 @@ Changes
 
 Fix
 ~~~
+- Update MOOSE to latest chg: implement airbase cleanup, this will
+  despawn all landed AI planes to prevent the airports from filling up.
+  [132nd-Entropy]
 - Update in game Mission Briefing to include new tanker freq and Tacan.
   [132nd-Entropy]
 - Rename all tankers and make them spawn with etchers code chg: add 2nd
