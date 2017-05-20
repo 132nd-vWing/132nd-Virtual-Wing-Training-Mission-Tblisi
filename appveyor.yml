@@ -11,7 +11,7 @@ environment:
   GH_MAIL:
     secure: lRD0NTgFubnB8Ms3IyTAeWVODbX6j5pgcn3Q4Ye3a9Y=
   GH_TOKEN:
-    secure: fGdNEWbgMiH+/aWoqWQs5g+O34ulAARcUReCq6IyeH0fH1bdQm6xR6kj2BEEujFQ
+    secure: +Pie5rykLN4kjgp/QVj8xmdID7awCtvMG22pkM9ONWbFa9hY4O4AsmYq/1lc+jQQ
 
 init:
   # If there is a newer build queued for the same PR, cancel this one.
@@ -77,7 +77,7 @@ artifacts:
 deploy:
   - provider: GitHub
     auth_token:
-      secure: pSZSIGECKsAVKeW3cxW8/fvsGAjGAmqvlLgAABm6oQYkQjvW7ixUUAHm/RsOXddF
+      secure: +Pie5rykLN4kjgp/QVj8xmdID7awCtvMG22pkM9ONWbFa9hY4O4AsmYq/1lc+jQQ
     artifact: 'TRMT'
     draft: false
     force_update: true
