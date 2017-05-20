@@ -30,6 +30,7 @@ Fix
 
 Other
 ~~~~~
+- . [132nd-Entropy]
 - Re-build. [132nd-Entropy]
 - Merge remote-tracking branch 'origin/master' into develop. [132nd-
   etcher]
