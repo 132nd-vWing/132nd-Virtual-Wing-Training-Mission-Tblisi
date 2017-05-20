@@ -16207,7 +16207,7 @@ mission =
                                         }, -- end of [3]
                                         [4] =
                                         {
-                                            ["ETA"] = 1742.5144650182,
+                                            ["ETA"] = 1000.296364365,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Landing",
                                             ["airdromeId"] = 23,
@@ -48620,7 +48620,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3586473,
+    ["currentKey"] = 3595256,
     ["date"] =
     {
         ["Day"] = 20,
@@ -51712,11 +51712,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -301285.71428571,
-        ["centerY"] = 588571.42857143,
-        ["zoom"] = 1000000,
+        ["centerX"] = -341253.25,
+        ["centerY"] = 859285.71428571,
+        ["zoom"] = 500000,
     }, -- end of ["map"]
-    ["maxDictId"] = 3447,
+    ["maxDictId"] = 3449,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
@@ -51775,10 +51775,10 @@ mission =
         ["actions"] =
         {
             [1] = "a_set_flag_value(2501, 1);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3009\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3010\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3011\"), 1, false);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_group_off(1326);",
-            [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3008\")); mission.trig.func[2]=nil;",
+            [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3448\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2294\")); mission.trig.func[3]=nil;",
             [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2831\")); mission.trig.func[4]=nil;",
-            [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3447\")); mission.trig.func[5]=nil;",
+            [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3449\")); mission.trig.func[5]=nil;",
             [6] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3018\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3014\")); mission.trig.func[6]=nil;",
             [7] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3019\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3016\")); mission.trig.func[7]=nil;",
             [8] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[8]=nil;",
@@ -52917,6 +52917,54 @@ mission =
                 ["y"] = 894452.57142858,
                 ["zoneId"] = 6486,
             }, -- end of [63]
+            [64] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 1,
+                    [3] = 1,
+                    [4] = 0.15,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "CLEAN_BATUMI",
+                ["radius"] = 3000,
+                ["x"] = -355744.28571428,
+                ["y"] = 617318.57142857,
+                ["zoneId"] = 6815,
+            }, -- end of [64]
+            [65] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 1,
+                    [3] = 1,
+                    [4] = 0.15,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "CLEAN_SENAKI",
+                ["radius"] = 3000,
+                ["x"] = -281692.85714286,
+                ["y"] = 647050,
+                ["zoneId"] = 6816,
+            }, -- end of [65]
+            [66] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 1,
+                    [3] = 1,
+                    [4] = 0.15,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "CLEAN_VAZIANI",
+                ["radius"] = 3000,
+                ["x"] = -319050,
+                ["y"] = 903241.42857142,
+                ["zoneId"] = 6817,
+            }, -- end of [66]
         }, -- end of ["zones"]
     }, -- end of ["triggers"]
     ["trigrules"] =
@@ -53079,7 +53127,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3008",
+                    ["file"] = "ResKey_Action_3448",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -53172,7 +53220,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3447",
+                    ["file"] = "ResKey_Action_3449",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [2]
             }, -- end of ["actions"]

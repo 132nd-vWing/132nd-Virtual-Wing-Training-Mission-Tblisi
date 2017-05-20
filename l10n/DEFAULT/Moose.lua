@@ -1,5 +1,5 @@
 env.info( '*** MOOSE STATIC INCLUDE START *** ' )
-env.info( 'Moose Generation Timestamp: 20170518_1341' )
+env.info( 'Moose Generation Timestamp: 20170520_1316' )
 
 --- Various routines
 -- @module routines
@@ -11422,54 +11422,54 @@ end
 -- ![Banner Image](..\Presentations\POINT\Dia1.JPG)
 --
 -- ====
--- 
+--
 -- # Demo Missions
--- 
+--
 -- ### [POINT_VEC Demo Missions source code]()
--- 
+--
 -- ### [POINT_VEC Demo Missions, only for beta testers]()
 --
 -- ### [ALL Demo Missions pack of the last release](https://github.com/FlightControl-Master/MOOSE_MISSIONS/releases)
--- 
+--
 -- ====
--- 
+--
 -- # YouTube Channel
--- 
+--
 -- ### [POINT_VEC YouTube Channel]()
--- 
+--
 -- ===
--- 
+--
 -- **API CHANGE HISTORY**
 -- ======================
--- 
+--
 -- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
--- 
+--
 --   * **Added** parts are expressed in bold type face.
 --   * _Removed_ parts are expressed in italic type face.
--- 
+--
 -- Hereby the change log:
--- 
--- 2017-03-03: POINT\_VEC3:**Explosion( ExplosionIntensity )** added.  
--- 2017-03-03: POINT\_VEC3:**IlluminationBomb()** added.  
--- 
+--
+-- 2017-03-03: POINT\_VEC3:**Explosion( ExplosionIntensity )** added.
+-- 2017-03-03: POINT\_VEC3:**IlluminationBomb()** added.
+--
 -- 2017-02-18: POINT\_VEC3:**NewFromVec2( Vec2, LandHeightAdd )** added.
--- 
+--
 -- 2016-08-12: POINT\_VEC3:**Translate( Distance, Angle )** added.
--- 
+--
 -- 2016-08-06: Made PointVec3 and Vec3, PointVec2 and Vec2 terminology used in the code consistent.
--- 
+--
 --   * Replaced method _Point_Vec3() to **Vec3**() where the code manages a Vec3. Replaced all references to the method.
 --   * Replaced method _Point_Vec2() to **Vec2**() where the code manages a Vec2. Replaced all references to the method.
 --   * Replaced method Random_Point_Vec3() to **RandomVec3**() where the code manages a Vec3. Replaced all references to the method.
 -- .
 -- ===
---  
--- ### Authors: 
--- 
+--
+-- ### Authors:
+--
 --   * FlightControl : Design & Programming
---   
--- ### Contributions: 
--- 
+--
+-- ### Contributions:
+--
 -- @module Point
 
 --- The POINT_VEC3 class
@@ -11485,122 +11485,122 @@ end
 -- @extends Core.Base#BASE
 
 --- # POINT_VEC3 class, extends @{Base#BASE}
--- 
+--
 -- POINT_VEC3 defines a 3D point in the simulator and with its methods, you can use or manipulate the point in 3D space.
--- 
+--
 -- **Important Note:** Most of the functions in this section were taken from MIST, and reworked to OO concepts.
--- In order to keep the credibility of the the author, 
--- I want to emphasize that the formulas embedded in the MIST framework were created by Grimes or previous authors, 
+-- In order to keep the credibility of the the author,
+-- I want to emphasize that the formulas embedded in the MIST framework were created by Grimes or previous authors,
 -- who you can find on the Eagle Dynamics Forums.
--- 
--- 
+--
+--
 -- ## POINT_VEC3 constructor
--- 
+--
 -- A new POINT_VEC3 object can be created with:
--- 
+--
 --  * @{#POINT_VEC3.New}(): a 3D point.
 --  * @{#POINT_VEC3.NewFromVec3}(): a 3D point created from a @{DCSTypes#Vec3}.
--- 
--- 
+--
+--
 -- ## Manupulate the X, Y, Z coordinates of the POINT_VEC3
--- 
+--
 -- A POINT_VEC3 class works in 3D space. It contains internally an X, Y, Z coordinate.
 -- Methods exist to manupulate these coordinates.
--- 
+--
 -- The current X, Y, Z axis can be retrieved with the methods @{#POINT_VEC3.GetX}(), @{#POINT_VEC3.GetY}(), @{#POINT_VEC3.GetZ}() respectively.
 -- The methods @{#POINT_VEC3.SetX}(), @{#POINT_VEC3.SetY}(), @{#POINT_VEC3.SetZ}() change the respective axis with a new value.
 -- The current axis values can be changed by using the methods @{#POINT_VEC3.AddX}(), @{#POINT_VEC3.AddY}(), @{#POINT_VEC3.AddZ}()
 -- to add or substract a value from the current respective axis value.
 -- Note that the Set and Add methods return the current POINT_VEC3 object, so these manipulation methods can be chained... For example:
--- 
+--
 --      local Vec3 = PointVec3:AddX( 100 ):AddZ( 150 ):GetVec3()
--- 
--- 
+--
+--
 -- ## Create waypoints for routes
--- 
+--
 -- A POINT_VEC3 can prepare waypoints for Ground and Air groups to be embedded into a Route.
--- 
+--
 --   * @{#POINT_VEC3.RoutePointAir}(): Build an air route point.
 --   * @{#POINT_VEC3.RoutePointGround}(): Build a ground route point.
---   
+--
 -- Route points can be used in the Route methods of the @{Group#GROUP} class.
--- 
--- 
+--
+--
 -- ## Smoke, flare, explode, illuminate
--- 
+--
 -- At the point a smoke, flare, explosion and illumination bomb can be triggered. Use the following methods:
--- 
+--
 -- ### Smoke
--- 
+--
 --   * @{#POINT_VEC3.Smoke}(): To smoke the point in a certain color.
 --   * @{#POINT_VEC3.SmokeBlue}(): To smoke the point in blue.
 --   * @{#POINT_VEC3.SmokeRed}(): To smoke the point in red.
 --   * @{#POINT_VEC3.SmokeOrange}(): To smoke the point in orange.
 --   * @{#POINT_VEC3.SmokeWhite}(): To smoke the point in white.
 --   * @{#POINT_VEC3.SmokeGreen}(): To smoke the point in green.
---   
+--
 -- ### Flare
--- 
+--
 --   * @{#POINT_VEC3.Flare}(): To flare the point in a certain color.
 --   * @{#POINT_VEC3.FlareRed}(): To flare the point in red.
 --   * @{#POINT_VEC3.FlareYellow}(): To flare the point in yellow.
 --   * @{#POINT_VEC3.FlareWhite}(): To flare the point in white.
 --   * @{#POINT_VEC3.FlareGreen}(): To flare the point in green.
--- 
+--
 -- ### Explode
--- 
+--
 --   * @{#POINT_VEC3.Explosion}(): To explode the point with a certain intensity.
---   
+--
 -- ### Illuminate
--- 
+--
 --   * @{#POINT_VEC3.IlluminationBomb}(): To illuminate the point.
---   
--- 
+--
+--
 -- ## 3D calculation methods
--- 
+--
 -- Various calculation methods exist to use or manipulate 3D space. Find below a short description of each method:
--- 
+--
 -- ### Distance
--- 
+--
 --   * @{#POINT_VEC3.Get3DDistance}(): Obtain the distance from the current 3D point to the provided 3D point in 3D space.
 --   * @{#POINT_VEC3.Get2DDistance}(): Obtain the distance from the current 3D point to the provided 3D point in 2D space.
---   
+--
 -- ### Angle
--- 
+--
 --   * @{#POINT_VEC3.GetAngleDegrees}(): Obtain the angle in degrees from the current 3D point with the provided 3D direction vector.
 --   * @{#POINT_VEC3.GetAngleRadians}(): Obtain the angle in radians from the current 3D point with the provided 3D direction vector.
 --   * @{#POINT_VEC3.GetDirectionVec3}(): Obtain the 3D direction vector from the current 3D point to the provided 3D point.
--- 
+--
 -- ### Translation
--- 
+--
 --   * @{#POINT_VEC3.Translate}(): Translate the current 3D point towards an other 3D point using the given Distance and Angle.
--- 
+--
 -- ### Get the North correction of the current location
---   
+--
 --   * @{#POINT_VEC3.GetNorthCorrection}(): Obtains the north correction at the current 3D point.
--- 
--- 
+--
+--
 -- ## Point Randomization
--- 
+--
 -- Various methods exist to calculate random locations around a given 3D point.
--- 
+--
 --   * @{#POINT_VEC3.GetRandomPointVec2InRadius}(): Provides a random 2D point around the current 3D point, in the given inner to outer band.
 --   * @{#POINT_VEC3.GetRandomPointVec3InRadius}(): Provides a random 3D point around the current 3D point, in the given inner to outer band.
 --   * @{#POINT_VEC3.GetRandomVec2InRadius}(): Provides a random 2D vector around the current 3D point, in the given inner to outer band.
 --   * @{#POINT_VEC3.GetRandomVec3InRadius}(): Provides a random 3D vector around the current 3D point, in the given inner to outer band.
--- 
--- 
+--
+--
 -- ## Metric system
--- 
+--
 --   * @{#POINT_VEC3.IsMetric}(): Returns if the 3D point is Metric or Nautical Miles.
 --   * @{#POINT_VEC3.SetMetric}(): Sets the 3D point to Metric or Nautical Miles.
--- 
--- 
+--
+--
 -- ## Coorinate text generation
--- 
+--
 --   * @{#POINT_VEC3.ToStringBR}(): Generates a Bearing & Range text in the format of DDD for DI where DDD is degrees and DI is distance.
 --   * @{#POINT_VEC3.ToStringLL}(): Generates a Latutude & Longutude text.
---   
+--
 -- @field #POINT_VEC3
 POINT_VEC3 = {
   ClassName = "POINT_VEC3",
@@ -11624,30 +11624,30 @@ POINT_VEC3 = {
 -- @extends Core.Point#POINT_VEC3
 
 --- # POINT_VEC2 class, extends @{Point#POINT_VEC3}
--- 
+--
 -- The @{Point#POINT_VEC2} class defines a 2D point in the simulator. The height coordinate (if needed) will be the land height + an optional added height specified.
--- 
+--
 -- ## POINT_VEC2 constructor
--- 
+--
 -- A new POINT_VEC2 instance can be created with:
--- 
+--
 --  * @{Point#POINT_VEC2.New}(): a 2D point, taking an additional height parameter.
 --  * @{Point#POINT_VEC2.NewFromVec2}(): a 2D point created from a @{DCSTypes#Vec2}.
--- 
+--
 -- ## Manupulate the X, Altitude, Y coordinates of the 2D point
--- 
+--
 -- A POINT_VEC2 class works in 2D space, with an altitude setting. It contains internally an X, Altitude, Y coordinate.
 -- Methods exist to manupulate these coordinates.
--- 
+--
 -- The current X, Altitude, Y axis can be retrieved with the methods @{#POINT_VEC2.GetX}(), @{#POINT_VEC2.GetAlt}(), @{#POINT_VEC2.GetY}() respectively.
 -- The methods @{#POINT_VEC2.SetX}(), @{#POINT_VEC2.SetAlt}(), @{#POINT_VEC2.SetY}() change the respective axis with a new value.
 -- The current Lat(itude), Alt(itude), Lon(gitude) values can also be retrieved with the methods @{#POINT_VEC2.GetLat}(), @{#POINT_VEC2.GetAlt}(), @{#POINT_VEC2.GetLon}() respectively.
 -- The current axis values can be changed by using the methods @{#POINT_VEC2.AddX}(), @{#POINT_VEC2.AddAlt}(), @{#POINT_VEC2.AddY}()
 -- to add or substract a value from the current respective axis value.
 -- Note that the Set and Add methods return the current POINT_VEC2 object, so these manipulation methods can be chained... For example:
--- 
+--
 --      local Vec2 = PointVec2:AddX( 100 ):AddY( 2000 ):GetVec2()
---      
+--
 -- @field #POINT_VEC2
 POINT_VEC2 = {
   ClassName = "POINT_VEC2",
@@ -11663,31 +11663,31 @@ POINT_VEC2 = {
 
 
 --- # COORDINATE class, extends @{Point#COORDINATE}
--- 
+--
 -- The COORDINATE class defines a 2D coordinate in the simulator. The height coordinate (if needed) will be the land height + an optional added height specified.
 -- A COORDINATE can be expressed in LL or in MGRS.
--- 
+--
 -- ## COORDINATE constructor
--- 
+--
 -- A new COORDINATE instance can be created with:
--- 
+--
 --  * @{Point#COORDINATE.New}(): a 2D point, taking an additional height parameter.
 --  * @{Point#COORDINATE.NewFromVec2}(): a 2D point created from a @{DCSTypes#Vec2}.
--- 
+--
 -- ## Manupulate the X, Altitude, Y coordinates of the 2D point
--- 
+--
 -- A COORDINATE class works in 2D space, with an altitude setting. It contains internally an X, Altitude, Y coordinate.
 -- Methods exist to manupulate these coordinates.
--- 
+--
 -- The current X, Altitude, Y axis can be retrieved with the methods @{#COORDINATE.GetX}(), @{#COORDINATE.GetAlt}(), @{#COORDINATE.GetY}() respectively.
 -- The methods @{#COORDINATE.SetX}(), @{#COORDINATE.SetAlt}(), @{#COORDINATE.SetY}() change the respective axis with a new value.
 -- The current Lat(itude), Alt(itude), Lon(gitude) values can also be retrieved with the methods @{#COORDINATE.GetLat}(), @{#COORDINATE.GetAlt}(), @{#COORDINATE.GetLon}() respectively.
 -- The current axis values can be changed by using the methods @{#COORDINATE.AddX}(), @{#COORDINATE.AddAlt}(), @{#COORDINATE.AddY}()
 -- to add or substract a value from the current respective axis value.
 -- Note that the Set and Add methods return the current COORDINATE object, so these manipulation methods can be chained... For example:
--- 
+--
 --      local Vec2 = PointVec2:AddX( 100 ):AddY( 2000 ):GetVec2()
---      
+--
 -- @field #COORDINATE
 COORDINATE = {
   ClassName = "COORDINATE",
@@ -11699,562 +11699,553 @@ COORDINATE = {
 
 do -- POINT_VEC3
 
---- RoutePoint AltTypes
--- @type POINT_VEC3.RoutePointAltType
--- @field BARO "BARO"
+  --- RoutePoint AltTypes
+  -- @type POINT_VEC3.RoutePointAltType
+  -- @field BARO "BARO"
 
---- RoutePoint Types
--- @type POINT_VEC3.RoutePointType
--- @field TakeOffParking "TakeOffParking"
--- @field TurningPoint "Turning Point"
+  --- RoutePoint Types
+  -- @type POINT_VEC3.RoutePointType
+  -- @field TakeOffParking "TakeOffParking"
+  -- @field TurningPoint "Turning Point"
 
---- RoutePoint Actions
--- @type POINT_VEC3.RoutePointAction
--- @field FromParkingArea "From Parking Area"
--- @field TurningPoint "Turning Point"
+  --- RoutePoint Actions
+  -- @type POINT_VEC3.RoutePointAction
+  -- @field FromParkingArea "From Parking Area"
+  -- @field TurningPoint "Turning Point"
 
--- Constructor.
-  
---- Create a new POINT_VEC3 object.
--- @param #POINT_VEC3 self
--- @param Dcs.DCSTypes#Distance x The x coordinate of the Vec3 point, pointing to the North.
--- @param Dcs.DCSTypes#Distance y The y coordinate of the Vec3 point, pointing Upwards.
--- @param Dcs.DCSTypes#Distance z The z coordinate of the Vec3 point, pointing to the Right.
--- @return Core.Point#POINT_VEC3 self
-function POINT_VEC3:New( x, y, z )
+  -- Constructor.
 
-  local self = BASE:Inherit( self, BASE:New() )
-  self.x = x
-  self.y = y
-  self.z = z
-  
-  return self
-end
+  --- Create a new POINT_VEC3 object.
+  -- @param #POINT_VEC3 self
+  -- @param Dcs.DCSTypes#Distance x The x coordinate of the Vec3 point, pointing to the North.
+  -- @param Dcs.DCSTypes#Distance y The y coordinate of the Vec3 point, pointing Upwards.
+  -- @param Dcs.DCSTypes#Distance z The z coordinate of the Vec3 point, pointing to the Right.
+  -- @return Core.Point#POINT_VEC3 self
+  function POINT_VEC3:New( x, y, z )
 
---- Create a new POINT_VEC3 object from Vec2 coordinates.
--- @param #POINT_VEC3 self
--- @param Dcs.DCSTypes#Vec2 Vec2 The Vec2 point.
--- @return Core.Point#POINT_VEC3 self
-function POINT_VEC3:NewFromVec2( Vec2, LandHeightAdd )
+    local self = BASE:Inherit( self, BASE:New() )
+    self.x = x
+    self.y = y
+    self.z = z
 
-  local LandHeight = land.getHeight( Vec2 )
+    self:SetMetric( true )
 
-  LandHeightAdd = LandHeightAdd or 0
-  LandHeight = LandHeight + LandHeightAdd
-  
-  self = self:New( Vec2.x, LandHeight, Vec2.y )
-  
-  self:F2( self )
-
-  return self
-end
-
---- Create a new POINT_VEC3 object from  Vec3 coordinates.
--- @param #POINT_VEC3 self
--- @param Dcs.DCSTypes#Vec3 Vec3 The Vec3 point.
--- @return Core.Point#POINT_VEC3 self
-function POINT_VEC3:NewFromVec3( Vec3 )
-
-  self = self:New( Vec3.x, Vec3.y, Vec3.z )
-  self:F2( self )
-  return self
-end
-
-
---- Return the coordinates of the POINT_VEC3 in Vec3 format.
--- @param #POINT_VEC3 self
--- @return Dcs.DCSTypes#Vec3 The Vec3 coodinate.
-function POINT_VEC3:GetVec3()
-  return { x = self.x, y = self.y, z = self.z }
-end
-
---- Return the coordinates of the POINT_VEC3 in Vec2 format.
--- @param #POINT_VEC3 self
--- @return Dcs.DCSTypes#Vec2 The Vec2 coodinate.
-function POINT_VEC3:GetVec2()
-  return { x = self.x, y = self.z }
-end
-
-
---- Return the x coordinate of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @return #number The x coodinate.
-function POINT_VEC3:GetX()
-  return self.x
-end
-
---- Return the y coordinate of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @return #number The y coodinate.
-function POINT_VEC3:GetY()
-  return self.y
-end
-
---- Return the z coordinate of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @return #number The z coodinate.
-function POINT_VEC3:GetZ()
-  return self.z
-end
-
---- Set the x coordinate of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param #number x The x coordinate.
--- @return #POINT_VEC3
-function POINT_VEC3:SetX( x )
-  self.x = x
-  return self
-end
-
---- Set the y coordinate of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param #number y The y coordinate.
--- @return #POINT_VEC3
-function POINT_VEC3:SetY( y )
-  self.y = y
-  return self
-end
-
---- Set the z coordinate of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param #number z The z coordinate.
--- @return #POINT_VEC3
-function POINT_VEC3:SetZ( z )
-  self.z = z
-  return self
-end
-
---- Add to the x coordinate of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param #number x The x coordinate value to add to the current x coodinate.
--- @return #POINT_VEC3
-function POINT_VEC3:AddX( x )
-  self.x = self.x + x
-  return self
-end
-
---- Add to the y coordinate of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param #number y The y coordinate value to add to the current y coodinate.
--- @return #POINT_VEC3
-function POINT_VEC3:AddY( y )
-  self.y = self.y + y
-  return self
-end
-
---- Add to the z coordinate of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param #number z The z coordinate value to add to the current z coodinate.
--- @return #POINT_VEC3
-function POINT_VEC3:AddZ( z )
-  self.z = self.z +z
-  return self
-end
-
---- Return a random Vec2 within an Outer Radius and optionally NOT within an Inner Radius of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param Dcs.DCSTypes#Distance OuterRadius
--- @param Dcs.DCSTypes#Distance InnerRadius
--- @return Dcs.DCSTypes#Vec2 Vec2
-function POINT_VEC3:GetRandomVec2InRadius( OuterRadius, InnerRadius )
-  self:F2( { OuterRadius, InnerRadius } )
-
-  local Theta = 2 * math.pi * math.random()
-  local Radials = math.random() + math.random()
-  if Radials > 1 then
-    Radials = 2 - Radials
+    return self
   end
 
-  local RadialMultiplier
-  if InnerRadius and InnerRadius <= OuterRadius then
-    RadialMultiplier = ( OuterRadius - InnerRadius ) * Radials + InnerRadius
-  else
-    RadialMultiplier = OuterRadius * Radials
+  --- Create a new POINT_VEC3 object from Vec2 coordinates.
+  -- @param #POINT_VEC3 self
+  -- @param Dcs.DCSTypes#Vec2 Vec2 The Vec2 point.
+  -- @return Core.Point#POINT_VEC3 self
+  function POINT_VEC3:NewFromVec2( Vec2, LandHeightAdd )
+
+    local LandHeight = land.getHeight( Vec2 )
+
+    LandHeightAdd = LandHeightAdd or 0
+    LandHeight = LandHeight + LandHeightAdd
+
+    self = self:New( Vec2.x, LandHeight, Vec2.y )
+
+    self:F2( self )
+
+    return self
   end
 
-  local RandomVec2
-  if OuterRadius > 0 then
-    RandomVec2 = { x = math.cos( Theta ) * RadialMultiplier + self:GetX(), y = math.sin( Theta ) * RadialMultiplier + self:GetZ() }
-  else
-    RandomVec2 = { x = self:GetX(), y = self:GetZ() }
-  end
-  
-  return RandomVec2
-end
+  --- Create a new POINT_VEC3 object from  Vec3 coordinates.
+  -- @param #POINT_VEC3 self
+  -- @param Dcs.DCSTypes#Vec3 Vec3 The Vec3 point.
+  -- @return Core.Point#POINT_VEC3 self
+  function POINT_VEC3:NewFromVec3( Vec3 )
 
---- Return a random POINT_VEC2 within an Outer Radius and optionally NOT within an Inner Radius of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param Dcs.DCSTypes#Distance OuterRadius
--- @param Dcs.DCSTypes#Distance InnerRadius
--- @return #POINT_VEC2
-function POINT_VEC3:GetRandomPointVec2InRadius( OuterRadius, InnerRadius )
-  self:F2( { OuterRadius, InnerRadius } )
-  
-  return POINT_VEC2:NewFromVec2( self:GetRandomVec2InRadius( OuterRadius, InnerRadius ) )
-end
-
---- Return a random Vec3 within an Outer Radius and optionally NOT within an Inner Radius of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param Dcs.DCSTypes#Distance OuterRadius
--- @param Dcs.DCSTypes#Distance InnerRadius
--- @return Dcs.DCSTypes#Vec3 Vec3
-function POINT_VEC3:GetRandomVec3InRadius( OuterRadius, InnerRadius )
-
-  local RandomVec2 = self:GetRandomVec2InRadius( OuterRadius, InnerRadius )
-  local y = self:GetY() + math.random( InnerRadius, OuterRadius )
-  local RandomVec3 = { x = RandomVec2.x, y = y, z = RandomVec2.y }
-
-  return RandomVec3
-end
-
---- Return a random POINT_VEC3 within an Outer Radius and optionally NOT within an Inner Radius of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param Dcs.DCSTypes#Distance OuterRadius
--- @param Dcs.DCSTypes#Distance InnerRadius
--- @return #POINT_VEC3
-function POINT_VEC3:GetRandomPointVec3InRadius( OuterRadius, InnerRadius )
-
-  return POINT_VEC3:NewFromVec3( self:GetRandomVec3InRadius( OuterRadius, InnerRadius ) )
-end
-
-
---- Return a direction vector Vec3 from POINT_VEC3 to the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param #POINT_VEC3 TargetPointVec3 The target POINT_VEC3.
--- @return Dcs.DCSTypes#Vec3 DirectionVec3 The direction vector in Vec3 format.
-function POINT_VEC3:GetDirectionVec3( TargetPointVec3 )
-  return { x = TargetPointVec3:GetX() - self:GetX(), y = TargetPointVec3:GetY() - self:GetY(), z = TargetPointVec3:GetZ() - self:GetZ() }
-end
-
---- Get a correction in radians of the real magnetic north of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @return #number CorrectionRadians The correction in radians.
-function POINT_VEC3:GetNorthCorrectionRadians()
-  local TargetVec3 = self:GetVec3()
-  local lat, lon = coord.LOtoLL(TargetVec3)
-  local north_posit = coord.LLtoLO(lat + 1, lon)
-  return math.atan2( north_posit.z - TargetVec3.z, north_posit.x - TargetVec3.x )
-end
-
-
---- Return an angle in radians from the POINT_VEC3 using a direction vector in Vec3 format.
--- @param #POINT_VEC3 self
--- @param Dcs.DCSTypes#Vec3 DirectionVec3 The direction vector in Vec3 format.
--- @return #number DirectionRadians The angle in radians.
-function POINT_VEC3:GetAngleRadians( DirectionVec3 )
-  local DirectionRadians = math.atan2( DirectionVec3.z, DirectionVec3.x )
-  --DirectionRadians = DirectionRadians + self:GetNorthCorrectionRadians()
-  if DirectionRadians < 0 then
-    DirectionRadians = DirectionRadians + 2 * math.pi  -- put dir in range of 0 to 2*pi ( the full circle )
-  end
-  return DirectionRadians
-end
-
---- Return an angle in degrees from the POINT_VEC3 using a direction vector in Vec3 format.
--- @param #POINT_VEC3 self
--- @param Dcs.DCSTypes#Vec3 DirectionVec3 The direction vector in Vec3 format.
--- @return #number DirectionRadians The angle in degrees.
-function POINT_VEC3:GetAngleDegrees( DirectionVec3 )
-  local AngleRadians = self:GetAngleRadians(DirectionVec3)
-  local Angle = UTILS.ToDegree( AngleRadians )
-  return Angle
-end
-
-
---- Return the 2D distance in meters between the target POINT_VEC3 and the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param #POINT_VEC3 TargetPointVec3 The target POINT_VEC3.
--- @return Dcs.DCSTypes#Distance Distance The distance in meters.
-function POINT_VEC3:Get2DDistance( TargetPointVec3 )
-  local TargetVec3 = TargetPointVec3:GetVec3()
-  local SourceVec3 = self:GetVec3()
-  return ( ( TargetVec3.x - SourceVec3.x ) ^ 2 + ( TargetVec3.z - SourceVec3.z ) ^ 2 ) ^ 0.5
-end
-
---- Return the 3D distance in meters between the target POINT_VEC3 and the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param #POINT_VEC3 TargetPointVec3 The target POINT_VEC3.
--- @return Dcs.DCSTypes#Distance Distance The distance in meters.
-function POINT_VEC3:Get3DDistance( TargetPointVec3 )
-  local TargetVec3 = TargetPointVec3:GetVec3()
-  local SourceVec3 = self:GetVec3()
-  return ( ( TargetVec3.x - SourceVec3.x ) ^ 2 + ( TargetVec3.y - SourceVec3.y ) ^ 2 + ( TargetVec3.z - SourceVec3.z ) ^ 2 ) ^ 0.5
-end
-
---- Provides a Bearing / Range string
--- @param #POINT_VEC3 self
--- @param #number AngleRadians The angle in randians
--- @param #number Distance The distance
--- @return #string The BR Text
-function POINT_VEC3:ToStringBR( AngleRadians, Distance )
-
-  AngleRadians = UTILS.Round( UTILS.ToDegree( AngleRadians ), 0 )
-  if self:IsMetric() then
-    Distance = UTILS.Round( Distance / 1000, 2 )
-  else
-    Distance = UTILS.Round( UTILS.MetersToNM( Distance ), 2 )
+    self = self:New( Vec3.x, Vec3.y, Vec3.z )
+    self:F2( self )
+    return self
   end
 
-  local s = string.format( '%03d', AngleRadians ) .. ' for ' .. Distance
 
-  s = s .. self:GetAltitudeText() -- When the POINT is a VEC2, there will be no altitude shown.
-
-  return s
-end
-
-
---- Return the altitude text of the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @return #string Altitude text.
-function POINT_VEC3:GetAltitudeText()
-  if self:IsMetric() then
-    return ' at ' .. UTILS.Round( self:GetY(), 0 )
-  else
-    return ' at ' .. UTILS.Round( UTILS.MetersToFeet( self:GetY() ), 0 )
+  --- Return the coordinates of the POINT_VEC3 in Vec3 format.
+  -- @param #POINT_VEC3 self
+  -- @return Dcs.DCSTypes#Vec3 The Vec3 coodinate.
+  function POINT_VEC3:GetVec3()
+    return { x = self.x, y = self.y, z = self.z }
   end
-end
 
---- Return a BR string from a POINT_VEC3 to the POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param #POINT_VEC3 TargetPointVec3 The target POINT_VEC3.
--- @return #string The BR text.
-function POINT_VEC3:GetBRText( TargetPointVec3 )
-    local DirectionVec3 = self:GetDirectionVec3( TargetPointVec3 )
-    local AngleRadians =  self:GetAngleRadians( DirectionVec3 )
-    local Distance = self:Get2DDistance( TargetPointVec3 )
-    return self:ToStringBR( AngleRadians, Distance )
-end
-
---- Sets the POINT_VEC3 metric or NM.
--- @param #POINT_VEC3 self
--- @param #boolean Metric true means metric, false means NM.
-function POINT_VEC3:SetMetric( Metric )
-  self.Metric = Metric
-end
-
---- Gets if the POINT_VEC3 is metric or NM.
--- @param #POINT_VEC3 self
--- @return #boolean Metric true means metric, false means NM.
-function POINT_VEC3:IsMetric()
-  return self.Metric
-end
-
---- Add a Distance in meters from the POINT_VEC3 horizontal plane, with the given angle, and calculate the new POINT_VEC3.
--- @param #POINT_VEC3 self
--- @param Dcs.DCSTypes#Distance Distance The Distance to be added in meters.
--- @param Dcs.DCSTypes#Angle Angle The Angle in degrees.
--- @return #POINT_VEC3 The new calculated POINT_VEC3.
-function POINT_VEC3:Translate( Distance, Angle )
-  local SX = self:GetX()
-  local SZ = self:GetZ()
-  local Radians = Angle / 180 * math.pi
-  local TX = Distance * math.cos( Radians ) + SX
-  local TZ = Distance * math.sin( Radians ) + SZ
-  
-  return POINT_VEC3:New( TX, self:GetY(), TZ )
-end
+  --- Return the coordinates of the POINT_VEC3 in Vec2 format.
+  -- @param #POINT_VEC3 self
+  -- @return Dcs.DCSTypes#Vec2 The Vec2 coodinate.
+  function POINT_VEC3:GetVec2()
+    return { x = self.x, y = self.z }
+  end
 
 
+  --- Return the x coordinate of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @return #number The x coodinate.
+  function POINT_VEC3:GetX()
+    return self.x
+  end
 
---- Build an air type route point.
--- @param #POINT_VEC3 self
--- @param #POINT_VEC3.RoutePointAltType AltType The altitude type.
--- @param #POINT_VEC3.RoutePointType Type The route point type.
--- @param #POINT_VEC3.RoutePointAction Action The route point action.
--- @param Dcs.DCSTypes#Speed Speed Airspeed in km/h.
--- @param #boolean SpeedLocked true means the speed is locked.
--- @return #table The route point.
-function POINT_VEC3:RoutePointAir( AltType, Type, Action, Speed, SpeedLocked )
-  self:F2( { AltType, Type, Action, Speed, SpeedLocked } )
+  --- Return the y coordinate of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @return #number The y coodinate.
+  function POINT_VEC3:GetY()
+    return self.y
+  end
 
-  local RoutePoint = {}
-  RoutePoint.x = self.x
-  RoutePoint.y = self.z
-  RoutePoint.alt = self.y
-  RoutePoint.alt_type = AltType
-  
-  RoutePoint.type = Type
-  RoutePoint.action = Action
+  --- Return the z coordinate of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @return #number The z coodinate.
+  function POINT_VEC3:GetZ()
+    return self.z
+  end
 
-  RoutePoint.speed = Speed / 3.6
-  RoutePoint.speed_locked = true
-  
---  ["task"] = 
---  {
---      ["id"] = "ComboTask",
---      ["params"] = 
---      {
---          ["tasks"] = 
---          {
---          }, -- end of ["tasks"]
---      }, -- end of ["params"]
---  }, -- end of ["task"]
+  --- Set the x coordinate of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @param #number x The x coordinate.
+  -- @return #POINT_VEC3
+  function POINT_VEC3:SetX( x )
+    self.x = x
+    return self
+  end
+
+  --- Set the y coordinate of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @param #number y The y coordinate.
+  -- @return #POINT_VEC3
+  function POINT_VEC3:SetY( y )
+    self.y = y
+    return self
+  end
+
+  --- Set the z coordinate of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @param #number z The z coordinate.
+  -- @return #POINT_VEC3
+  function POINT_VEC3:SetZ( z )
+    self.z = z
+    return self
+  end
+
+  --- Add to the x coordinate of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @param #number x The x coordinate value to add to the current x coodinate.
+  -- @return #POINT_VEC3
+  function POINT_VEC3:AddX( x )
+    self.x = self.x + x
+    return self
+  end
+
+  --- Add to the y coordinate of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @param #number y The y coordinate value to add to the current y coodinate.
+  -- @return #POINT_VEC3
+  function POINT_VEC3:AddY( y )
+    self.y = self.y + y
+    return self
+  end
+
+  --- Add to the z coordinate of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @param #number z The z coordinate value to add to the current z coodinate.
+  -- @return #POINT_VEC3
+  function POINT_VEC3:AddZ( z )
+    self.z = self.z +z
+    return self
+  end
+
+  --- Return a random Vec2 within an Outer Radius and optionally NOT within an Inner Radius of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @param Dcs.DCSTypes#Distance OuterRadius
+  -- @param Dcs.DCSTypes#Distance InnerRadius
+  -- @return Dcs.DCSTypes#Vec2 Vec2
+  function POINT_VEC3:GetRandomVec2InRadius( OuterRadius, InnerRadius )
+    self:F2( { OuterRadius, InnerRadius } )
+
+    local Theta = 2 * math.pi * math.random()
+    local Radials = math.random() + math.random()
+    if Radials > 1 then
+      Radials = 2 - Radials
+    end
+
+    local RadialMultiplier
+    if InnerRadius and InnerRadius <= OuterRadius then
+      RadialMultiplier = ( OuterRadius - InnerRadius ) * Radials + InnerRadius
+    else
+      RadialMultiplier = OuterRadius * Radials
+    end
+
+    local RandomVec2
+    if OuterRadius > 0 then
+      RandomVec2 = { x = math.cos( Theta ) * RadialMultiplier + self:GetX(), y = math.sin( Theta ) * RadialMultiplier + self:GetZ() }
+    else
+      RandomVec2 = { x = self:GetX(), y = self:GetZ() }
+    end
+
+    return RandomVec2
+  end
+
+  --- Return a random POINT_VEC2 within an Outer Radius and optionally NOT within an Inner Radius of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @param Dcs.DCSTypes#Distance OuterRadius
+  -- @param Dcs.DCSTypes#Distance InnerRadius
+  -- @return #POINT_VEC2
+  function POINT_VEC3:GetRandomPointVec2InRadius( OuterRadius, InnerRadius )
+    self:F2( { OuterRadius, InnerRadius } )
+
+    return POINT_VEC2:NewFromVec2( self:GetRandomVec2InRadius( OuterRadius, InnerRadius ) )
+  end
+
+  --- Return a random Vec3 within an Outer Radius and optionally NOT within an Inner Radius of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @param Dcs.DCSTypes#Distance OuterRadius
+  -- @param Dcs.DCSTypes#Distance InnerRadius
+  -- @return Dcs.DCSTypes#Vec3 Vec3
+  function POINT_VEC3:GetRandomVec3InRadius( OuterRadius, InnerRadius )
+
+    local RandomVec2 = self:GetRandomVec2InRadius( OuterRadius, InnerRadius )
+    local y = self:GetY() + math.random( InnerRadius, OuterRadius )
+    local RandomVec3 = { x = RandomVec2.x, y = y, z = RandomVec2.y }
+
+    return RandomVec3
+  end
+
+  --- Return a random POINT_VEC3 within an Outer Radius and optionally NOT within an Inner Radius of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @param Dcs.DCSTypes#Distance OuterRadius
+  -- @param Dcs.DCSTypes#Distance InnerRadius
+  -- @return #POINT_VEC3
+  function POINT_VEC3:GetRandomPointVec3InRadius( OuterRadius, InnerRadius )
+
+    return POINT_VEC3:NewFromVec3( self:GetRandomVec3InRadius( OuterRadius, InnerRadius ) )
+  end
 
 
-  RoutePoint.task = {}
-  RoutePoint.task.id = "ComboTask"
-  RoutePoint.task.params = {}
-  RoutePoint.task.params.tasks = {}
-  
-  
-  return RoutePoint
-end
+  --- Return a direction vector Vec3 from POINT_VEC3 to the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @param #POINT_VEC3 TargetPointVec3 The target POINT_VEC3.
+  -- @return Dcs.DCSTypes#Vec3 DirectionVec3 The direction vector in Vec3 format.
+  function POINT_VEC3:GetDirectionVec3( TargetPointVec3 )
+    return { x = TargetPointVec3:GetX() - self:GetX(), y = TargetPointVec3:GetY() - self:GetY(), z = TargetPointVec3:GetZ() - self:GetZ() }
+  end
 
---- Build an ground type route point.
--- @param #POINT_VEC3 self
--- @param Dcs.DCSTypes#Speed Speed Speed in km/h.
--- @param #POINT_VEC3.RoutePointAction Formation The route point Formation.
--- @return #table The route point.
-function POINT_VEC3:RoutePointGround( Speed, Formation )
-  self:F2( { Formation, Speed } )
-
-  local RoutePoint = {}
-  RoutePoint.x = self.x
-  RoutePoint.y = self.z
-  
-  RoutePoint.action = Formation or ""
-    
-
-  RoutePoint.speed = Speed / 3.6
-  RoutePoint.speed_locked = true
-  
---  ["task"] = 
---  {
---      ["id"] = "ComboTask",
---      ["params"] = 
---      {
---          ["tasks"] = 
---          {
---          }, -- end of ["tasks"]
---      }, -- end of ["params"]
---  }, -- end of ["task"]
+  --- Get a correction in radians of the real magnetic north of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @return #number CorrectionRadians The correction in radians.
+  function POINT_VEC3:GetNorthCorrectionRadians()
+    local TargetVec3 = self:GetVec3()
+    local lat, lon = coord.LOtoLL(TargetVec3)
+    local north_posit = coord.LLtoLO(lat + 1, lon)
+    return math.atan2( north_posit.z - TargetVec3.z, north_posit.x - TargetVec3.x )
+  end
 
 
-  RoutePoint.task = {}
-  RoutePoint.task.id = "ComboTask"
-  RoutePoint.task.params = {}
-  RoutePoint.task.params.tasks = {}
-  
-  
-  return RoutePoint
-end
+  --- Return an angle in radians from the POINT_VEC3 using a direction vector in Vec3 format.
+  -- @param #POINT_VEC3 self
+  -- @param Dcs.DCSTypes#Vec3 DirectionVec3 The direction vector in Vec3 format.
+  -- @return #number DirectionRadians The angle in radians.
+  function POINT_VEC3:GetAngleRadians( DirectionVec3 )
+    local DirectionRadians = math.atan2( DirectionVec3.z, DirectionVec3.x )
+    --DirectionRadians = DirectionRadians + self:GetNorthCorrectionRadians()
+    if DirectionRadians < 0 then
+      DirectionRadians = DirectionRadians + 2 * math.pi  -- put dir in range of 0 to 2*pi ( the full circle )
+    end
+    return DirectionRadians
+  end
 
---- Creates an explosion at the point of a certain intensity.
--- @param #POINT_VEC3 self
--- @param #number ExplosionIntensity
-function POINT_VEC3:Explosion( ExplosionIntensity )
-  self:F2( { ExplosionIntensity } )
-  trigger.action.explosion( self:GetVec3(), ExplosionIntensity )
-end
-
---- Creates an illumination bomb at the point.
--- @param #POINT_VEC3 self
-function POINT_VEC3:IlluminationBomb()
-  self:F2()
-  trigger.action.illuminationBomb( self:GetVec3() )
-end
+  --- Return an angle in degrees from the POINT_VEC3 using a direction vector in Vec3 format.
+  -- @param #POINT_VEC3 self
+  -- @param Dcs.DCSTypes#Vec3 DirectionVec3 The direction vector in Vec3 format.
+  -- @return #number DirectionRadians The angle in degrees.
+  function POINT_VEC3:GetAngleDegrees( DirectionVec3 )
+    local AngleRadians = self:GetAngleRadians(DirectionVec3)
+    local Angle = UTILS.ToDegree( AngleRadians )
+    return Angle
+  end
 
 
---- Smokes the point in a color.
--- @param #POINT_VEC3 self
--- @param Utilities.Utils#SMOKECOLOR SmokeColor
-function POINT_VEC3:Smoke( SmokeColor )
-  self:F2( { SmokeColor } )
-  trigger.action.smoke( self:GetVec3(), SmokeColor )
-end
+  --- Return the 2D distance in meters between the target POINT_VEC3 and the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @param #POINT_VEC3 TargetPointVec3 The target POINT_VEC3.
+  -- @return Dcs.DCSTypes#Distance Distance The distance in meters.
+  function POINT_VEC3:Get2DDistance( TargetPointVec3 )
+    local TargetVec3 = TargetPointVec3:GetVec3()
+    local SourceVec3 = self:GetVec3()
+    return ( ( TargetVec3.x - SourceVec3.x ) ^ 2 + ( TargetVec3.z - SourceVec3.z ) ^ 2 ) ^ 0.5
+  end
 
---- Smoke the POINT_VEC3 Green.
--- @param #POINT_VEC3 self
-function POINT_VEC3:SmokeGreen()
-  self:F2()
-  self:Smoke( SMOKECOLOR.Green )
-end
+  --- Return the 3D distance in meters between the target POINT_VEC3 and the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @param #POINT_VEC3 TargetPointVec3 The target POINT_VEC3.
+  -- @return Dcs.DCSTypes#Distance Distance The distance in meters.
+  function POINT_VEC3:Get3DDistance( TargetPointVec3 )
+    local TargetVec3 = TargetPointVec3:GetVec3()
+    local SourceVec3 = self:GetVec3()
+    return ( ( TargetVec3.x - SourceVec3.x ) ^ 2 + ( TargetVec3.y - SourceVec3.y ) ^ 2 + ( TargetVec3.z - SourceVec3.z ) ^ 2 ) ^ 0.5
+  end
 
---- Smoke the POINT_VEC3 Red.
--- @param #POINT_VEC3 self
-function POINT_VEC3:SmokeRed()
-  self:F2()
-  self:Smoke( SMOKECOLOR.Red )
-end
+  --- Provides a Bearing / Range string
+  -- @param #POINT_VEC3 self
+  -- @param #number AngleRadians The angle in randians
+  -- @param #number Distance The distance
+  -- @return #string The BR Text
+  function POINT_VEC3:GetBRText( AngleRadians, Distance )
 
---- Smoke the POINT_VEC3 White.
--- @param #POINT_VEC3 self
-function POINT_VEC3:SmokeWhite()
-  self:F2()
-  self:Smoke( SMOKECOLOR.White )
-end
+    AngleRadians = UTILS.Round( UTILS.ToDegree( AngleRadians ), 0 )
+    if self:IsMetric() then
+      Distance = UTILS.Round( Distance / 1000, 2 )
+    else
+      Distance = UTILS.Round( UTILS.MetersToNM( Distance ), 2 )
+    end
 
---- Smoke the POINT_VEC3 Orange.
--- @param #POINT_VEC3 self
-function POINT_VEC3:SmokeOrange()
-  self:F2()
-  self:Smoke( SMOKECOLOR.Orange )
-end
+    local s = string.format( '%03d', AngleRadians ) .. ' for ' .. Distance
 
---- Smoke the POINT_VEC3 Blue.
--- @param #POINT_VEC3 self
-function POINT_VEC3:SmokeBlue()
-  self:F2()
-  self:Smoke( SMOKECOLOR.Blue )
-end
+    s = s .. self:GetAltitudeText() -- When the POINT is a VEC2, there will be no altitude shown.
 
---- Flares the point in a color.
--- @param #POINT_VEC3 self
--- @param Utilities.Utils#FLARECOLOR FlareColor
--- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
-function POINT_VEC3:Flare( FlareColor, Azimuth )
-  self:F2( { FlareColor } )
-  trigger.action.signalFlare( self:GetVec3(), FlareColor, Azimuth and Azimuth or 0 )
-end
+    return s
+  end
 
---- Flare the POINT_VEC3 White.
--- @param #POINT_VEC3 self
--- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
-function POINT_VEC3:FlareWhite( Azimuth )
-  self:F2( Azimuth )
-  self:Flare( FLARECOLOR.White, Azimuth )
-end
 
---- Flare the POINT_VEC3 Yellow.
--- @param #POINT_VEC3 self
--- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
-function POINT_VEC3:FlareYellow( Azimuth )
-  self:F2( Azimuth )
-  self:Flare( FLARECOLOR.Yellow, Azimuth )
-end
+  --- Return the altitude text of the POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @return #string Altitude text.
+  function POINT_VEC3:GetAltitudeText()
+    if self:IsMetric() then
+      return ' at ' .. UTILS.Round( self:GetY(), -3 )
+    else
+      return ' at ' .. UTILS.Round( UTILS.MetersToFeet( self:GetY() ), 0 )
+    end
+  end
 
---- Flare the POINT_VEC3 Green.
--- @param #POINT_VEC3 self
--- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
-function POINT_VEC3:FlareGreen( Azimuth )
-  self:F2( Azimuth )
-  self:Flare( FLARECOLOR.Green, Azimuth )
-end
+  --- Sets the POINT_VEC3 metric or NM.
+  -- @param #POINT_VEC3 self
+  -- @param #boolean Metric true means metric, false means NM.
+  function POINT_VEC3:SetMetric( Metric )
+    self.Metric = Metric
+  end
 
---- Flare the POINT_VEC3 Red.
--- @param #POINT_VEC3 self
-function POINT_VEC3:FlareRed( Azimuth )
-  self:F2( Azimuth )
-  self:Flare( FLARECOLOR.Red, Azimuth )
-end
+  --- Gets if the POINT_VEC3 is metric or NM.
+  -- @param #POINT_VEC3 self
+  -- @return #boolean Metric true means metric, false means NM.
+  function POINT_VEC3:IsMetric()
+    return self.Metric
+  end
 
---- Returns if a PointVec3 has Line of Sight (LOS) with the ToPointVec3.
--- @param #POINT_VEC3 self
--- @param #POINT_VEC3 ToPointVec3
--- @return #boolean true If the ToPointVec3 has LOS with the PointVec3, otherwise false.
-function POINT_VEC3:IsLOS( ToPointVec3 ) --R2.1
+  --- Add a Distance in meters from the POINT_VEC3 horizontal plane, with the given angle, and calculate the new POINT_VEC3.
+  -- @param #POINT_VEC3 self
+  -- @param Dcs.DCSTypes#Distance Distance The Distance to be added in meters.
+  -- @param Dcs.DCSTypes#Angle Angle The Angle in degrees.
+  -- @return #POINT_VEC3 The new calculated POINT_VEC3.
+  function POINT_VEC3:Translate( Distance, Angle )
+    local SX = self:GetX()
+    local SZ = self:GetZ()
+    local Radians = Angle / 180 * math.pi
+    local TX = Distance * math.cos( Radians ) + SX
+    local TZ = Distance * math.sin( Radians ) + SZ
 
-  -- Measurement of visibility should not be from the ground, so Adding a hypotethical 2 meters to each PointVec3.
-  local FromVec3 = self:GetVec3()
-  FromVec3.y = FromVec3.y + 2
-  
-  local ToVec3 = ToPointVec3:GetVec3()
-  ToVec3.y = ToVec3.y + 2
-  
-  local IsLOS = land.isVisible( FromVec3, ToVec3 )
+    return POINT_VEC3:New( TX, self:GetY(), TZ )
+  end
 
-  return IsLOS
-end
+
+
+  --- Build an air type route point.
+  -- @param #POINT_VEC3 self
+  -- @param #POINT_VEC3.RoutePointAltType AltType The altitude type.
+  -- @param #POINT_VEC3.RoutePointType Type The route point type.
+  -- @param #POINT_VEC3.RoutePointAction Action The route point action.
+  -- @param Dcs.DCSTypes#Speed Speed Airspeed in km/h.
+  -- @param #boolean SpeedLocked true means the speed is locked.
+  -- @return #table The route point.
+  function POINT_VEC3:RoutePointAir( AltType, Type, Action, Speed, SpeedLocked )
+    self:F2( { AltType, Type, Action, Speed, SpeedLocked } )
+
+    local RoutePoint = {}
+    RoutePoint.x = self.x
+    RoutePoint.y = self.z
+    RoutePoint.alt = self.y
+    RoutePoint.alt_type = AltType
+
+    RoutePoint.type = Type
+    RoutePoint.action = Action
+
+    RoutePoint.speed = Speed / 3.6
+    RoutePoint.speed_locked = true
+
+    --  ["task"] =
+    --  {
+    --      ["id"] = "ComboTask",
+    --      ["params"] =
+    --      {
+    --          ["tasks"] =
+    --          {
+    --          }, -- end of ["tasks"]
+    --      }, -- end of ["params"]
+    --  }, -- end of ["task"]
+
+
+    RoutePoint.task = {}
+    RoutePoint.task.id = "ComboTask"
+    RoutePoint.task.params = {}
+    RoutePoint.task.params.tasks = {}
+
+
+    return RoutePoint
+  end
+
+  --- Build an ground type route point.
+  -- @param #POINT_VEC3 self
+  -- @param Dcs.DCSTypes#Speed Speed Speed in km/h.
+  -- @param #POINT_VEC3.RoutePointAction Formation The route point Formation.
+  -- @return #table The route point.
+  function POINT_VEC3:RoutePointGround( Speed, Formation )
+    self:F2( { Formation, Speed } )
+
+    local RoutePoint = {}
+    RoutePoint.x = self.x
+    RoutePoint.y = self.z
+
+    RoutePoint.action = Formation or ""
+
+
+    RoutePoint.speed = Speed / 3.6
+    RoutePoint.speed_locked = true
+
+    --  ["task"] =
+    --  {
+    --      ["id"] = "ComboTask",
+    --      ["params"] =
+    --      {
+    --          ["tasks"] =
+    --          {
+    --          }, -- end of ["tasks"]
+    --      }, -- end of ["params"]
+    --  }, -- end of ["task"]
+
+
+    RoutePoint.task = {}
+    RoutePoint.task.id = "ComboTask"
+    RoutePoint.task.params = {}
+    RoutePoint.task.params.tasks = {}
+
+
+    return RoutePoint
+  end
+
+  --- Creates an explosion at the point of a certain intensity.
+  -- @param #POINT_VEC3 self
+  -- @param #number ExplosionIntensity
+  function POINT_VEC3:Explosion( ExplosionIntensity )
+    self:F2( { ExplosionIntensity } )
+    trigger.action.explosion( self:GetVec3(), ExplosionIntensity )
+  end
+
+  --- Creates an illumination bomb at the point.
+  -- @param #POINT_VEC3 self
+  function POINT_VEC3:IlluminationBomb()
+    self:F2()
+    trigger.action.illuminationBomb( self:GetVec3() )
+  end
+
+
+  --- Smokes the point in a color.
+  -- @param #POINT_VEC3 self
+  -- @param Utilities.Utils#SMOKECOLOR SmokeColor
+  function POINT_VEC3:Smoke( SmokeColor )
+    self:F2( { SmokeColor } )
+    trigger.action.smoke( self:GetVec3(), SmokeColor )
+  end
+
+  --- Smoke the POINT_VEC3 Green.
+  -- @param #POINT_VEC3 self
+  function POINT_VEC3:SmokeGreen()
+    self:F2()
+    self:Smoke( SMOKECOLOR.Green )
+  end
+
+  --- Smoke the POINT_VEC3 Red.
+  -- @param #POINT_VEC3 self
+  function POINT_VEC3:SmokeRed()
+    self:F2()
+    self:Smoke( SMOKECOLOR.Red )
+  end
+
+  --- Smoke the POINT_VEC3 White.
+  -- @param #POINT_VEC3 self
+  function POINT_VEC3:SmokeWhite()
+    self:F2()
+    self:Smoke( SMOKECOLOR.White )
+  end
+
+  --- Smoke the POINT_VEC3 Orange.
+  -- @param #POINT_VEC3 self
+  function POINT_VEC3:SmokeOrange()
+    self:F2()
+    self:Smoke( SMOKECOLOR.Orange )
+  end
+
+  --- Smoke the POINT_VEC3 Blue.
+  -- @param #POINT_VEC3 self
+  function POINT_VEC3:SmokeBlue()
+    self:F2()
+    self:Smoke( SMOKECOLOR.Blue )
+  end
+
+  --- Flares the point in a color.
+  -- @param #POINT_VEC3 self
+  -- @param Utilities.Utils#FLARECOLOR FlareColor
+  -- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
+  function POINT_VEC3:Flare( FlareColor, Azimuth )
+    self:F2( { FlareColor } )
+    trigger.action.signalFlare( self:GetVec3(), FlareColor, Azimuth and Azimuth or 0 )
+  end
+
+  --- Flare the POINT_VEC3 White.
+  -- @param #POINT_VEC3 self
+  -- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
+  function POINT_VEC3:FlareWhite( Azimuth )
+    self:F2( Azimuth )
+    self:Flare( FLARECOLOR.White, Azimuth )
+  end
+
+  --- Flare the POINT_VEC3 Yellow.
+  -- @param #POINT_VEC3 self
+  -- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
+  function POINT_VEC3:FlareYellow( Azimuth )
+    self:F2( Azimuth )
+    self:Flare( FLARECOLOR.Yellow, Azimuth )
+  end
+
+  --- Flare the POINT_VEC3 Green.
+  -- @param #POINT_VEC3 self
+  -- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
+  function POINT_VEC3:FlareGreen( Azimuth )
+    self:F2( Azimuth )
+    self:Flare( FLARECOLOR.Green, Azimuth )
+  end
+
+  --- Flare the POINT_VEC3 Red.
+  -- @param #POINT_VEC3 self
+  function POINT_VEC3:FlareRed( Azimuth )
+    self:F2( Azimuth )
+    self:Flare( FLARECOLOR.Red, Azimuth )
+  end
+
+  --- Returns if a PointVec3 has Line of Sight (LOS) with the ToPointVec3.
+  -- @param #POINT_VEC3 self
+  -- @param #POINT_VEC3 ToPointVec3
+  -- @return #boolean true If the ToPointVec3 has LOS with the PointVec3, otherwise false.
+  function POINT_VEC3:IsLOS( ToPointVec3 ) --R2.1
+
+    -- Measurement of visibility should not be from the ground, so Adding a hypotethical 2 meters to each PointVec3.
+    local FromVec3 = self:GetVec3()
+    FromVec3.y = FromVec3.y + 2
+
+    local ToVec3 = ToPointVec3:GetVec3()
+    ToVec3.y = ToVec3.y + 2
+
+    local IsLOS = land.isVisible( FromVec3, ToVec3 )
+
+    return IsLOS
+  end
 
 
 end
@@ -12263,216 +12254,206 @@ do -- POINT_VEC2
 
 
 
---- POINT_VEC2 constructor.
--- @param #POINT_VEC2 self
--- @param Dcs.DCSTypes#Distance x The x coordinate of the Vec3 point, pointing to the North.
--- @param Dcs.DCSTypes#Distance y The y coordinate of the Vec3 point, pointing to the Right.
--- @param Dcs.DCSTypes#Distance LandHeightAdd (optional) The default height if required to be evaluated will be the land height of the x, y coordinate. You can specify an extra height to be added to the land height.
--- @return Core.Point#POINT_VEC2
-function POINT_VEC2:New( x, y, LandHeightAdd )
+  --- POINT_VEC2 constructor.
+  -- @param #POINT_VEC2 self
+  -- @param Dcs.DCSTypes#Distance x The x coordinate of the Vec3 point, pointing to the North.
+  -- @param Dcs.DCSTypes#Distance y The y coordinate of the Vec3 point, pointing to the Right.
+  -- @param Dcs.DCSTypes#Distance LandHeightAdd (optional) The default height if required to be evaluated will be the land height of the x, y coordinate. You can specify an extra height to be added to the land height.
+  -- @return Core.Point#POINT_VEC2
+  function POINT_VEC2:New( x, y, LandHeightAdd )
 
-  local LandHeight = land.getHeight( { ["x"] = x, ["y"] = y } )
-  
-  LandHeightAdd = LandHeightAdd or 0
-  LandHeight = LandHeight + LandHeightAdd
-  
-  self = BASE:Inherit( self, POINT_VEC3:New( x, LandHeight, y ) )
-  self:F2( self )
-  
-  return self
-end
+    local LandHeight = land.getHeight( { ["x"] = x, ["y"] = y } )
 
---- Create a new POINT_VEC2 object from  Vec2 coordinates.
--- @param #POINT_VEC2 self
--- @param Dcs.DCSTypes#Vec2 Vec2 The Vec2 point.
--- @return Core.Point#POINT_VEC2 self
-function POINT_VEC2:NewFromVec2( Vec2, LandHeightAdd )
+    LandHeightAdd = LandHeightAdd or 0
+    LandHeight = LandHeight + LandHeightAdd
 
-  local LandHeight = land.getHeight( Vec2 )
+    self = BASE:Inherit( self, POINT_VEC3:New( x, LandHeight, y ) )
+    self:F2( self )
 
-  LandHeightAdd = LandHeightAdd or 0
-  LandHeight = LandHeight + LandHeightAdd
-  
-  self = BASE:Inherit( self, POINT_VEC3:New( Vec2.x, LandHeight, Vec2.y ) )
-  self:F2( self )
+    return self
+  end
 
-  return self
-end
+  --- Create a new POINT_VEC2 object from  Vec2 coordinates.
+  -- @param #POINT_VEC2 self
+  -- @param Dcs.DCSTypes#Vec2 Vec2 The Vec2 point.
+  -- @return Core.Point#POINT_VEC2 self
+  function POINT_VEC2:NewFromVec2( Vec2, LandHeightAdd )
 
---- Create a new POINT_VEC2 object from  Vec3 coordinates.
--- @param #POINT_VEC2 self
--- @param Dcs.DCSTypes#Vec3 Vec3 The Vec3 point.
--- @return Core.Point#POINT_VEC2 self
-function POINT_VEC2:NewFromVec3( Vec3 )
+    local LandHeight = land.getHeight( Vec2 )
 
-  local self = BASE:Inherit( self, BASE:New() )
-  local Vec2 = { x = Vec3.x, y = Vec3.z }
+    LandHeightAdd = LandHeightAdd or 0
+    LandHeight = LandHeight + LandHeightAdd
 
-  local LandHeight = land.getHeight( Vec2 )
-  
-  self = BASE:Inherit( self, POINT_VEC3:New( Vec2.x, LandHeight, Vec2.y ) )
-  self:F2( self )
+    self = BASE:Inherit( self, POINT_VEC3:New( Vec2.x, LandHeight, Vec2.y ) )
+    self:F2( self )
 
-  return self
-end
+    return self
+  end
 
---- Return the x coordinate of the POINT_VEC2.
--- @param #POINT_VEC2 self
--- @return #number The x coodinate.
-function POINT_VEC2:GetX()
-  return self.x
-end
+  --- Create a new POINT_VEC2 object from  Vec3 coordinates.
+  -- @param #POINT_VEC2 self
+  -- @param Dcs.DCSTypes#Vec3 Vec3 The Vec3 point.
+  -- @return Core.Point#POINT_VEC2 self
+  function POINT_VEC2:NewFromVec3( Vec3 )
 
---- Return the y coordinate of the POINT_VEC2.
--- @param #POINT_VEC2 self
--- @return #number The y coodinate.
-function POINT_VEC2:GetY()
-  return self.z
-end
+    local self = BASE:Inherit( self, BASE:New() )
 
---- Return the altitude (height) of the land at the POINT_VEC2.
--- @param #POINT_VEC2 self
--- @return #number The land altitude.
-function POINT_VEC2:GetAlt()
-  return land.getHeight( { x = self.x, y = self.z } )
-end
+    self = BASE:Inherit( self, POINT_VEC3:New( Vec3.x, Vec3.y, Vec3.z ) )
+    self:F2( self )
 
---- Return Return the Lat(itude) coordinate of the POINT_VEC2 (ie: (parent)POINT_VEC3.x).
--- @param #POINT_VEC2 self
--- @return #number The x coodinate.
-function POINT_VEC2:GetLat()
-  return self.x
-end
+    return self
+  end
 
---- Return the Lon(gitude) coordinate of the POINT_VEC2 (ie: (parent)POINT_VEC3.z).
--- @param #POINT_VEC2 self
--- @return #number The y coodinate.
-function POINT_VEC2:GetLon()
-  return self.z
-end
+  --- Return the x coordinate of the POINT_VEC2.
+  -- @param #POINT_VEC2 self
+  -- @return #number The x coodinate.
+  function POINT_VEC2:GetX()
+    return self.x
+  end
 
---- Set the x coordinate of the POINT_VEC2.
--- @param #POINT_VEC2 self
--- @param #number x The x coordinate.
--- @return #POINT_VEC2
-function POINT_VEC2:SetX( x )
-  self.x = x
-  return self
-end
+  --- Return the y coordinate of the POINT_VEC2.
+  -- @param #POINT_VEC2 self
+  -- @return #number The y coodinate.
+  function POINT_VEC2:GetY()
+    return self.z
+  end
 
---- Set the y coordinate of the POINT_VEC2.
--- @param #POINT_VEC2 self
--- @param #number y The y coordinate.
--- @return #POINT_VEC2
-function POINT_VEC2:SetY( y )
-  self.z = y
-  return self
-end
+  --- Return the altitude (height) of the land at the POINT_VEC2.
+  -- @param #POINT_VEC2 self
+  -- @return #number The land altitude.
+  function POINT_VEC2:GetAlt()
+    return land.getHeight( { x = self.x, y = self.z } )
+  end
 
---- Set the Lat(itude) coordinate of the POINT_VEC2 (ie: POINT_VEC3.x).
--- @param #POINT_VEC2 self
--- @param #number x The x coordinate.
--- @return #POINT_VEC2
-function POINT_VEC2:SetLat( x )
-  self.x = x
-  return self
-end
+  --- Return Return the Lat(itude) coordinate of the POINT_VEC2 (ie: (parent)POINT_VEC3.x).
+  -- @param #POINT_VEC2 self
+  -- @return #number The x coodinate.
+  function POINT_VEC2:GetLat()
+    return self.x
+  end
 
---- Set the altitude of the POINT_VEC2.
--- @param #POINT_VEC2 self
--- @param #number Altitude The land altitude. If nothing (nil) is given, then the current land altitude is set.
--- @return #POINT_VEC2
-function POINT_VEC2:SetAlt( Altitude )
-  self.y = Altitude or land.getHeight( { x = self.x, y = self.z } )
-  return self
-end
+  --- Return the Lon(gitude) coordinate of the POINT_VEC2 (ie: (parent)POINT_VEC3.z).
+  -- @param #POINT_VEC2 self
+  -- @return #number The y coodinate.
+  function POINT_VEC2:GetLon()
+    return self.z
+  end
 
---- Set the Lon(gitude) coordinate of the POINT_VEC2 (ie: POINT_VEC3.z).
--- @param #POINT_VEC2 self
--- @param #number y The y coordinate.
--- @return #POINT_VEC2
-function POINT_VEC2:SetLon( z )
-  self.z = z
-  return self
-end
+  --- Set the x coordinate of the POINT_VEC2.
+  -- @param #POINT_VEC2 self
+  -- @param #number x The x coordinate.
+  -- @return #POINT_VEC2
+  function POINT_VEC2:SetX( x )
+    self.x = x
+    return self
+  end
 
---- Add to the x coordinate of the POINT_VEC2.
--- @param #POINT_VEC2 self
--- @param #number x The x coordinate.
--- @return #POINT_VEC2
-function POINT_VEC2:AddX( x )
-  self.x = self.x + x
-  return self
-end
+  --- Set the y coordinate of the POINT_VEC2.
+  -- @param #POINT_VEC2 self
+  -- @param #number y The y coordinate.
+  -- @return #POINT_VEC2
+  function POINT_VEC2:SetY( y )
+    self.z = y
+    return self
+  end
 
---- Add to the y coordinate of the POINT_VEC2.
--- @param #POINT_VEC2 self
--- @param #number y The y coordinate.
--- @return #POINT_VEC2
-function POINT_VEC2:AddY( y )
-  self.z = self.z + y
-  return self
-end
+  --- Set the Lat(itude) coordinate of the POINT_VEC2 (ie: POINT_VEC3.x).
+  -- @param #POINT_VEC2 self
+  -- @param #number x The x coordinate.
+  -- @return #POINT_VEC2
+  function POINT_VEC2:SetLat( x )
+    self.x = x
+    return self
+  end
 
---- Add to the current land height an altitude.
--- @param #POINT_VEC2 self
--- @param #number Altitude The Altitude to add. If nothing (nil) is given, then the current land altitude is set.
--- @return #POINT_VEC2
-function POINT_VEC2:AddAlt( Altitude )
-  self.y = land.getHeight( { x = self.x, y = self.z } ) + Altitude or 0
-  return self
-end
+  --- Set the altitude of the POINT_VEC2.
+  -- @param #POINT_VEC2 self
+  -- @param #number Altitude The land altitude. If nothing (nil) is given, then the current land altitude is set.
+  -- @return #POINT_VEC2
+  function POINT_VEC2:SetAlt( Altitude )
+    self.y = Altitude or land.getHeight( { x = self.x, y = self.z } )
+    return self
+  end
+
+  --- Set the Lon(gitude) coordinate of the POINT_VEC2 (ie: POINT_VEC3.z).
+  -- @param #POINT_VEC2 self
+  -- @param #number y The y coordinate.
+  -- @return #POINT_VEC2
+  function POINT_VEC2:SetLon( z )
+    self.z = z
+    return self
+  end
+
+  --- Add to the x coordinate of the POINT_VEC2.
+  -- @param #POINT_VEC2 self
+  -- @param #number x The x coordinate.
+  -- @return #POINT_VEC2
+  function POINT_VEC2:AddX( x )
+    self.x = self.x + x
+    return self
+  end
+
+  --- Add to the y coordinate of the POINT_VEC2.
+  -- @param #POINT_VEC2 self
+  -- @param #number y The y coordinate.
+  -- @return #POINT_VEC2
+  function POINT_VEC2:AddY( y )
+    self.z = self.z + y
+    return self
+  end
+
+  --- Add to the current land height an altitude.
+  -- @param #POINT_VEC2 self
+  -- @param #number Altitude The Altitude to add. If nothing (nil) is given, then the current land altitude is set.
+  -- @return #POINT_VEC2
+  function POINT_VEC2:AddAlt( Altitude )
+    self.y = land.getHeight( { x = self.x, y = self.z } ) + Altitude or 0
+    return self
+  end
 
 
 
---- Calculate the distance from a reference @{#POINT_VEC2}.
--- @param #POINT_VEC2 self
--- @param #POINT_VEC2 PointVec2Reference The reference @{#POINT_VEC2}.
--- @return Dcs.DCSTypes#Distance The distance from the reference @{#POINT_VEC2} in meters.
-function POINT_VEC2:DistanceFromPointVec2( PointVec2Reference )
-  self:F2( PointVec2Reference )
-  
-  local Distance = ( ( PointVec2Reference:GetX() - self:GetX() ) ^ 2 + ( PointVec2Reference:GetY() - self:GetY() ) ^2 ) ^0.5
-  
-  self:T2( Distance )
-  return Distance
-end
+  --- Calculate the distance from a reference @{#POINT_VEC2}.
+  -- @param #POINT_VEC2 self
+  -- @param #POINT_VEC2 PointVec2Reference The reference @{#POINT_VEC2}.
+  -- @return Dcs.DCSTypes#Distance The distance from the reference @{#POINT_VEC2} in meters.
+  function POINT_VEC2:DistanceFromPointVec2( PointVec2Reference )
+    self:F2( PointVec2Reference )
 
---- Calculate the distance from a reference @{DCSTypes#Vec2}.
--- @param #POINT_VEC2 self
--- @param Dcs.DCSTypes#Vec2 Vec2Reference The reference @{DCSTypes#Vec2}.
--- @return Dcs.DCSTypes#Distance The distance from the reference @{DCSTypes#Vec2} in meters.
-function POINT_VEC2:DistanceFromVec2( Vec2Reference )
-  self:F2( Vec2Reference )
-  
-  local Distance = ( ( Vec2Reference.x - self:GetX() ) ^ 2 + ( Vec2Reference.y - self:GetY() ) ^2 ) ^0.5
-  
-  self:T2( Distance )
-  return Distance
-end
+    local Distance = ( ( PointVec2Reference:GetX() - self:GetX() ) ^ 2 + ( PointVec2Reference:GetY() - self:GetY() ) ^2 ) ^0.5
+
+    self:T2( Distance )
+    return Distance
+  end
+
+  --- Calculate the distance from a reference @{DCSTypes#Vec2}.
+  -- @param #POINT_VEC2 self
+  -- @param Dcs.DCSTypes#Vec2 Vec2Reference The reference @{DCSTypes#Vec2}.
+  -- @return Dcs.DCSTypes#Distance The distance from the reference @{DCSTypes#Vec2} in meters.
+  function POINT_VEC2:DistanceFromVec2( Vec2Reference )
+    self:F2( Vec2Reference )
+
+    local Distance = ( ( Vec2Reference.x - self:GetX() ) ^ 2 + ( Vec2Reference.y - self:GetY() ) ^2 ) ^0.5
+
+    self:T2( Distance )
+    return Distance
+  end
 
 
---- Return no text for the altitude of the POINT_VEC2.
--- @param #POINT_VEC2 self
--- @return #string Empty string.
-function POINT_VEC2:GetAltitudeText() 
-  return ''
-end
+  --- Add a Distance in meters from the POINT_VEC2 orthonormal plane, with the given angle, and calculate the new POINT_VEC2.
+  -- @param #POINT_VEC2 self
+  -- @param Dcs.DCSTypes#Distance Distance The Distance to be added in meters.
+  -- @param Dcs.DCSTypes#Angle Angle The Angle in degrees.
+  -- @return #POINT_VEC2 The new calculated POINT_VEC2.
+  function POINT_VEC2:Translate( Distance, Angle )
+    local SX = self:GetX()
+    local SY = self:GetY()
+    local Radians = Angle / 180 * math.pi
+    local TX = Distance * math.cos( Radians ) + SX
+    local TY = Distance * math.sin( Radians ) + SY
 
---- Add a Distance in meters from the POINT_VEC2 orthonormal plane, with the given angle, and calculate the new POINT_VEC2.
--- @param #POINT_VEC2 self
--- @param Dcs.DCSTypes#Distance Distance The Distance to be added in meters.
--- @param Dcs.DCSTypes#Angle Angle The Angle in degrees.
--- @return #POINT_VEC2 The new calculated POINT_VEC2.
-function POINT_VEC2:Translate( Distance, Angle ) 
-  local SX = self:GetX()
-  local SY = self:GetY()
-  local Radians = Angle / 180 * math.pi
-  local TX = Distance * math.cos( Radians ) + SX
-  local TY = Distance * math.sin( Radians ) + SY
-  
-  return POINT_VEC2:New( TX, TY )
-end
+    return POINT_VEC2:New( TX, TY )
+  end
 
 end
 
@@ -12485,23 +12466,23 @@ do -- COORDINATE
   -- @param Dcs.DCSTypes#Distance LandHeightAdd (optional) The default height if required to be evaluated will be the land height of the x, y coordinate. You can specify an extra height to be added to the land height.
   -- @return Core.Point#COORDINATE
   function COORDINATE:New( x, y, LandHeightAdd ) --R2.1 Fixes issue #424.
-  
+
     self = BASE:Inherit( self, POINT_VEC2:New( x, y, LandHeightAdd ) ) -- Core.Point#COORDINATE
     self:F2( self )
-    
+
     return self
   end
-  
+
   --- Create a new COORDINATE object from  Vec2 coordinates.
   -- @param #COORDINATE self
   -- @param Dcs.DCSTypes#Vec2 Vec2 The Vec2 point.
   -- @param Dcs.DCSTypes#Distance LandHeightAdd (optional) The default height if required to be evaluated will be the land height of the x, y coordinate. You can specify an extra height to be added to the land height.
   -- @return Core.Point#COORDINATE self
   function COORDINATE:NewFromVec2( Vec2, LandHeightAdd ) --R2.1 Fixes issue #424.
-  
+
     self = BASE:Inherit( self, POINT_VEC2:NewFromVec2( Vec2, LandHeightAdd ) ) -- Core.Point#COORDINATE
     self:F2( self )
-  
+
     return self
   end
 
@@ -12510,14 +12491,80 @@ do -- COORDINATE
   -- @param Dcs.DCSTypes#Vec3 Vec3 The Vec3 point.
   -- @return Core.Point#COORDINATE self
   function COORDINATE:NewFromVec3( Vec3 ) --R2.1 Fixes issue #424.
-  
-    self = BASE:Inherit( self, POINT_VEC2:NewFromVec3( Vec3 ) ) -- Core.Point#COORDINATE
+
+    self = BASE:Inherit( self, POINT_VEC3:NewFromVec3( Vec3 ) ) -- Core.Point#COORDINATE
     self:F2( self )
-  
+
     return self
   end
 
+  function COORDINATE:SetHeading( Heading )
+    self.Heading = Heading
+  end
 
+
+  --- Return a BR string from a COORDINATE to the COORDINATE.
+  -- @param #COORDINATE self
+  -- @param #COORDINATE TargetCoordinate The target COORDINATE.
+  -- @return #string The BR text.
+  function COORDINATE:ToStringBR( TargetCoordinate )
+    local DirectionVec3 = self:GetDirectionVec3( TargetCoordinate )
+    local AngleRadians =  self:GetAngleRadians( DirectionVec3 )
+    local Distance = self:Get2DDistance( TargetCoordinate )
+    return "BR: " .. self:GetBRText( AngleRadians, Distance )
+  end
+
+  --- Return a BRAA string from a COORDINATE to the COORDINATE.
+  -- @param #COORDINATE self
+  -- @param #COORDINATE TargetCoordinate The target COORDINATE.
+  -- @return #string The BR text.
+  function COORDINATE:ToStringBRAA( TargetCoordinate )
+    local DirectionVec3 = self:GetDirectionVec3( TargetCoordinate )
+    local AngleRadians =  self:GetAngleRadians( DirectionVec3 )
+    local Distance = self:Get2DDistance( TargetCoordinate )
+    local Altitude = self:GetAltitudeText()
+    return "BRAA: " .. self:GetBRText( AngleRadians, Distance )
+  end
+
+  --- Return a BULLS string from a COORDINATE to the BULLS of the coalition.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSCoalition#coalition.side Coalition The coalition.
+  -- @return #string The BR text.
+  function COORDINATE:ToStringBULLS( Coalition )
+    local TargetCoordinate = COORDINATE:NewFromVec3( coalition.getMainRefPoint( Coalition ) )
+    local DirectionVec3 = self:GetDirectionVec3( TargetCoordinate )
+    local AngleRadians =  self:GetAngleRadians( DirectionVec3 )
+    local Distance = self:Get2DDistance( TargetCoordinate )
+    local Altitude = self:GetAltitudeText()
+    return "BULLS: " .. self:GetBRText( AngleRadians, Distance )
+  end
+
+  --- Return an aspect string from a COORDINATE to the Angle of the object.
+  -- @param #COORDINATE self
+  -- @param #COORDINATE TargetCoordinate The target COORDINATE.
+  -- @return #string The Aspect string, which is Hot, Cold or Flanking.
+  function COORDINATE:ToStringAspect( TargetCoordinate )
+    local Heading = self.Heading
+    local DirectionVec3 = self:GetDirectionVec3( TargetCoordinate )
+    local Angle = self:GetAngleDegrees( DirectionVec3 )
+    
+    if Heading then
+      local Aspect = Angle - Heading
+      if Aspect > -135 and Aspect <= -45 then
+        return "Flanking"
+      end
+      if Aspect > -45 and Aspect <= 45 then
+        return "Hot"
+      end
+      if Aspect > 45 and Aspect <= 135 then
+        return "Flanking"
+      end
+      if Aspect > 135 or Aspect <= -135 then
+        return "Cold"
+      end
+    end
+    return ""
+  end
 
   --- Provides a Lat Lon string
   -- @param #COORDINATE self
@@ -12525,87 +12572,87 @@ do -- COORDINATE
   -- @param #boolean LL_DMS true = Degrees, Minutes, Seconds; false = Degrees, Minutes
   -- @return #string The LL Text
   function COORDINATE:ToStringLL( LL_Accuracy, LL_DMS ) --R2.1 Fixes issue #424.
-  
+
     LL_Accuracy = LL_Accuracy or self.LL_Accuracy
     LL_DMS = LL_DMS or self.LL_DMS
     local lat, lon = coord.LOtoLL( self:GetVec3() )
-    return "LL:" .. UTILS.tostringLL( lat, lon, LL_Accuracy, LL_DMS )
+    return "LL: " .. UTILS.tostringLL( lat, lon, LL_Accuracy, LL_DMS )
   end
-  
+
   --- Provides a MGRS string
   -- @param #COORDINATE self
-  -- @param #number MGRS_Accuracy of the 5 digit code. 
-  -- Precision depends on the Accuracy choosen: 
-  --   * 0 = no digits - precision level 100 km 
-  --   * 1 = 1 digits - precision level 10 km 
-  --   * 2 = 2 digits - precision level 1 km 
-  --   * 3 = 3 digits - precision level 100 m 
+  -- @param #number MGRS_Accuracy of the 5 digit code.
+  -- Precision depends on the Accuracy choosen:
+  --   * 0 = no digits - precision level 100 km
+  --   * 1 = 1 digits - precision level 10 km
+  --   * 2 = 2 digits - precision level 1 km
+  --   * 3 = 3 digits - precision level 100 m
   --   * 4 = 4 digits - precision level 10 m.
   -- @return #string The MGRS Text
   function COORDINATE:ToStringMGRS( MGRS_Accuracy ) --R2.1 Fixes issue #424.
-  
+
     MGRS_Accuracy = MGRS_Accuracy or self.MGRS_Accuracy
     local lat, lon = coord.LOtoLL( self:GetVec3() )
     local MGRS = coord.LLtoMGRS( lat, lon )
-    return "MGRS:" .. UTILS.tostringMGRS( MGRS, MGRS_Accuracy )
+    return "MGRS: " .. UTILS.tostringMGRS( MGRS, MGRS_Accuracy )
   end
-  
+
   --- Provides a coordinate string of the point, based on a coordinate format system:
   --   * Uses default settings in COORDINATE.
   --   * Can be overridden if for a GROUP containing x clients, a menu was selected to override the default.
-  -- 
+  --
   -- @param #COORDINATE self
   -- @return #string The coordinate Text in the configured coordinate system.
   function COORDINATE:ToString() --R2.1 Fixes issue #424.
-  
+
     local Coordinate = COORDINATE -- Core.Point#COORDINATE
-  
+
     local CoordSystem = Coordinate.System
-    
+
     if CoordSystem == "LL" then
       return self:ToStringLL( Coordinate.LL_Accuracy, Coordinate.LL_DMS )
     end
-    
+
     if CoordSystem == "MGRS" then
       return self:ToStringMGRS( Coordinate.MGRS_Accuracy )
     end
-    
+
     return nil
-    
+
   end
-  
+
   --- @param #COORDINATE self
   -- @return #string The coordinate Text in the configured coordinate system.
   function COORDINATE:CoordinateMenu( RootMenu ) --R2.1 Fixes issue #424.
-  
+
     if self.SystemMenu then
       self.SystemMenu:Remove()
       self.SystemMenu = nil
-    end
-    
-    self.SystemMenu = MENU_MISSION:New( "System Settings" )
-    local CoordinateMenu = MENU_MISSION:New( "Coordinates", self.SystemMenu )
+  end
 
-    local Coordinate = COORDINATE
-    
-    if Coordinate.System == "LL" then
-      MENU_MISSION_COMMAND:New( "Activate MGRS", CoordinateMenu, Coordinate.MenuSystem, Coordinate, "MGRS" )
-      MENU_MISSION_COMMAND:New( "LL Accuracy 1", CoordinateMenu, Coordinate.MenuLL_Accuracy, Coordinate, 1 )
-      MENU_MISSION_COMMAND:New( "LL Accuracy 2", CoordinateMenu, Coordinate.MenuLL_Accuracy, Coordinate, 2 )
-      MENU_MISSION_COMMAND:New( "LL Accuracy 3", CoordinateMenu, Coordinate.MenuLL_Accuracy, Coordinate, 3 )
-      MENU_MISSION_COMMAND:New( "LL Decimal On", CoordinateMenu, Coordinate.MenuLL_DMS, Coordinate, true )
-      MENU_MISSION_COMMAND:New( "LL Decimal Off", CoordinateMenu, Coordinate.MenuLL_DMS, Coordinate, false )
-    end
+  self.SystemMenu = MENU_MISSION:New( "System Settings" )
+  local CoordinateMenu = MENU_MISSION:New( "Coordinates", self.SystemMenu )
 
-    if Coordinate.System == "MGRS" then
-      MENU_MISSION_COMMAND:New( "Activate LL", CoordinateMenu, Coordinate.MenuSystem, Coordinate, "LL" )
-      MENU_MISSION_COMMAND:New( "MGRS Accuracy 1", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 1 )
-      MENU_MISSION_COMMAND:New( "MGRS Accuracy 2", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 2 )
-      MENU_MISSION_COMMAND:New( "MGRS Accuracy 3", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 3 )
-      MENU_MISSION_COMMAND:New( "MGRS Accuracy 4", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 4 )
-      MENU_MISSION_COMMAND:New( "MGRS Accuracy 5", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 5 )
-    end
-    
+  local Coordinate = COORDINATE
+
+  if Coordinate.System == "LL" then
+    MENU_MISSION_COMMAND:New( "Activate MGRS", CoordinateMenu, Coordinate.MenuSystem, Coordinate, "MGRS" )
+    MENU_MISSION_COMMAND:New( "LL Accuracy 1", CoordinateMenu, Coordinate.MenuLL_Accuracy, Coordinate, 1 )
+    MENU_MISSION_COMMAND:New( "LL Accuracy 2", CoordinateMenu, Coordinate.MenuLL_Accuracy, Coordinate, 2 )
+    MENU_MISSION_COMMAND:New( "LL Accuracy 3", CoordinateMenu, Coordinate.MenuLL_Accuracy, Coordinate, 3 )
+    MENU_MISSION_COMMAND:New( "LL Decimal On", CoordinateMenu, Coordinate.MenuLL_DMS, Coordinate, true )
+    MENU_MISSION_COMMAND:New( "LL Decimal Off", CoordinateMenu, Coordinate.MenuLL_DMS, Coordinate, false )
+  end
+
+  if Coordinate.System == "MGRS" then
+    MENU_MISSION_COMMAND:New( "Activate LL", CoordinateMenu, Coordinate.MenuSystem, Coordinate, "LL" )
+    MENU_MISSION_COMMAND:New( "MGRS Accuracy 1", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 1 )
+    MENU_MISSION_COMMAND:New( "MGRS Accuracy 2", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 2 )
+    MENU_MISSION_COMMAND:New( "MGRS Accuracy 3", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 3 )
+    MENU_MISSION_COMMAND:New( "MGRS Accuracy 4", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 4 )
+    MENU_MISSION_COMMAND:New( "MGRS Accuracy 5", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 5 )
+  end
+
   end
 
   --- @param #COORDINATE self
@@ -12619,7 +12666,7 @@ do -- COORDINATE
     self.LL_Accuracy = LL_Accuracy
     self:CoordinateMenu()
   end
-  
+
   --- @param #COORDINATE self
   function COORDINATE:MenuLL_DMS( LL_DMS ) --R2.1 Fixes issue #424.
     self.LL_DMS = LL_DMS
@@ -17001,6 +17048,7 @@ function POSITIONABLE:GetCoordinate()
     local PositionableVec3 = self:GetPositionVec3()
     
     local PositionableCoordinate = COORDINATE:NewFromVec3( PositionableVec3 )
+    PositionableCoordinate:SetHeading( self:GetHeading() )
   
     self:T2( PositionableCoordinate )
     return PositionableCoordinate
@@ -21510,7 +21558,7 @@ function UNIT:GetThreatLevel()
       "Unarmed", 
       "Tanker", 
       "AWACS", 
-      "Transport Helicpter",   
+      "Transport Helicopter",   
       "UAV",
       "Bomber",
       "Strategic Bomber",
@@ -31188,6 +31236,7 @@ do -- DETECTION_BASE
     end
     
     DetectedItem.Set = Set or SET_UNIT:New():FilterDeads():FilterCrashes()
+    DetectedItem.Index = DetectedItemIndex or self.DetectedItemCount
     DetectedItem.ItemID = ItemPrefix .. "." .. self.DetectedItemMax
     DetectedItem.ID = self.DetectedItemMax
     DetectedItem.Removed = false
@@ -31297,6 +31346,37 @@ do -- DETECTION_BASE
     
     return nil
   end
+  
+  do -- Coordinates
+
+    --- Get the COORDINATE of a detection item using a given numeric index.
+    -- @param #DETECTION_BASE self
+    -- @param #number Index
+    -- @return Core.Point#COORDINATE Coordinate
+    function DETECTION_BASE:GetDetectedItemCoordinate( Index )
+    
+      -- If the Zone is set, return the coordinate of the Zone.
+      local DetectedItemSet = self:GetDetectedSet( Index )
+      local FirstUnit = DetectedItemSet:GetFirst()
+
+      local DetectedZone = self:GetDetectedItemZone( Index )
+      if DetectedZone then
+        local Coordinate = DetectedZone:GetCoordinate()
+        Coordinate:SetHeading(FirstUnit:GetHeading())
+        return Coordinate
+      end
+      
+      -- If no Zone is set, return the coordinate of the first unit in the Set
+      if FirstUnit then
+        local Coordinate = FirstUnit:GetCoordinate()
+        FirstUnit:SetHeading(FirstUnit:GetHeading())
+        return Coordinate
+      end
+      
+      return nil
+    end
+  
+  end
 
   do -- Zones
   
@@ -31304,12 +31384,14 @@ do -- DETECTION_BASE
     -- @param #DETECTION_BASE self
     -- @param #number Index
     -- @return Core.Zone#ZONE_UNIT DetectedZone
-    function DETECTION_BASE:GetDetectedZone( Index )
+    function DETECTION_BASE:GetDetectedItemZone( Index )
     
       local DetectedZone = self.DetectedItems[Index].Zone
       if DetectedZone then
         return DetectedZone
       end
+      
+      local Detected
       
       return nil
     end
@@ -31574,7 +31656,7 @@ do -- DETECTION_UNITS
   -- @param Index
   -- @return #string
   function DETECTION_UNITS:DetectedItemReportSummary( Index )
-    self:F( Index )
+    self:F( { Index, self.DetectedItems } )
   
     local DetectedItem = self:GetDetectedItem( Index )
     local DetectedSet = self:GetDetectedSet( Index )
@@ -31972,7 +32054,7 @@ do -- DETECTION_AREAS
       local DetectedSet = self:GetDetectedSet( Index )
       local ReportSummaryItem
       
-      local DetectedZone = self:GetDetectedZone( Index )
+      local DetectedZone = self:GetDetectedItemZone( Index )
       local DetectedItemCoordinate = DetectedZone:GetCoordinate()
       local DetectedItemCoordText = DetectedItemCoordinate:ToString()
 
@@ -32002,7 +32084,7 @@ do -- DETECTION_AREAS
       local DetectedSet = self:GetDetectedSet( Index )
       local ReportSummaryItem
       
-      local DetectedZone = self:GetDetectedZone( Index )
+      local DetectedZone = self:GetDetectedItemZone( Index )
       local DetectedItemCoordinate = DetectedZone:GetCoordinate()
       local DetectedItemCoordText = DetectedItemCoordinate:ToString()
 
@@ -40679,7 +40761,7 @@ end
 -- @param #number MenuTime
 -- @return #TASK self
 function TASK:SetPlannedMenuForGroup( TaskGroup, MenuTime )
-  self:E( TaskGroup:GetName() )
+  self:F( TaskGroup:GetName() )
 
   local Mission = self:GetMission()
   local MissionName = Mission:GetName()
@@ -40821,7 +40903,7 @@ end
 -- @param #TASK self
 function TASK:MenuTaskStatus( TaskGroup )
 
-  local ReportText = self:ReportDetails()
+  local ReportText = self:ReportDetails( TaskGroup )
   
   self:T( ReportText )
   self:GetMission():GetCommandCenter():MessageToGroup( ReportText, TaskGroup )
@@ -41365,8 +41447,9 @@ end
 --- Create a detailed report of the Task.
 -- List the Task Status, and the Players assigned to the Task.
 -- @param #TASK self
+-- @param Wrapper.Group#GROUP TaskGroup
 -- @return #string
-function TASK:ReportDetails() --R2.1 fixed report. Now nicely formatted and contains the info required.
+function TASK:ReportDetails( TaskGroup ) --R2.1 fixed report. Now nicely formatted and contains the info required.
 
   local Report = REPORT:New():SetIndent( 3 )
   
@@ -41385,16 +41468,27 @@ function TASK:ReportDetails() --R2.1 fixed report. Now nicely formatted and cont
   end
   local Players = PlayerReport:Text()
 
-  local Detection = self.TaskInfo["Detection"] or "" 
-  local Changes = self.TaskInfo["Changes"] or ""
-
   Report:Add( "Task: " .. Name .. " - " .. State .. " - Detailed Report" )
-  Report:Add( "\n - Players:" )
+  Report:Add( " - Players:" )
   Report:AddIndent( Players )
-  Report:Add( "\n - Detection:" )
-  Report:AddIndent( Detection )
-  Report:Add( "\n - Detection Changes:" )
-  Report:AddIndent( Changes )
+  
+  for TaskInfoID, TaskInfo in pairs( self.TaskInfo ) do
+    
+    local TaskInfoIDText = string.format( " - %s: ", TaskInfoID )
+
+    if type(TaskInfo) == "string" then
+      Report:Add( TaskInfoIDText .. TaskInfo )
+    elseif type(TaskInfo) == "table" then
+      if TaskInfoID == "Coordinates" then
+        local FromCoordinate = TaskGroup:GetUnit(1):GetCoordinate()
+        Report:Add( TaskInfoIDText )
+        Report:AddIndent( TaskInfo:ToStringBRAA( FromCoordinate ) .. ", " .. TaskInfo:ToStringAspect( FromCoordinate ) )
+        Report:AddIndent( TaskInfo:ToStringBULLS( TaskGroup:GetCoalition() ) )
+      else
+      end
+    end
+    
+  end
   
   return Report:Text()
 end
@@ -41848,6 +41942,7 @@ do -- TASK_A2G_DISPATCHER
         DetectedSet:Flush()
         
         local DetectedItemID = DetectedItem.ID
+        local DetectedItemIndex = DetectedItem.Index
         local DetectedItemChanged = DetectedItem.Changed
         
         local Task = self.Tasks[DetectedItemID]
@@ -41881,7 +41976,7 @@ do -- TASK_A2G_DISPATCHER
             Task:SetTargetZone( DetectedZone )
             Task:SetDispatcher( self )
             Task:SetInfo( "ThreatLevel", DetectedSet:CalculateThreatLevelA2G() )
-            Task:SetInfo( "Detection", Detection:DetectedItemReportSummary( DetectedItemID ) )
+            Task:SetInfo( "Detection", Detection:DetectedItemReportSummary( DetectedItemIndex ) )
             Task:SetInfo( "Changes", Detection:GetChangeText( DetectedItem ) )
             Mission:AddTask( Task )
           else
@@ -42385,6 +42480,611 @@ do -- TASK_CAS
   end 
 
 end
+--- **Tasking** - The TASK_A2A_DISPATCHER creates and manages player TASK_A2A tasks based on detected targets.
+-- 
+-- ===
+-- 
+-- # 1) @{#TASK_A2A_DISPATCHER} class, extends @{#DETECTION_MANAGER}
+-- 
+-- The @{#TASK_A2A_DISPATCHER} class implements the dynamic dispatching of tasks upon groups of detected units determined a @{Set} of EWR installation groups.
+-- The EWR will detect units, will group them, and will dispatch @{Task}s to groups. Depending on the type of target detected, different tasks will be dispatched.
+-- Find a summary below describing for which situation a task type is created:
+-- 
+--   * **INTERCEPT Task**: Is created when the target is known, is detected and within a danger zone, and there is no friendly airborne in range.
+--   * **SWEEP Task**: Is created when the target is unknown, was detected and the last position is only known, and within a danger zone, and there is no friendly airborne in range.
+--   * **ENGAGE Task**: Is created when the target is known, is detected and within a danger zone, and there is a friendly airborne in range, that will receive this task.
+--   
+-- Other task types will follow...
+-- 
+-- 3.1) TASK_A2A_DISPATCHER constructor:
+-- --------------------------------------
+-- The @{#TASK_A2A_DISPATCHER.New}() method creates a new TASK_A2A_DISPATCHER instance.
+--    
+-- ===
+--
+-- # **API CHANGE HISTORY**
+--
+-- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
+--
+--   * **Added** parts are expressed in bold type face.
+--   * _Removed_ parts are expressed in italic type face.
+--
+-- Hereby the change log:
+--
+-- ===
+--
+-- # **AUTHORS and CONTRIBUTIONS**
+--
+-- ### Contributions:
+--        
+-- ### Authors:
+--
+--   * **FlightControl**: Concept, Design & Programming.
+-- 
+-- @module Task_A2A_Dispatcher
+
+do -- TASK_A2A_DISPATCHER
+
+  --- TASK_A2A_DISPATCHER class.
+  -- @type TASK_A2A_DISPATCHER
+  -- @field Set#SET_GROUP SetGroup The groups to which the FAC will report to.
+  -- @field Functional.Detection#DETECTION_BASE Detection The DETECTION_BASE object that is used to report the detected objects. The Detection object will only function in RADAR mode!!!
+  -- @field Tasking.Mission#MISSION Mission
+  -- @extends Tasking.DetectionManager#DETECTION_MANAGER
+  TASK_A2A_DISPATCHER = {
+    ClassName = "TASK_A2A_DISPATCHER",
+    Mission = nil,
+    Detection = nil,
+    Tasks = {},
+  }
+  
+  
+  --- TASK_A2A_DISPATCHER constructor.
+  -- @param #TASK_A2A_DISPATCHER self
+  -- @param Tasking.Mission#MISSION Mission The mission for which the task dispatching is done.
+  -- @param Set#SET_GROUP SetGroup The set of groups that can join the tasks within the mission.
+  -- @param Functional.Detection#DETECTION_BASE Detection The detection results that are used to dynamically assign new tasks to human players.
+  -- @return #TASK_A2A_DISPATCHER self
+  function TASK_A2A_DISPATCHER:New( Mission, SetGroup, Detection )
+  
+    -- Inherits from DETECTION_MANAGER
+    local self = BASE:Inherit( self, DETECTION_MANAGER:New( SetGroup, Detection ) ) -- #TASK_A2A_DISPATCHER
+    
+    self.Detection = Detection
+    self.Mission = Mission
+    
+    self.Detection:FilterCategories( Unit.Category.AIRPLANE, Unit.Category.HELICOPTER )
+    self.Detection:InitDetectRadar( true )
+    self.Detection:SetDetectionInterval( 30 )
+    
+    self:AddTransition( "Started", "Assign", "Started" )
+    
+    --- OnAfter Transition Handler for Event Assign.
+    -- @function [parent=#TASK_A2A_DISPATCHER] OnAfterAssign
+    -- @param #TASK_A2A_DISPATCHER self
+    -- @param #string From The From State string.
+    -- @param #string Event The Event string.
+    -- @param #string To The To State string.
+    -- @param Tasking.Task_A2A#TASK_A2A Task
+    -- @param Wrapper.Unit#UNIT TaskUnit
+    -- @param #string PlayerName
+    
+    self:__Start( 5 )
+    
+    return self
+  end
+  
+  
+  --- Creates an INTERCEPT task when there are targets for it.
+  -- @param #TASK_A2A_DISPATCHER self
+  -- @param Functional.Detection#DETECTION_BASE.DetectedItem DetectedItem
+  -- @return Set#SET_UNIT TargetSetUnit: The target set of units.
+  -- @return #nil If there are no targets to be set.
+  function TASK_A2A_DISPATCHER:EvaluateINTERCEPT( DetectedItem )
+    self:F( { DetectedItem.ItemID } )
+  
+    local DetectedSet = DetectedItem.Set
+    local DetectedZone = DetectedItem.Zone
+
+    -- Put here the intercept logic....
+
+    if true then
+
+      -- Here we're doing something advanced... We're copying the DetectedSet, but making a new Set only with SEADable Radar units in it.
+      local TargetSetUnit = SET_UNIT:New()
+      TargetSetUnit:SetDatabase( DetectedSet )
+      TargetSetUnit:FilterOnce() -- Filter but don't do any events!!! Elements are added manually upon each detection.
+    
+      return TargetSetUnit
+    end
+    
+    return nil
+  end
+
+  
+  --- Evaluates the removal of the Task from the Mission.
+  -- Can only occur when the DetectedItem is Changed AND the state of the Task is "Planned".
+  -- @param #TASK_A2A_DISPATCHER self
+  -- @param Tasking.Mission#MISSION Mission
+  -- @param Tasking.Task#TASK Task
+  -- @param #boolean DetectedItemID
+  -- @param #boolean DetectedItemChange
+  -- @return Tasking.Task#TASK
+  function TASK_A2A_DISPATCHER:EvaluateRemoveTask( Mission, Task, DetectedItemID, DetectedItemChanged )
+    
+    if Task then
+      if Task:IsStatePlanned() and DetectedItemChanged == true then
+        self:E( "Removing Tasking: " .. Task:GetTaskName() )
+        Mission:RemoveTask( Task )
+        self.Tasks[DetectedItemID] = nil
+      end
+    end
+    
+    return Task
+  end
+  
+
+  --- Assigns tasks in relation to the detected items to the @{Set#SET_GROUP}.
+  -- @param #TASK_A2A_DISPATCHER self
+  -- @param Functional.Detection#DETECTION_BASE Detection The detection created by the @{Detection#DETECTION_BASE} derived object.
+  -- @return #boolean Return true if you want the task assigning to continue... false will cancel the loop.
+  function TASK_A2A_DISPATCHER:ProcessDetected( Detection )
+    self:E()
+  
+    local AreaMsg = {}
+    local TaskMsg = {}
+    local ChangeMsg = {}
+    
+    local Mission = self.Mission
+    
+    if Mission:IsIDLE() or Mission:IsENGAGED() then
+    
+      local TaskReport = REPORT:New()
+
+      --- First we need to  the detected targets.
+      for DetectedItemID, DetectedItem in pairs( Detection:GetDetectedItems() ) do
+      
+        local DetectedItem = DetectedItem -- Functional.Detection#DETECTION_BASE.DetectedItem
+        local DetectedSet = DetectedItem.Set -- Core.Set#SET_UNIT
+        local DetectedZone = DetectedItem.Zone
+        self:E( { "Targets in DetectedItem", DetectedItem.ItemID, DetectedSet:Count(), tostring( DetectedItem ) } )
+        DetectedSet:Flush()
+        
+        local DetectedID = DetectedItem.ID
+        local DetectedIndex = DetectedItem.Index
+        local DetectedItemChanged = DetectedItem.Changed
+        
+        local Task = self.Tasks[DetectedID]
+        Task = self:EvaluateRemoveTask( Mission, Task, DetectedID, DetectedItemChanged ) -- Task will be removed if it is planned and changed.
+
+        -- Evaluate INTERCEPT
+        if not Task then
+          local TargetSetUnit = self:EvaluateINTERCEPT( DetectedItem ) -- Returns a SetUnit if there are targets to be INTERCEPTed...
+          if TargetSetUnit then
+            Task = TASK_INTERCEPT:New( Mission, self.SetGroup, string.format( "INTERCEPT.%03d", DetectedID ), TargetSetUnit )
+          end
+
+          if Task then
+            self.Tasks[DetectedID] = Task
+            Task:SetTargetZone( DetectedZone )
+            Task:SetDispatcher( self )
+            Task:SetInfo( "ThreatLevel", "[" .. string.rep(  "■", DetectedSet:CalculateThreatLevelA2G() ) .. "]" )
+            local DetectedItemsCount = DetectedSet:Count()
+            local DetectedItemsTypes = DetectedSet:GetTypeNames()
+            Task:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ) ) 
+            Task:SetInfo( "Coordinates", Detection:GetDetectedItemCoordinate( DetectedIndex ) )
+            Task:SetInfo( "Object", DetectedSet:GetFirst() )
+            Mission:AddTask( Task )
+          else
+            self:E("This should not happen")
+          end
+
+        end
+
+        TaskReport:Add( Task:GetName() )
+  
+        -- OK, so the tasking has been done, now delete the changes reported for the area.
+        Detection:AcceptChanges( DetectedItem )
+      end
+      
+      -- TODO set menus using the HQ coordinator
+      Mission:GetCommandCenter():SetMenu()
+
+      local TaskText = TaskReport:Text(", ")
+      
+      for TaskGroupID, TaskGroup in pairs( self.SetGroup:GetSet() ) do
+        if ( not Mission:IsGroupAssigned(TaskGroup) ) and TaskText ~= "" then
+          Mission:GetCommandCenter():MessageToGroup( string.format( "%s has tasks %s. Subscribe to a task using the radio menu.", Mission:GetName(), TaskText ), TaskGroup )
+        end
+      end
+      
+    end
+    
+    return true
+  end
+
+end
+--- **Tasking** - The TASK_A2A models tasks for players in Air to Air engagements.
+-- 
+-- ![Banner Image](..\Presentations\TASK_A2A\Dia1.JPG)
+-- 
+-- 
+-- # 1) @{Task_A2A#TASK_A2A} class, extends @{Task#TASK}
+-- 
+-- The @{#TASK_A2A} class defines Air To Air tasks for a @{Set} of Target Units, 
+-- based on the tasking capabilities defined in @{Task#TASK}.
+-- The TASK_A2A is implemented using a @{Statemachine#FSM_TASK}, and has the following statuses:
+-- 
+--   * **None**: Start of the process
+--   * **Planned**: The A2A task is planned.
+--   * **Assigned**: The A2A task is assigned to a @{Group#GROUP}.
+--   * **Success**: The A2A task is successfully completed.
+--   * **Failed**: The A2A task has failed. This will happen if the player exists the task early, without communicating a possible cancellation to HQ.
+-- 
+-- # 1.1) Set the scoring of achievements in an A2A attack.
+-- 
+-- Scoring or penalties can be given in the following circumstances:
+-- 
+--   * @{#TASK_A2A.SetScoreOnDestroy}(): Set a score when a target in scope of the A2A attack, has been destroyed.
+--   * @{#TASK_A2A.SetScoreOnSuccess}(): Set a score when all the targets in scope of the A2A attack, have been destroyed.
+--   * @{#TASK_A2A.SetPenaltyOnFailed}(): Set a penalty when the A2A attack has failed.
+-- 
+-- # 2) @{Task_A2A#TASK_INTERCEPT} class, extends @{Task_A2A#TASK_A2A}
+-- 
+-- The TASK_A2A_INTERCEPT class defines an INTERCEPT task for a @{Set} of Target Units.
+-- 
+-- ====
+--
+-- # **API CHANGE HISTORY**
+--
+-- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
+--
+--   * **Added** parts are expressed in bold type face.
+--   * _Removed_ parts are expressed in italic type face.
+--
+-- Hereby the change log:
+--
+-- ===
+--
+-- # **AUTHORS and CONTRIBUTIONS**
+--
+-- ### Contributions:
+--
+--
+--        
+-- ### Authors:
+--
+--   * **FlightControl**: Concept, Design & Programming.
+--   
+-- @module Task_A2A
+
+do -- TASK_A2A
+
+  --- The TASK_A2A class
+  -- @type TASK_A2A
+  -- @field Set#SET_UNIT TargetSetUnit
+  -- @extends Tasking.Task#TASK
+  TASK_A2A = {
+    ClassName = "TASK_A2A",
+  }
+  
+  --- Instantiates a new TASK_A2A.
+  -- @param #TASK_A2A self
+  -- @param Tasking.Mission#MISSION Mission
+  -- @param Set#SET_GROUP SetAttack The set of groups for which the Task can be assigned.
+  -- @param #string TaskName The name of the Task.
+  -- @param Set#SET_UNIT UnitSetTargets
+  -- @param #number TargetDistance The distance to Target when the Player is considered to have "arrived" at the engagement range.
+  -- @param Core.Zone#ZONE_BASE TargetZone The target zone, if known.
+  -- If the TargetZone parameter is specified, the player will be routed to the center of the zone where all the targets are assumed to be.
+  -- @return #TASK_A2A self
+  function TASK_A2A:New( Mission, SetAttack, TaskName, TargetSetUnit, TaskType, TaskBriefing )
+    local self = BASE:Inherit( self, TASK:New( Mission, SetAttack, TaskName, TaskType, TaskBriefing ) ) -- Tasking.Task#TASK_A2A
+    self:F()
+  
+    self.TargetSetUnit = TargetSetUnit
+    self.TaskType = TaskType
+
+    local Fsm = self:GetUnitProcess()
+    
+
+    Fsm:AddProcess   ( "Planned", "Accept", ACT_ASSIGN_ACCEPT:New( self.TaskBriefing ), { Assigned = "RouteToRendezVous", Rejected = "Reject" }  )
+    
+    Fsm:AddTransition( "Assigned", "RouteToRendezVous", "RoutingToRendezVous" )
+    Fsm:AddProcess   ( "RoutingToRendezVous", "RouteToRendezVousPoint", ACT_ROUTE_POINT:New(), { Arrived = "ArriveAtRendezVous" } )
+    Fsm:AddProcess   ( "RoutingToRendezVous", "RouteToRendezVousZone", ACT_ROUTE_ZONE:New(), { Arrived = "ArriveAtRendezVous" } )
+    
+    Fsm:AddTransition( { "Arrived", "RoutingToRendezVous" }, "ArriveAtRendezVous", "ArrivedAtRendezVous" )
+    
+    Fsm:AddTransition( { "ArrivedAtRendezVous", "HoldingAtRendezVous" }, "Engage", "Engaging" )
+    Fsm:AddTransition( { "ArrivedAtRendezVous", "HoldingAtRendezVous" }, "HoldAtRendezVous", "HoldingAtRendezVous" )
+     
+    Fsm:AddProcess   ( "Engaging", "Account", ACT_ACCOUNT_DEADS:New( self.TargetSetUnit, self.TaskType ), { Accounted = "Success" } )
+    Fsm:AddTransition( "Engaging", "RouteToTarget", "Engaging" )
+    Fsm:AddProcess( "Engaging", "RouteToTargetZone", ACT_ROUTE_ZONE:New(), {} )
+    Fsm:AddProcess( "Engaging", "RouteToTargetPoint", ACT_ROUTE_POINT:New(), {} )
+    Fsm:AddTransition( "Engaging", "RouteToTargets", "Engaging" )
+    
+    Fsm:AddTransition( "Accounted", "DestroyedAll", "Accounted" )
+    Fsm:AddTransition( "Accounted", "Success", "Success" )
+    Fsm:AddTransition( "Rejected", "Reject", "Aborted" )
+    Fsm:AddTransition( "Failed", "Fail", "Failed" )
+    
+    
+    --- Test 
+    -- @param #FSM_PROCESS self
+    -- @param Wrapper.Unit#UNIT TaskUnit
+    -- @param Tasking.Task_A2A#TASK_A2A Task
+    function Fsm:onafterRouteToRendezVous( TaskUnit, Task )
+      self:E( { TaskUnit = TaskUnit, Task = Task and Task:GetClassNameAndID() } )
+      -- Determine the first Unit from the self.RendezVousSetUnit
+      
+      if Task:GetRendezVousZone( TaskUnit ) then
+        self:__RouteToRendezVousZone( 0.1 )
+      else
+        if Task:GetRendezVousCoordinate( TaskUnit ) then
+          self:__RouteToRendezVousPoint( 0.1 )
+        else
+          self:__ArriveAtRendezVous( 0.1 )
+        end
+      end
+    end
+
+    --- Test 
+    -- @param #FSM_PROCESS self
+    -- @param Wrapper.Unit#UNIT TaskUnit
+    -- @param Tasking.Task#TASK_A2A Task
+    function Fsm:OnAfterArriveAtRendezVous( TaskUnit, Task )
+      self:E( { TaskUnit = TaskUnit, Task = Task and Task:GetClassNameAndID() } )
+      -- Determine the first Unit from the self.TargetSetUnit
+      
+      self:__Engage( 0.1 )      
+    end
+    
+    --- Test 
+    -- @param #FSM_PROCESS self
+    -- @param Wrapper.Unit#UNIT TaskUnit
+    -- @param Tasking.Task#TASK_A2A Task
+    function Fsm:onafterEngage( TaskUnit, Task )
+      self:E( { self } )
+      self:__Account( 0.1 )
+      self:__RouteToTarget(0.1 )
+      self:__RouteToTargets( -10 )
+    end
+    
+    --- Test 
+    -- @param #FSM_PROCESS self
+    -- @param Wrapper.Unit#UNIT TaskUnit
+    -- @param Tasking.Task_A2A#TASK_A2A Task
+    function Fsm:onafterRouteToTarget( TaskUnit, Task )
+      self:E( { TaskUnit = TaskUnit, Task = Task and Task:GetClassNameAndID() } )
+      -- Determine the first Unit from the self.TargetSetUnit
+      
+      if Task:GetTargetZone( TaskUnit ) then
+        self:__RouteToTargetZone( 0.1 )
+      else
+        local TargetUnit = Task.TargetSetUnit:GetFirst() -- Wrapper.Unit#UNIT
+        if TargetUnit then
+          local Coordinate = TargetUnit:GetCoordinate()
+          self:T( { TargetCoordinate = Coordinate, Coordinate:GetX(), Coordinate:GetAlt(), Coordinate:GetZ() } )
+          Task:SetTargetCoordinate( TargetUnit:GetCoordinate(), TaskUnit )
+        end
+        self:__RouteToTargetPoint( 0.1 )
+      end
+    end
+    
+    --- Test 
+    -- @param #FSM_PROCESS self
+    -- @param Wrapper.Unit#UNIT TaskUnit
+    -- @param Tasking.Task_A2A#TASK_A2A Task
+    function Fsm:onafterRouteToTargets( TaskUnit, Task )
+      self:E( { TaskUnit = TaskUnit, Task = Task and Task:GetClassNameAndID() } )
+      local TargetUnit = Task.TargetSetUnit:GetFirst() -- Wrapper.Unit#UNIT
+      if TargetUnit then
+        Task:SetTargetCoordinate( TargetUnit:GetCoordinate(), TaskUnit )
+      end
+      self:__RouteToTargets( -10 )
+    end
+    
+    return self
+ 
+  end
+  
+  --- @param #TASK_A2A self
+  function TASK_A2A:GetPlannedMenuText()
+    return self:GetStateString() .. " - " .. self:GetTaskName() .. " ( " .. self.TargetSetUnit:GetUnitTypesText() .. " )"
+  end
+
+  --- @param #TASK_A2A self
+  -- @param Core.Point#COORDINATE RendezVousCoordinate The Coordinate object referencing to the 2D point where the RendezVous point is located on the map.
+  -- @param #number RendezVousRange The RendezVousRange that defines when the player is considered to have arrived at the RendezVous point.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  function TASK_A2A:SetRendezVousCoordinate( RendezVousCoordinate, RendezVousRange, TaskUnit  )
+  
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+  
+    local ActRouteRendezVous = ProcessUnit:GetProcess( "RoutingToRendezVous", "RouteToRendezVousPoint" ) -- Actions.Act_Route#ACT_ROUTE_POINT
+    ActRouteRendezVous:SetCoordinate( RendezVousCoordinate )
+    ActRouteRendezVous:SetRange( RendezVousRange )
+  end
+  
+  --- @param #TASK_A2A self
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return Core.Point#COORDINATE The Coordinate object referencing to the 2D point where the RendezVous point is located on the map.
+  -- @return #number The RendezVousRange that defines when the player is considered to have arrived at the RendezVous point.
+  function TASK_A2A:GetRendezVousCoordinate( TaskUnit )
+  
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    local ActRouteRendezVous = ProcessUnit:GetProcess( "RoutingToRendezVous", "RouteToRendezVousPoint" ) -- Actions.Act_Route#ACT_ROUTE_POINT
+    return ActRouteRendezVous:GetCoordinate(), ActRouteRendezVous:GetRange()
+  end
+  
+  
+  
+  --- @param #TASK_A2A self
+  -- @param Core.Zone#ZONE_BASE RendezVousZone The Zone object where the RendezVous is located on the map.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  function TASK_A2A:SetRendezVousZone( RendezVousZone, TaskUnit )
+  
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    local ActRouteRendezVous = ProcessUnit:GetProcess( "RoutingToRendezVous", "RouteToRendezVousZone" ) -- Actions.Act_Route#ACT_ROUTE_ZONE
+    ActRouteRendezVous:SetZone( RendezVousZone )
+  end
+
+  --- @param #TASK_A2A self
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return Core.Zone#ZONE_BASE The Zone object where the RendezVous is located on the map.
+  function TASK_A2A:GetRendezVousZone( TaskUnit )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    local ActRouteRendezVous = ProcessUnit:GetProcess( "RoutingToRendezVous", "RouteToRendezVousZone" ) -- Actions.Act_Route#ACT_ROUTE_ZONE
+    return ActRouteRendezVous:GetZone()
+  end
+  
+  --- @param #TASK_A2A self
+  -- @param Core.Point#COORDINATE TargetCoordinate The Coordinate object where the Target is located on the map.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  function TASK_A2A:SetTargetCoordinate( TargetCoordinate, TaskUnit )
+  
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    local ActRouteTarget = ProcessUnit:GetProcess( "Engaging", "RouteToTargetPoint" ) -- Actions.Act_Route#ACT_ROUTE_POINT
+    ActRouteTarget:SetCoordinate( TargetCoordinate )
+  end
+   
+
+  --- @param #TASK_A2A self
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return Core.Point#COORDINATE The Coordinate object where the Target is located on the map.
+  function TASK_A2A:GetTargetCoordinate( TaskUnit )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    local ActRouteTarget = ProcessUnit:GetProcess( "Engaging", "RouteToTargetPoint" ) -- Actions.Act_Route#ACT_ROUTE_POINT
+    return ActRouteTarget:GetCoordinate()
+  end
+
+
+  --- @param #TASK_A2A self
+  -- @param Core.Zone#ZONE_BASE TargetZone The Zone object where the Target is located on the map.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  function TASK_A2A:SetTargetZone( TargetZone, TaskUnit )
+  
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    local ActRouteTarget = ProcessUnit:GetProcess( "Engaging", "RouteToTargetZone" ) -- Actions.Act_Route#ACT_ROUTE_ZONE
+    ActRouteTarget:SetZone( TargetZone )
+  end
+   
+
+  --- @param #TASK_A2A self
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return Core.Zone#ZONE_BASE The Zone object where the Target is located on the map.
+  function TASK_A2A:GetTargetZone( TaskUnit )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    local ActRouteTarget = ProcessUnit:GetProcess( "Engaging", "RouteToTargetZone" ) -- Actions.Act_Route#ACT_ROUTE_ZONE
+    return ActRouteTarget:GetZone()
+  end
+
+  --- Set a score when a target in scope of the A2A attack, has been destroyed .
+  -- @param #TASK_A2A self
+  -- @param #string Text The text to display to the player, when the target has been destroyed.
+  -- @param #number Score The score in points.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2A
+  function TASK_A2A:SetScoreOnDestroy( Text, Score, TaskUnit )
+    self:F( { Text, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScoreProcess( "Engaging", "Account", "Account", Text, Score )
+    
+    return self
+  end
+
+  --- Set a score when all the targets in scope of the A2A attack, have been destroyed.
+  -- @param #TASK_A2A self
+  -- @param #string Text The text to display to the player, when all targets hav been destroyed.
+  -- @param #number Score The score in points.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2A
+  function TASK_A2A:SetScoreOnSuccess( Text, Score, TaskUnit )
+    self:F( { Text, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Success", Text, Score )
+    
+    return self
+  end
+
+  --- Set a penalty when the A2A attack has failed.
+  -- @param #TASK_A2A self
+  -- @param #string Text The text to display to the player, when the A2A attack has failed.
+  -- @param #number Penalty The penalty in points.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2A
+  function TASK_A2A:SetPenaltyOnFailed( Text, Penalty, TaskUnit )
+    self:F( { Text, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Failed", Text, Penalty )
+    
+    return self
+  end
+
+  
+end 
+
+
+do -- TASK_INTERCEPT
+
+  --- The TASK_INTERCEPT class
+  -- @type TASK_INTERCEPT
+  -- @field Set#SET_UNIT TargetSetUnit
+  -- @extends Tasking.Task#TASK
+  TASK_INTERCEPT = {
+    ClassName = "TASK_INTERCEPT",
+  }
+  
+  --- Instantiates a new TASK_INTERCEPT.
+  -- @param #TASK_INTERCEPT self
+  -- @param Tasking.Mission#MISSION Mission
+  -- @param Core.Set#SET_GROUP SetGroup The set of groups for which the Task can be assigned.
+  -- @param #string TaskName The name of the Task.
+  -- @param Core.Set#SET_UNIT TargetSetUnit 
+  -- @param #string TaskBriefing The briefing of the task.
+  -- @return #TASK_INTERCEPT self
+  function TASK_INTERCEPT:New( Mission, SetGroup, TaskName, TargetSetUnit, TaskBriefing )
+    local self = BASE:Inherit( self, TASK_A2A:New( Mission, SetGroup, TaskName, TargetSetUnit, "INTERCEPT", TaskBriefing ) ) -- #TASK_INTERCEPT
+    self:F()
+    
+    Mission:AddTask( self )
+    
+    --TODO: Add BR, Altitude, type of planes...
+    
+    local TargetCoord = TargetSetUnit:GetFirst():GetCoordinate()
+    local TargetPositionText = TargetCoord:ToString()
+    local TargetThreatLevel = TargetSetUnit:CalculateThreatLevelA2G()
+
+    self:SetBriefing( 
+      TaskBriefing or 
+      "Intercept incoming intruders.\n" ..
+      "Last Known Coordinates: " .. TargetPositionText .. "\n" ..
+      "Threat Level: [" .. string.rep(  "■", TargetThreatLevel ) .. "]"
+    )
+
+    return self
+  end 
+
+end
+
 --- **Tasking (Release 2.1)** -- The TASK_CARGO models tasks for players to transport @{Cargo}.
 -- 
 -- ![Banner Image](..\Presentations\TASK_CARGO\Dia1.JPG)

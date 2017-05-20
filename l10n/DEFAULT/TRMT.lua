@@ -25,6 +25,11 @@ end -- DEBUG
 
 TRMT.AWACS = {}
 
+CLEANUP:New( 'CLEAN_BATUMI', 600 ) -- this will despawn any inactive AI at the various zones, in order to prevent the airports from filling up 
+CLEANUP:New( 'CLEAN_SENAKI', 600 )
+CLEANUP:New( 'CLEAN_VAZIANI', 600 )
+
+
 do -- TANKERS
 
   TRMT.TANKERS = {
