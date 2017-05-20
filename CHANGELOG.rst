@@ -22,6 +22,7 @@ Fix
 ~~~
 - Rename all tankers and make them spawn with etchers code chg: add 2nd
   AWACS as per necks request. [entropySG]
+- Update Mission Brief to include new tanker Frequencies and TACAN [entropySG]
 
 Other
 ~~~~~

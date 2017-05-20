@@ -16262,7 +16262,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Arco11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 2.9657123355303,
+                                        ["heading"] = 0,
                                         ["livery_id"] = "132nd Tanker service",
                                         ["name"] = "DictKey_UnitName_1676",
                                         ["onboard_num"] = "994",
@@ -19322,6 +19322,25 @@ mission =
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [2]
+                                                        [3] =
+                                                        {
+                                                            ["auto"] = false,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 3,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "SetFrequency",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["frequency"] = 237100000,
+                                                                        ["modulation"] = 0,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [3]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -21327,6 +21346,25 @@ mission =
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [2]
+                                                        [3] =
+                                                        {
+                                                            ["auto"] = false,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 3,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "SetFrequency",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["frequency"] = 237100000,
+                                                                        ["modulation"] = 0,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [3]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -21490,7 +21528,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Magic11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -2.4284920603949,
+                                        ["heading"] = 0,
                                         ["livery_id"] = "nato",
                                         ["name"] = "DictKey_UnitName_3442",
                                         ["onboard_num"] = "088",
@@ -48582,10 +48620,10 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3582657,
+    ["currentKey"] = 3586473,
     ["date"] =
     {
-        ["Day"] = 5,
+        ["Day"] = 20,
         ["Month"] = 5,
         ["Year"] = 2011,
     }, -- end of ["date"]
@@ -51674,9 +51712,9 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -368528.57142857,
-        ["centerY"] = 628114.28571429,
-        ["zoom"] = 100000,
+        ["centerX"] = -301285.71428571,
+        ["centerY"] = 588571.42857143,
+        ["zoom"] = 1000000,
     }, -- end of ["map"]
     ["maxDictId"] = 3447,
     ["needModules"] =

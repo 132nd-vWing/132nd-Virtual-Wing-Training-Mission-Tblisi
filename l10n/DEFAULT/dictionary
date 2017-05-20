@@ -3510,31 +3510,32 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
 \
 Frequencies and weather information according to tasking and briefing on 132nd Website\
 \
-Tanker Texaco AI\
-AM: 150.000, TACAN:05X\
-\
-AWACS AI\
+AWACS (AI)\
 AM:237.100\
 \
-Tanker IL-78M ARCO\
-AM 227.100 (Mirage2000 Preset 8 / 12)\
+Tanker TEXACO (KC-135)\
+AM: 150.000, TACAN:05Y\
+\
+Tanker ARCO 1-1  (IL-78M)\
+AM 227.100 (Mirage2000 Preset UHF#8  V/UHF#12)\
 TACAN:08Y\
 \
-Tanker IL-78M Shell \
-(Shell might not yet available at mission start, due to delayed takeoff)\
-AM 241.250 (Mirage2000 Preset 11 / 15)\
-TACAN: 09Y\
+Tanker ARCO 1-2  (IL-78M)\
+AM 227.800 (no preset)\
+TACAN:10Y\
 \
-SAM groups become active automatically when flying into detection zones\
-SAM groups can be located via nav point:\
-5xManpad groups; SA181, SA182, SA183, SA184 & SA185\
-2xStrela groups; STRELA1 & STRELA2\
-1xSA-19 group; SA19\
-1SA-15 group; SA15\
-1xSA-8 group; SA8\
-1xSA-3 gropu; SA3\
-1xSA-6 group; SA6\
+Tanker SHELL 2-1  (IL-78M)\
+AM 241.250 (Mirage2000 Preset UHF#6  V/UHF#15)\
+TACAN:09Y\
 \
+Tanker SHELL 2-2  (IL-78M)\
+AM 241.750 (no preset)\
+TACAN:11Y\
+\
+RED SAM  located via nav points:\
+5xManpad groups; SA18.1, SA18.2, SA18.3, SA18.4, SA18.5\
+2xStrela groups; STRELA_SA9, STRELA_SA13\
+1xSA-8 group; SA8_EAST\
 ",
     ["DictKey_sortie_652"] = "132nd - Training mission",
     ["DictKey_subtitle_1843"] = "",
