@@ -16073,50 +16073,6 @@ mission =
                                                                 }, -- end of ["task"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 8,
-                                                                        ["frequency"] = 1095000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [4]
-                                                        [5] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 5,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 0,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [5]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -16360,50 +16316,6 @@ mission =
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [2]
-                                                        [3] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 3,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 9,
-                                                                        ["frequency"] = 1096000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 0,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [4]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -18131,50 +18043,6 @@ mission =
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [2]
-                                                        [3] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 3,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 10,
-                                                                        ["frequency"] = 1097000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 4,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 0,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [4]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -18418,50 +18286,6 @@ mission =
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [2]
-                                                        [3] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 3,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 11,
-                                                                        ["frequency"] = 1098000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 4,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 0,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [4]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -44052,40 +43876,7 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 221.92499204784,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Turning Point",
-                                            ["alt"] = 2000,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_2748",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Turning Point",
-                                            ["x"] = -347300,
-                                            ["y"] = 840454.28571429,
-                                        }, -- end of [2]
-                                        [3] =
-                                        {
-                                            ["ETA"] = 212.22337894838,
+                                            ["ETA"] = 206.95202148897,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 2000,
@@ -44115,8 +43906,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -321854.57142858,
                                             ["y"] = 833057.71428571,
-                                        }, -- end of [3]
-                                        [4] =
+                                        }, -- end of [2]
+                                        [3] =
                                         {
                                             ["ETA"] = 523.65895315195,
                                             ["ETA_locked"] = false,
@@ -44148,8 +43939,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -319784.00000001,
                                             ["y"] = 876209.42857143,
-                                        }, -- end of [4]
-                                        [5] =
+                                        }, -- end of [3]
+                                        [4] =
                                         {
                                             ["ETA"] = 693.51727252495,
                                             ["ETA_locked"] = false,
@@ -44181,8 +43972,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -343100.85714286,
                                             ["y"] = 879798.28571429,
-                                        }, -- end of [5]
-                                        [6] =
+                                        }, -- end of [4]
+                                        [5] =
                                         {
                                             ["ETA"] = 849.21832073619,
                                             ["ETA_locked"] = false,
@@ -44214,8 +44005,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -357900,
                                             ["y"] = 863936.57142857,
-                                        }, -- end of [6]
-                                        [7] =
+                                        }, -- end of [5]
+                                        [6] =
                                         {
                                             ["ETA"] = 1035.2972435114,
                                             ["ETA_locked"] = false,
@@ -44247,7 +44038,7 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -347296.28571429,
                                             ["y"] = 840452.85714286,
-                                        }, -- end of [7]
+                                        }, -- end of [6]
                                     }, -- end of ["points"]
                                     ["routeRelativeTOT"] = true,
                                 }, -- end of ["route"]
@@ -44264,7 +44055,7 @@ mission =
                                         ["alt"] = 2000,
                                         ["alt_type"] = "BARO",
                                         ["callsign"] = 100,
-                                        ["heading"] = 2.7282756526344,
+                                        ["heading"] = -0.28303253066371,
                                         ["livery_id"] = "132 617th Agaton",
                                         ["name"] = "DictKey_UnitName_2746",
                                         ["onboard_num"] = "010",
@@ -44279,17 +44070,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = -2.7282756526344,
+                                        ["psi"] = 0.28303253066371,
                                         ["skill"] = "High",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "A-10C",
                                         ["unitId"] = 1656,
-                                        ["x"] = -319072.57142858,
-                                        ["y"] = 828074.28571429,
+                                        ["x"] = -347296.10714286,
+                                        ["y"] = 840457.14285714,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -319072.57142858,
-                                ["y"] = 828074.28571429,
+                                ["x"] = -347296.10714286,
+                                ["y"] = 840457.14285714,
                             }, -- end of [1]
                             [2] =
                             {
@@ -44372,45 +44163,12 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -355219.14285715,
-                                            ["y"] = 911220,
+                                            ["x"] = -351803.25,
+                                            ["y"] = 911650,
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 304.58267199677,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Turning Point",
-                                            ["alt"] = 2000,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_2758",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Turning Point",
-                                            ["x"] = -351811.42857143,
-                                            ["y"] = 911638.85714286,
-                                        }, -- end of [2]
-                                        [3] =
-                                        {
-                                            ["ETA"] = 445.56917136066,
+                                            ["ETA"] = 145.96061973416,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 2000,
@@ -44440,8 +44198,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -365946.00000001,
                                             ["y"] = 898076,
-                                        }, -- end of [3]
-                                        [4] =
+                                        }, -- end of [2]
+                                        [3] =
                                         {
                                             ["ETA"] = 590.62354349971,
                                             ["ETA_locked"] = false,
@@ -44473,8 +44231,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -359851.71428572,
                                             ["y"] = 878873.42857143,
-                                        }, -- end of [4]
-                                        [5] =
+                                        }, -- end of [3]
+                                        [4] =
                                         {
                                             ["ETA"] = 759.43452294726,
                                             ["ETA_locked"] = false,
@@ -44506,8 +44264,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -339271.71428572,
                                             ["y"] = 890106.28571429,
-                                        }, -- end of [5]
-                                        [6] =
+                                        }, -- end of [4]
+                                        [5] =
                                         {
                                             ["ETA"] = 938.89485064188,
                                             ["ETA_locked"] = false,
@@ -44539,7 +44297,7 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -351811.42857143,
                                             ["y"] = 911638.28571429,
-                                        }, -- end of [6]
+                                        }, -- end of [5]
                                     }, -- end of ["points"]
                                     ["routeRelativeTOT"] = true,
                                 }, -- end of ["route"]
@@ -44556,7 +44314,7 @@ mission =
                                         ["alt"] = 2000,
                                         ["alt_type"] = "BARO",
                                         ["callsign"] = 101,
-                                        ["heading"] = 0.12230095230904,
+                                        ["heading"] = -2.3767116933853,
                                         ["livery_id"] = "132 617th Agaton",
                                         ["name"] = "DictKey_UnitName_2755",
                                         ["onboard_num"] = "011",
@@ -44571,17 +44329,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = -0.12230095230904,
+                                        ["psi"] = 2.3767116933853,
                                         ["skill"] = "High",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "A-10C",
                                         ["unitId"] = 1657,
-                                        ["x"] = -355219.14285715,
-                                        ["y"] = 911220,
+                                        ["x"] = -351803.25,
+                                        ["y"] = 911650,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -355219.14285715,
-                                ["y"] = 911220,
+                                ["x"] = -351803.25,
+                                ["y"] = 911650,
                             }, -- end of [2]
                             [3] =
                             {
@@ -44664,45 +44422,12 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -274137.71428572,
-                                            ["y"] = 836878.57142857,
+                                            ["x"] = -285314.67857143,
+                                            ["y"] = 846307.14285714,
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 94.207394392747,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Turning Point",
-                                            ["alt"] = 2000,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_2766",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Turning Point",
-                                            ["x"] = -285322,
-                                            ["y"] = 846313.14285714,
-                                        }, -- end of [2]
-                                        [3] =
-                                        {
-                                            ["ETA"] = 246.48418809238,
+                                            ["ETA"] = 161.67770679254,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 2000,
@@ -44732,8 +44457,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -264394.85714286,
                                             ["y"] = 849372.28571428,
-                                        }, -- end of [3]
-                                        [4] =
+                                        }, -- end of [2]
+                                        [3] =
                                         {
                                             ["ETA"] = 378.23522484338,
                                             ["ETA_locked"] = false,
@@ -44765,8 +44490,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -254040.85714286,
                                             ["y"] = 864460,
-                                        }, -- end of [4]
-                                        [5] =
+                                        }, -- end of [3]
+                                        [4] =
                                         {
                                             ["ETA"] = 476.57225875415,
                                             ["ETA_locked"] = false,
@@ -44798,8 +44523,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -255200.85714286,
                                             ["y"] = 878068.57142857,
-                                        }, -- end of [5]
-                                        [6] =
+                                        }, -- end of [4]
+                                        [5] =
                                         {
                                             ["ETA"] = 609.33445900711,
                                             ["ETA_locked"] = false,
@@ -44831,8 +44556,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -271868,
                                             ["y"] = 880812,
-                                        }, -- end of [6]
-                                        [7] =
+                                        }, -- end of [5]
+                                        [6] =
                                         {
                                             ["ETA"] = 704.15419953242,
                                             ["ETA_locked"] = false,
@@ -44864,8 +44589,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -281059.14285715,
                                             ["y"] = 874707.14285714,
-                                        }, -- end of [7]
-                                        [8] =
+                                        }, -- end of [6]
+                                        [7] =
                                         {
                                             ["ETA"] = 792.71111615371,
                                             ["ETA_locked"] = false,
@@ -44897,8 +44622,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -286926.28571429,
                                             ["y"] = 863897.14285714,
-                                        }, -- end of [8]
-                                        [9] =
+                                        }, -- end of [7]
+                                        [8] =
                                         {
                                             ["ETA"] = 920.52165411271,
                                             ["ETA_locked"] = false,
@@ -44930,7 +44655,7 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -285322,
                                             ["y"] = 846313.71428571,
-                                        }, -- end of [9]
+                                        }, -- end of [8]
                                     }, -- end of ["points"]
                                     ["routeRelativeTOT"] = true,
                                 }, -- end of ["route"]
@@ -44947,7 +44672,7 @@ mission =
                                         ["alt"] = 2000,
                                         ["alt_type"] = "BARO",
                                         ["callsign"] = 102,
-                                        ["heading"] = 2.4408515743152,
+                                        ["heading"] = 0.14548342458006,
                                         ["livery_id"] = "132 617th Agaton",
                                         ["name"] = "DictKey_UnitName_2764",
                                         ["onboard_num"] = "012",
@@ -44962,17 +44687,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = -2.4408515743152,
+                                        ["psi"] = -0.14548342458006,
                                         ["skill"] = "High",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "A-10C",
                                         ["unitId"] = 1658,
-                                        ["x"] = -274137.71428572,
-                                        ["y"] = 836878.57142857,
+                                        ["x"] = -285314.67857143,
+                                        ["y"] = 846307.14285714,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -274137.71428572,
-                                ["y"] = 836878.57142857,
+                                ["x"] = -285314.67857143,
+                                ["y"] = 846307.14285714,
                             }, -- end of [3]
                             [4] =
                             {
@@ -45055,45 +44780,12 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -289194.28571429,
-                                            ["y"] = 924950.85714285,
+                                            ["x"] = -300258.10714286,
+                                            ["y"] = 913228,
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 116.08439362032,
-                                            ["ETA_locked"] = false,
-                                            ["action"] = "Turning Point",
-                                            ["alt"] = 2000,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_2779",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 138.88888888889,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Turning Point",
-                                            ["x"] = -300262.57142857,
-                                            ["y"] = 913227.42857141,
-                                        }, -- end of [2]
-                                        [3] =
-                                        {
-                                            ["ETA"] = 425.98707520108,
+                                            ["ETA"] = 340.89029400306,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 2000,
@@ -45123,8 +44815,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -281059.42857143,
                                             ["y"] = 874706.57142855,
-                                        }, -- end of [3]
-                                        [4] =
+                                        }, -- end of [2]
+                                        [3] =
                                         {
                                             ["ETA"] = 505.43382378724,
                                             ["ETA_locked"] = false,
@@ -45156,8 +44848,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -271868,
                                             ["y"] = 880811.7142857,
-                                        }, -- end of [4]
-                                        [5] =
+                                        }, -- end of [3]
+                                        [4] =
                                         {
                                             ["ETA"] = 627.05474200347,
                                             ["ETA_locked"] = false,
@@ -45189,8 +44881,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -255200.57142857,
                                             ["y"] = 878067.7142857,
-                                        }, -- end of [5]
-                                        [6] =
+                                        }, -- end of [4]
+                                        [5] =
                                         {
                                             ["ETA"] = 708.55012857364,
                                             ["ETA_locked"] = false,
@@ -45222,8 +44914,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -244117.14285714,
                                             ["y"] = 880363.99999998,
-                                        }, -- end of [6]
-                                        [7] =
+                                        }, -- end of [5]
+                                        [6] =
                                         {
                                             ["ETA"] = 975.70686272201,
                                             ["ETA_locked"] = false,
@@ -45255,8 +44947,8 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -238755.71428571,
                                             ["y"] = 917079.7142857,
-                                        }, -- end of [7]
-                                        [8] =
+                                        }, -- end of [6]
+                                        [7] =
                                         {
                                             ["ETA"] = 1419.6004384255,
                                             ["ETA_locked"] = false,
@@ -45288,7 +44980,7 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -300262.57142857,
                                             ["y"] = 913227.42857141,
-                                        }, -- end of [8]
+                                        }, -- end of [7]
                                     }, -- end of ["points"]
                                     ["routeRelativeTOT"] = true,
                                 }, -- end of ["route"]
@@ -45305,7 +44997,7 @@ mission =
                                         ["alt"] = 2000,
                                         ["alt_type"] = "BARO",
                                         ["callsign"] = 103,
-                                        ["heading"] = -2.3274576212424,
+                                        ["heading"] = -1.1084378842536,
                                         ["livery_id"] = "132 617th Agaton",
                                         ["name"] = "DictKey_UnitName_2776",
                                         ["onboard_num"] = "013",
@@ -45320,17 +45012,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 2.3274576212424,
+                                        ["psi"] = 1.1084378842536,
                                         ["skill"] = "High",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "A-10C",
                                         ["unitId"] = 1659,
-                                        ["x"] = -289194.28571429,
-                                        ["y"] = 924950.85714285,
+                                        ["x"] = -300258.10714286,
+                                        ["y"] = 913228,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -289194.28571429,
-                                ["y"] = 924950.85714285,
+                                ["x"] = -300258.10714286,
+                                ["y"] = 913228,
                             }, -- end of [4]
                             [5] =
                             {
@@ -48620,7 +48312,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3595256,
+    ["currentKey"] = 3600381,
     ["date"] =
     {
         ["Day"] = 20,
