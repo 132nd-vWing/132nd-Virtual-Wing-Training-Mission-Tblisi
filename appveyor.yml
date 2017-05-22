@@ -37,8 +37,8 @@ init:
   - cmd: echo "%PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"
   - cmd: echo "%APPVEYOR_BUILD_WORKER_IMAGE%"
   - cmd: echo "%APPVEYOR_REPO_COMMIT_TIMESTAMP%"
-  - cmd: echo "%APPVEYOR_REPO_COMMIT_MESSAGE%"
-  - cmd: echo "%APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED%"
+  # - cmd: echo "%APPVEYOR_REPO_COMMIT_MESSAGE%"
+  # - cmd: echo "%APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED%"
   
 install:
   - cmd: choco install 7zip.commandline
