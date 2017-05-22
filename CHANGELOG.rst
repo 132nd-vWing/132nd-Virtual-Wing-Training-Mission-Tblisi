@@ -93,11 +93,6 @@ Other
 - . [132nd-Entropy]
 - . [132nd-Entropy]
 - Re-build. [132nd-Entropy]
-- Merge remote-tracking branch 'origin/master' into develop. [132nd-
-  etcher]
-
-  # Conflicts:
-  #	appveyor.yml
 
 
 2.9.0 (2017-05-05)
@@ -116,8 +111,6 @@ Other
   Fix #14
 
   P.S.: derpy etchy
-- Merge remote-tracking branch 'origin/develop' into develop. [132nd-
-  etcher]
 - Change on-demand unit country to Georgia. [132nd-etcher]
 
   Fix #13
@@ -155,13 +148,10 @@ Other
 2.8.0 (2017-04-23)
 ------------------
 - Re-factorization of TRMT script. [132nd-etcher]
-- Refactorization of TRMT script. [132nd-etcher]
 - Set script loading flag to "1" for release. [132nd-etcher]
 - Update to latest version of DCS. [132nd-etcher]
 
   "Gunburst" value for prop aicrafts
-- Re-factorization of TRMT script. [132nd-etcher]
-- Re-factorization of TRMT script. [132nd-etcher]
 - Bump AV build. [132nd-etcher]
 - Fix typo. [132nd-etcher]
 - Refac of TRMT script. [132nd-etcher]
@@ -184,7 +174,6 @@ Other
 - . [entropySG]
 - Merge develop including On Demand spawning (etcher) inlude moose2.0
   stable. [entropySG]
-- Merge remote-tracking branch 'origin/develop' [entropySG]
 - Ignore LDT files. [132nd-etcher]
 - Remove old SAR_TETRA_1 zone & related code comments. [132nd-etcher]
 - Dummy. [132nd-etcher]
@@ -242,7 +231,6 @@ Other
 
 2.7.1 (2017-03-01)
 ------------------
-- Finish 2.7.1. [132nd-etcher]
 - 2.7.1. [132nd-etcher]
 - Fixed TMT script loading. [132nd-etcher]
 
@@ -256,19 +244,14 @@ Other
 2.6.0 (2017-02-16)
 ------------------
 - . [entropySG]
-- Merge remote-tracking branch 'origin/develop' [entropySG]
 - Added 3x Viggen to Lochini. [entropySG]
 - Remade SAR tasking so that the crashsite will spawn in one out of 10
   suitable zoneslma. [entropySG]
-- Merge remote-tracking branch 'origin/develop' [entropySG]
-- Fix missile trainer. [entropySG]
-- Finish 2.5.0. [132nd-etcher]
 
 
 2.5.0 (2017-02-15)
 ------------------
 - Derped 2.5.0 rel. [132nd-etcher]
-- Finish 2.5.0. [132nd-etcher]
 - Fix missile script. [132nd-etcher]
 - Fix missile script. [132nd-etcher]
 - Fix missile script. [132nd-etcher]
@@ -282,11 +265,9 @@ Other
 2.4.0 (2017-02-04)
 ------------------
 - New release with fixed J02 IP. [entropySG]
-- Merge remote-tracking branch 'origin/develop' [entropySG]
 - Corrected J02 IP at TETRA range. [entropySG]
 - Update moose. [entropySG]
 - Add dummy red objects to highlight ranges area. [132nd-etcher]
-- Finish CSARZones. [132nd-etcher]
 - Add custom MOOSE ZONE:GetRandomVec2() method. [132nd-etcher]
 - Add SAR_TETRA zone to mission table. [132nd-etcher]
 - Simplified ctld.spawnGroupAtPoint_SAR. [132nd-etcher]
@@ -295,28 +276,20 @@ Other
 2.3.1 (2017-01-28)
 ------------------
 - Test build. [entropySG]
-- Merge remote-tracking branch 'origin/develop' [entropySG]
 - Removed tag-only build to allow for test builds again. [132nd-etcher]
-- Finish 2.3.0. [132nd-etcher]
 
 
 2.3.0 (2017-01-27)
 ------------------
-- Finish 2.3.0. [132nd-etcher]
 - Revert AV version to the correct one (2.3.0) [132nd-etcher]
 - Prevent build trigger without tag. [132nd-etcher]
 - Build on any tag (reverted from commit
   cb9b553e75780ef6de7386833d2eddf482fd72dd) [132nd-etcher]
 - Build on any tag. [132nd-etcher]
-- Finish 2.3.2 - testing tags. [132nd-etcher]
-- Finish 2.3.2 - testing tags. [132nd-etcher]
 - 2.3.2. [132nd-etcher]
 - Bumping AV version. [132nd-etcher]
 - . [entropySG]
-- Merge remote-tracking branch 'origin/develop' [entropySG]
 - Release Build. [entropySG]
-- Merge branch 'master' into develop. [entropySG]
-- Merge remote-tracking branch 'origin/develop' [entropySG]
 - Test release take 2. [entropySG]
 - Test release. [entropySG]
 - Release build. [entropySG]
@@ -325,10 +298,6 @@ Other
   targets. [entropySG]
 - Removed duped comment. [132nd-etcher]
 - Not needed file. [entropySG]
-- Merge pull request #2 from 132nd-Entropy/feature/4-Refac. [132nd-
-  Entropy]
-
-  4-Refac
 - AV config: skip branches with PR to avoid double building. [132nd-
   etcher]
 - Move radio menus for "random movements" and "deploy infantry" to sub
@@ -360,10 +329,6 @@ Other
 - Add download links in README. [132nd-etcher]
 - Remove leftover conflict-merge text from README. [132nd-etcher]
 - Re-added filters. [132nd-etcher]
-- Merge remote-tracking branch 'origin/develop' [entropySG]
-
-  # Conflicts:
-  #	README.md
 - Trying it for real ! [132nd-etcher]
 - Test. [entropySG]
 - Use tag name to rename miz file on tag builds (take 2) [132nd-etcher]
@@ -387,19 +352,9 @@ Other
 - Added AV config to 7z ignore list. [132nd-etcher]
 - Initial AV config. [132nd-etcher]
 - Dummy change to test AV build trigger (take 2) [132nd-etcher]
-- Merge branch 'develop' [132nd-etcher]
-
-  # Conflicts:
-  #	README.md
 - Dummy change to test AV build trigger (take 1) [132nd-etcher]
 - Update README.md. [132nd-Entropy]
-- Finish 2.2.1. [132nd-etcher]
 - Adding dummy (empty) Miz for automated build. [132nd-etcher]
-- Merge remote-tracking branch 'refs/remotes/origin/develop' [entropySG]
-- Merge pull request #1 from 132nd-Entropy/feature/1-TrackAll. [132nd-
-  Entropy]
-
-  Tracking all files from the TRMT
 - Tracking all files from the TRMT. [132nd-etcher]
 
   Files like "mission" (the actual mission lua table) are very good candidate for source control, as well as pretty much any resource used for/by the TRMT.
