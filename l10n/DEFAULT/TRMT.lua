@@ -23,122 +23,6 @@ do -- DEBUG
   end
 end -- DEBUG
 
-do -- MISC STUFF
-
---LLtool = {}
---
---LLtool.LLstrings = function(pos) -- pos is a Vec3
-
---  local LLposN, LLposE = coord.LOtoLL(pos)
---  local LLposfixN, LLposdegN = math.modf(LLposN)
---  LLposdegN = LLposdegN * 60
---  local LLposdegN2, LLposdegN3 = math.modf(LLposdegN)
---  LLposdegN3 = LLposdegN3 * 1000
---  
---  local LLposfixE, LLposdegE = math.modf(LLposE)
---  LLposdegE = LLposdegE * 60
---  local LLposdegE2, LLposdegE3 = math.modf(LLposdegE)
---  LLposdegE3 = LLposdegE3 * 1000
---  
---  local LLposNstring = string.format('%+.2i %.2i %.3d', LLposfixN, LLposdegN2, LLposdegN3)
---  local LLposEstring = string.format('%+.3i %.2i %.3d', LLposfixE, LLposdegE2, LLposdegE3)
---  return LLposNstring, LLposEstring
---  end
-
-  TRMT.DRAW = {
-    result = {},
-    output = io.open("c:\\users\\bob\\desktop\\export.coord", "w"),
-  }
-  
---  TRMT.DRAW.output:write('test')
-  
-  TRMT.DRAW.GET_NAV_POINTS = function()
-    TRMT.DEBUG('getting NAV POINTS')
-    local x, y, z, name, lat, long
-    for coa_name, coa in pairs(env.mission.coalition) do
-      if (coa_name == 'blue' or coa_name == 'red') and type(coa) == 'table' then
-        if coa.nav_points then
-          for index, point in pairs(coa.nav_points) do
-            name = point.callsignStr
-            x = point.x
-            z = point.y
-            y = land.getHeight({x, y})
-            lat, long = coord.LOtoLL({x=x, y=y, z=z})
---            table.insert(TRMT.DRAW.result, 'POINT|'..name..','..long..','..lat)
---            table.insert(
---              TRMT.DRAW.result,
---              {
---                type='POINT',
---                name=name,
---                lat=lat,
---                long=long,
---              }
---            )
-            TRMT.DRAW.output:write(
-              '{"type": "POINT", "name": "'..name..'", "lat": '..lat..', "long": '..long..'}\n'
-            )
-          end
-        end
-            
-      end
-    end
-  end
-
-  TRMT.DRAW.GET_COORD_OF_GROUP = function (group)
-    local debug_ = function ( text )
-      TRMT.DEBUG('COORD: '..text)
-    end 
-    if group == nil then
-      debug_('ERROR: could not find group')
-      return
-    end
-    
-    local route_ = group:GetTaskRoute()
-    
-    local a, x, y, z, lat, long
-    local name = env.getValueDictByKey(route_[1].name)
-    TRMT.DEBUG('point name: '..name)
-    local result = '{"type": "POLY", "name": "'..name..'", "points": ['
-    -- Iterate over all waypoints
-    for _, wp_ in ipairs(route_) do
-      a = wp_.alt
-      x = wp_.x    
-      z = wp_.y
-      y = land.getHeight({wp_.x, wp_.y})
-      lat, long = coord.LOtoLL({x=x, y=y, z=z})
-      result = result..'['..lat..','..long..','..a..'],'
---        TRMT.DRAW.output:write(
---          '{"type": "POLY", "name": "'..name..'", "lat": '..lat..', "long": '..long..', "alt":'..a..'}\n'
---        )
-    end
-    TRMT.DRAW.output:write(string.sub(result, 1, -2)..']}\n')    
-  end
-  
-  TRMT.DRAW.GET_GROUPS = function()
-    local groups = SET_GROUP:New()
-    groups:FilterPrefixes('$$DRAW_')
-    groups:FilterStart()
-    groups:ForEach(TRMT.DRAW.GET_COORD_OF_GROUP)
-    groups:FilterStop()
-  end
-  
-  TRMT.DRAW.GET_ALL = function()
-    TRMT.DRAW.GET_GROUPS()
-    TRMT.DRAW.GET_NAV_POINTS()
-    TRMT.DEBUG(' *************** COPY FROM HERE *************** ')
---    TRMT.SERIAL(TRMT.DRAW.result)
-    for _, x in ipairs(TRMT.DRAW.result) do
-      TRMT.SERIAL(x)
-    end
-    TRMT.DEBUG(' *************** TO HERE *************** ')
-  end
-  
-  TRMT.DRAW.GET_ALL()
-
-end -- MISC STUFF
-
-
-
 TRMT.AWACS = {}
 
 
@@ -917,15 +801,15 @@ do
 
   --- The list below exists so it is easy enough to switch modules on & off
   local modules_to_load = {
---    TRMT.MOOSE_CONFIG,
---    TRMT.RANGES,
---    TRMT.SUPPORT_AIRCRAFT,
---    TRMT.ARK_UD,
---    TRMT.MISSILE_TRAINER,
---    TRMT.SMOKE,
---    TRMT.SAR,
---    TRMT.TANKERS,
---    TRMT.CLEANUP,
+    TRMT.MOOSE_CONFIG,
+    TRMT.RANGES,
+    TRMT.SUPPORT_AIRCRAFT,
+    TRMT.ARK_UD,
+    TRMT.MISSILE_TRAINER,
+    TRMT.SMOKE,
+    TRMT.SAR,
+    TRMT.TANKERS,
+    TRMT.CLEANUP,
   }
 
   for _, module in ipairs( modules_to_load ) do
