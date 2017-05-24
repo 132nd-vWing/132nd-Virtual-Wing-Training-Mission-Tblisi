@@ -7,6 +7,7 @@ Changelog
 
 Changes
 ~~~~~~~
+- Added cargo to Lochini and the hospital WEST of Lochini. [Neck]
 - Adjusted AC at Lochini and Vaziani, see below: [Neck]
 
   - VIGGEN moved to VAZIANI
