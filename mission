@@ -788,7 +788,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.97428793591193,
                                         ["livery_id"] = "-3D- David M-2000C",
                                         ["name"] = "DictKey_UnitName_1153",
                                         ["onboard_num"] = "010",
@@ -1034,7 +1034,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.97257874790384,
                                         ["livery_id"] = "-3D- Danny  M-2000C",
                                         ["name"] = "DictKey_UnitName_1530",
                                         ["onboard_num"] = "012",
@@ -1280,7 +1280,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.97073229524528,
                                         ["livery_id"] = "-3D- Teddy M-2000C",
                                         ["name"] = "DictKey_UnitName_1527",
                                         ["onboard_num"] = "011",
@@ -16939,7 +16939,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98768425606572,
                                         ["livery_id"] = "132nd 765th squadron standard",
                                         ["name"] = "DictKey_UnitName_2892",
                                         ["onboard_num"] = "013",
@@ -16955,7 +16955,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98768425606557,
+                                        ["psi"] = 0.98768425606572,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -17185,7 +17185,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98597605221445,
                                         ["livery_id"] = "132nd 765th squadron standard",
                                         ["name"] = "DictKey_UnitName_2907",
                                         ["onboard_num"] = "0131",
@@ -17201,7 +17201,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98597605221437,
+                                        ["psi"] = 0.98597605221445,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -17431,7 +17431,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98351066473063,
                                         ["livery_id"] = "132nd 765th squadron standard",
                                         ["name"] = "DictKey_UnitName_2897",
                                         ["onboard_num"] = "01311",
@@ -17447,7 +17447,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98351066473038,
+                                        ["psi"] = 0.98351066473063,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -17677,7 +17677,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.980999379925,
                                         ["livery_id"] = "132nd 765th squadron standard",
                                         ["name"] = "DictKey_UnitName_2902",
                                         ["onboard_num"] = "01312",
@@ -17693,7 +17693,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98099937992513,
+                                        ["psi"] = 0.980999379925,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -22970,6 +22970,348 @@ mission =
                                 ["x"] = -314669.14285714,
                                 ["y"] = 894550.28571429,
                             }, -- end of [38]
+                            [39] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 1371,
+                                ["heading"] = 0.55850536063819,
+                                ["name"] = "DictKey_GroupName_3570",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314986.28571433,
+                                            ["y"] = 896381.14285714,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["canCargo"] = true,
+                                        ["category"] = "Cargos",
+                                        ["heading"] = 0.55850536063819,
+                                        ["mass"] = 450,
+                                        ["name"] = "DictKey_GroupName_3570",
+                                        ["rate"] = 100,
+                                        ["shape_name"] = "barrels_cargo",
+                                        ["type"] = "barrels_cargo",
+                                        ["unitId"] = 1957,
+                                        ["x"] = -314986.28571433,
+                                        ["y"] = 896381.14285714,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314986.28571433,
+                                ["y"] = 896381.14285714,
+                            }, -- end of [39]
+                            [40] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 1372,
+                                ["heading"] = 0.55850536063819,
+                                ["name"] = "DictKey_GroupName_3573",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314983.71428576,
+                                            ["y"] = 896373.42857142,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["canCargo"] = true,
+                                        ["category"] = "Cargos",
+                                        ["heading"] = 0.55850536063819,
+                                        ["mass"] = 2044,
+                                        ["name"] = "DictKey_GroupName_3573",
+                                        ["shape_name"] = "fueltank_cargo",
+                                        ["type"] = "fueltank_cargo",
+                                        ["unitId"] = 1958,
+                                        ["x"] = -314983.71428576,
+                                        ["y"] = 896373.42857142,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314983.71428576,
+                                ["y"] = 896373.42857142,
+                            }, -- end of [40]
+                            [41] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 1373,
+                                ["heading"] = 0.55850536063819,
+                                ["name"] = "DictKey_GroupName_3576",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314978.00000004,
+                                            ["y"] = 896379.71428571,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["canCargo"] = true,
+                                        ["category"] = "Cargos",
+                                        ["heading"] = 0.55850536063819,
+                                        ["mass"] = 1200,
+                                        ["name"] = "DictKey_GroupName_3576",
+                                        ["rate"] = 100,
+                                        ["shape_name"] = "bw_container_cargo",
+                                        ["type"] = "container_cargo",
+                                        ["unitId"] = 1959,
+                                        ["x"] = -314978.00000004,
+                                        ["y"] = 896379.71428571,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314978.00000004,
+                                ["y"] = 896379.71428571,
+                            }, -- end of [41]
+                            [42] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 1374,
+                                ["heading"] = 0.55850536063819,
+                                ["name"] = "DictKey_GroupName_3579",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314644.57142861,
+                                            ["y"] = 894576,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["canCargo"] = true,
+                                        ["category"] = "Cargos",
+                                        ["heading"] = 0.55850536063819,
+                                        ["mass"] = 1200,
+                                        ["name"] = "DictKey_GroupName_3579",
+                                        ["rate"] = 100,
+                                        ["shape_name"] = "bw_container_cargo",
+                                        ["type"] = "container_cargo",
+                                        ["unitId"] = 1960,
+                                        ["x"] = -314644.57142861,
+                                        ["y"] = 894576,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314644.57142861,
+                                ["y"] = 894576,
+                            }, -- end of [42]
+                            [43] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 1375,
+                                ["heading"] = 0.55850536063819,
+                                ["name"] = "DictKey_GroupName_3582",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314651.42857147,
+                                            ["y"] = 894562.57142857,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["canCargo"] = true,
+                                        ["category"] = "Cargos",
+                                        ["heading"] = 0.55850536063819,
+                                        ["mass"] = 1200,
+                                        ["name"] = "DictKey_GroupName_3582",
+                                        ["rate"] = 100,
+                                        ["shape_name"] = "bw_container_cargo",
+                                        ["type"] = "container_cargo",
+                                        ["unitId"] = 1961,
+                                        ["x"] = -314651.42857147,
+                                        ["y"] = 894562.57142857,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314651.42857147,
+                                ["y"] = 894562.57142857,
+                            }, -- end of [43]
+                            [44] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 1376,
+                                ["heading"] = 0.55850536063819,
+                                ["name"] = "DictKey_GroupName_3585",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314648.57142861,
+                                            ["y"] = 894569.42857142,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["canCargo"] = true,
+                                        ["category"] = "Cargos",
+                                        ["heading"] = 0.55850536063819,
+                                        ["mass"] = 1200,
+                                        ["name"] = "DictKey_GroupName_3585",
+                                        ["rate"] = 100,
+                                        ["shape_name"] = "bw_container_cargo",
+                                        ["type"] = "container_cargo",
+                                        ["unitId"] = 1962,
+                                        ["x"] = -314648.57142861,
+                                        ["y"] = 894569.42857142,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314648.57142861,
+                                ["y"] = 894569.42857142,
+                            }, -- end of [44]
+                            [45] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 1377,
+                                ["heading"] = 0.55850536063819,
+                                ["name"] = "DictKey_GroupName_3588",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314640.57142861,
+                                            ["y"] = 894582.28571428,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["canCargo"] = true,
+                                        ["category"] = "Cargos",
+                                        ["heading"] = 0.55850536063819,
+                                        ["mass"] = 1200,
+                                        ["name"] = "DictKey_GroupName_3588",
+                                        ["rate"] = 100,
+                                        ["shape_name"] = "bw_container_cargo",
+                                        ["type"] = "container_cargo",
+                                        ["unitId"] = 1963,
+                                        ["x"] = -314640.57142861,
+                                        ["y"] = 894582.28571428,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314640.57142861,
+                                ["y"] = 894582.28571428,
+                            }, -- end of [45]
+                            [46] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 1378,
+                                ["heading"] = 0.73303828583762,
+                                ["name"] = "DictKey_GroupName_3591",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314640.8571429,
+                                            ["y"] = 894567.14285714,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["canCargo"] = false,
+                                        ["category"] = "Unarmed",
+                                        ["heading"] = 0.73303828583762,
+                                        ["livery_id"] = "GRC_autumn",
+                                        ["name"] = "DictKey_GroupName_3591",
+                                        ["rate"] = 5,
+                                        ["type"] = "M 818",
+                                        ["unitId"] = 1964,
+                                        ["x"] = -314640.8571429,
+                                        ["y"] = 894567.14285714,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314640.8571429,
+                                ["y"] = 894567.14285714,
+                            }, -- end of [46]
                         }, -- end of ["group"]
                     }, -- end of ["static"]
                     ["vehicle"] =
@@ -29210,7 +29552,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield61",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98343538889113,
                                         ["livery_id"] = "4-33_DArt",
                                         ["name"] = "DictKey_UnitName_1638",
                                         ["onboard_num"] = "331",
@@ -29456,7 +29798,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield71",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98558145734928,
                                         ["livery_id"] = "4-33_Iceberg",
                                         ["name"] = "DictKey_UnitName_1643",
                                         ["onboard_num"] = "332",
@@ -29702,7 +30044,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield51",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98124652079239,
                                         ["livery_id"] = "4-33_Harke",
                                         ["name"] = "DictKey_UnitName_1648",
                                         ["onboard_num"] = "333",
@@ -29948,7 +30290,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.97936279880115,
                                         ["livery_id"] = "AdA Alsace LF-2",
                                         ["name"] = "DictKey_UnitName_1533",
                                         ["onboard_num"] = "013",
@@ -30194,7 +30536,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield71",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98567893670417,
                                         ["livery_id"] = "AdA Chasse 2-5",
                                         ["name"] = "DictKey_UnitName_3546",
                                         ["onboard_num"] = "332",
@@ -30210,7 +30552,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98567893670396,
+                                        ["psi"] = 0.98567893670417,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -30440,7 +30782,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield71",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98354171707733,
                                         ["livery_id"] = "AdA Chasse 2-5",
                                         ["name"] = "DictKey_UnitName_3551",
                                         ["onboard_num"] = "332",
@@ -30456,7 +30798,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98354171707717,
+                                        ["psi"] = 0.98354171707733,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -30686,7 +31028,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield71",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.97932706438886,
                                         ["livery_id"] = "AdA Chasse 2-5",
                                         ["name"] = "DictKey_UnitName_3556",
                                         ["onboard_num"] = "332",
@@ -30702,7 +31044,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.9793270643887,
+                                        ["psi"] = 0.97932706438886,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -30932,7 +31274,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield71",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98148386528601,
                                         ["livery_id"] = "AdA Chasse 2-5",
                                         ["name"] = "DictKey_UnitName_3561",
                                         ["onboard_num"] = "332",
@@ -30948,7 +31290,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98148386528592,
+                                        ["psi"] = 0.98148386528601,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -31178,7 +31520,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield71",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.9881929494149,
                                         ["livery_id"] = "AdA Chasse 2-5",
                                         ["name"] = "DictKey_UnitName_3566",
                                         ["onboard_num"] = "332",
@@ -31194,7 +31536,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98819294941499,
+                                        ["psi"] = 0.9881929494149,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -51978,7 +52320,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3633731,
+    ["currentKey"] = 3639542,
     ["date"] =
     {
         ["Day"] = 20,
@@ -55070,11 +55412,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -315159.8571429,
-        ["centerY"] = 897096.85714285,
-        ["zoom"] = 1000,
+        ["centerX"] = -315063.85714289,
+        ["centerY"] = 896567.71428571,
+        ["zoom"] = 25000,
     }, -- end of ["map"]
-    ["maxDictId"] = 3569,
+    ["maxDictId"] = 3593,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
