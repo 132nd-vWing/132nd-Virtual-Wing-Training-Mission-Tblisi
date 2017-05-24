@@ -5,6 +5,14 @@ Changelog
 (unreleased)
 ------------
 
+New
+~~~
+- Added 4x Aggresor Mirag2000C at Kobuleti Airfield. [Neck]
+
+  - Kobuleti Airfield now RED
+  - Added Red AWACS
+  - Adjusted Blue AWACS altituds to 39.000ft and 40.000ft
+
 Changes
 ~~~~~~~
 - Added cargo to Lochini and the hospital WEST of Lochini. [Neck]
