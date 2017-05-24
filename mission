@@ -46331,7 +46331,7 @@ mission =
                             [5] =
                             {
                                 ["communication"] = true,
-                                ["frequency"] = 251,
+                                ["frequency"] = 124,
                                 ["groupId"] = 1317,
                                 ["hidden"] = false,
                                 ["lateActivation"] = true,
@@ -46373,38 +46373,17 @@ mission =
                                                             ["auto"] = true,
                                                             ["enabled"] = true,
                                                             ["id"] = "EngageTargets",
-                                                            ["key"] = "CAS",
+                                                            ["key"] = "CAP",
                                                             ["number"] = 1,
                                                             ["params"] =
                                                             {
                                                                 ["priority"] = 0,
                                                                 ["targetTypes"] =
                                                                 {
-                                                                    [1] = "Helicopters",
-                                                                    [2] = "Ground Units",
-                                                                    [3] = "Light armed ships",
+                                                                    [1] = "Air",
                                                                 }, -- end of ["targetTypes"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [1]
-                                                        [2] =
-                                                        {
-                                                            ["auto"] = true,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 2,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 18,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [2]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -46414,7 +46393,7 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 326.10818606358,
+                                            ["ETA"] = 325.95336140735,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 2000,
@@ -46581,7 +46560,7 @@ mission =
                                     ["routeRelativeTOT"] = true,
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
-                                ["task"] = "CAS",
+                                ["task"] = "CAP",
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -46592,17 +46571,16 @@ mission =
                                     {
                                         ["alt"] = 2000,
                                         ["alt_type"] = "BARO",
-                                        ["callsign"] = 105,
+                                        ["callsign"] = 115,
                                         ["heading"] = -2.9002141585916,
-                                        ["livery_id"] = "132 617th Agaton",
+                                        ["livery_id"] = "Air Force Standard",
                                         ["name"] = "DictKey_UnitName_3243",
                                         ["onboard_num"] = "014",
                                         ["payload"] =
                                         {
-                                            ["ammo_type"] = 1,
-                                            ["chaff"] = 240,
-                                            ["flare"] = 120,
-                                            ["fuel"] = 5029,
+                                            ["chaff"] = 30,
+                                            ["flare"] = 30,
+                                            ["fuel"] = "3500",
                                             ["gun"] = 100,
                                             ["pylons"] =
                                             {
@@ -46611,7 +46589,7 @@ mission =
                                         ["psi"] = 2.9002141585916,
                                         ["skill"] = "High",
                                         ["speed"] = 138.88888888889,
-                                        ["type"] = "A-10C",
+                                        ["type"] = "MiG-29S",
                                         ["unitId"] = 1887,
                                         ["x"] = -261681.14285714,
                                         ["y"] = 676879.14285715,
@@ -46623,7 +46601,7 @@ mission =
                             [6] =
                             {
                                 ["communication"] = true,
-                                ["frequency"] = 251,
+                                ["frequency"] = 124,
                                 ["groupId"] = 1318,
                                 ["hidden"] = false,
                                 ["lateActivation"] = true,
@@ -46660,25 +46638,6 @@ mission =
                                                 {
                                                     ["tasks"] =
                                                     {
-                                                        [1] =
-                                                        {
-                                                            ["auto"] = true,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 1,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 19,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [1]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -46754,7 +46713,7 @@ mission =
                                         }, -- end of [3]
                                         [4] =
                                         {
-                                            ["ETA"] = 641.79001321964,
+                                            ["ETA"] = 641.850957518,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 2000,
@@ -46900,17 +46859,16 @@ mission =
                                     {
                                         ["alt"] = 2000,
                                         ["alt_type"] = "BARO",
-                                        ["callsign"] = 107,
+                                        ["callsign"] = 105,
                                         ["heading"] = 0.29797344036324,
-                                        ["livery_id"] = "132 617th Agaton",
+                                        ["livery_id"] = "Air Force Standard",
                                         ["name"] = "DictKey_UnitName_3255",
                                         ["onboard_num"] = "010",
                                         ["payload"] =
                                         {
-                                            ["ammo_type"] = 1,
-                                            ["chaff"] = 240,
-                                            ["flare"] = 120,
-                                            ["fuel"] = 5029,
+                                            ["chaff"] = 30,
+                                            ["flare"] = 30,
+                                            ["fuel"] = "3500",
                                             ["gun"] = 100,
                                             ["pylons"] =
                                             {
@@ -46919,7 +46877,7 @@ mission =
                                         ["psi"] = -0.29797344036324,
                                         ["skill"] = "High",
                                         ["speed"] = 138.88888888889,
-                                        ["type"] = "A-10C",
+                                        ["type"] = "MiG-29S",
                                         ["unitId"] = 1888,
                                         ["x"] = -268788.57142857,
                                         ["y"] = 704871.42857144,
@@ -46931,7 +46889,7 @@ mission =
                             [7] =
                             {
                                 ["communication"] = true,
-                                ["frequency"] = 251,
+                                ["frequency"] = 124,
                                 ["groupId"] = 1319,
                                 ["hidden"] = false,
                                 ["lateActivation"] = true,
@@ -46973,38 +46931,17 @@ mission =
                                                             ["auto"] = true,
                                                             ["enabled"] = true,
                                                             ["id"] = "EngageTargets",
-                                                            ["key"] = "CAS",
+                                                            ["key"] = "CAP",
                                                             ["number"] = 1,
                                                             ["params"] =
                                                             {
                                                                 ["priority"] = 0,
                                                                 ["targetTypes"] =
                                                                 {
-                                                                    [1] = "Helicopters",
-                                                                    [2] = "Ground Units",
-                                                                    [3] = "Light armed ships",
+                                                                    [1] = "Air",
                                                                 }, -- end of ["targetTypes"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [1]
-                                                        [2] =
-                                                        {
-                                                            ["auto"] = true,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 2,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 20,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [2]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -47014,7 +46951,7 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 959.8708149814,
+                                            ["ETA"] = 882.30047984382,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 2519,
@@ -47148,7 +47085,7 @@ mission =
                                     ["routeRelativeTOT"] = true,
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
-                                ["task"] = "CAS",
+                                ["task"] = "CAP",
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -47159,17 +47096,16 @@ mission =
                                     {
                                         ["alt"] = 2000,
                                         ["alt_type"] = "BARO",
-                                        ["callsign"] = 106,
+                                        ["callsign"] = 108,
                                         ["heading"] = 3.1410354090006,
-                                        ["livery_id"] = "132 617th Agaton",
+                                        ["livery_id"] = "Air Force Standard",
                                         ["name"] = "DictKey_UnitName_3264",
                                         ["onboard_num"] = "015",
                                         ["payload"] =
                                         {
-                                            ["ammo_type"] = 1,
-                                            ["chaff"] = 240,
-                                            ["flare"] = 120,
-                                            ["fuel"] = 5029,
+                                            ["chaff"] = 30,
+                                            ["flare"] = 30,
+                                            ["fuel"] = "3500",
                                             ["gun"] = 100,
                                             ["pylons"] =
                                             {
@@ -47178,7 +47114,7 @@ mission =
                                         ["psi"] = -3.1410354090006,
                                         ["skill"] = "High",
                                         ["speed"] = 138.88888888889,
-                                        ["type"] = "A-10C",
+                                        ["type"] = "MiG-29S",
                                         ["unitId"] = 1889,
                                         ["x"] = -305637.14285714,
                                         ["y"] = 666054.57142858,
@@ -47190,7 +47126,7 @@ mission =
                             [8] =
                             {
                                 ["communication"] = true,
-                                ["frequency"] = 251,
+                                ["frequency"] = 124,
                                 ["groupId"] = 1320,
                                 ["hidden"] = false,
                                 ["lateActivation"] = true,
@@ -47232,38 +47168,17 @@ mission =
                                                             ["auto"] = true,
                                                             ["enabled"] = true,
                                                             ["id"] = "EngageTargets",
-                                                            ["key"] = "CAS",
+                                                            ["key"] = "CAP",
                                                             ["number"] = 1,
                                                             ["params"] =
                                                             {
                                                                 ["priority"] = 0,
                                                                 ["targetTypes"] =
                                                                 {
-                                                                    [1] = "Helicopters",
-                                                                    [2] = "Ground Units",
-                                                                    [3] = "Light armed ships",
+                                                                    [1] = "Air",
                                                                 }, -- end of ["targetTypes"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [1]
-                                                        [2] =
-                                                        {
-                                                            ["auto"] = true,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 2,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 21,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [2]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -47273,7 +47188,7 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 288.51944919932,
+                                            ["ETA"] = 288.5194491993,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 2000,
@@ -47473,7 +47388,7 @@ mission =
                                     ["routeRelativeTOT"] = true,
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
-                                ["task"] = "CAS",
+                                ["task"] = "CAP",
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -47484,17 +47399,16 @@ mission =
                                     {
                                         ["alt"] = 2000,
                                         ["alt_type"] = "BARO",
-                                        ["callsign"] = 108,
+                                        ["callsign"] = 107,
                                         ["heading"] = -0.12141535338437,
-                                        ["livery_id"] = "132 617th Agaton",
+                                        ["livery_id"] = "Air Force Standard",
                                         ["name"] = "DictKey_UnitName_3271",
                                         ["onboard_num"] = "016",
                                         ["payload"] =
                                         {
-                                            ["ammo_type"] = 1,
-                                            ["chaff"] = 240,
-                                            ["flare"] = 120,
-                                            ["fuel"] = 5029,
+                                            ["chaff"] = 30,
+                                            ["flare"] = 30,
+                                            ["fuel"] = "3500",
                                             ["gun"] = 100,
                                             ["pylons"] =
                                             {
@@ -47503,7 +47417,7 @@ mission =
                                         ["psi"] = 0.12141535338437,
                                         ["skill"] = "High",
                                         ["speed"] = 138.88888888889,
-                                        ["type"] = "A-10C",
+                                        ["type"] = "MiG-29S",
                                         ["unitId"] = 1890,
                                         ["x"] = -304821.14285714,
                                         ["y"] = 811993.42857142,
@@ -52320,7 +52234,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3639542,
+    ["currentKey"] = 3641505,
     ["date"] =
     {
         ["Day"] = 20,
@@ -55412,9 +55326,9 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -315063.85714289,
-        ["centerY"] = 896567.71428571,
-        ["zoom"] = 25000,
+        ["centerX"] = -332846.00000003,
+        ["centerY"] = 813714.28571429,
+        ["zoom"] = 1000000,
     }, -- end of ["map"]
     ["maxDictId"] = 3593,
     ["needModules"] =
