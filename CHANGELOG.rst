@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Added SA-6 on/off to NECK AC. [Neck]
+
+
 3.0.0 (2017-05-21)
 ------------------
 
