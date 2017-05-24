@@ -7,6 +7,14 @@ Changelog
 
 Changes
 ~~~~~~~
+- Adjusted AC at Lochini and Vaziani, see below: [Neck]
+
+  - VIGGEN moved to VAZIANI
+  - 3rd Wing A-10c changed to External A-10C
+  - Masterarms A-10C changed to External A-10C
+  - Copied a excisiting Mirage to create 5 External Mirage 2000C
+  - Moved 476th AC to VAZIANI
+  - Deleted Bravo and Mosquito AC
 - Added SA-6 on/off to NECK AC. [Neck]
 
 
