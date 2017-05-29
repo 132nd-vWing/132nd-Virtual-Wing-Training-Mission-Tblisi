@@ -630,8 +630,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "TakeOffParking",
-                                            ["x"] = -314990.90625,
-                                            ["y"] = 896555,
+                                            ["x"] = -315016.125,
+                                            ["y"] = 896539.75,
                                         }, -- end of [1]
                                         [2] =
                                         {
@@ -788,12 +788,12 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -0.97428793591193,
+                                        ["heading"] = -0.97246581153739,
                                         ["livery_id"] = "-3D- David M-2000C",
                                         ["name"] = "DictKey_UnitName_1153",
                                         ["onboard_num"] = "010",
-                                        ["parking"] = 80,
-                                        ["parking_id"] = "42",
+                                        ["parking"] = 82,
+                                        ["parking_id"] = "43",
                                         ["payload"] =
                                         {
                                             ["chaff"] = 112,
@@ -804,17 +804,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.97428793591193,
+                                        ["psi"] = 0.97246581153739,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
                                         ["unitId"] = 1236,
-                                        ["x"] = -314990.90625,
-                                        ["y"] = 896555,
+                                        ["x"] = -315016.125,
+                                        ["y"] = 896539.75,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -314990.90625,
-                                ["y"] = 896555,
+                                ["x"] = -315016.125,
+                                ["y"] = 896539.75,
                             }, -- end of [5]
                             [6] =
                             {
@@ -876,8 +876,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "TakeOffParking",
-                                            ["x"] = -315016.125,
-                                            ["y"] = 896539.75,
+                                            ["x"] = -314983.3125,
+                                            ["y"] = 896467.0625,
                                         }, -- end of [1]
                                         [2] =
                                         {
@@ -1034,12 +1034,12 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -0.97257874790384,
+                                        ["heading"] = -0.97171886346811,
                                         ["livery_id"] = "-3D- Danny  M-2000C",
                                         ["name"] = "DictKey_UnitName_1530",
                                         ["onboard_num"] = "012",
-                                        ["parking"] = 82,
-                                        ["parking_id"] = "43",
+                                        ["parking"] = 78,
+                                        ["parking_id"] = "44",
                                         ["payload"] =
                                         {
                                             ["chaff"] = 112,
@@ -1050,17 +1050,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.97257874790384,
+                                        ["psi"] = 0.97171886346811,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
                                         ["unitId"] = 1343,
-                                        ["x"] = -315016.125,
-                                        ["y"] = 896539.75,
+                                        ["x"] = -314983.3125,
+                                        ["y"] = 896467.0625,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -315016.125,
-                                ["y"] = 896539.75,
+                                ["x"] = -314983.3125,
+                                ["y"] = 896467.0625,
                             }, -- end of [6]
                             [7] =
                             {
@@ -1122,8 +1122,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "TakeOffParking",
-                                            ["x"] = -315042,
-                                            ["y"] = 896525.5,
+                                            ["x"] = -314990.90625,
+                                            ["y"] = 896555,
                                         }, -- end of [1]
                                         [2] =
                                         {
@@ -1280,12 +1280,12 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -0.97073229524528,
+                                        ["heading"] = -0.97437521990029,
                                         ["livery_id"] = "-3D- Teddy M-2000C",
                                         ["name"] = "DictKey_UnitName_1527",
                                         ["onboard_num"] = "011",
-                                        ["parking"] = 112,
-                                        ["parking_id"] = "48",
+                                        ["parking"] = 80,
+                                        ["parking_id"] = "42",
                                         ["payload"] =
                                         {
                                             ["chaff"] = 112,
@@ -1296,17 +1296,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.97073229524528,
+                                        ["psi"] = 0.97437521990029,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
                                         ["unitId"] = 1342,
-                                        ["x"] = -315042,
-                                        ["y"] = 896525.5,
+                                        ["x"] = -314990.90625,
+                                        ["y"] = 896555,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -315042,
-                                ["y"] = 896525.5,
+                                ["x"] = -314990.90625,
+                                ["y"] = 896555,
                             }, -- end of [7]
                         }, -- end of ["group"]
                     }, -- end of ["plane"]
@@ -10643,7 +10643,7 @@ mission =
                                         }, -- end of ["callsign"]
                                         ["hardpoint_racks"] = true,
                                         ["heading"] = 0,
-                                        ["livery_id"] = "132 Mi-8 Standard",
+                                        ["livery_id"] = "132 259th Looney",
                                         ["name"] = "DictKey_UnitName_1308",
                                         ["onboard_num"] = "6971",
                                         ["parking"] = 159,
@@ -10794,7 +10794,7 @@ mission =
                                         }, -- end of ["callsign"]
                                         ["hardpoint_racks"] = true,
                                         ["heading"] = 0,
-                                        ["livery_id"] = "132 259th Looney",
+                                        ["livery_id"] = "132 259th Makeshift",
                                         ["name"] = "DictKey_UnitName_1337",
                                         ["onboard_num"] = "6972",
                                         ["parking"] = 108,
@@ -11549,272 +11549,6 @@ mission =
                             [16] =
                             {
                                 ["communication"] = true,
-                                ["frequency"] = 251,
-                                ["groupId"] = 1145,
-                                ["hidden"] = false,
-                                ["modulation"] = 0,
-                                ["name"] = "DictKey_GroupName_1721",
-                                ["radioSet"] = false,
-                                ["route"] =
-                                {
-                                    ["points"] =
-                                    {
-                                        [1] =
-                                        {
-                                            ["ETA"] = 0,
-                                            ["ETA_locked"] = true,
-                                            ["action"] = "From Parking Area",
-                                            ["airdromeId"] = 29,
-                                            ["alt"] = 88,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1723",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 41.666666666667,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "TakeOffParking",
-                                            ["x"] = -314249.375,
-                                            ["y"] = 895478.125,
-                                        }, -- end of [1]
-                                    }, -- end of ["points"]
-                                }, -- end of ["route"]
-                                ["start_time"] = 0,
-                                ["task"] = "Transport",
-                                ["tasks"] =
-                                {
-                                }, -- end of ["tasks"]
-                                ["uncontrolled"] = false,
-                                ["units"] =
-                                {
-                                    [1] =
-                                    {
-                                        ["AddPropAircraft"] =
-                                        {
-                                            ["EngineResource"] = 90,
-                                            ["ExhaustScreen"] = true,
-                                            ["GunnersAISkill"] = 90,
-                                        }, -- end of ["AddPropAircraft"]
-                                        ["Radio"] =
-                                        {
-                                            [1] =
-                                            {
-                                                ["channels"] =
-                                                {
-                                                    [1] = 251,
-                                                    [2] = 264,
-                                                    [3] = 265,
-                                                    [4] = 256,
-                                                    [5] = 254,
-                                                    [6] = 250,
-                                                    [7] = 270,
-                                                    [8] = 257,
-                                                    [9] = 255,
-                                                    [10] = 262,
-                                                    [11] = 259,
-                                                    [12] = 268,
-                                                    [13] = 269,
-                                                    [14] = 260,
-                                                    [15] = 263,
-                                                    [16] = 261,
-                                                    [17] = 267,
-                                                    [18] = 251,
-                                                    [19] = 253,
-                                                    [20] = 266,
-                                                }, -- end of ["channels"]
-                                            }, -- end of [1]
-                                        }, -- end of ["Radio"]
-                                        ["alt"] = 88,
-                                        ["alt_type"] = "BARO",
-                                        ["callsign"] =
-                                        {
-                                            [1] = 1,
-                                            [2] = 2,
-                                            [3] = 1,
-                                            ["name"] = "Enfield21",
-                                        }, -- end of ["callsign"]
-                                        ["hardpoint_racks"] = true,
-                                        ["heading"] = 0,
-                                        ["livery_id"] = "132 Huey",
-                                        ["name"] = "DictKey_UnitName_1722",
-                                        ["onboard_num"] = "6303",
-                                        ["parking"] = 128,
-                                        ["parking_id"] = "69",
-                                        ["payload"] =
-                                        {
-                                            ["chaff"] = 0,
-                                            ["flare"] = 60,
-                                            ["fuel"] = "631",
-                                            ["gun"] = 100,
-                                            ["pylons"] =
-                                            {
-                                            }, -- end of ["pylons"]
-                                        }, -- end of ["payload"]
-                                        ["psi"] = 0,
-                                        ["ropeLength"] = 15,
-                                        ["skill"] = "Client",
-                                        ["speed"] = 41.666666666667,
-                                        ["type"] = "UH-1H",
-                                        ["unitId"] = 1374,
-                                        ["x"] = -314249.375,
-                                        ["y"] = 895478.125,
-                                    }, -- end of [1]
-                                }, -- end of ["units"]
-                                ["x"] = -314249.375,
-                                ["y"] = 895478.125,
-                            }, -- end of [16]
-                            [17] =
-                            {
-                                ["communication"] = true,
-                                ["frequency"] = 251,
-                                ["groupId"] = 1146,
-                                ["hidden"] = false,
-                                ["modulation"] = 0,
-                                ["name"] = "DictKey_GroupName_1724",
-                                ["radioSet"] = false,
-                                ["route"] =
-                                {
-                                    ["points"] =
-                                    {
-                                        [1] =
-                                        {
-                                            ["ETA"] = 0,
-                                            ["ETA_locked"] = true,
-                                            ["action"] = "From Parking Area",
-                                            ["airdromeId"] = 29,
-                                            ["alt"] = 88,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_1726",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
-                                            ["speed"] = 41.666666666667,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "TakeOffParking",
-                                            ["x"] = -314326.15625,
-                                            ["y"] = 895514.375,
-                                        }, -- end of [1]
-                                    }, -- end of ["points"]
-                                }, -- end of ["route"]
-                                ["start_time"] = 0,
-                                ["task"] = "Transport",
-                                ["tasks"] =
-                                {
-                                }, -- end of ["tasks"]
-                                ["uncontrolled"] = false,
-                                ["units"] =
-                                {
-                                    [1] =
-                                    {
-                                        ["AddPropAircraft"] =
-                                        {
-                                            ["EngineResource"] = 90,
-                                            ["ExhaustScreen"] = true,
-                                            ["GunnersAISkill"] = 90,
-                                        }, -- end of ["AddPropAircraft"]
-                                        ["Radio"] =
-                                        {
-                                            [1] =
-                                            {
-                                                ["channels"] =
-                                                {
-                                                    [1] = 251,
-                                                    [2] = 264,
-                                                    [3] = 265,
-                                                    [4] = 256,
-                                                    [5] = 254,
-                                                    [6] = 250,
-                                                    [7] = 270,
-                                                    [8] = 257,
-                                                    [9] = 255,
-                                                    [10] = 262,
-                                                    [11] = 259,
-                                                    [12] = 268,
-                                                    [13] = 269,
-                                                    [14] = 260,
-                                                    [15] = 263,
-                                                    [16] = 261,
-                                                    [17] = 267,
-                                                    [18] = 251,
-                                                    [19] = 253,
-                                                    [20] = 266,
-                                                }, -- end of ["channels"]
-                                            }, -- end of [1]
-                                        }, -- end of ["Radio"]
-                                        ["alt"] = 88,
-                                        ["alt_type"] = "BARO",
-                                        ["callsign"] =
-                                        {
-                                            [1] = 1,
-                                            [2] = 2,
-                                            [3] = 1,
-                                            ["name"] = "Enfield21",
-                                        }, -- end of ["callsign"]
-                                        ["hardpoint_racks"] = true,
-                                        ["heading"] = 0,
-                                        ["livery_id"] = "132 Huey",
-                                        ["name"] = "DictKey_UnitName_1725",
-                                        ["onboard_num"] = "6304",
-                                        ["parking"] = 130,
-                                        ["parking_id"] = "68",
-                                        ["payload"] =
-                                        {
-                                            ["chaff"] = 0,
-                                            ["flare"] = 60,
-                                            ["fuel"] = "631",
-                                            ["gun"] = 100,
-                                            ["pylons"] =
-                                            {
-                                            }, -- end of ["pylons"]
-                                        }, -- end of ["payload"]
-                                        ["psi"] = 0,
-                                        ["ropeLength"] = 15,
-                                        ["skill"] = "Client",
-                                        ["speed"] = 41.666666666667,
-                                        ["type"] = "UH-1H",
-                                        ["unitId"] = 1375,
-                                        ["x"] = -314326.15625,
-                                        ["y"] = 895514.375,
-                                    }, -- end of [1]
-                                }, -- end of ["units"]
-                                ["x"] = -314326.15625,
-                                ["y"] = 895514.375,
-                            }, -- end of [17]
-                            [18] =
-                            {
-                                ["communication"] = true,
                                 ["frequency"] = 138.1,
                                 ["groupId"] = 1148,
                                 ["hidden"] = false,
@@ -11962,8 +11696,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -317991.84375,
                                 ["y"] = 895367.25,
-                            }, -- end of [18]
-                            [19] =
+                            }, -- end of [16]
+                            [17] =
                             {
                                 ["communication"] = true,
                                 ["frequency"] = 124,
@@ -12118,8 +11852,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314256.84375,
                                 ["y"] = 896017.9375,
-                            }, -- end of [19]
-                            [20] =
+                            }, -- end of [17]
+                            [18] =
                             {
                                 ["communication"] = true,
                                 ["frequency"] = 124,
@@ -12274,8 +12008,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314301.25,
                                 ["y"] = 895767.9375,
-                            }, -- end of [20]
-                            [21] =
+                            }, -- end of [18]
+                            [19] =
                             {
                                 ["communication"] = true,
                                 ["frequency"] = 138.1,
@@ -12398,7 +12132,7 @@ mission =
                                         }, -- end of ["callsign"]
                                         ["hardpoint_racks"] = true,
                                         ["heading"] = 0,
-                                        ["livery_id"] = "132 Mi-8 Standard",
+                                        ["livery_id"] = "132 259th Evilivan",
                                         ["name"] = "DictKey_UnitName_1813",
                                         ["onboard_num"] = "6973",
                                         ["parking"] = "113",
@@ -12425,8 +12159,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314713.125,
                                 ["y"] = 896543.9375,
-                            }, -- end of [21]
-                            [22] =
+                            }, -- end of [19]
+                            [20] =
                             {
                                 ["communication"] = true,
                                 ["frequency"] = 138.1,
@@ -12549,7 +12283,7 @@ mission =
                                         }, -- end of ["callsign"]
                                         ["hardpoint_racks"] = true,
                                         ["heading"] = 0,
-                                        ["livery_id"] = "132 Mi-8 Standard",
+                                        ["livery_id"] = "132 259th Fudd",
                                         ["name"] = "DictKey_UnitName_1816",
                                         ["onboard_num"] = "6974",
                                         ["parking"] = "115",
@@ -12576,8 +12310,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314772.28125,
                                 ["y"] = 896503.5,
-                            }, -- end of [22]
-                            [23] =
+                            }, -- end of [20]
+                            [21] =
                             {
                                 ["communication"] = true,
                                 ["frequency"] = 251,
@@ -12678,8 +12412,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -347129.99999998,
                                 ["y"] = 902396.00000002,
-                            }, -- end of [23]
-                            [24] =
+                            }, -- end of [21]
+                            [22] =
                             {
                                 ["communication"] = true,
                                 ["frequency"] = 251,
@@ -12781,6 +12515,302 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -347129.14285712,
                                 ["y"] = 902395.42857145,
+                            }, -- end of [22]
+                            [23] =
+                            {
+                                ["communication"] = true,
+                                ["frequency"] = 138.1,
+                                ["groupId"] = 1388,
+                                ["hidden"] = false,
+                                ["modulation"] = 0,
+                                ["name"] = "DictKey_GroupName_3634",
+                                ["radioSet"] = true,
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "From Ground Area",
+                                            ["alt"] = 500,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_3636",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 55.555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "TakeOffGround",
+                                            ["x"] = -314679.99999999,
+                                            ["y"] = 896400.85714286,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Transport",
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["uncontrolled"] = false,
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["AddPropAircraft"] =
+                                        {
+                                            ["AdditionalArmor"] = true,
+                                            ["CargoHalfdoor"] = true,
+                                            ["ExhaustScreen"] = true,
+                                            ["LeftEngineResource"] = 90,
+                                            ["RightEngineResource"] = 90,
+                                        }, -- end of ["AddPropAircraft"]
+                                        ["Radio"] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 138.1,
+                                                    [2] = 138.2,
+                                                    [3] = 127.2,
+                                                    [4] = 237,
+                                                    [5] = 226.25,
+                                                    [6] = 247.5,
+                                                    [7] = 248.5,
+                                                    [8] = 225.75,
+                                                    [9] = 243.5,
+                                                    [10] = 239.5,
+                                                    [11] = 127.75,
+                                                    [12] = 241,
+                                                    [13] = 245.25,
+                                                    [14] = 236.5,
+                                                    [15] = 241.25,
+                                                    [16] = 140.1,
+                                                    [17] = 140.2,
+                                                    [18] = 139.1,
+                                                    [19] = 139.2,
+                                                    [20] = 243,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [1]
+                                            [2] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 35.65,
+                                                    [2] = 25.375,
+                                                    [3] = 48.55,
+                                                    [4] = 34,
+                                                    [5] = 36.3,
+                                                    [6] = 37.8,
+                                                    [7] = 32.5,
+                                                    [8] = 32.25,
+                                                    [9] = 30.5,
+                                                    [10] = 30.25,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [2]
+                                        }, -- end of ["Radio"]
+                                        ["alt"] = 500,
+                                        ["alt_type"] = "BARO",
+                                        ["callsign"] =
+                                        {
+                                            [1] = 6,
+                                            [2] = 1,
+                                            [3] = 1,
+                                            ["name"] = "Ford11",
+                                        }, -- end of ["callsign"]
+                                        ["hardpoint_racks"] = true,
+                                        ["heading"] = 3.6651914291881,
+                                        ["livery_id"] = "132 259th Entropy",
+                                        ["name"] = "DictKey_UnitName_3635",
+                                        ["onboard_num"] = "6973",
+                                        ["payload"] =
+                                        {
+                                            ["chaff"] = 0,
+                                            ["flare"] = 192,
+                                            ["fuel"] = "1929",
+                                            ["gun"] = 100,
+                                            ["pylons"] =
+                                            {
+                                            }, -- end of ["pylons"]
+                                        }, -- end of ["payload"]
+                                        ["psi"] = -3.6651914291881,
+                                        ["ropeLength"] = 15,
+                                        ["skill"] = "Client",
+                                        ["speed"] = 55.555555555556,
+                                        ["type"] = "Mi-8MT",
+                                        ["unitId"] = 1974,
+                                        ["x"] = -314679.99999999,
+                                        ["y"] = 896400.85714286,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314679.99999999,
+                                ["y"] = 896400.85714286,
+                            }, -- end of [23]
+                            [24] =
+                            {
+                                ["communication"] = true,
+                                ["frequency"] = 138.1,
+                                ["groupId"] = 1389,
+                                ["hidden"] = false,
+                                ["modulation"] = 0,
+                                ["name"] = "DictKey_GroupName_3637",
+                                ["radioSet"] = true,
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "From Ground Area",
+                                            ["alt"] = 500,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_3639",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 55.555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "TakeOffGround",
+                                            ["x"] = -314733.71428571,
+                                            ["y"] = 896389.42857143,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Transport",
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["uncontrolled"] = false,
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["AddPropAircraft"] =
+                                        {
+                                            ["AdditionalArmor"] = true,
+                                            ["CargoHalfdoor"] = true,
+                                            ["ExhaustScreen"] = true,
+                                            ["LeftEngineResource"] = 90,
+                                            ["RightEngineResource"] = 90,
+                                        }, -- end of ["AddPropAircraft"]
+                                        ["Radio"] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 138.1,
+                                                    [2] = 138.2,
+                                                    [3] = 127.2,
+                                                    [4] = 237,
+                                                    [5] = 226.25,
+                                                    [6] = 247.5,
+                                                    [7] = 248.5,
+                                                    [8] = 225.75,
+                                                    [9] = 243.5,
+                                                    [10] = 239.5,
+                                                    [11] = 127.75,
+                                                    [12] = 241,
+                                                    [13] = 245.25,
+                                                    [14] = 236.5,
+                                                    [15] = 241.25,
+                                                    [16] = 140.1,
+                                                    [17] = 140.2,
+                                                    [18] = 139.1,
+                                                    [19] = 139.2,
+                                                    [20] = 243,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [1]
+                                            [2] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 35.65,
+                                                    [2] = 25.375,
+                                                    [3] = 48.55,
+                                                    [4] = 34,
+                                                    [5] = 36.3,
+                                                    [6] = 37.8,
+                                                    [7] = 32.5,
+                                                    [8] = 32.25,
+                                                    [9] = 30.5,
+                                                    [10] = 30.25,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [2]
+                                        }, -- end of ["Radio"]
+                                        ["alt"] = 500,
+                                        ["alt_type"] = "BARO",
+                                        ["callsign"] =
+                                        {
+                                            [1] = 6,
+                                            [2] = 1,
+                                            [3] = 1,
+                                            ["name"] = "Ford11",
+                                        }, -- end of ["callsign"]
+                                        ["hardpoint_racks"] = true,
+                                        ["heading"] = 3.6651914291881,
+                                        ["livery_id"] = "132 259th Standard",
+                                        ["name"] = "DictKey_UnitName_3638",
+                                        ["onboard_num"] = "6973",
+                                        ["payload"] =
+                                        {
+                                            ["chaff"] = 0,
+                                            ["flare"] = 192,
+                                            ["fuel"] = "1929",
+                                            ["gun"] = 100,
+                                            ["pylons"] =
+                                            {
+                                            }, -- end of ["pylons"]
+                                        }, -- end of ["payload"]
+                                        ["psi"] = -3.6651914291881,
+                                        ["ropeLength"] = 15,
+                                        ["skill"] = "Client",
+                                        ["speed"] = 55.555555555556,
+                                        ["type"] = "Mi-8MT",
+                                        ["unitId"] = 1975,
+                                        ["x"] = -314733.71428571,
+                                        ["y"] = 896389.42857143,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314733.71428571,
+                                ["y"] = 896389.42857143,
                             }, -- end of [24]
                         }, -- end of ["group"]
                     }, -- end of ["helicopter"]
@@ -16939,7 +16969,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98768425606572,
                                         ["livery_id"] = "132nd 765th squadron standard",
                                         ["name"] = "DictKey_UnitName_2892",
                                         ["onboard_num"] = "013",
@@ -17677,7 +17707,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.980999379925,
                                         ["livery_id"] = "132nd 765th squadron standard",
                                         ["name"] = "DictKey_UnitName_2902",
                                         ["onboard_num"] = "01312",
@@ -18409,7 +18439,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98770075508936,
                                         ["livery_id"] = "132nd 765th squadron standard",
                                         ["name"] = "DictKey_UnitName_3619",
                                         ["onboard_num"] = "01312",
@@ -18425,7 +18455,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98770075508951,
+                                        ["psi"] = 0.98770075508936,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -18655,7 +18685,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98782650860849,
                                         ["livery_id"] = "132nd 765th squadron standard",
                                         ["name"] = "DictKey_UnitName_3624",
                                         ["onboard_num"] = "01312",
@@ -23480,8 +23510,8 @@ mission =
                                             ["name"] = "",
                                             ["speed"] = 0,
                                             ["type"] = "",
-                                            ["x"] = -314986.28571433,
-                                            ["y"] = 896381.14285714,
+                                            ["x"] = -314981.71428571,
+                                            ["y"] = 896384.85714286,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                 }, -- end of ["route"]
@@ -23498,12 +23528,12 @@ mission =
                                         ["shape_name"] = "barrels_cargo",
                                         ["type"] = "barrels_cargo",
                                         ["unitId"] = 1957,
-                                        ["x"] = -314986.28571433,
-                                        ["y"] = 896381.14285714,
+                                        ["x"] = -314981.71428571,
+                                        ["y"] = 896384.85714286,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -314986.28571433,
-                                ["y"] = 896381.14285714,
+                                ["x"] = -314981.71428571,
+                                ["y"] = 896384.85714286,
                             }, -- end of [39]
                             [40] =
                             {
@@ -23523,8 +23553,8 @@ mission =
                                             ["name"] = "",
                                             ["speed"] = 0,
                                             ["type"] = "",
-                                            ["x"] = -314983.71428576,
-                                            ["y"] = 896373.42857142,
+                                            ["x"] = -314969.99999999,
+                                            ["y"] = 896324.85714286,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                 }, -- end of ["route"]
@@ -23540,12 +23570,12 @@ mission =
                                         ["shape_name"] = "fueltank_cargo",
                                         ["type"] = "fueltank_cargo",
                                         ["unitId"] = 1958,
-                                        ["x"] = -314983.71428576,
-                                        ["y"] = 896373.42857142,
+                                        ["x"] = -314969.99999999,
+                                        ["y"] = 896324.85714286,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -314983.71428576,
-                                ["y"] = 896373.42857142,
+                                ["x"] = -314969.99999999,
+                                ["y"] = 896324.85714286,
                             }, -- end of [40]
                             [41] =
                             {
@@ -23565,8 +23595,8 @@ mission =
                                             ["name"] = "",
                                             ["speed"] = 0,
                                             ["type"] = "",
-                                            ["x"] = -314978.00000004,
-                                            ["y"] = 896379.71428571,
+                                            ["x"] = -314955.71428571,
+                                            ["y"] = 896336.00000001,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                 }, -- end of ["route"]
@@ -23583,12 +23613,12 @@ mission =
                                         ["shape_name"] = "bw_container_cargo",
                                         ["type"] = "container_cargo",
                                         ["unitId"] = 1959,
-                                        ["x"] = -314978.00000004,
-                                        ["y"] = 896379.71428571,
+                                        ["x"] = -314955.71428571,
+                                        ["y"] = 896336.00000001,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -314978.00000004,
-                                ["y"] = 896379.71428571,
+                                ["x"] = -314955.71428571,
+                                ["y"] = 896336.00000001,
                             }, -- end of [41]
                             [42] =
                             {
@@ -23804,6 +23834,219 @@ mission =
                                 ["x"] = -314640.8571429,
                                 ["y"] = 894567.14285714,
                             }, -- end of [46]
+                            [47] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 1390,
+                                ["heading"] = 0.55850536063819,
+                                ["name"] = "DictKey_GroupName_3640",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314988.28571428,
+                                            ["y"] = 896380.57142858,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["canCargo"] = true,
+                                        ["category"] = "Cargos",
+                                        ["heading"] = 0.55850536063819,
+                                        ["mass"] = 450,
+                                        ["name"] = "DictKey_GroupName_3640",
+                                        ["rate"] = 100,
+                                        ["shape_name"] = "barrels_cargo",
+                                        ["type"] = "barrels_cargo",
+                                        ["unitId"] = 1976,
+                                        ["x"] = -314988.28571428,
+                                        ["y"] = 896380.57142858,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314988.28571428,
+                                ["y"] = 896380.57142858,
+                            }, -- end of [47]
+                            [48] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 1391,
+                                ["heading"] = 0.55850536063819,
+                                ["name"] = "DictKey_GroupName_3643",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314984.57142856,
+                                            ["y"] = 896373.71428572,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["canCargo"] = true,
+                                        ["category"] = "Cargos",
+                                        ["heading"] = 0.55850536063819,
+                                        ["mass"] = 2044,
+                                        ["name"] = "DictKey_GroupName_3643",
+                                        ["shape_name"] = "fueltank_cargo",
+                                        ["type"] = "fueltank_cargo",
+                                        ["unitId"] = 1977,
+                                        ["x"] = -314984.57142856,
+                                        ["y"] = 896373.71428572,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314984.57142856,
+                                ["y"] = 896373.71428572,
+                            }, -- end of [48]
+                            [49] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 1392,
+                                ["heading"] = 0.55850536063819,
+                                ["name"] = "DictKey_GroupName_3646",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314976.57142851,
+                                            ["y"] = 896318.85714288,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["canCargo"] = true,
+                                        ["category"] = "Cargos",
+                                        ["heading"] = 0.55850536063819,
+                                        ["mass"] = 2044,
+                                        ["name"] = "DictKey_GroupName_3646",
+                                        ["shape_name"] = "fueltank_cargo",
+                                        ["type"] = "fueltank_cargo",
+                                        ["unitId"] = 1978,
+                                        ["x"] = -314976.57142851,
+                                        ["y"] = 896318.85714288,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314976.57142851,
+                                ["y"] = 896318.85714288,
+                            }, -- end of [49]
+                            [50] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 1393,
+                                ["heading"] = 0.55850536063819,
+                                ["name"] = "DictKey_GroupName_3649",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314977.14285714,
+                                            ["y"] = 896376.85714286,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["canCargo"] = true,
+                                        ["category"] = "Cargos",
+                                        ["heading"] = 0.55850536063819,
+                                        ["mass"] = 1200,
+                                        ["name"] = "DictKey_GroupName_3649",
+                                        ["rate"] = 100,
+                                        ["shape_name"] = "bw_container_cargo",
+                                        ["type"] = "container_cargo",
+                                        ["unitId"] = 1979,
+                                        ["x"] = -314977.14285714,
+                                        ["y"] = 896376.85714286,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314977.14285714,
+                                ["y"] = 896376.85714286,
+                            }, -- end of [50]
+                            [51] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 1394,
+                                ["heading"] = 0.55850536063819,
+                                ["name"] = "DictKey_GroupName_3652",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314963.42857142,
+                                            ["y"] = 896331.14285715,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["canCargo"] = true,
+                                        ["category"] = "Cargos",
+                                        ["heading"] = 0.55850536063819,
+                                        ["mass"] = 1200,
+                                        ["name"] = "DictKey_GroupName_3652",
+                                        ["rate"] = 100,
+                                        ["shape_name"] = "bw_container_cargo",
+                                        ["type"] = "container_cargo",
+                                        ["unitId"] = 1980,
+                                        ["x"] = -314963.42857142,
+                                        ["y"] = 896331.14285715,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314963.42857142,
+                                ["y"] = 896331.14285715,
+                            }, -- end of [51]
                         }, -- end of ["group"]
                     }, -- end of ["static"]
                     ["vehicle"] =
@@ -29051,8 +29294,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "TakeOffParking",
-                                            ["x"] = -314345.0625,
-                                            ["y"] = 895634.5,
+                                            ["x"] = -314249.375,
+                                            ["y"] = 895478.125,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                 }, -- end of ["route"]
@@ -29120,8 +29363,8 @@ mission =
                                         ["livery_id"] = "France Armee de Terre 1",
                                         ["name"] = "DictKey_UnitName_204",
                                         ["onboard_num"] = "309",
-                                        ["parking"] = 126,
-                                        ["parking_id"] = "63",
+                                        ["parking"] = 128,
+                                        ["parking_id"] = "69",
                                         ["payload"] =
                                         {
                                             ["chaff"] = 0,
@@ -29137,12 +29380,12 @@ mission =
                                         ["speed"] = 41.666666666667,
                                         ["type"] = "Ka-50",
                                         ["unitId"] = 1171,
-                                        ["x"] = -314345.0625,
-                                        ["y"] = 895634.5,
+                                        ["x"] = -314249.375,
+                                        ["y"] = 895478.125,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -314345.0625,
-                                ["y"] = 895634.5,
+                                ["x"] = -314249.375,
+                                ["y"] = 895478.125,
                             }, -- end of [3]
                         }, -- end of ["group"]
                     }, -- end of ["helicopter"]
@@ -30290,7 +30533,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield71",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98558145734928,
                                         ["livery_id"] = "4-33_Iceberg",
                                         ["name"] = "DictKey_UnitName_1643",
                                         ["onboard_num"] = "332",
@@ -31028,7 +31271,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield71",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98567893670417,
                                         ["livery_id"] = "AdA Chasse 2-5",
                                         ["name"] = "DictKey_UnitName_3546",
                                         ["onboard_num"] = "332",
@@ -31274,7 +31517,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield71",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98354171707733,
                                         ["livery_id"] = "AdA Chasse 2-5",
                                         ["name"] = "DictKey_UnitName_3551",
                                         ["onboard_num"] = "332",
@@ -31520,7 +31763,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield71",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.97932706438886,
                                         ["livery_id"] = "AdA Chasse 2-5",
                                         ["name"] = "DictKey_UnitName_3556",
                                         ["onboard_num"] = "332",
@@ -31766,7 +32009,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield71",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.98148386528601,
                                         ["livery_id"] = "AdA Chasse 2-5",
                                         ["name"] = "DictKey_UnitName_3561",
                                         ["onboard_num"] = "332",
@@ -32012,7 +32255,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield71",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -0.9881929494149,
                                         ["livery_id"] = "AdA Chasse 2-5",
                                         ["name"] = "DictKey_UnitName_3566",
                                         ["onboard_num"] = "332",
@@ -53838,7 +54081,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3653231,
+    ["currentKey"] = 3657193,
     ["date"] =
     {
         ["Day"] = 20,
@@ -56930,11 +57173,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -315135.71428571,
-        ["centerY"] = 897075.42857143,
-        ["zoom"] = 2000,
+        ["centerX"] = -319294.28571428,
+        ["centerY"] = 895669.14285715,
+        ["zoom"] = 50000,
     }, -- end of ["map"]
-    ["maxDictId"] = 3627,
+    ["maxDictId"] = 3654,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
