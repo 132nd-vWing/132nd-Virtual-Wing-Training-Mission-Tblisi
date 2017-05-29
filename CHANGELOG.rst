@@ -15,6 +15,15 @@ New
 
 Changes
 ~~~~~~~
+- Added various artillery and MLRS targets at TKIBULi range. [Neck]
+- Added two SA-6 Launchers to the SA-6 battery to avoid the SA-6 running
+  out of missiles too fast. [Neck]
+- Updated the skins on the MI-8s so that they have correct skins. [Neck]
+
+  - Also added personal AC for all 259th members
+  - Due to space, 2 Mi-8's are set to start at ground on Lochini on one of the availeble spots on the airfield. It worked when I tested with AI.
+- Added 2x 765th Mirages at Lochini to make an AC for all members in the
+  765th. [Neck]
 - Added cargo to Lochini and the hospital WEST of Lochini. [Neck]
 - Adjusted AC at Lochini and Vaziani, see below: [Neck]
 
