@@ -354,8 +354,9 @@ end -- TANKERS
 do -- SUPPORT AIRCRAFTS
   TRMT.SUPPORT_AIRCRAFT = {
     UNITS= {
-         { NAME='AWACS1',         COUNT=1, TOTAL=10 },
-         { NAME='AWACS2',         COUNT=1, TOTAL=10 },
+         { NAME='AWACS1',           COUNT=1, TOTAL=10 },
+         { NAME='AWACS2',           COUNT=1, TOTAL=10 },
+         { NAME='AGGRESSOR AWACS',  COUNT=1, TOTAL=10 },
     },
     SCHEDULER_INTERVAL = 120,
     SPAWNERS = {},

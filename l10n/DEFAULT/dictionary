@@ -3719,6 +3719,9 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_WptName_3659"] = "",
     ["DictKey_WptName_3662"] = "",
     ["DictKey_WptName_3665"] = "",
+    ["DictKey_WptName_3666"] = "",
+    ["DictKey_WptName_3667"] = "",
+    ["DictKey_WptName_3668"] = "",
     ["DictKey_descriptionBlueTask_651"] = "\
 ",
     ["DictKey_descriptionRedTask_650"] = "",

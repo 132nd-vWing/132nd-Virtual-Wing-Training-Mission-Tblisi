@@ -1,5 +1,5 @@
 env.info( '*** MOOSE STATIC INCLUDE START *** ' )
-env.info( 'Moose Generation Timestamp: 20170520_1316' )
+env.info( 'Moose Generation Timestamp: 20170531_1255' )
 
 --- Various routines
 -- @module routines
@@ -2794,7 +2794,7 @@ function UTILS.DoString( s )
     return false, err
   end
 end
---- **Core** - BASE forms **the basis of the MOOSE framework**. Each class within the MOOSE framework derives from BASE.
+--- **Core** -- BASE forms **the basis of the MOOSE framework**. Each class within the MOOSE framework derives from BASE.
 -- 
 -- ![Banner Image](..\Presentations\BASE\Dia1.JPG)
 -- 
@@ -2804,29 +2804,10 @@ end
 -- 
 -- ===
 -- 
--- # **API CHANGE HISTORY**
--- 
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
--- 
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
--- 
--- YYYY-MM-DD: CLASS:**NewFunction**( Params ) replaces CLASS:_OldFunction_( Params )
--- YYYY-MM-DD: CLASS:**NewFunction( Params )** added
--- 
--- Hereby the change log:
--- 
--- ===
--- 
--- # **AUTHORS and CONTRIBUTIONS**
--- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- ### Contributions: 
 -- 
---   * None.
--- 
--- ### Authors: 
--- 
---   * **FlightControl**: Design & Programming
+-- ====
 -- 
 -- @module Base
 
@@ -3436,7 +3417,6 @@ end
 -- @param #BASE self
 -- @param Object The object that holds the Value set by the Key.
 -- @param Key The key that is used to retrieve the value. Note that the key can be a #string, but it can also be any other type!
--- @param Value The value to is stored in the Object.
 -- @return The Value retrieved.
 function BASE:GetState( Object, Key )
 
@@ -3715,7 +3695,7 @@ end
 
 
 
---- **Core** - SCHEDULER prepares and handles the **execution of functions over scheduled time (intervals)**.
+--- **Core** -- SCHEDULER prepares and handles the **execution of functions over scheduled time (intervals)**.
 --
 -- ![Banner Image](..\Presentations\SCHEDULER\Dia1.JPG)
 -- 
@@ -4031,7 +4011,7 @@ end
 
 
 
---- This module defines the SCHEDULEDISPATCHER class, which is used by a central object called _SCHEDULEDISPATCHER.
+--- **Core** -- SCHEDULEDISPATCHER dispatches the different schedules.
 -- 
 -- ===
 -- 
@@ -4057,8 +4037,6 @@ end
 -- The SCHEDULER object therefore keeps a table of "CallID's", which are returned after each planning of a new scheduled function by the SCHEDULEDISPATCHER.
 -- The SCHEDULER object plans new scheduled functions through the @{Scheduler#SCHEDULER.Schedule}() method. 
 -- The Schedule() method returns the CallID that is the reference ID for each planned schedule.
--- 
--- ===
 -- 
 -- ===
 -- 
@@ -4258,7 +4236,7 @@ end
 
 
 
---- **Core R2.1** - EVENT models DCS **event dispatching** using a **publish-subscribe** model.
+--- **Core** -- EVENT models DCS **event dispatching** using a **publish-subscribe** model.
 -- 
 -- ![Banner Image](..\Presentations\EVENT\Dia1.JPG)
 -- 
@@ -4417,33 +4395,12 @@ end
 -- 
 -- When a static object is involved in the event, the Group and Player fields won't be populated.
 -- 
--- ====
--- 
--- # **API CHANGE HISTORY**
--- 
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
--- 
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
--- 
--- YYYY-MM-DD: CLASS:**NewFunction**( Params ) replaces CLASS:_OldFunction_( Params )
--- YYYY-MM-DD: CLASS:**NewFunction( Params )** added
--- 
--- Hereby the change log:
--- 
---   * 2017-03-07: Added the correct event dispatching in case the event is subscribed by a GROUP.
--- 
---   * 2017-02-07: Did a complete revision of the Event Handing API and underlying mechanisms.
--- 
 -- ===
 -- 
--- # **AUTHORS and CONTRIBUTIONS**
--- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- ### Contributions: 
 -- 
--- ### Authors: 
--- 
---   * [**FlightControl**](https://forums.eagle.ru/member.php?u=89536): Design & Programming & documentation.
+-- ====
 --
 -- @module Event
 
@@ -5317,6 +5274,471 @@ function EVENTHANDLER:New()
   self = BASE:Inherit( self, BASE:New() ) -- #EVENTHANDLER
   return self
 end
+--- **Core** -- **SETTINGS** classe defines the format settings management for measurement.
+--
+-- ![Banner Image](..\Presentations\SETTINGS\Dia1.JPG)
+--
+-- ====
+--
+-- # Demo Missions
+--
+-- ### [SETTINGS Demo Missions source code]()
+--
+-- ### [SETTINGS Demo Missions, only for beta testers]()
+--
+-- ### [ALL Demo Missions pack of the last release](https://github.com/FlightControl-Master/MOOSE_MISSIONS/releases)
+--
+-- ====
+--
+-- # YouTube Channel
+--
+-- ### [SETTINGS YouTube Channel]()
+--
+-- ===
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- ### Contributions: 
+-- 
+-- ====
+--
+-- @module Settings
+
+
+--- @type SETTINGS
+-- @field #number LL_Accuracy
+-- @field #boolean LL_DMS
+-- @field #number MGRS_Accuracy
+-- @field #string A2GSystem
+-- @field #string A2ASystem
+-- @extends Core.Base#BASE
+
+--- # SETTINGS class, extends @{Base#BASE}
+--
+-- @field #SETTINGS
+SETTINGS = {
+  ClassName = "SETTINGS",
+}
+
+
+
+do -- SETTINGS
+
+  --- SETTINGS constructor.
+  -- @param #SETTINGS self
+  -- @return #SETTINGS
+  function SETTINGS:Set( PlayerName ) 
+
+    if PlayerName == nil then
+      local self = BASE:Inherit( self, BASE:New() ) -- #SETTINGS
+      self:SetMetric() -- Defaults
+      self:SetA2G_MGRS() -- Defaults
+      self:SetA2A_BRA() -- Defaults
+      self:SetLL_Accuracy( 2 ) -- Defaults
+      self:SetLL_DMS( true ) -- Defaults
+      self:SetMGRS_Accuracy( 5 ) -- Defaults
+      return self
+    else
+      local Settings = _DATABASE:GetPlayerSettings( PlayerName )
+      if not Settings then
+        Settings = BASE:Inherit( self, BASE:New() ) -- #SETTINGS
+        _DATABASE:SetPlayerSettings( PlayerName, Settings )
+      end
+      return Settings
+    end
+  end
+  
+ 
+  --- Sets the SETTINGS metric.
+  -- @param #SETTINGS self
+  function SETTINGS:SetMetric()
+    self.Metric = true
+  end
+ 
+  --- Gets if the SETTINGS is metric.
+  -- @param #SETTINGS self
+  -- @return #boolean true if metric.
+  function SETTINGS:IsMetric()
+    self:E( {Metric = ( self.Metric ~= nil and self.Metric == true ) or ( self.Metric == nil and _SETTINGS:IsMetric() ) } )
+    return ( self.Metric ~= nil and self.Metric == true ) or ( self.Metric == nil and _SETTINGS:IsMetric() )
+  end
+
+  --- Sets the SETTINGS imperial.
+  -- @param #SETTINGS self
+  function SETTINGS:SetImperial()
+    self.Metric = false
+  end
+ 
+  --- Gets if the SETTINGS is imperial.
+  -- @param #SETTINGS self
+  -- @return #boolean true if imperial.
+  function SETTINGS:IsImperial()
+    self:E( {Metric = ( self.Metric ~= nil and self.Metric == false ) or ( self.Metric == nil and _SETTINGS:IsMetric() ) } )
+    return ( self.Metric ~= nil and self.Metric == false ) or ( self.Metric == nil and _SETTINGS:IsMetric() )
+  end
+
+  --- Sets the SETTINGS LL accuracy.
+  -- @param #SETTINGS self
+  -- @param #number LL_Accuracy
+  -- @return #SETTINGS
+  function SETTINGS:SetLL_Accuracy( LL_Accuracy )
+    self.LL_Accuracy = LL_Accuracy
+  end
+
+  --- Gets the SETTINGS LL accuracy.
+  -- @param #SETTINGS self
+  -- @return #number
+  function SETTINGS:GetLL_Accuracy()
+    return self.LL_Accuracy or _SETTINGS:GetLL_Accuracy()
+  end
+
+  --- Sets the SETTINGS LL DMS.
+  -- @param #SETTINGS self
+  -- @param #number LL_DMS
+  -- @return #SETTINGS
+  function SETTINGS:SetLL_DMS( LL_DMS )
+    self.LL_DMS = LL_DMS
+  end
+
+  --- Gets the SETTINGS LL DMS.
+  -- @param #SETTINGS self
+  -- @return #number
+  function SETTINGS:GetLL_DMS()
+    return self.LL_DMS or _SETTINGS:GetLL_DMS()
+  end
+  
+  --- Sets the SETTINGS MGRS accuracy.
+  -- @param #SETTINGS self
+  -- @param #number MGRS_Accuracy
+  -- @return #SETTINGS
+  function SETTINGS:SetMGRS_Accuracy( MGRS_Accuracy )
+    self.MGRS_Accuracy = MGRS_Accuracy
+  end
+
+  --- Gets the SETTINGS MGRS accuracy.
+  -- @param #SETTINGS self
+  -- @return #number
+  function SETTINGS:GetMGRS_Accuracy()
+    return self.MGRS_Accuracy or _SETTINGS:GetMGRS_Accuracy()
+  end
+  
+  
+
+
+  --- Sets A2G LL
+  -- @param #SETTINGS self
+  -- @return #SETTINGS
+  function SETTINGS:SetA2G_LL()
+    self.A2GSystem = "LL"
+  end
+
+  --- Is LL
+  -- @param #SETTINGS self
+  -- @return #boolean true if LL
+  function SETTINGS:IsA2G_LL()
+    return ( self.A2GSystem and self.A2GSystem == "LL" ) or ( not self.A2GSystem and _SETTINGS:IsA2G_LL() )
+  end
+
+  --- Sets A2G MGRS
+  -- @param #SETTINGS self
+  -- @return #SETTINGS
+  function SETTINGS:SetA2G_MGRS()
+    self.A2GSystem = "MGRS"
+  end
+
+  --- Is MGRS
+  -- @param #SETTINGS self
+  -- @return #boolean true if MGRS
+  function SETTINGS:IsA2G_MGRS()
+    return ( self.A2GSystem and self.A2GSystem == "MGRS" ) or ( not self.A2GSystem and _SETTINGS:IsA2G_MGRS() )
+  end
+
+  --- Sets A2G BRA
+  -- @param #SETTINGS self
+  -- @return #SETTINGS
+  function SETTINGS:SetA2G_BRA()
+    self.A2GSystem = "BRA"
+  end
+
+  --- Is BRA
+  -- @param #SETTINGS self
+  -- @return #boolean true if BRA
+  function SETTINGS:IsA2G_BRA()
+    self:E( { BRA = ( self.A2GSystem and self.A2GSystem == "BRA" ) or ( not self.A2GSystem and _SETTINGS:IsA2G_BRA() ) } )
+    return ( self.A2GSystem and self.A2GSystem == "BRA" ) or ( not self.A2GSystem and _SETTINGS:IsA2G_BRA() )
+  end
+
+  --- Sets A2A BRA
+  -- @param #SETTINGS self
+  -- @return #SETTINGS
+  function SETTINGS:SetA2A_BRA()
+    self.A2ASystem = "BRA"
+  end
+
+  --- Is BRA
+  -- @param #SETTINGS self
+  -- @return #boolean true if BRA
+  function SETTINGS:IsA2A_BRA()
+    self:E( { BRA = ( self.A2ASystem and self.A2ASystem == "BRA" ) or ( not self.A2ASystem and _SETTINGS:IsA2A_BRA() ) } )
+    return ( self.A2ASystem and self.A2ASystem == "BRA" ) or ( not self.A2ASystem and _SETTINGS:IsA2A_BRA() )
+  end
+
+  --- Sets A2A BULLS
+  -- @param #SETTINGS self
+  -- @return #SETTINGS
+  function SETTINGS:SetA2A_BULLS()
+    self.A2ASystem = "BULLS"
+  end
+
+  --- Is BULLS
+  -- @param #SETTINGS self
+  -- @return #boolean true if BULLS
+  function SETTINGS:IsA2A_BULLS()
+    return ( self.A2ASystem and self.A2ASystem == "BULLS" ) or ( not self.A2ASystem and _SETTINGS:IsA2A_BULLS() )
+  end
+
+  --- @param #SETTINGS self
+  -- @return #SETTINGS
+  function SETTINGS:SetSystemMenu( RootMenu, MenuText )
+
+    MenuText = MenuText or "System Settings"
+  
+    if not self.SettingsMenu then
+      self.SettingsMenu = MENU_MISSION:New( MenuText, RootMenu )
+    end
+
+    if self.DefaultMenu then
+      self.DefaultMenu:Remove()
+      self.DefaultMenu = nil
+    end
+    self.DefaultMenu = MENU_MISSION:New( "Default Settings", self.SettingsMenu )
+    
+    local A2GCoordinateMenu = MENU_MISSION:New( "A2G Coordinate System", self.DefaultMenu )
+  
+    if self:IsA2G_LL() then
+      MENU_MISSION_COMMAND:New( "Activate BRA", A2GCoordinateMenu, self.A2GMenuSystem, self, "BRA" )
+      MENU_MISSION_COMMAND:New( "Activate MGRS", A2GCoordinateMenu, self.A2GMenuSystem, self, "MGRS" )
+      MENU_MISSION_COMMAND:New( "LL Accuracy 1", A2GCoordinateMenu, self.MenuLL_Accuracy, self, 1 )
+      MENU_MISSION_COMMAND:New( "LL Accuracy 2", A2GCoordinateMenu, self.MenuLL_Accuracy, self, 2 )
+      MENU_MISSION_COMMAND:New( "LL Accuracy 3", A2GCoordinateMenu, self.MenuLL_Accuracy, self, 3 )
+      MENU_MISSION_COMMAND:New( "LL Decimal On", A2GCoordinateMenu, self.MenuLL_DMS, self, true )
+      MENU_MISSION_COMMAND:New( "LL Decimal Off", A2GCoordinateMenu, self.MenuLL_DMS, self, false )
+    end
+  
+    if self:IsA2G_MGRS() then
+      MENU_MISSION_COMMAND:New( "Activate BRA", A2GCoordinateMenu, self.A2GMenuSystem, self, "BRA" )
+      MENU_MISSION_COMMAND:New( "Activate LL", A2GCoordinateMenu, self.A2GMenuSystem, self, "LL" )
+      MENU_MISSION_COMMAND:New( "MGRS Accuracy 1", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, 1 )
+      MENU_MISSION_COMMAND:New( "MGRS Accuracy 2", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, 2 )
+      MENU_MISSION_COMMAND:New( "MGRS Accuracy 3", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, 3 )
+      MENU_MISSION_COMMAND:New( "MGRS Accuracy 4", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, 4 )
+      MENU_MISSION_COMMAND:New( "MGRS Accuracy 5", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, 5 )
+    end
+
+    if self:IsA2G_BRA() then
+      MENU_MISSION_COMMAND:New( "Activate MGRS", A2GCoordinateMenu, self.A2GMenuSystem, self, "MGRS" )
+      MENU_MISSION_COMMAND:New( "Activate LL", A2GCoordinateMenu, self.A2GMenuSystem, self, "LL" )
+    end
+
+    local A2ACoordinateMenu = MENU_MISSION:New( "A2A Coordinate System", self.DefaultMenu )
+
+    if self:IsA2A_BULLS() then
+      MENU_MISSION_COMMAND:New( "Activate BRA", A2ACoordinateMenu, self.A2AMenuSystem, self, "BRA" )
+    end
+  
+    if self:IsA2A_BRA() then
+      MENU_MISSION_COMMAND:New( "Activate BULLS", A2ACoordinateMenu, self.A2AMenuSystem, self, "BULLS" )
+    end
+    
+    local MetricsMenu = MENU_MISSION:New( "Measures and Weights System", self.DefaultMenu )
+    
+    if self:IsMetric() then
+      MENU_MISSION_COMMAND:New( "Activate Imperial", MetricsMenu, self.MenuMWSystem, self, false )
+    end
+    
+    if self:IsImperial() then
+      MENU_MISSION_COMMAND:New( "Activate Metric", MetricsMenu, self.MenuMWSystem, self, true )
+    end    
+    
+    return self
+  end
+
+  --- @param #SETTINGS self
+  -- @param RootMenu
+  -- @param Wrapper.Client#CLIENT PlayerUnit
+  -- @param #string MenuText
+  -- @return #SETTINGS
+  function SETTINGS:SetPlayerMenu( PlayerUnit )
+
+    local MenuText = "Player Settings"
+    self.MenuText = MenuText
+    
+    local SettingsMenu = _SETTINGS.SettingsMenu
+    
+    local PlayerGroup = PlayerUnit:GetGroup()
+    local PlayerName = PlayerUnit:GetPlayerName()
+    local PlayerNames = PlayerGroup:GetPlayerNames()
+
+    local GroupMenu = MENU_GROUP:New( PlayerGroup, MenuText, SettingsMenu )
+    local PlayerMenu = MENU_GROUP:New( PlayerGroup, 'Settings "' .. PlayerName .. '"', GroupMenu )
+    
+    self.PlayerMenu = PlayerMenu
+
+    local A2GCoordinateMenu = MENU_GROUP:New( PlayerGroup, "A2G Coordinate System", PlayerMenu )
+  
+    if self:IsA2G_LL() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Activate BRA", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "BRA" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Activate MGRS", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "MGRS" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "LL Accuracy 1", A2GCoordinateMenu, self.MenuGroupLL_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 1 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "LL Accuracy 2", A2GCoordinateMenu, self.MenuGroupLL_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 2 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "LL Accuracy 3", A2GCoordinateMenu, self.MenuGroupLL_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 3 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "LL Decimal On", A2GCoordinateMenu, self.MenuGroupLL_DMSSystem, self, PlayerUnit, PlayerGroup, PlayerName, true )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "LL Decimal Off", A2GCoordinateMenu, self.MenuGroupLL_DMSSystem, self, PlayerUnit, PlayerGroup, PlayerName, false )
+    end
+  
+    if self:IsA2G_MGRS() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Activate BRA", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "BRA" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Activate LL", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "LL" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "MGRS Accuracy 1", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 1 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "MGRS Accuracy 2", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 2 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "MGRS Accuracy 3", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 3 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "MGRS Accuracy 4", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 4 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "MGRS Accuracy 5", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 5 )
+    end
+
+    if self:IsA2G_BRA() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Activate MGRS", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "MGRS" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Activate LL", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "LL" )
+    end
+
+    local A2ACoordinateMenu = MENU_GROUP:New( PlayerGroup, "A2A Coordinate System", PlayerMenu )
+
+    if self:IsA2A_BULLS() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Activate BRA", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "BRA" )
+    end
+  
+    if self:IsA2A_BRA() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Activate BULLS", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "BULLS" )
+    end
+
+    local MetricsMenu = MENU_GROUP:New( PlayerGroup, "Measures and Weights System", PlayerMenu )
+    
+    if self:IsMetric() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Activate Imperial", MetricsMenu, self.MenuGroupMWSystem, self, PlayerUnit, PlayerGroup, PlayerName, false )
+    end
+    
+    if self:IsImperial() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Activate Metric", MetricsMenu, self.MenuGroupMWSystem, self, PlayerUnit, PlayerGroup, PlayerName, true )
+    end    
+    
+    return self
+  end
+
+  --- @param #SETTINGS self
+  -- @param RootMenu
+  -- @param Wrapper.Client#CLIENT PlayerUnit
+  -- @return #SETTINGS
+  function SETTINGS:RemovePlayerMenu( PlayerUnit )
+
+    if self.PlayerMenu then
+      self.PlayerMenu:Remove()
+    end
+    
+    return self
+  end
+
+
+  --- @param #SETTINGS self
+  function SETTINGS:A2GMenuSystem( A2GSystem )
+    self.A2GSystem = A2GSystem
+    self:SetSystemMenu()
+  end
+
+  --- @param #SETTINGS self
+  function SETTINGS:A2AMenuSystem( A2ASystem )
+    self.A2ASystem = A2ASystem
+    self:SetSystemMenu()
+  end
+
+  --- @param #SETTINGS self
+  function SETTINGS:MenuLL_Accuracy( LL_Accuracy )
+    self.LL_Accuracy = LL_Accuracy
+    self:SetSystemMenu()
+  end
+
+  --- @param #SETTINGS self
+  function SETTINGS:MenuLL_DMS( LL_DMS )
+    self.LL_DMS = LL_DMS
+    self:SetSystemMenu()
+  end
+
+  --- @param #SETTINGS self
+  function SETTINGS:MenuMGRS_Accuracy( MGRS_Accuracy )
+    self.MGRS_Accuracy = MGRS_Accuracy
+    self:SetSystemMenu()
+  end
+
+  --- @param #SETTINGS self
+  function SETTINGS:MenuMWSystem( MW )
+    self.Metric = MW
+    MESSAGE:New( string.format("Settings: Default measurement format set to %s for all players!.", MW and "Metric" or "Imperial" ), 5 ):ToAll()
+    self:SetSystemMenu()
+  end
+
+  do
+    --- @param #SETTINGS self
+    function SETTINGS:MenuGroupA2GSystem( PlayerUnit, PlayerGroup, PlayerName, A2GSystem )
+      BASE:E( {self, PlayerUnit:GetName(), A2GSystem} )
+      self.A2GSystem = A2GSystem
+      MESSAGE:New( string.format("Settings: A2G format set to %s for player %s.", A2GSystem, PlayerName ), 5 ):ToGroup( PlayerGroup )
+      self:RemovePlayerMenu(PlayerUnit)
+      self:SetPlayerMenu(PlayerUnit)
+    end
+  
+    --- @param #SETTINGS self
+    function SETTINGS:MenuGroupA2ASystem( PlayerUnit, PlayerGroup, PlayerName, A2ASystem )
+      self.A2ASystem = A2ASystem
+      MESSAGE:New( string.format("Settings: A2A format set to %s for player %s.", A2ASystem, PlayerName ), 5 ):ToGroup( PlayerGroup )
+      self:RemovePlayerMenu(PlayerUnit)
+      self:SetPlayerMenu(PlayerUnit)
+    end
+  
+    --- @param #SETTINGS self
+    function SETTINGS:MenuGroupLL_AccuracySystem( PlayerUnit, PlayerGroup, PlayerName, LL_Accuracy )
+      self.LL_Accuracy = LL_Accuracy
+      MESSAGE:New( string.format("Settings: A2G LL format accuracy set to %d for player %s.", LL_Accuracy, PlayerName ), 5 ):ToGroup( PlayerGroup )
+      self:RemovePlayerMenu(PlayerUnit)
+      self:SetPlayerMenu(PlayerUnit)
+    end
+  
+    --- @param #SETTINGS self
+    function SETTINGS:MenuGroupLL_DMSSystem( PlayerUnit, PlayerGroup, PlayerName, LL_DMS )
+      self.LL_DMS = LL_DMS
+      MESSAGE:New( string.format("Settings: A2G LL format mode set to %s for player %s.", LL_DMS and "DMS" or "HMS", PlayerName ), 5 ):ToGroup( PlayerGroup )
+      self:RemovePlayerMenu(PlayerUnit)
+      self:SetPlayerMenu(PlayerUnit)
+    end
+
+    --- @param #SETTINGS self
+    function SETTINGS:MenuGroupMGRS_AccuracySystem( PlayerUnit, PlayerGroup, PlayerName, MGRS_Accuracy )
+      self.MGRS_Accuracy = MGRS_Accuracy
+      MESSAGE:New( string.format("Settings: A2G MGRS format accuracy set to %d for player %s.", MGRS_Accuracy, PlayerName ), 5 ):ToGroup( PlayerGroup )
+      self:RemovePlayerMenu(PlayerUnit)
+      self:SetPlayerMenu(PlayerUnit)
+    end
+
+    --- @param #SETTINGS self
+    function SETTINGS:MenuGroupMWSystem( PlayerUnit, PlayerGroup, PlayerName, MW )
+      self.Metrics = MW
+      MESSAGE:New( string.format("Settings: Measurement format set to %s for player %s.", MW and "Metric" or "Imperial", PlayerName ), 5 ):ToGroup( PlayerGroup )
+      self:RemovePlayerMenu(PlayerUnit)
+      self:SetPlayerMenu(PlayerUnit)
+    end
+  
+  end
+
+end
+
+
 --- **Core** -- MENU_ classes model the definition of **hierarchical menu structures** and **commands for players** within a mission.
 -- 
 -- ===
@@ -5345,14 +5767,11 @@ end
 --   * @{Menu#MENU_CLIENT_COMMAND}: Manages command menus for CLIENTs. This manages menus for units with the skill level "Client".
 -- 
 -- ===
--- 
--- # **AUTHORS and CONTRIBUTIONS**
--- 
+--- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- ### Contributions: 
 -- 
--- ### Authors: 
--- 
---   * **FlightControl**: Design & Programming
+-- ====
 --   
 -- @module Menu
 
@@ -6261,11 +6680,11 @@ do
 
 end
 
---- **Core** - ZONE classes define **zones** within your mission of **various forms**, with **various capabilities**.
+--- **Core** -- ZONE classes define **zones** within your mission of **various forms**, with **various capabilities**.
 -- 
 -- ![Banner Image](..\Presentations\ZONE\Dia1.JPG)
 -- 
--- ===
+-- ====
 -- 
 -- There are essentially two core functions that zones accomodate:
 -- 
@@ -6290,41 +6709,12 @@ end
 --   * @{#ZONE_GROUP}: The ZONE_GROUP class defines by a zone around a @{Group#GROUP} with a radius.
 --   * @{#ZONE_POLYGON}: The ZONE_POLYGON class defines by a sequence of @{Group#GROUP} waypoints within the Mission Editor, forming a polygon.
 --
--- === 
+-- ==== 
 -- 
--- # **API CHANGE HISTORY**
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- ### Contributions: 
 -- 
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
--- 
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
--- 
--- Hereby the change log:
--- 
--- 2017-02-28: ZONE\_BASE:**IsVec2InZone()** replaces ZONE\_BASE:_IsPointVec2InZone()_.  
--- 2017-02-28: ZONE\_BASE:**IsVec3InZone()** replaces ZONE\_BASE:_IsPointVec3InZone()_.  
--- 2017-02-28: ZONE\_RADIUS:**IsVec2InZone()** replaces ZONE\_RADIUS:_IsPointVec2InZone()_.  
--- 2017-02-28: ZONE\_RADIUS:**IsVec3InZone()** replaces ZONE\_RADIUS:_IsPointVec3InZone()_.  
--- 2017-02-28: ZONE\_POLYGON:**IsVec2InZone()** replaces ZONE\_POLYGON:_IsPointVec2InZone()_.  
--- 2017-02-28: ZONE\_POLYGON:**IsVec3InZone()** replaces ZONE\_POLYGON:_IsPointVec3InZone()_.  
--- 
--- 2017-02-18: ZONE\_POLYGON_BASE:**GetRandomPointVec2()** added.
--- 
--- 2017-02-18: ZONE\_POLYGON_BASE:**GetRandomPointVec3()** added.
--- 
--- 2017-02-18: ZONE\_RADIUS:**GetRandomPointVec3( inner, outer )** added.
--- 
--- 2017-02-18: ZONE\_RADIUS:**GetRandomPointVec2( inner, outer )** added.
--- 
--- 2016-08-15: ZONE\_BASE:**GetName()** added.
--- 
--- 2016-08-15: ZONE\_BASE:**SetZoneProbability( ZoneProbability )** added.
--- 
--- 2016-08-15: ZONE\_BASE:**GetZoneProbability()** added.
--- 
--- 2016-08-15: ZONE\_BASE:**GetZoneMaybe()** added.
--- 
--- ===
+-- ====
 -- 
 -- @module Zone
 
@@ -6488,7 +6878,6 @@ end
 
 --- Returns a @{Point#COORDINATE} of the zone.
 -- @param #ZONE_BASE self
--- @param Dcs.DCSTypes#Distance Height The height to add to the land height where the center of the zone is located.
 -- @return Core.Point#COORDINATE The Coordinate of the zone.
 function ZONE_BASE:GetCoordinate()
   self:F2( self.ZoneName )
@@ -6514,7 +6903,7 @@ function ZONE_BASE:GetVec3( Height )
   
   local Vec2 = self:GetVec2()
 
-  local Vec3 = { x = Vec2.x, y = land.getHeight( self:GetVec2() ) + Height, z = Vec2.y }
+  local Vec3 = { x = Vec2.x, y = Height and Height or land.getHeight( self:GetVec2() ), z = Vec2.y }
 
   self:T2( { Vec3 } )
   
@@ -7423,7 +7812,7 @@ function ZONE_POLYGON:New( ZoneName, ZoneGroup )
   return self
 end
 
---- This module contains the DATABASE class, managing the database of mission objects. 
+--- **Core** -- DATABASE manages the database of mission objects. 
 -- 
 -- ====
 -- 
@@ -7460,8 +7849,13 @@ end
 -- 
 -- ===
 -- 
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- ### Contributions: 
+-- 
+-- ====
 -- @module Database
--- @author FlightControl
+
 
 --- DATABASE class
 -- @type DATABASE
@@ -7481,12 +7875,15 @@ DATABASE = {
   GROUPS = {},
   PLAYERS = {},
   PLAYERSJOINED = {},
+  PLAYERUNITS = {},
   CLIENTS = {},
   CARGOS = {},
   AIRBASES = {},
   COUNTRY_ID = {},
   COUNTRY_NAME = {},
   NavPoints = {},
+  PLAYERSETTINGS = {},
+  ZONENAMES = {},
 }
 
 local _DATABASECoalition =
@@ -7525,34 +7922,40 @@ function DATABASE:New()
   self:HandleEvent( EVENTS.DeleteCargo )
   
   -- Follow alive players and clients
---  self:HandleEvent( EVENTS.PlayerEnterUnit, self._EventOnPlayerEnterUnit )
+  self:HandleEvent( EVENTS.PlayerEnterUnit, self._EventOnPlayerEnterUnit )
   self:HandleEvent( EVENTS.PlayerLeaveUnit, self._EventOnPlayerLeaveUnit )
   
   self:_RegisterTemplates()
   self:_RegisterGroupsAndUnits()
   self:_RegisterClients()
   self:_RegisterStatics()
-  self:_RegisterPlayers()
+  --self:_RegisterPlayers()
   self:_RegisterAirbases()
 
   self.UNITS_Position = 0
   
   --- @param #DATABASE self
   local function CheckPlayers( self )
+  
+    local CoalitionsData = { AlivePlayersRed = coalition.getPlayers( coalition.side.RED ), AlivePlayersBlue = coalition.getPlayers( coalition.side.BLUE ) }
+    for CoalitionId, CoalitionData in pairs( CoalitionsData ) do
+      --self:E( { "CoalitionData:", CoalitionData } )
+      for UnitId, UnitData in pairs( CoalitionData ) do
+        if UnitData and UnitData:isExist() then
+        
+          local UnitName = UnitData:getName()
+          local PlayerName = UnitData:getPlayerName()
+          local PlayerUnit = UNIT:Find( UnitData )
+          --self:T( { "UnitData:", UnitData, UnitName, PlayerName, PlayerUnit } )
 
-    local UNITS_Count = #self.UNITS_Index
-    if UNITS_Count > 0 then
-      self.UNITS_Position = ( ( self.UNITS_Position <= UNITS_Count ) and self.UNITS_Position + 1 ) or 1
-      local PlayerUnit = self.UNITS[self.UNITS_Index[self.UNITS_Position]]
-      if PlayerUnit then
-        local UnitName = PlayerUnit:GetName()  
-        local PlayerName = PlayerUnit:GetPlayerName()
-        --self:E( { UNITS_Count, self.UNITS_Position, UnitName, PlayerName } )
-        if PlayerName and PlayerName ~= "" then
-          if self.PLAYERS[PlayerName] == nil or self.PLAYERS[PlayerName] ~= UnitName then
-            self:E( { "Add player for unit:", UnitName, PlayerName } )
-            self:AddPlayer( UnitName, PlayerName )
-            --_EVENTDISPATCHER:CreateEventPlayerEnterUnit( PlayerUnit )
+          if PlayerName and PlayerName ~= "" then
+            if self.PLAYERS[PlayerName] == nil or self.PLAYERS[PlayerName] ~= UnitName then
+              --self:E( { "Add player for unit:", UnitName, PlayerName } )
+              self:AddPlayer( UnitName, PlayerName )
+              --_EVENTDISPATCHER:CreateEventPlayerEnterUnit( PlayerUnit )
+              local Settings = SETTINGS:Set( PlayerName )
+              Settings:SetPlayerMenu( PlayerUnit )
+            end
           end
         end
       end
@@ -7560,7 +7963,7 @@ function DATABASE:New()
   end
   
   self:E( "Scheduling" )
-  --local PlayerCheckSchedule = SCHEDULER:New( nil, CheckPlayers, { self }, 2, 0.1 )
+  PlayerCheckSchedule = SCHEDULER:New( nil, CheckPlayers, { self }, 1, 1 )
   
   return self
 end
@@ -7737,17 +8140,19 @@ function DATABASE:AddPlayer( UnitName, PlayerName )
   if PlayerName then
     self:E( { "Add player for unit:", UnitName, PlayerName } )
     self.PLAYERS[PlayerName] = UnitName
+    self.PLAYERUNITS[UnitName] = PlayerName
     self.PLAYERSJOINED[PlayerName] = PlayerName
   end
 end
 
 --- Deletes a player from the DATABASE based on the Player Name.
 -- @param #DATABASE self
-function DATABASE:DeletePlayer( PlayerName )
+function DATABASE:DeletePlayer( UnitName, PlayerName )
 
   if PlayerName then
     self:E( { "Clean player:", PlayerName } )
     self.PLAYERS[PlayerName] = nil
+    self.PLAYERUNITS[UnitName] = PlayerName
   end
 end
 
@@ -8092,7 +8497,7 @@ function DATABASE:_EventOnBirth( Event )
         self:AddGroup( Event.IniDCSGroupName )
       end
     end
-    self:_EventOnPlayerEnterUnit( Event )
+    --self:_EventOnPlayerEnterUnit( Event )
   end
 end
 
@@ -8133,6 +8538,8 @@ function DATABASE:_EventOnPlayerEnterUnit( Event )
       if not self.PLAYERS[PlayerName] then
         self:AddPlayer( Event.IniUnitName, PlayerName )
       end
+      local Settings = SETTINGS:Set( PlayerName )
+      Settings:SetPlayerMenu( Event.IniUnit )
     end
   end
 end
@@ -8148,7 +8555,9 @@ function DATABASE:_EventOnPlayerLeaveUnit( Event )
     if Event.IniObjectCategory == 1 then
       local PlayerName = Event.IniUnit:GetPlayerName()
       if self.PLAYERS[PlayerName] then
-        self:DeletePlayer( PlayerName )
+        local Settings = SETTINGS:Set( PlayerName )
+        Settings:RemovePlayerMenu( Event.IniUnit )
+        self:DeletePlayer( Event.IniUnit, PlayerName )
       end
     end
   end
@@ -8233,10 +8642,10 @@ end
 -- @param #DATABASE self
 -- @param #function IteratorFunction The function that will be called for each object in the database. The function needs to accept a GROUP parameter.
 -- @return #DATABASE self
-function DATABASE:ForEachGroup( IteratorFunction, ... )
+function DATABASE:ForEachGroup( IteratorFunction, FinalizeFunction, ... )
   self:F2( arg )
   
-  self:ForEach( IteratorFunction, arg, self.GROUPS )
+  self:ForEach( IteratorFunction, FinalizeFunction, arg, self.GROUPS )
 
   return self
 end
@@ -8246,10 +8655,10 @@ end
 -- @param #DATABASE self
 -- @param #function IteratorFunction The function that will be called for each object in the database. The function needs to accept the player name.
 -- @return #DATABASE self
-function DATABASE:ForEachPlayer( IteratorFunction, ... )
+function DATABASE:ForEachPlayer( IteratorFunction, FinalizeFunction, ... )
   self:F2( arg )
   
-  self:ForEach( IteratorFunction, arg, self.PLAYERS )
+  self:ForEach( IteratorFunction, FinalizeFunction, arg, self.PLAYERS )
   
   return self
 end
@@ -8259,13 +8668,26 @@ end
 -- @param #DATABASE self
 -- @param #function IteratorFunction The function that will be called for each object in the database. The function needs to accept a UNIT parameter.
 -- @return #DATABASE self
-function DATABASE:ForEachPlayerJoined( IteratorFunction, ... )
+function DATABASE:ForEachPlayerJoined( IteratorFunction, FinalizeFunction, ... )
   self:F2( arg )
   
-  self:ForEach( IteratorFunction, arg, self.PLAYERSJOINED )
+  self:ForEach( IteratorFunction, FinalizeFunction, arg, self.PLAYERSJOINED )
   
   return self
 end
+
+--- Iterate the DATABASE and call an iterator function for each **ALIVE** player UNIT, providing the player UNIT and optional parameters.
+-- @param #DATABASE self
+-- @param #function IteratorFunction The function that will be called for each object in the database. The function needs to accept the player name.
+-- @return #DATABASE self
+function DATABASE:ForEachPlayerUnit( IteratorFunction, FinalizeFunction, ... )
+  self:F2( arg )
+  
+  self:ForEach( IteratorFunction, FinalizeFunction, arg, self.PLAYERUNITS )
+  
+  return self
+end
+
 
 --- Iterate the DATABASE and call an iterator function for each CLIENT, providing the CLIENT to the function and optional parameters.
 -- @param #DATABASE self
@@ -8314,6 +8736,29 @@ function DATABASE:OnEventDeleteCargo( EventData )
     self:DeleteCargo( EventData.Cargo.Name )
   end
 end
+
+
+--- Gets the player settings
+-- @param #DATABASE self
+-- @param #string PlayerName
+-- @return Core.Settings#SETTINGS
+function DATABASE:GetPlayerSettings( PlayerName )
+  self:E({PlayerName})
+  return self.PLAYERSETTINGS[PlayerName]
+end
+
+
+--- Sets the player settings
+-- @param #DATABASE self
+-- @param #string PlayerName
+-- @param Core.Settings#SETTINGS Settings
+-- @return Core.Settings#SETTINGS
+function DATABASE:SetPlayerSettings( PlayerName, Settings )
+  self:E({PlayerName, Settings})
+  self.PLAYERSETTINGS[PlayerName] = Settings
+end
+
+
 
 
 --- @param #DATABASE self
@@ -8399,13 +8844,18 @@ function DATABASE:_RegisterTemplates()
     end --if coa_name == 'red' or coa_name == 'blue' and type(coa_data) == 'table' then
   end --for coa_name, coa_data in pairs(mission.coalition) do
 
+  for ZoneID, ZoneData in pairs( env.mission.triggers.zones ) do
+    local ZoneName = ZoneData.name
+    self.ZONENAMES[ZoneName] = ZoneName
+  end
+
   return self
 end
 
 
 
 
---- **Core** - SET_ classes define **collections** of objects to perform **bulk actions** and logically **group** objects.
+--- **Core** -- SET_ classes define **collections** of objects to perform **bulk actions** and logically **group** objects.
 -- 
 -- ![Banner Image](..\Presentations\SET\Dia1.JPG)
 -- 
@@ -8430,12 +8880,12 @@ end
 --   * Validate the presence of objects in the SET.
 --   * Trigger events when objects in the SET change a zone presence.
 -- 
--- ### Authors: 
+-- ====
 -- 
---   * FlightControl : Design & Programming
---   
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- ### Contributions: 
 -- 
+-- ====
 -- 
 -- @module Set
 
@@ -11417,7 +11867,7 @@ function SET_CARGO:OnEventDeleteCargo( EventData ) --R2.1
   end
 end
 
---- **Core** - **POINT\_VEC** classes define an **extensive API** to **manage 3D points** in the simulation space.
+--- **Core** -- **POINT\_VEC** classes define an **extensive API** to **manage 3D points** in the simulation space.
 --
 -- ![Banner Image](..\Presentations\POINT\Dia1.JPG)
 --
@@ -11439,31 +11889,6 @@ end
 --
 -- ===
 --
--- **API CHANGE HISTORY**
--- ======================
---
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
---
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
---
--- Hereby the change log:
---
--- 2017-03-03: POINT\_VEC3:**Explosion( ExplosionIntensity )** added.
--- 2017-03-03: POINT\_VEC3:**IlluminationBomb()** added.
---
--- 2017-02-18: POINT\_VEC3:**NewFromVec2( Vec2, LandHeightAdd )** added.
---
--- 2016-08-12: POINT\_VEC3:**Translate( Distance, Angle )** added.
---
--- 2016-08-06: Made PointVec3 and Vec3, PointVec2 and Vec2 terminology used in the code consistent.
---
---   * Replaced method _Point_Vec3() to **Vec3**() where the code manages a Vec3. Replaced all references to the method.
---   * Replaced method _Point_Vec2() to **Vec2**() where the code manages a Vec2. Replaced all references to the method.
---   * Replaced method Random_Point_Vec3() to **RandomVec3**() where the code manages a Vec3. Replaced all references to the method.
--- .
--- ===
---
 -- ### Authors:
 --
 --   * FlightControl : Design & Programming
@@ -11472,232 +11897,876 @@ end
 --
 -- @module Point
 
---- The POINT_VEC3 class
--- @type POINT_VEC3
--- @field #number x The x coordinate in 3D space.
--- @field #number y The y coordinate in 3D space.
--- @field #number z The z coordiante in 3D space.
--- @field Utilities.Utils#SMOKECOLOR SmokeColor
--- @field Utilities.Utils#FLARECOLOR FlareColor
--- @field #POINT_VEC3.RoutePointAltType RoutePointAltType
--- @field #POINT_VEC3.RoutePointType RoutePointType
--- @field #POINT_VEC3.RoutePointAction RoutePointAction
--- @extends Core.Base#BASE
-
---- # POINT_VEC3 class, extends @{Base#BASE}
---
--- POINT_VEC3 defines a 3D point in the simulator and with its methods, you can use or manipulate the point in 3D space.
---
--- **Important Note:** Most of the functions in this section were taken from MIST, and reworked to OO concepts.
--- In order to keep the credibility of the the author,
--- I want to emphasize that the formulas embedded in the MIST framework were created by Grimes or previous authors,
--- who you can find on the Eagle Dynamics Forums.
---
---
--- ## POINT_VEC3 constructor
---
--- A new POINT_VEC3 object can be created with:
---
---  * @{#POINT_VEC3.New}(): a 3D point.
---  * @{#POINT_VEC3.NewFromVec3}(): a 3D point created from a @{DCSTypes#Vec3}.
---
---
--- ## Manupulate the X, Y, Z coordinates of the POINT_VEC3
---
--- A POINT_VEC3 class works in 3D space. It contains internally an X, Y, Z coordinate.
--- Methods exist to manupulate these coordinates.
---
--- The current X, Y, Z axis can be retrieved with the methods @{#POINT_VEC3.GetX}(), @{#POINT_VEC3.GetY}(), @{#POINT_VEC3.GetZ}() respectively.
--- The methods @{#POINT_VEC3.SetX}(), @{#POINT_VEC3.SetY}(), @{#POINT_VEC3.SetZ}() change the respective axis with a new value.
--- The current axis values can be changed by using the methods @{#POINT_VEC3.AddX}(), @{#POINT_VEC3.AddY}(), @{#POINT_VEC3.AddZ}()
--- to add or substract a value from the current respective axis value.
--- Note that the Set and Add methods return the current POINT_VEC3 object, so these manipulation methods can be chained... For example:
---
---      local Vec3 = PointVec3:AddX( 100 ):AddZ( 150 ):GetVec3()
---
---
--- ## Create waypoints for routes
---
--- A POINT_VEC3 can prepare waypoints for Ground and Air groups to be embedded into a Route.
---
---   * @{#POINT_VEC3.RoutePointAir}(): Build an air route point.
---   * @{#POINT_VEC3.RoutePointGround}(): Build a ground route point.
---
--- Route points can be used in the Route methods of the @{Group#GROUP} class.
---
---
--- ## Smoke, flare, explode, illuminate
---
--- At the point a smoke, flare, explosion and illumination bomb can be triggered. Use the following methods:
---
--- ### Smoke
---
---   * @{#POINT_VEC3.Smoke}(): To smoke the point in a certain color.
---   * @{#POINT_VEC3.SmokeBlue}(): To smoke the point in blue.
---   * @{#POINT_VEC3.SmokeRed}(): To smoke the point in red.
---   * @{#POINT_VEC3.SmokeOrange}(): To smoke the point in orange.
---   * @{#POINT_VEC3.SmokeWhite}(): To smoke the point in white.
---   * @{#POINT_VEC3.SmokeGreen}(): To smoke the point in green.
---
--- ### Flare
---
---   * @{#POINT_VEC3.Flare}(): To flare the point in a certain color.
---   * @{#POINT_VEC3.FlareRed}(): To flare the point in red.
---   * @{#POINT_VEC3.FlareYellow}(): To flare the point in yellow.
---   * @{#POINT_VEC3.FlareWhite}(): To flare the point in white.
---   * @{#POINT_VEC3.FlareGreen}(): To flare the point in green.
---
--- ### Explode
---
---   * @{#POINT_VEC3.Explosion}(): To explode the point with a certain intensity.
---
--- ### Illuminate
---
---   * @{#POINT_VEC3.IlluminationBomb}(): To illuminate the point.
---
---
--- ## 3D calculation methods
---
--- Various calculation methods exist to use or manipulate 3D space. Find below a short description of each method:
---
--- ### Distance
---
---   * @{#POINT_VEC3.Get3DDistance}(): Obtain the distance from the current 3D point to the provided 3D point in 3D space.
---   * @{#POINT_VEC3.Get2DDistance}(): Obtain the distance from the current 3D point to the provided 3D point in 2D space.
---
--- ### Angle
---
---   * @{#POINT_VEC3.GetAngleDegrees}(): Obtain the angle in degrees from the current 3D point with the provided 3D direction vector.
---   * @{#POINT_VEC3.GetAngleRadians}(): Obtain the angle in radians from the current 3D point with the provided 3D direction vector.
---   * @{#POINT_VEC3.GetDirectionVec3}(): Obtain the 3D direction vector from the current 3D point to the provided 3D point.
---
--- ### Translation
---
---   * @{#POINT_VEC3.Translate}(): Translate the current 3D point towards an other 3D point using the given Distance and Angle.
---
--- ### Get the North correction of the current location
---
---   * @{#POINT_VEC3.GetNorthCorrection}(): Obtains the north correction at the current 3D point.
---
---
--- ## Point Randomization
---
--- Various methods exist to calculate random locations around a given 3D point.
---
---   * @{#POINT_VEC3.GetRandomPointVec2InRadius}(): Provides a random 2D point around the current 3D point, in the given inner to outer band.
---   * @{#POINT_VEC3.GetRandomPointVec3InRadius}(): Provides a random 3D point around the current 3D point, in the given inner to outer band.
---   * @{#POINT_VEC3.GetRandomVec2InRadius}(): Provides a random 2D vector around the current 3D point, in the given inner to outer band.
---   * @{#POINT_VEC3.GetRandomVec3InRadius}(): Provides a random 3D vector around the current 3D point, in the given inner to outer band.
---
---
--- ## Metric system
---
---   * @{#POINT_VEC3.IsMetric}(): Returns if the 3D point is Metric or Nautical Miles.
---   * @{#POINT_VEC3.SetMetric}(): Sets the 3D point to Metric or Nautical Miles.
---
---
--- ## Coorinate text generation
---
---   * @{#POINT_VEC3.ToStringBR}(): Generates a Bearing & Range text in the format of DDD for DI where DDD is degrees and DI is distance.
---   * @{#POINT_VEC3.ToStringLL}(): Generates a Latutude & Longutude text.
---
--- @field #POINT_VEC3
-POINT_VEC3 = {
-  ClassName = "POINT_VEC3",
-  Metric = true,
-  RoutePointAltType = {
-    BARO = "BARO",
-  },
-  RoutePointType = {
-    TakeOffParking = "TakeOffParking",
-    TurningPoint = "Turning Point",
-  },
-  RoutePointAction = {
-    FromParkingArea = "From Parking Area",
-    TurningPoint = "Turning Point",
-  },
-}
-
---- @type POINT_VEC2
--- @field Dcs.DCSTypes#Distance x The x coordinate in meters.
--- @field Dcs.DCSTypes#Distance y the y coordinate in meters.
--- @extends Core.Point#POINT_VEC3
-
---- # POINT_VEC2 class, extends @{Point#POINT_VEC3}
---
--- The @{Point#POINT_VEC2} class defines a 2D point in the simulator. The height coordinate (if needed) will be the land height + an optional added height specified.
---
--- ## POINT_VEC2 constructor
---
--- A new POINT_VEC2 instance can be created with:
---
---  * @{Point#POINT_VEC2.New}(): a 2D point, taking an additional height parameter.
---  * @{Point#POINT_VEC2.NewFromVec2}(): a 2D point created from a @{DCSTypes#Vec2}.
---
--- ## Manupulate the X, Altitude, Y coordinates of the 2D point
---
--- A POINT_VEC2 class works in 2D space, with an altitude setting. It contains internally an X, Altitude, Y coordinate.
--- Methods exist to manupulate these coordinates.
---
--- The current X, Altitude, Y axis can be retrieved with the methods @{#POINT_VEC2.GetX}(), @{#POINT_VEC2.GetAlt}(), @{#POINT_VEC2.GetY}() respectively.
--- The methods @{#POINT_VEC2.SetX}(), @{#POINT_VEC2.SetAlt}(), @{#POINT_VEC2.SetY}() change the respective axis with a new value.
--- The current Lat(itude), Alt(itude), Lon(gitude) values can also be retrieved with the methods @{#POINT_VEC2.GetLat}(), @{#POINT_VEC2.GetAlt}(), @{#POINT_VEC2.GetLon}() respectively.
--- The current axis values can be changed by using the methods @{#POINT_VEC2.AddX}(), @{#POINT_VEC2.AddAlt}(), @{#POINT_VEC2.AddY}()
--- to add or substract a value from the current respective axis value.
--- Note that the Set and Add methods return the current POINT_VEC2 object, so these manipulation methods can be chained... For example:
---
---      local Vec2 = PointVec2:AddX( 100 ):AddY( 2000 ):GetVec2()
---
--- @field #POINT_VEC2
-POINT_VEC2 = {
-  ClassName = "POINT_VEC2",
-}
 
 
---- @type COORDINATE
--- @field #number LL_Accuracy
--- @field #boolean LL_DMS
--- @field #number MGRS_Accuracy
--- @field #string System
--- @extends Core.Point#POINT_VEC2
 
 
---- # COORDINATE class, extends @{Point#COORDINATE}
---
--- The COORDINATE class defines a 2D coordinate in the simulator. The height coordinate (if needed) will be the land height + an optional added height specified.
--- A COORDINATE can be expressed in LL or in MGRS.
---
--- ## COORDINATE constructor
---
--- A new COORDINATE instance can be created with:
---
---  * @{Point#COORDINATE.New}(): a 2D point, taking an additional height parameter.
---  * @{Point#COORDINATE.NewFromVec2}(): a 2D point created from a @{DCSTypes#Vec2}.
---
--- ## Manupulate the X, Altitude, Y coordinates of the 2D point
---
--- A COORDINATE class works in 2D space, with an altitude setting. It contains internally an X, Altitude, Y coordinate.
--- Methods exist to manupulate these coordinates.
---
--- The current X, Altitude, Y axis can be retrieved with the methods @{#COORDINATE.GetX}(), @{#COORDINATE.GetAlt}(), @{#COORDINATE.GetY}() respectively.
--- The methods @{#COORDINATE.SetX}(), @{#COORDINATE.SetAlt}(), @{#COORDINATE.SetY}() change the respective axis with a new value.
--- The current Lat(itude), Alt(itude), Lon(gitude) values can also be retrieved with the methods @{#COORDINATE.GetLat}(), @{#COORDINATE.GetAlt}(), @{#COORDINATE.GetLon}() respectively.
--- The current axis values can be changed by using the methods @{#COORDINATE.AddX}(), @{#COORDINATE.AddAlt}(), @{#COORDINATE.AddY}()
--- to add or substract a value from the current respective axis value.
--- Note that the Set and Add methods return the current COORDINATE object, so these manipulation methods can be chained... For example:
---
---      local Vec2 = PointVec2:AddX( 100 ):AddY( 2000 ):GetVec2()
---
--- @field #COORDINATE
-COORDINATE = {
-  ClassName = "COORDINATE",
-  LL_Accuracy = 2,
-  LL_DMS = true,
-  MGRS_Accuracy = 5,
-  System = "MGRS",
-}
+do -- COORDINATE
+
+  --- @type COORDINATE
+  -- @extends Core.Base#BASE
+  
+  
+  --- # COORDINATE class, extends @{Base#BASE}
+  --
+  -- COORDINATE defines a 3D point in the simulator and with its methods, you can use or manipulate the point in 3D space.
+  --
+  -- ## COORDINATE constructor
+  --
+  -- A new COORDINATE object can be created with:
+  --
+  --  * @{#COORDINATE.New}(): a 3D point.
+  --  * @{#COORDINATE.NewFromVec2}(): a 2D point created from a @{DCSTypes#Vec2}.
+  --  * @{#COORDINATE.NewFromVec3}(): a 3D point created from a @{DCSTypes#Vec3}.
+  --
+  -- ## Create waypoints for routes
+  --
+  -- A COORDINATE can prepare waypoints for Ground and Air groups to be embedded into a Route.
+  --
+  --   * @{#COORDINATE.RoutePointAir}(): Build an air route point.
+  --   * @{#COORDINATE.RoutePointGround}(): Build a ground route point.
+  --
+  -- Route points can be used in the Route methods of the @{Group#GROUP} class.
+  --
+  --
+  -- ## Smoke, flare, explode, illuminate
+  --
+  -- At the point a smoke, flare, explosion and illumination bomb can be triggered. Use the following methods:
+  --
+  -- ### Smoke
+  --
+  --   * @{#COORDINATE.Smoke}(): To smoke the point in a certain color.
+  --   * @{#COORDINATE.SmokeBlue}(): To smoke the point in blue.
+  --   * @{#COORDINATE.SmokeRed}(): To smoke the point in red.
+  --   * @{#COORDINATE.SmokeOrange}(): To smoke the point in orange.
+  --   * @{#COORDINATE.SmokeWhite}(): To smoke the point in white.
+  --   * @{#COORDINATE.SmokeGreen}(): To smoke the point in green.
+  --
+  -- ### Flare
+  --
+  --   * @{#COORDINATE.Flare}(): To flare the point in a certain color.
+  --   * @{#COORDINATE.FlareRed}(): To flare the point in red.
+  --   * @{#COORDINATE.FlareYellow}(): To flare the point in yellow.
+  --   * @{#COORDINATE.FlareWhite}(): To flare the point in white.
+  --   * @{#COORDINATE.FlareGreen}(): To flare the point in green.
+  --
+  -- ### Explode
+  --
+  --   * @{#COORDINATE.Explosion}(): To explode the point with a certain intensity.
+  --
+  -- ### Illuminate
+  --
+  --   * @{#COORDINATE.IlluminationBomb}(): To illuminate the point.
+  --
+  --
+  -- ## 3D calculation methods
+  --
+  -- Various calculation methods exist to use or manipulate 3D space. Find below a short description of each method:
+  --
+  -- ### Distance
+  --
+  --   * @{#COORDINATE.Get3DDistance}(): Obtain the distance from the current 3D point to the provided 3D point in 3D space.
+  --   * @{#COORDINATE.Get2DDistance}(): Obtain the distance from the current 3D point to the provided 3D point in 2D space.
+  --
+  -- ### Angle
+  --
+  --   * @{#COORDINATE.GetAngleDegrees}(): Obtain the angle in degrees from the current 3D point with the provided 3D direction vector.
+  --   * @{#COORDINATE.GetAngleRadians}(): Obtain the angle in radians from the current 3D point with the provided 3D direction vector.
+  --   * @{#COORDINATE.GetDirectionVec3}(): Obtain the 3D direction vector from the current 3D point to the provided 3D point.
+  --
+  -- ### Translation
+  --
+  --   * @{#COORDINATE.Translate}(): Translate the current 3D point towards an other 3D point using the given Distance and Angle.
+  --
+  -- ### Get the North correction of the current location
+  --
+  --   * @{#COORDINATE.GetNorthCorrection}(): Obtains the north correction at the current 3D point.
+  --
+  --
+  -- ## Point Randomization
+  --
+  -- Various methods exist to calculate random locations around a given 3D point.
+  --
+  --   * @{#COORDINATE.GetRandomVec2InRadius}(): Provides a random 2D vector around the current 3D point, in the given inner to outer band.
+  --   * @{#COORDINATE.GetRandomVec3InRadius}(): Provides a random 3D vector around the current 3D point, in the given inner to outer band.
+  --
+  --
+  -- ## Metric system
+  --
+  --   * @{#COORDINATE.IsMetric}(): Returns if the 3D point is Metric or Nautical Miles.
+  --   * @{#COORDINATE.SetMetric}(): Sets the 3D point to Metric or Nautical Miles.
+  --
+  --
+  -- ## Coorinate text generation
+  --
+  --   * @{#COORDINATE.ToStringBR}(): Generates a Bearing & Range text in the format of DDD for DI where DDD is degrees and DI is distance.
+  --   * @{#COORDINATE.ToStringLL}(): Generates a Latutude & Longutude text.
+  --
+  -- @field #COORDINATE
+  COORDINATE = {
+    ClassName = "COORDINATE",
+  }
+
+  --- COORDINATE constructor.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSTypes#Distance x The x coordinate of the Vec3 point, pointing to the North.
+  -- @param Dcs.DCSTypes#Distance y The y coordinate of the Vec3 point, pointing to the Right.
+  -- @param Dcs.DCSTypes#Distance z The z coordinate of the Vec3 point, pointing to the Right.
+  -- @return Core.Point#COORDINATE
+  function COORDINATE:New( x, y, z ) 
+
+    local self = BASE:Inherit( self, BASE:New() ) -- #COORDINATE
+    self.x = x
+    self.y = y
+    self.z = z
+    
+    return self
+  end
+
+  --- Create a new COORDINATE object from  Vec2 coordinates.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSTypes#Vec2 Vec2 The Vec2 point.
+  -- @param Dcs.DCSTypes#Distance LandHeightAdd (optional) The default height if required to be evaluated will be the land height of the x, y coordinate. You can specify an extra height to be added to the land height.
+  -- @return #COORDINATE
+  function COORDINATE:NewFromVec2( Vec2, LandHeightAdd ) 
+
+    local LandHeight = land.getHeight( Vec2 )
+    
+    LandHeightAdd = LandHeightAdd or 0
+    LandHeight = LandHeight + LandHeightAdd
+
+    local self = self:New( Vec2.x, LandHeight, Vec2.y ) -- #COORDINATE
+
+    self:F2( self )
+
+    return self
+
+  end
+
+  --- Create a new COORDINATE object from  Vec3 coordinates.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSTypes#Vec3 Vec3 The Vec3 point.
+  -- @return Core.Point#COORDINATE
+  function COORDINATE:NewFromVec3( Vec3 ) 
+
+    local self = self:New( Vec3.x, Vec3.y, Vec3.z ) -- #COORDINATE
+
+    self:F2( self )
+
+    return self
+  end
+  
+
+  --- Return the coordinates of the COORDINATE in Vec3 format.
+  -- @param #COORDINATE self
+  -- @return Dcs.DCSTypes#Vec3 The Vec3 format coordinate.
+  function COORDINATE:GetVec3()
+    return { x = self.x, y = self.y, z = self.z }
+  end
+
+
+  --- Return the coordinates of the COORDINATE in Vec2 format.
+  -- @param #COORDINATE self
+  -- @return Dcs.DCSTypes#Vec2 The Vec2 format coordinate.
+  function COORDINATE:GetVec2()
+    return { x = self.x, y = self.z }
+  end
+
+  --TODO: check this to replace
+  --- Calculate the distance from a reference @{DCSTypes#Vec2}.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSTypes#Vec2 Vec2Reference The reference @{DCSTypes#Vec2}.
+  -- @return Dcs.DCSTypes#Distance The distance from the reference @{DCSTypes#Vec2} in meters.
+  function COORDINATE:DistanceFromVec2( Vec2Reference )
+    self:F2( Vec2Reference )
+
+    local Distance = ( ( Vec2Reference.x - self.x ) ^ 2 + ( Vec2Reference.y - self.z ) ^2 ) ^0.5
+
+    self:T2( Distance )
+    return Distance
+  end
+
+
+  --- Add a Distance in meters from the COORDINATE orthonormal plane, with the given angle, and calculate the new COORDINATE.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSTypes#Distance Distance The Distance to be added in meters.
+  -- @param Dcs.DCSTypes#Angle Angle The Angle in degrees.
+  -- @return #COORDINATE The new calculated COORDINATE.
+  function COORDINATE:Translate( Distance, Angle )
+    local SX = self.x
+    local SY = self.z
+    local Radians = Angle / 180 * math.pi
+    local TX = Distance * math.cos( Radians ) + SX
+    local TY = Distance * math.sin( Radians ) + SY
+
+    return COORDINATE:NewFromVec2( { x = TX, y = TY } )
+  end
+
+  --- Return a random Vec2 within an Outer Radius and optionally NOT within an Inner Radius of the COORDINATE.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSTypes#Distance OuterRadius
+  -- @param Dcs.DCSTypes#Distance InnerRadius
+  -- @return Dcs.DCSTypes#Vec2 Vec2
+  function COORDINATE:GetRandomVec2InRadius( OuterRadius, InnerRadius )
+    self:F2( { OuterRadius, InnerRadius } )
+
+    local Theta = 2 * math.pi * math.random()
+    local Radials = math.random() + math.random()
+    if Radials > 1 then
+      Radials = 2 - Radials
+    end
+
+    local RadialMultiplier
+    if InnerRadius and InnerRadius <= OuterRadius then
+      RadialMultiplier = ( OuterRadius - InnerRadius ) * Radials + InnerRadius
+    else
+      RadialMultiplier = OuterRadius * Radials
+    end
+
+    local RandomVec2
+    if OuterRadius > 0 then
+      RandomVec2 = { x = math.cos( Theta ) * RadialMultiplier + self.x, y = math.sin( Theta ) * RadialMultiplier + self.z }
+    else
+      RandomVec2 = { x = self.x, y = self.z }
+    end
+
+    return RandomVec2
+  end
+
+
+  --- Return a random Vec3 within an Outer Radius and optionally NOT within an Inner Radius of the COORDINATE.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSTypes#Distance OuterRadius
+  -- @param Dcs.DCSTypes#Distance InnerRadius
+  -- @return Dcs.DCSTypes#Vec3 Vec3
+  function COORDINATE:GetRandomVec3InRadius( OuterRadius, InnerRadius )
+
+    local RandomVec2 = self:GetRandomVec2InRadius( OuterRadius, InnerRadius )
+    local y = self.y + math.random( InnerRadius, OuterRadius )
+    local RandomVec3 = { x = RandomVec2.x, y = y, z = RandomVec2.y }
+
+    return RandomVec3
+  end
+
+
+  function COORDINATE:SetHeading( Heading )
+    self.Heading = Heading
+  end
+
+
+  --- Return a direction vector Vec3 from COORDINATE to the COORDINATE.
+  -- @param #COORDINATE self
+  -- @param #COORDINATE TargetCoordinate The target COORDINATE.
+  -- @return Dcs.DCSTypes#Vec3 DirectionVec3 The direction vector in Vec3 format.
+  function COORDINATE:GetDirectionVec3( TargetCoordinate )
+    return { x = TargetCoordinate.x - self.x, y = TargetCoordinate.y - self.y, z = TargetCoordinate.z - self.z }
+  end
+
+  --- Get a correction in radians of the real magnetic north of the COORDINATE.
+  -- @param #COORDINATE self
+  -- @return #number CorrectionRadians The correction in radians.
+  function COORDINATE:GetNorthCorrectionRadians()
+    local TargetVec3 = self:GetVec3()
+    local lat, lon = coord.LOtoLL(TargetVec3)
+    local north_posit = coord.LLtoLO(lat + 1, lon)
+    return math.atan2( north_posit.z - TargetVec3.z, north_posit.x - TargetVec3.x )
+  end
+
+
+  --- Return an angle in radians from the COORDINATE using a direction vector in Vec3 format.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSTypes#Vec3 DirectionVec3 The direction vector in Vec3 format.
+  -- @return #number DirectionRadians The angle in radians.
+  function COORDINATE:GetAngleRadians( DirectionVec3 )
+    local DirectionRadians = math.atan2( DirectionVec3.z, DirectionVec3.x )
+    --DirectionRadians = DirectionRadians + self:GetNorthCorrectionRadians()
+    if DirectionRadians < 0 then
+      DirectionRadians = DirectionRadians + 2 * math.pi  -- put dir in range of 0 to 2*pi ( the full circle )
+    end
+    return DirectionRadians
+  end
+
+  --- Return an angle in degrees from the COORDINATE using a direction vector in Vec3 format.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSTypes#Vec3 DirectionVec3 The direction vector in Vec3 format.
+  -- @return #number DirectionRadians The angle in degrees.
+  function COORDINATE:GetAngleDegrees( DirectionVec3 )
+    local AngleRadians = self:GetAngleRadians( DirectionVec3 )
+    local Angle = UTILS.ToDegree( AngleRadians )
+    return Angle
+  end
+
+
+  --- Return the 2D distance in meters between the target COORDINATE and the COORDINATE.
+  -- @param #COORDINATE self
+  -- @param #COORDINATE TargetCoordinate The target COORDINATE.
+  -- @return Dcs.DCSTypes#Distance Distance The distance in meters.
+  function COORDINATE:Get2DDistance( TargetCoordinate )
+    local TargetVec3 = TargetCoordinate:GetVec3()
+    local SourceVec3 = self:GetVec3()
+    return ( ( TargetVec3.x - SourceVec3.x ) ^ 2 + ( TargetVec3.z - SourceVec3.z ) ^ 2 ) ^ 0.5
+  end
+
+  --- Return the 3D distance in meters between the target COORDINATE and the COORDINATE.
+  -- @param #COORDINATE self
+  -- @param #COORDINATE TargetCoordinate The target COORDINATE.
+  -- @return Dcs.DCSTypes#Distance Distance The distance in meters.
+  function COORDINATE:Get3DDistance( TargetCoordinate )
+    local TargetVec3 = TargetCoordinate:GetVec3()
+    local SourceVec3 = self:GetVec3()
+    return ( ( TargetVec3.x - SourceVec3.x ) ^ 2 + ( TargetVec3.y - SourceVec3.y ) ^ 2 + ( TargetVec3.z - SourceVec3.z ) ^ 2 ) ^ 0.5
+  end
+
+
+  --- Provides a bearing text in degrees.
+  -- @param #COORDINATE self
+  -- @param #number AngleRadians The angle in randians.
+  -- @param #number Precision The precision.
+  -- @param Core.Settings#SETTINGS Settings
+  -- @return #string The bearing text in degrees.
+  function COORDINATE:GetBearingText( AngleRadians, Precision, Settings )
+
+    local Settings = Settings or _SETTINGS -- Core.Settings#SETTINGS
+
+    local AngleDegrees = UTILS.Round( UTILS.ToDegree( AngleRadians ), Precision )
+  
+    local s = string.format( '%03d°', AngleDegrees ) 
+    
+    return s
+  end
+
+  --- Provides a distance text expressed in the units of measurement.
+  -- @param #COORDINATE self
+  -- @param #number Distance The distance in meters.
+  -- @param Core.Settings#SETTINGS Settings
+  -- @return #string The distance text expressed in the units of measurement.
+  function COORDINATE:GetDistanceText( Distance, Settings )
+
+    local Settings = Settings or _SETTINGS -- Core.Settings#SETTINGS
+
+    local DistanceText
+
+    if Settings:IsMetric() then
+      DistanceText = " for " .. UTILS.Round( Distance / 1000, 2 ) .. " km"
+    else
+      DistanceText = " for " .. UTILS.Round( UTILS.MetersToNM( Distance ), 2 ) .. " miles"
+    end
+    
+    return DistanceText
+  end
+
+  --- Return the altitude text of the COORDINATE.
+  -- @param #COORDINATE self
+  -- @return #string Altitude text.
+  function COORDINATE:GetAltitudeText( Settings )
+    local Altitude = self.y
+    local Settings = Settings or _SETTINGS
+    if Altitude ~= 0 then
+      if Settings:IsMetric() then
+        return " at " .. UTILS.Round( self.y, -3 ) .. " meters"
+      else
+        return " at " .. UTILS.Round( UTILS.MetersToFeet( self.y ), -3 ) .. " feet"
+      end
+    else
+      return ""
+    end
+  end
+
+
+  --- Provides a Bearing / Range string
+  -- @param #COORDINATE self
+  -- @param #number AngleRadians The angle in randians
+  -- @param #number Distance The distance
+  -- @param Core.Settings#SETTINGS Settings
+  -- @return #string The BR Text
+  function COORDINATE:GetBRText( AngleRadians, Distance, Settings )
+
+    local Settings = Settings or _SETTINGS -- Core.Settings#SETTINGS
+
+    local BearingText = self:GetBearingText( AngleRadians, 0, Settings )
+    local DistanceText = self:GetDistanceText( Distance, Settings )
+    
+    local BRText = BearingText .. DistanceText
+
+    return BRText
+  end
+
+  --- Provides a Bearing / Range / Altitude string
+  -- @param #COORDINATE self
+  -- @param #number AngleRadians The angle in randians
+  -- @param #number Distance The distance
+  -- @param Core.Settings#SETTINGS Settings
+  -- @return #string The BRA Text
+  function COORDINATE:GetBRAText( AngleRadians, Distance, Settings )
+
+    local Settings = Settings or _SETTINGS -- Core.Settings#SETTINGS
+
+    local BearingText = self:GetBearingText( AngleRadians, 0, Settings )
+    local DistanceText = self:GetDistanceText( Distance, Settings )
+    local AltitudeText = self:GetAltitudeText( Settings )
+
+    local BRAText = BearingText .. DistanceText .. AltitudeText -- When the POINT is a VEC2, there will be no altitude shown.
+
+    return BRAText
+  end
+
+
+
+  --- Add a Distance in meters from the COORDINATE horizontal plane, with the given angle, and calculate the new COORDINATE.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSTypes#Distance Distance The Distance to be added in meters.
+  -- @param Dcs.DCSTypes#Angle Angle The Angle in degrees.
+  -- @return #COORDINATE The new calculated COORDINATE.
+  function COORDINATE:Translate( Distance, Angle )
+    local SX = self.x
+    local SZ = self.z
+    local Radians = Angle / 180 * math.pi
+    local TX = Distance * math.cos( Radians ) + SX
+    local TZ = Distance * math.sin( Radians ) + SZ
+
+    return COORDINATE:New( TX, self.y, TZ )
+  end
+
+
+
+  --- Build an air type route point.
+  -- @param #COORDINATE self
+  -- @param #COORDINATE.RoutePointAltType AltType The altitude type.
+  -- @param #COORDINATE.RoutePointType Type The route point type.
+  -- @param #COORDINATE.RoutePointAction Action The route point action.
+  -- @param Dcs.DCSTypes#Speed Speed Airspeed in km/h.
+  -- @param #boolean SpeedLocked true means the speed is locked.
+  -- @return #table The route point.
+  function COORDINATE:RoutePointAir( AltType, Type, Action, Speed, SpeedLocked )
+    self:F2( { AltType, Type, Action, Speed, SpeedLocked } )
+
+    local RoutePoint = {}
+    RoutePoint.x = self.x
+    RoutePoint.y = self.z
+    RoutePoint.alt = self.y
+    RoutePoint.alt_type = AltType
+
+    RoutePoint.type = Type
+    RoutePoint.action = Action
+
+    RoutePoint.speed = Speed / 3.6
+    RoutePoint.speed_locked = true
+
+    --  ["task"] =
+    --  {
+    --      ["id"] = "ComboTask",
+    --      ["params"] =
+    --      {
+    --          ["tasks"] =
+    --          {
+    --          }, -- end of ["tasks"]
+    --      }, -- end of ["params"]
+    --  }, -- end of ["task"]
+
+
+    RoutePoint.task = {}
+    RoutePoint.task.id = "ComboTask"
+    RoutePoint.task.params = {}
+    RoutePoint.task.params.tasks = {}
+
+
+    return RoutePoint
+  end
+
+  --- Build an ground type route point.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSTypes#Speed Speed Speed in km/h.
+  -- @param #COORDINATE.RoutePointAction Formation The route point Formation.
+  -- @return #table The route point.
+  function COORDINATE:RoutePointGround( Speed, Formation )
+    self:F2( { Formation, Speed } )
+
+    local RoutePoint = {}
+    RoutePoint.x = self.x
+    RoutePoint.y = self.z
+
+    RoutePoint.action = Formation or ""
+
+
+    RoutePoint.speed = Speed / 3.6
+    RoutePoint.speed_locked = true
+
+    --  ["task"] =
+    --  {
+    --      ["id"] = "ComboTask",
+    --      ["params"] =
+    --      {
+    --          ["tasks"] =
+    --          {
+    --          }, -- end of ["tasks"]
+    --      }, -- end of ["params"]
+    --  }, -- end of ["task"]
+
+
+    RoutePoint.task = {}
+    RoutePoint.task.id = "ComboTask"
+    RoutePoint.task.params = {}
+    RoutePoint.task.params.tasks = {}
+
+
+    return RoutePoint
+  end
+
+  --- Creates an explosion at the point of a certain intensity.
+  -- @param #COORDINATE self
+  -- @param #number ExplosionIntensity
+  function COORDINATE:Explosion( ExplosionIntensity )
+    self:F2( { ExplosionIntensity } )
+    trigger.action.explosion( self:GetVec3(), ExplosionIntensity )
+  end
+
+  --- Creates an illumination bomb at the point.
+  -- @param #COORDINATE self
+  function COORDINATE:IlluminationBomb()
+    self:F2()
+    trigger.action.illuminationBomb( self:GetVec3() )
+  end
+
+
+  --- Smokes the point in a color.
+  -- @param #COORDINATE self
+  -- @param Utilities.Utils#SMOKECOLOR SmokeColor
+  function COORDINATE:Smoke( SmokeColor )
+    self:F2( { SmokeColor } )
+    trigger.action.smoke( self:GetVec3(), SmokeColor )
+  end
+
+  --- Smoke the COORDINATE Green.
+  -- @param #COORDINATE self
+  function COORDINATE:SmokeGreen()
+    self:F2()
+    self:Smoke( SMOKECOLOR.Green )
+  end
+
+  --- Smoke the COORDINATE Red.
+  -- @param #COORDINATE self
+  function COORDINATE:SmokeRed()
+    self:F2()
+    self:Smoke( SMOKECOLOR.Red )
+  end
+
+  --- Smoke the COORDINATE White.
+  -- @param #COORDINATE self
+  function COORDINATE:SmokeWhite()
+    self:F2()
+    self:Smoke( SMOKECOLOR.White )
+  end
+
+  --- Smoke the COORDINATE Orange.
+  -- @param #COORDINATE self
+  function COORDINATE:SmokeOrange()
+    self:F2()
+    self:Smoke( SMOKECOLOR.Orange )
+  end
+
+  --- Smoke the COORDINATE Blue.
+  -- @param #COORDINATE self
+  function COORDINATE:SmokeBlue()
+    self:F2()
+    self:Smoke( SMOKECOLOR.Blue )
+  end
+
+  --- Flares the point in a color.
+  -- @param #COORDINATE self
+  -- @param Utilities.Utils#FLARECOLOR FlareColor
+  -- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
+  function COORDINATE:Flare( FlareColor, Azimuth )
+    self:F2( { FlareColor } )
+    trigger.action.signalFlare( self:GetVec3(), FlareColor, Azimuth and Azimuth or 0 )
+  end
+
+  --- Flare the COORDINATE White.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
+  function COORDINATE:FlareWhite( Azimuth )
+    self:F2( Azimuth )
+    self:Flare( FLARECOLOR.White, Azimuth )
+  end
+
+  --- Flare the COORDINATE Yellow.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
+  function COORDINATE:FlareYellow( Azimuth )
+    self:F2( Azimuth )
+    self:Flare( FLARECOLOR.Yellow, Azimuth )
+  end
+
+  --- Flare the COORDINATE Green.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
+  function COORDINATE:FlareGreen( Azimuth )
+    self:F2( Azimuth )
+    self:Flare( FLARECOLOR.Green, Azimuth )
+  end
+
+  --- Flare the COORDINATE Red.
+  -- @param #COORDINATE self
+  function COORDINATE:FlareRed( Azimuth )
+    self:F2( Azimuth )
+    self:Flare( FLARECOLOR.Red, Azimuth )
+  end
+
+  --- Returns if a Coordinate has Line of Sight (LOS) with the ToCoordinate.
+  -- @param #COORDINATE self
+  -- @param #COORDINATE ToCoordinate
+  -- @return #boolean true If the ToCoordinate has LOS with the Coordinate, otherwise false.
+  function COORDINATE:IsLOS( ToCoordinate )
+
+    -- Measurement of visibility should not be from the ground, so Adding a hypotethical 2 meters to each Coordinate.
+    local FromVec3 = self:GetVec3()
+    FromVec3.y = FromVec3.y + 2
+
+    local ToVec3 = ToCoordinate:GetVec3()
+    ToVec3.y = ToVec3.y + 2
+
+    local IsLOS = land.isVisible( FromVec3, ToVec3 )
+
+    return IsLOS
+  end
+
+
+  --- Return a BR string from a COORDINATE to the COORDINATE.
+  -- @param #COORDINATE self
+  -- @param #COORDINATE TargetCoordinate The target COORDINATE.
+  -- @return #string The BR text.
+  function COORDINATE:ToStringBR( FromCoordinate, Settings )
+    local DirectionVec3 = FromCoordinate:GetDirectionVec3( self )
+    local AngleRadians =  self:GetAngleRadians( DirectionVec3 )
+    local Distance = self:Get2DDistance( FromCoordinate )
+    return "BR, " .. self:GetBRText( AngleRadians, Distance, Settings )
+  end
+
+  --- Return a BRAA string from a COORDINATE to the COORDINATE.
+  -- @param #COORDINATE self
+  -- @param #COORDINATE TargetCoordinate The target COORDINATE.
+  -- @return #string The BR text.
+  function COORDINATE:ToStringBRA( FromCoordinate, Settings )
+    local DirectionVec3 = FromCoordinate:GetDirectionVec3( self )
+    local AngleRadians =  self:GetAngleRadians( DirectionVec3 )
+    local Distance = FromCoordinate:Get2DDistance( self )
+    local Altitude = self:GetAltitudeText()
+    return "BRA, " .. self:GetBRAText( AngleRadians, Distance, Settings )
+  end
+
+  --- Return a BULLS string from a COORDINATE to the BULLS of the coalition.
+  -- @param #COORDINATE self
+  -- @param Dcs.DCSCoalition#coalition.side Coalition The coalition.
+  -- @return #string The BR text.
+  function COORDINATE:ToStringBULLS( Coalition, Settings )
+    local TargetCoordinate = COORDINATE:NewFromVec3( coalition.getMainRefPoint( Coalition ) )
+    local DirectionVec3 = self:GetDirectionVec3( TargetCoordinate )
+    local AngleRadians =  self:GetAngleRadians( DirectionVec3 )
+    local Distance = self:Get2DDistance( TargetCoordinate )
+    local Altitude = self:GetAltitudeText()
+    return "BULLS, " .. self:GetBRText( AngleRadians, Distance, Settings )
+  end
+
+  --- Return an aspect string from a COORDINATE to the Angle of the object.
+  -- @param #COORDINATE self
+  -- @param #COORDINATE TargetCoordinate The target COORDINATE.
+  -- @return #string The Aspect string, which is Hot, Cold or Flanking.
+  function COORDINATE:ToStringAspect( TargetCoordinate )
+    local Heading = self.Heading
+    local DirectionVec3 = self:GetDirectionVec3( TargetCoordinate )
+    local Angle = self:GetAngleDegrees( DirectionVec3 )
+    
+    if Heading then
+      local Aspect = Angle - Heading
+      if Aspect > -135 and Aspect <= -45 then
+        return "Flanking"
+      end
+      if Aspect > -45 and Aspect <= 45 then
+        return "Hot"
+      end
+      if Aspect > 45 and Aspect <= 135 then
+        return "Flanking"
+      end
+      if Aspect > 135 or Aspect <= -135 then
+        return "Cold"
+      end
+    end
+    return ""
+  end
+
+  --- Provides a Lat Lon string
+  -- @param #COORDINATE self
+  -- @param Core.Settings#SETTINGS Settings (optional) Settings
+  -- @return #string The LL Text
+  function COORDINATE:ToStringLL( Settings ) --R2.1 Fixes issue #424.
+
+    local LL_Accuracy = Settings and Settings.LL_Accuracy or _SETTINGS.LL_Accuracy
+    local LL_DMS = Settings and Settings.LL_DMS or _SETTINGS.LL_DMS
+    local lat, lon = coord.LOtoLL( self:GetVec3() )
+    return "LL, " .. UTILS.tostringLL( lat, lon, LL_Accuracy, LL_DMS )
+  end
+
+  --- Provides a MGRS string
+  -- @param #COORDINATE self
+  -- @param Core.Settings#SETTINGS Settings (optional) Settings
+  -- @return #string The MGRS Text
+  function COORDINATE:ToStringMGRS( Settings ) --R2.1 Fixes issue #424.
+
+    local MGRS_Accuracy = Settings and Settings.MGRS_Accuracy or _SETTINGS.MGRS_Accuracy
+    local lat, lon = coord.LOtoLL( self:GetVec3() )
+    local MGRS = coord.LLtoMGRS( lat, lon )
+    return "MGRS, " .. UTILS.tostringMGRS( MGRS, MGRS_Accuracy )
+  end
+
+  --- Provides a coordinate string of the point, based on a coordinate format system:
+  --   * Uses default settings in COORDINATE.
+  --   * Can be overridden if for a GROUP containing x clients, a menu was selected to override the default.
+  -- @param #COORDINATE self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable
+  -- @param Core.Settings#SETTINGS Settings
+  -- @return #string The coordinate Text in the configured coordinate system.
+  function COORDINATE:ToStringFromRP( ReferenceCoord, ReferenceName, Controllable, Settings ) -- R2.2
+  
+    self:E( { ReferenceCoord = ReferenceCoord, ReferenceName = ReferenceName } )
+
+    local Settings = Settings or ( Controllable and _DATABASE:GetPlayerSettings( Controllable:GetPlayerName() ) ) or _SETTINGS
+    
+    local IsAir = Controllable and Controllable:IsAirPlane() or false
+
+    if IsAir then
+      local DirectionVec3 = ReferenceCoord:GetDirectionVec3( self )
+      local AngleRadians =  self:GetAngleRadians( DirectionVec3 )
+      local Distance = self:Get2DDistance( ReferenceCoord )
+      return "Targets are the last seen " .. self:GetBRText( AngleRadians, Distance, Settings ) .. " from " .. ReferenceName
+    else
+      local DirectionVec3 = ReferenceCoord:GetDirectionVec3( self )
+      local AngleRadians =  self:GetAngleRadians( DirectionVec3 )
+      local Distance = self:Get2DDistance( ReferenceCoord )
+      return "Target are located " .. self:GetBRText( AngleRadians, Distance, Settings ) .. " from " .. ReferenceName
+    end
+    
+    return nil
+
+  end
+
+  --- Provides a coordinate string of the point, based on a coordinate format system:
+  --   * Uses default settings in COORDINATE.
+  --   * Can be overridden if for a GROUP containing x clients, a menu was selected to override the default.
+  -- @param #COORDINATE self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable
+  -- @param Core.Settings#SETTINGS Settings
+  -- @return #string The coordinate Text in the configured coordinate system.
+  function COORDINATE:ToString( Controllable, Settings ) -- R2.2
+  
+    self:E( { Controllable = Controllable } )
+
+    local Settings = Settings or ( Controllable and _DATABASE:GetPlayerSettings( Controllable:GetPlayerName() ) ) or _SETTINGS
+    
+    local IsAir = Controllable and Controllable:IsAirPlane() or false
+
+    if IsAir then
+      if Settings:IsA2A_BRA()  then
+        local Coordinate = Controllable:GetCoordinate()
+        return self:ToStringBRA( Coordinate, Settings ) 
+      end
+  
+      if Settings:IsA2A_BULLS() then
+        local Coordinate = Controllable:GetCoordinate()
+        return self:ToStringBULLS( Coordinate, Settings )
+      end
+    else
+      if Settings:IsA2G_BRA()  then
+        local Coordinate = Controllable:GetCoordinate()
+        return Controllable and self:ToStringBR( Coordinate, Settings ) or self:ToStringMGRS( Settings )
+      end
+      if Settings:IsA2G_LL()  then
+        return self:ToStringLL( Settings )
+      end
+      if Settings:IsA2G_MGRS() then
+        return self:ToStringMGRS( Settings )
+      end
+    end
+    
+    return nil
+
+  end
+
+end
 
 do -- POINT_VEC3
+
+  --- The POINT_VEC3 class
+  -- @type POINT_VEC3
+  -- @field #number x The x coordinate in 3D space.
+  -- @field #number y The y coordinate in 3D space.
+  -- @field #number z The z coordiante in 3D space.
+  -- @field Utilities.Utils#SMOKECOLOR SmokeColor
+  -- @field Utilities.Utils#FLARECOLOR FlareColor
+  -- @field #POINT_VEC3.RoutePointAltType RoutePointAltType
+  -- @field #POINT_VEC3.RoutePointType RoutePointType
+  -- @field #POINT_VEC3.RoutePointAction RoutePointAction
+  -- @extends Core.Point#COORDINATE
+  
+  
+  --- # POINT_VEC3 class, extends @{Point#COORDINATE}
+  --
+  -- POINT_VEC3 defines a 3D point in the simulator and with its methods, you can use or manipulate the point in 3D space.
+  --
+  -- **Important Note:** Most of the functions in this section were taken from MIST, and reworked to OO concepts.
+  -- In order to keep the credibility of the the author,
+  -- I want to emphasize that the formulas embedded in the MIST framework were created by Grimes or previous authors,
+  -- who you can find on the Eagle Dynamics Forums.
+  --
+  --
+  -- ## POINT_VEC3 constructor
+  --
+  -- A new POINT_VEC3 object can be created with:
+  --
+  --  * @{#POINT_VEC3.New}(): a 3D point.
+  --  * @{#POINT_VEC3.NewFromVec3}(): a 3D point created from a @{DCSTypes#Vec3}.
+  --
+  --
+  -- ## Manupulate the X, Y, Z coordinates of the POINT_VEC3
+  --
+  -- A POINT_VEC3 class works in 3D space. It contains internally an X, Y, Z coordinate.
+  -- Methods exist to manupulate these coordinates.
+  --
+  -- The current X, Y, Z axis can be retrieved with the methods @{#POINT_VEC3.GetX}(), @{#POINT_VEC3.GetY}(), @{#POINT_VEC3.GetZ}() respectively.
+  -- The methods @{#POINT_VEC3.SetX}(), @{#POINT_VEC3.SetY}(), @{#POINT_VEC3.SetZ}() change the respective axis with a new value.
+  -- The current axis values can be changed by using the methods @{#POINT_VEC3.AddX}(), @{#POINT_VEC3.AddY}(), @{#POINT_VEC3.AddZ}()
+  -- to add or substract a value from the current respective axis value.
+  -- Note that the Set and Add methods return the current POINT_VEC3 object, so these manipulation methods can be chained... For example:
+  --
+  --      local Vec3 = PointVec3:AddX( 100 ):AddZ( 150 ):GetVec3()
+  --
+  --
+  -- ## 3D calculation methods
+  --
+  -- Various calculation methods exist to use or manipulate 3D space. Find below a short description of each method:
+  --
+  --
+  -- ## Point Randomization
+  --
+  -- Various methods exist to calculate random locations around a given 3D point.
+  --
+  --   * @{#POINT_VEC3.GetRandomPointVec3InRadius}(): Provides a random 3D point around the current 3D point, in the given inner to outer band.
+  --
+  --
+  -- @field #POINT_VEC3
+  POINT_VEC3 = {
+    ClassName = "POINT_VEC3",
+    Metric = true,
+    RoutePointAltType = {
+      BARO = "BARO",
+    },
+    RoutePointType = {
+      TakeOffParking = "TakeOffParking",
+      TurningPoint = "Turning Point",
+    },
+    RoutePointAction = {
+      FromParkingArea = "From Parking Area",
+      TurningPoint = "Turning Point",
+    },
+  }
 
   --- RoutePoint AltTypes
   -- @type POINT_VEC3.RoutePointAltType
@@ -11720,36 +12789,28 @@ do -- POINT_VEC3
   -- @param Dcs.DCSTypes#Distance x The x coordinate of the Vec3 point, pointing to the North.
   -- @param Dcs.DCSTypes#Distance y The y coordinate of the Vec3 point, pointing Upwards.
   -- @param Dcs.DCSTypes#Distance z The z coordinate of the Vec3 point, pointing to the Right.
-  -- @return Core.Point#POINT_VEC3 self
+  -- @return Core.Point#POINT_VEC3
   function POINT_VEC3:New( x, y, z )
 
-    local self = BASE:Inherit( self, BASE:New() )
-    self.x = x
-    self.y = y
-    self.z = z
-
-    self:SetMetric( true )
-
+    local self = BASE:Inherit( self, COORDINATE:New( x, y, z ) ) -- Core.Point#POINT_VEC3
+    self:F2( self )
+    
     return self
   end
 
   --- Create a new POINT_VEC3 object from Vec2 coordinates.
   -- @param #POINT_VEC3 self
   -- @param Dcs.DCSTypes#Vec2 Vec2 The Vec2 point.
+  -- @param Dcs.DCSTypes#Distance LandHeightAdd (optional) Add a landheight.
   -- @return Core.Point#POINT_VEC3 self
   function POINT_VEC3:NewFromVec2( Vec2, LandHeightAdd )
 
-    local LandHeight = land.getHeight( Vec2 )
-
-    LandHeightAdd = LandHeightAdd or 0
-    LandHeight = LandHeight + LandHeightAdd
-
-    self = self:New( Vec2.x, LandHeight, Vec2.y )
-
+    local self = BASE:Inherit( self, COORDINATE:NewFromVec2( Vec2, LandHeightAdd ) ) -- Core.Point#POINT_VEC3
     self:F2( self )
 
     return self
   end
+
 
   --- Create a new POINT_VEC3 object from  Vec3 coordinates.
   -- @param #POINT_VEC3 self
@@ -11757,25 +12818,12 @@ do -- POINT_VEC3
   -- @return Core.Point#POINT_VEC3 self
   function POINT_VEC3:NewFromVec3( Vec3 )
 
-    self = self:New( Vec3.x, Vec3.y, Vec3.z )
+    local self = BASE:Inherit( self, COORDINATE:NewFromVec3( Vec3 ) ) -- Core.Point#POINT_VEC3
     self:F2( self )
+  
     return self
   end
 
-
-  --- Return the coordinates of the POINT_VEC3 in Vec3 format.
-  -- @param #POINT_VEC3 self
-  -- @return Dcs.DCSTypes#Vec3 The Vec3 coodinate.
-  function POINT_VEC3:GetVec3()
-    return { x = self.x, y = self.y, z = self.z }
-  end
-
-  --- Return the coordinates of the POINT_VEC3 in Vec2 format.
-  -- @param #POINT_VEC3 self
-  -- @return Dcs.DCSTypes#Vec2 The Vec2 coodinate.
-  function POINT_VEC3:GetVec2()
-    return { x = self.x, y = self.z }
-  end
 
 
   --- Return the x coordinate of the POINT_VEC3.
@@ -11853,62 +12901,6 @@ do -- POINT_VEC3
     return self
   end
 
-  --- Return a random Vec2 within an Outer Radius and optionally NOT within an Inner Radius of the POINT_VEC3.
-  -- @param #POINT_VEC3 self
-  -- @param Dcs.DCSTypes#Distance OuterRadius
-  -- @param Dcs.DCSTypes#Distance InnerRadius
-  -- @return Dcs.DCSTypes#Vec2 Vec2
-  function POINT_VEC3:GetRandomVec2InRadius( OuterRadius, InnerRadius )
-    self:F2( { OuterRadius, InnerRadius } )
-
-    local Theta = 2 * math.pi * math.random()
-    local Radials = math.random() + math.random()
-    if Radials > 1 then
-      Radials = 2 - Radials
-    end
-
-    local RadialMultiplier
-    if InnerRadius and InnerRadius <= OuterRadius then
-      RadialMultiplier = ( OuterRadius - InnerRadius ) * Radials + InnerRadius
-    else
-      RadialMultiplier = OuterRadius * Radials
-    end
-
-    local RandomVec2
-    if OuterRadius > 0 then
-      RandomVec2 = { x = math.cos( Theta ) * RadialMultiplier + self:GetX(), y = math.sin( Theta ) * RadialMultiplier + self:GetZ() }
-    else
-      RandomVec2 = { x = self:GetX(), y = self:GetZ() }
-    end
-
-    return RandomVec2
-  end
-
-  --- Return a random POINT_VEC2 within an Outer Radius and optionally NOT within an Inner Radius of the POINT_VEC3.
-  -- @param #POINT_VEC3 self
-  -- @param Dcs.DCSTypes#Distance OuterRadius
-  -- @param Dcs.DCSTypes#Distance InnerRadius
-  -- @return #POINT_VEC2
-  function POINT_VEC3:GetRandomPointVec2InRadius( OuterRadius, InnerRadius )
-    self:F2( { OuterRadius, InnerRadius } )
-
-    return POINT_VEC2:NewFromVec2( self:GetRandomVec2InRadius( OuterRadius, InnerRadius ) )
-  end
-
-  --- Return a random Vec3 within an Outer Radius and optionally NOT within an Inner Radius of the POINT_VEC3.
-  -- @param #POINT_VEC3 self
-  -- @param Dcs.DCSTypes#Distance OuterRadius
-  -- @param Dcs.DCSTypes#Distance InnerRadius
-  -- @return Dcs.DCSTypes#Vec3 Vec3
-  function POINT_VEC3:GetRandomVec3InRadius( OuterRadius, InnerRadius )
-
-    local RandomVec2 = self:GetRandomVec2InRadius( OuterRadius, InnerRadius )
-    local y = self:GetY() + math.random( InnerRadius, OuterRadius )
-    local RandomVec3 = { x = RandomVec2.x, y = y, z = RandomVec2.y }
-
-    return RandomVec3
-  end
-
   --- Return a random POINT_VEC3 within an Outer Radius and optionally NOT within an Inner Radius of the POINT_VEC3.
   -- @param #POINT_VEC3 self
   -- @param Dcs.DCSTypes#Distance OuterRadius
@@ -11919,339 +12911,45 @@ do -- POINT_VEC3
     return POINT_VEC3:NewFromVec3( self:GetRandomVec3InRadius( OuterRadius, InnerRadius ) )
   end
 
-
-  --- Return a direction vector Vec3 from POINT_VEC3 to the POINT_VEC3.
-  -- @param #POINT_VEC3 self
-  -- @param #POINT_VEC3 TargetPointVec3 The target POINT_VEC3.
-  -- @return Dcs.DCSTypes#Vec3 DirectionVec3 The direction vector in Vec3 format.
-  function POINT_VEC3:GetDirectionVec3( TargetPointVec3 )
-    return { x = TargetPointVec3:GetX() - self:GetX(), y = TargetPointVec3:GetY() - self:GetY(), z = TargetPointVec3:GetZ() - self:GetZ() }
-  end
-
-  --- Get a correction in radians of the real magnetic north of the POINT_VEC3.
-  -- @param #POINT_VEC3 self
-  -- @return #number CorrectionRadians The correction in radians.
-  function POINT_VEC3:GetNorthCorrectionRadians()
-    local TargetVec3 = self:GetVec3()
-    local lat, lon = coord.LOtoLL(TargetVec3)
-    local north_posit = coord.LLtoLO(lat + 1, lon)
-    return math.atan2( north_posit.z - TargetVec3.z, north_posit.x - TargetVec3.x )
-  end
-
-
-  --- Return an angle in radians from the POINT_VEC3 using a direction vector in Vec3 format.
-  -- @param #POINT_VEC3 self
-  -- @param Dcs.DCSTypes#Vec3 DirectionVec3 The direction vector in Vec3 format.
-  -- @return #number DirectionRadians The angle in radians.
-  function POINT_VEC3:GetAngleRadians( DirectionVec3 )
-    local DirectionRadians = math.atan2( DirectionVec3.z, DirectionVec3.x )
-    --DirectionRadians = DirectionRadians + self:GetNorthCorrectionRadians()
-    if DirectionRadians < 0 then
-      DirectionRadians = DirectionRadians + 2 * math.pi  -- put dir in range of 0 to 2*pi ( the full circle )
-    end
-    return DirectionRadians
-  end
-
-  --- Return an angle in degrees from the POINT_VEC3 using a direction vector in Vec3 format.
-  -- @param #POINT_VEC3 self
-  -- @param Dcs.DCSTypes#Vec3 DirectionVec3 The direction vector in Vec3 format.
-  -- @return #number DirectionRadians The angle in degrees.
-  function POINT_VEC3:GetAngleDegrees( DirectionVec3 )
-    local AngleRadians = self:GetAngleRadians(DirectionVec3)
-    local Angle = UTILS.ToDegree( AngleRadians )
-    return Angle
-  end
-
-
-  --- Return the 2D distance in meters between the target POINT_VEC3 and the POINT_VEC3.
-  -- @param #POINT_VEC3 self
-  -- @param #POINT_VEC3 TargetPointVec3 The target POINT_VEC3.
-  -- @return Dcs.DCSTypes#Distance Distance The distance in meters.
-  function POINT_VEC3:Get2DDistance( TargetPointVec3 )
-    local TargetVec3 = TargetPointVec3:GetVec3()
-    local SourceVec3 = self:GetVec3()
-    return ( ( TargetVec3.x - SourceVec3.x ) ^ 2 + ( TargetVec3.z - SourceVec3.z ) ^ 2 ) ^ 0.5
-  end
-
-  --- Return the 3D distance in meters between the target POINT_VEC3 and the POINT_VEC3.
-  -- @param #POINT_VEC3 self
-  -- @param #POINT_VEC3 TargetPointVec3 The target POINT_VEC3.
-  -- @return Dcs.DCSTypes#Distance Distance The distance in meters.
-  function POINT_VEC3:Get3DDistance( TargetPointVec3 )
-    local TargetVec3 = TargetPointVec3:GetVec3()
-    local SourceVec3 = self:GetVec3()
-    return ( ( TargetVec3.x - SourceVec3.x ) ^ 2 + ( TargetVec3.y - SourceVec3.y ) ^ 2 + ( TargetVec3.z - SourceVec3.z ) ^ 2 ) ^ 0.5
-  end
-
-  --- Provides a Bearing / Range string
-  -- @param #POINT_VEC3 self
-  -- @param #number AngleRadians The angle in randians
-  -- @param #number Distance The distance
-  -- @return #string The BR Text
-  function POINT_VEC3:GetBRText( AngleRadians, Distance )
-
-    AngleRadians = UTILS.Round( UTILS.ToDegree( AngleRadians ), 0 )
-    if self:IsMetric() then
-      Distance = UTILS.Round( Distance / 1000, 2 )
-    else
-      Distance = UTILS.Round( UTILS.MetersToNM( Distance ), 2 )
-    end
-
-    local s = string.format( '%03d', AngleRadians ) .. ' for ' .. Distance
-
-    s = s .. self:GetAltitudeText() -- When the POINT is a VEC2, there will be no altitude shown.
-
-    return s
-  end
-
-
-  --- Return the altitude text of the POINT_VEC3.
-  -- @param #POINT_VEC3 self
-  -- @return #string Altitude text.
-  function POINT_VEC3:GetAltitudeText()
-    if self:IsMetric() then
-      return ' at ' .. UTILS.Round( self:GetY(), -3 )
-    else
-      return ' at ' .. UTILS.Round( UTILS.MetersToFeet( self:GetY() ), 0 )
-    end
-  end
-
-  --- Sets the POINT_VEC3 metric or NM.
-  -- @param #POINT_VEC3 self
-  -- @param #boolean Metric true means metric, false means NM.
-  function POINT_VEC3:SetMetric( Metric )
-    self.Metric = Metric
-  end
-
-  --- Gets if the POINT_VEC3 is metric or NM.
-  -- @param #POINT_VEC3 self
-  -- @return #boolean Metric true means metric, false means NM.
-  function POINT_VEC3:IsMetric()
-    return self.Metric
-  end
-
-  --- Add a Distance in meters from the POINT_VEC3 horizontal plane, with the given angle, and calculate the new POINT_VEC3.
-  -- @param #POINT_VEC3 self
-  -- @param Dcs.DCSTypes#Distance Distance The Distance to be added in meters.
-  -- @param Dcs.DCSTypes#Angle Angle The Angle in degrees.
-  -- @return #POINT_VEC3 The new calculated POINT_VEC3.
-  function POINT_VEC3:Translate( Distance, Angle )
-    local SX = self:GetX()
-    local SZ = self:GetZ()
-    local Radians = Angle / 180 * math.pi
-    local TX = Distance * math.cos( Radians ) + SX
-    local TZ = Distance * math.sin( Radians ) + SZ
-
-    return POINT_VEC3:New( TX, self:GetY(), TZ )
-  end
-
-
-
-  --- Build an air type route point.
-  -- @param #POINT_VEC3 self
-  -- @param #POINT_VEC3.RoutePointAltType AltType The altitude type.
-  -- @param #POINT_VEC3.RoutePointType Type The route point type.
-  -- @param #POINT_VEC3.RoutePointAction Action The route point action.
-  -- @param Dcs.DCSTypes#Speed Speed Airspeed in km/h.
-  -- @param #boolean SpeedLocked true means the speed is locked.
-  -- @return #table The route point.
-  function POINT_VEC3:RoutePointAir( AltType, Type, Action, Speed, SpeedLocked )
-    self:F2( { AltType, Type, Action, Speed, SpeedLocked } )
-
-    local RoutePoint = {}
-    RoutePoint.x = self.x
-    RoutePoint.y = self.z
-    RoutePoint.alt = self.y
-    RoutePoint.alt_type = AltType
-
-    RoutePoint.type = Type
-    RoutePoint.action = Action
-
-    RoutePoint.speed = Speed / 3.6
-    RoutePoint.speed_locked = true
-
-    --  ["task"] =
-    --  {
-    --      ["id"] = "ComboTask",
-    --      ["params"] =
-    --      {
-    --          ["tasks"] =
-    --          {
-    --          }, -- end of ["tasks"]
-    --      }, -- end of ["params"]
-    --  }, -- end of ["task"]
-
-
-    RoutePoint.task = {}
-    RoutePoint.task.id = "ComboTask"
-    RoutePoint.task.params = {}
-    RoutePoint.task.params.tasks = {}
-
-
-    return RoutePoint
-  end
-
-  --- Build an ground type route point.
-  -- @param #POINT_VEC3 self
-  -- @param Dcs.DCSTypes#Speed Speed Speed in km/h.
-  -- @param #POINT_VEC3.RoutePointAction Formation The route point Formation.
-  -- @return #table The route point.
-  function POINT_VEC3:RoutePointGround( Speed, Formation )
-    self:F2( { Formation, Speed } )
-
-    local RoutePoint = {}
-    RoutePoint.x = self.x
-    RoutePoint.y = self.z
-
-    RoutePoint.action = Formation or ""
-
-
-    RoutePoint.speed = Speed / 3.6
-    RoutePoint.speed_locked = true
-
-    --  ["task"] =
-    --  {
-    --      ["id"] = "ComboTask",
-    --      ["params"] =
-    --      {
-    --          ["tasks"] =
-    --          {
-    --          }, -- end of ["tasks"]
-    --      }, -- end of ["params"]
-    --  }, -- end of ["task"]
-
-
-    RoutePoint.task = {}
-    RoutePoint.task.id = "ComboTask"
-    RoutePoint.task.params = {}
-    RoutePoint.task.params.tasks = {}
-
-
-    return RoutePoint
-  end
-
-  --- Creates an explosion at the point of a certain intensity.
-  -- @param #POINT_VEC3 self
-  -- @param #number ExplosionIntensity
-  function POINT_VEC3:Explosion( ExplosionIntensity )
-    self:F2( { ExplosionIntensity } )
-    trigger.action.explosion( self:GetVec3(), ExplosionIntensity )
-  end
-
-  --- Creates an illumination bomb at the point.
-  -- @param #POINT_VEC3 self
-  function POINT_VEC3:IlluminationBomb()
-    self:F2()
-    trigger.action.illuminationBomb( self:GetVec3() )
-  end
-
-
-  --- Smokes the point in a color.
-  -- @param #POINT_VEC3 self
-  -- @param Utilities.Utils#SMOKECOLOR SmokeColor
-  function POINT_VEC3:Smoke( SmokeColor )
-    self:F2( { SmokeColor } )
-    trigger.action.smoke( self:GetVec3(), SmokeColor )
-  end
-
-  --- Smoke the POINT_VEC3 Green.
-  -- @param #POINT_VEC3 self
-  function POINT_VEC3:SmokeGreen()
-    self:F2()
-    self:Smoke( SMOKECOLOR.Green )
-  end
-
-  --- Smoke the POINT_VEC3 Red.
-  -- @param #POINT_VEC3 self
-  function POINT_VEC3:SmokeRed()
-    self:F2()
-    self:Smoke( SMOKECOLOR.Red )
-  end
-
-  --- Smoke the POINT_VEC3 White.
-  -- @param #POINT_VEC3 self
-  function POINT_VEC3:SmokeWhite()
-    self:F2()
-    self:Smoke( SMOKECOLOR.White )
-  end
-
-  --- Smoke the POINT_VEC3 Orange.
-  -- @param #POINT_VEC3 self
-  function POINT_VEC3:SmokeOrange()
-    self:F2()
-    self:Smoke( SMOKECOLOR.Orange )
-  end
-
-  --- Smoke the POINT_VEC3 Blue.
-  -- @param #POINT_VEC3 self
-  function POINT_VEC3:SmokeBlue()
-    self:F2()
-    self:Smoke( SMOKECOLOR.Blue )
-  end
-
-  --- Flares the point in a color.
-  -- @param #POINT_VEC3 self
-  -- @param Utilities.Utils#FLARECOLOR FlareColor
-  -- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
-  function POINT_VEC3:Flare( FlareColor, Azimuth )
-    self:F2( { FlareColor } )
-    trigger.action.signalFlare( self:GetVec3(), FlareColor, Azimuth and Azimuth or 0 )
-  end
-
-  --- Flare the POINT_VEC3 White.
-  -- @param #POINT_VEC3 self
-  -- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
-  function POINT_VEC3:FlareWhite( Azimuth )
-    self:F2( Azimuth )
-    self:Flare( FLARECOLOR.White, Azimuth )
-  end
-
-  --- Flare the POINT_VEC3 Yellow.
-  -- @param #POINT_VEC3 self
-  -- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
-  function POINT_VEC3:FlareYellow( Azimuth )
-    self:F2( Azimuth )
-    self:Flare( FLARECOLOR.Yellow, Azimuth )
-  end
-
-  --- Flare the POINT_VEC3 Green.
-  -- @param #POINT_VEC3 self
-  -- @param Dcs.DCSTypes#Azimuth (optional) Azimuth The azimuth of the flare direction. The default azimuth is 0.
-  function POINT_VEC3:FlareGreen( Azimuth )
-    self:F2( Azimuth )
-    self:Flare( FLARECOLOR.Green, Azimuth )
-  end
-
-  --- Flare the POINT_VEC3 Red.
-  -- @param #POINT_VEC3 self
-  function POINT_VEC3:FlareRed( Azimuth )
-    self:F2( Azimuth )
-    self:Flare( FLARECOLOR.Red, Azimuth )
-  end
-
-  --- Returns if a PointVec3 has Line of Sight (LOS) with the ToPointVec3.
-  -- @param #POINT_VEC3 self
-  -- @param #POINT_VEC3 ToPointVec3
-  -- @return #boolean true If the ToPointVec3 has LOS with the PointVec3, otherwise false.
-  function POINT_VEC3:IsLOS( ToPointVec3 ) --R2.1
-
-    -- Measurement of visibility should not be from the ground, so Adding a hypotethical 2 meters to each PointVec3.
-    local FromVec3 = self:GetVec3()
-    FromVec3.y = FromVec3.y + 2
-
-    local ToVec3 = ToPointVec3:GetVec3()
-    ToVec3.y = ToVec3.y + 2
-
-    local IsLOS = land.isVisible( FromVec3, ToVec3 )
-
-    return IsLOS
-  end
-
-
 end
 
 do -- POINT_VEC2
 
+  --- @type POINT_VEC2
+  -- @field Dcs.DCSTypes#Distance x The x coordinate in meters.
+  -- @field Dcs.DCSTypes#Distance y the y coordinate in meters.
+  -- @extends Core.Point#COORDINATE
+  
+  --- # POINT_VEC2 class, extends @{Point#COORDINATE}
+  --
+  -- The @{Point#POINT_VEC2} class defines a 2D point in the simulator. The height coordinate (if needed) will be the land height + an optional added height specified.
+  --
+  -- ## POINT_VEC2 constructor
+  --
+  -- A new POINT_VEC2 instance can be created with:
+  --
+  --  * @{Point#POINT_VEC2.New}(): a 2D point, taking an additional height parameter.
+  --  * @{Point#POINT_VEC2.NewFromVec2}(): a 2D point created from a @{DCSTypes#Vec2}.
+  --
+  -- ## Manupulate the X, Altitude, Y coordinates of the 2D point
+  --
+  -- A POINT_VEC2 class works in 2D space, with an altitude setting. It contains internally an X, Altitude, Y coordinate.
+  -- Methods exist to manupulate these coordinates.
+  --
+  -- The current X, Altitude, Y axis can be retrieved with the methods @{#POINT_VEC2.GetX}(), @{#POINT_VEC2.GetAlt}(), @{#POINT_VEC2.GetY}() respectively.
+  -- The methods @{#POINT_VEC2.SetX}(), @{#POINT_VEC2.SetAlt}(), @{#POINT_VEC2.SetY}() change the respective axis with a new value.
+  -- The current Lat(itude), Alt(itude), Lon(gitude) values can also be retrieved with the methods @{#POINT_VEC2.GetLat}(), @{#POINT_VEC2.GetAlt}(), @{#POINT_VEC2.GetLon}() respectively.
+  -- The current axis values can be changed by using the methods @{#POINT_VEC2.AddX}(), @{#POINT_VEC2.AddAlt}(), @{#POINT_VEC2.AddY}()
+  -- to add or substract a value from the current respective axis value.
+  -- Note that the Set and Add methods return the current POINT_VEC2 object, so these manipulation methods can be chained... For example:
+  --
+  --      local Vec2 = PointVec2:AddX( 100 ):AddY( 2000 ):GetVec2()
+  --
+  -- @field #POINT_VEC2
+  POINT_VEC2 = {
+    ClassName = "POINT_VEC2",
+  }
+  
 
 
   --- POINT_VEC2 constructor.
@@ -12267,7 +12965,7 @@ do -- POINT_VEC2
     LandHeightAdd = LandHeightAdd or 0
     LandHeight = LandHeight + LandHeightAdd
 
-    self = BASE:Inherit( self, POINT_VEC3:New( x, LandHeight, y ) )
+    local self = BASE:Inherit( self, COORDINATE:New( x, LandHeight, y ) ) -- Core.Point#POINT_VEC2
     self:F2( self )
 
     return self
@@ -12284,7 +12982,7 @@ do -- POINT_VEC2
     LandHeightAdd = LandHeightAdd or 0
     LandHeight = LandHeight + LandHeightAdd
 
-    self = BASE:Inherit( self, POINT_VEC3:New( Vec2.x, LandHeight, Vec2.y ) )
+    local self = BASE:Inherit( self, COORDINATE:NewFromVec2( Vec2, LandHeightAdd ) ) -- #POINT_VEC2
     self:F2( self )
 
     return self
@@ -12296,9 +12994,7 @@ do -- POINT_VEC2
   -- @return Core.Point#POINT_VEC2 self
   function POINT_VEC2:NewFromVec3( Vec3 )
 
-    local self = BASE:Inherit( self, BASE:New() )
-
-    self = BASE:Inherit( self, POINT_VEC3:New( Vec3.x, Vec3.y, Vec3.z ) )
+    local self = BASE:Inherit( self, COORDINATE:NewFromVec3( Vec3 ) ) -- #POINT_VEC2
     self:F2( self )
 
     return self
@@ -12315,27 +13011,6 @@ do -- POINT_VEC2
   -- @param #POINT_VEC2 self
   -- @return #number The y coodinate.
   function POINT_VEC2:GetY()
-    return self.z
-  end
-
-  --- Return the altitude (height) of the land at the POINT_VEC2.
-  -- @param #POINT_VEC2 self
-  -- @return #number The land altitude.
-  function POINT_VEC2:GetAlt()
-    return land.getHeight( { x = self.x, y = self.z } )
-  end
-
-  --- Return Return the Lat(itude) coordinate of the POINT_VEC2 (ie: (parent)POINT_VEC3.x).
-  -- @param #POINT_VEC2 self
-  -- @return #number The x coodinate.
-  function POINT_VEC2:GetLat()
-    return self.x
-  end
-
-  --- Return the Lon(gitude) coordinate of the POINT_VEC2 (ie: (parent)POINT_VEC3.z).
-  -- @param #POINT_VEC2 self
-  -- @return #number The y coodinate.
-  function POINT_VEC2:GetLon()
     return self.z
   end
 
@@ -12357,6 +13032,13 @@ do -- POINT_VEC2
     return self
   end
 
+  --- Return Return the Lat(itude) coordinate of the POINT_VEC2 (ie: (parent)POINT_VEC3.x).
+  -- @param #POINT_VEC2 self
+  -- @return #number The x coodinate.
+  function POINT_VEC2:GetLat()
+    return self.x
+  end
+
   --- Set the Lat(itude) coordinate of the POINT_VEC2 (ie: POINT_VEC3.x).
   -- @param #POINT_VEC2 self
   -- @param #number x The x coordinate.
@@ -12366,13 +13048,11 @@ do -- POINT_VEC2
     return self
   end
 
-  --- Set the altitude of the POINT_VEC2.
+  --- Return the Lon(gitude) coordinate of the POINT_VEC2 (ie: (parent)POINT_VEC3.z).
   -- @param #POINT_VEC2 self
-  -- @param #number Altitude The land altitude. If nothing (nil) is given, then the current land altitude is set.
-  -- @return #POINT_VEC2
-  function POINT_VEC2:SetAlt( Altitude )
-    self.y = Altitude or land.getHeight( { x = self.x, y = self.z } )
-    return self
+  -- @return #number The y coodinate.
+  function POINT_VEC2:GetLon()
+    return self.z
   end
 
   --- Set the Lon(gitude) coordinate of the POINT_VEC2 (ie: POINT_VEC3.z).
@@ -12381,6 +13061,22 @@ do -- POINT_VEC2
   -- @return #POINT_VEC2
   function POINT_VEC2:SetLon( z )
     self.z = z
+    return self
+  end
+
+  --- Return the altitude (height) of the land at the POINT_VEC2.
+  -- @param #POINT_VEC2 self
+  -- @return #number The land altitude.
+  function POINT_VEC2:GetAlt()
+    return self.y ~= 0 or land.getHeight( { x = self.x, y = self.z } )
+  end
+
+  --- Set the altitude of the POINT_VEC2.
+  -- @param #POINT_VEC2 self
+  -- @param #number Altitude The land altitude. If nothing (nil) is given, then the current land altitude is set.
+  -- @return #POINT_VEC2
+  function POINT_VEC2:SetAlt( Altitude )
+    self.y = Altitude or land.getHeight( { x = self.x, y = self.z } )
     return self
   end
 
@@ -12412,7 +13108,18 @@ do -- POINT_VEC2
   end
 
 
+  --- Return a random POINT_VEC2 within an Outer Radius and optionally NOT within an Inner Radius of the POINT_VEC2.
+  -- @param #POINT_VEC2 self
+  -- @param Dcs.DCSTypes#Distance OuterRadius
+  -- @param Dcs.DCSTypes#Distance InnerRadius
+  -- @return #POINT_VEC2
+  function POINT_VEC2:GetRandomPointVec2InRadius( OuterRadius, InnerRadius )
+    self:F2( { OuterRadius, InnerRadius } )
 
+    return POINT_VEC2:NewFromVec2( self:GetRandomVec2InRadius( OuterRadius, InnerRadius ) )
+  end
+
+  -- TODO: Check this to replace
   --- Calculate the distance from a reference @{#POINT_VEC2}.
   -- @param #POINT_VEC2 self
   -- @param #POINT_VEC2 PointVec2Reference The reference @{#POINT_VEC2}.
@@ -12420,266 +13127,16 @@ do -- POINT_VEC2
   function POINT_VEC2:DistanceFromPointVec2( PointVec2Reference )
     self:F2( PointVec2Reference )
 
-    local Distance = ( ( PointVec2Reference:GetX() - self:GetX() ) ^ 2 + ( PointVec2Reference:GetY() - self:GetY() ) ^2 ) ^0.5
+    local Distance = ( ( PointVec2Reference.x - self.x ) ^ 2 + ( PointVec2Reference.z - self.z ) ^2 ) ^ 0.5
 
     self:T2( Distance )
     return Distance
   end
 
-  --- Calculate the distance from a reference @{DCSTypes#Vec2}.
-  -- @param #POINT_VEC2 self
-  -- @param Dcs.DCSTypes#Vec2 Vec2Reference The reference @{DCSTypes#Vec2}.
-  -- @return Dcs.DCSTypes#Distance The distance from the reference @{DCSTypes#Vec2} in meters.
-  function POINT_VEC2:DistanceFromVec2( Vec2Reference )
-    self:F2( Vec2Reference )
-
-    local Distance = ( ( Vec2Reference.x - self:GetX() ) ^ 2 + ( Vec2Reference.y - self:GetY() ) ^2 ) ^0.5
-
-    self:T2( Distance )
-    return Distance
-  end
-
-
-  --- Add a Distance in meters from the POINT_VEC2 orthonormal plane, with the given angle, and calculate the new POINT_VEC2.
-  -- @param #POINT_VEC2 self
-  -- @param Dcs.DCSTypes#Distance Distance The Distance to be added in meters.
-  -- @param Dcs.DCSTypes#Angle Angle The Angle in degrees.
-  -- @return #POINT_VEC2 The new calculated POINT_VEC2.
-  function POINT_VEC2:Translate( Distance, Angle )
-    local SX = self:GetX()
-    local SY = self:GetY()
-    local Radians = Angle / 180 * math.pi
-    local TX = Distance * math.cos( Radians ) + SX
-    local TY = Distance * math.sin( Radians ) + SY
-
-    return POINT_VEC2:New( TX, TY )
-  end
-
 end
 
-do -- COORDINATE
 
-  --- COORDINATE constructor.
-  -- @param #COORDINATE self
-  -- @param Dcs.DCSTypes#Distance x The x coordinate of the Vec3 point, pointing to the North.
-  -- @param Dcs.DCSTypes#Distance y The y coordinate of the Vec3 point, pointing to the Right.
-  -- @param Dcs.DCSTypes#Distance LandHeightAdd (optional) The default height if required to be evaluated will be the land height of the x, y coordinate. You can specify an extra height to be added to the land height.
-  -- @return Core.Point#COORDINATE
-  function COORDINATE:New( x, y, LandHeightAdd ) --R2.1 Fixes issue #424.
-
-    self = BASE:Inherit( self, POINT_VEC2:New( x, y, LandHeightAdd ) ) -- Core.Point#COORDINATE
-    self:F2( self )
-
-    return self
-  end
-
-  --- Create a new COORDINATE object from  Vec2 coordinates.
-  -- @param #COORDINATE self
-  -- @param Dcs.DCSTypes#Vec2 Vec2 The Vec2 point.
-  -- @param Dcs.DCSTypes#Distance LandHeightAdd (optional) The default height if required to be evaluated will be the land height of the x, y coordinate. You can specify an extra height to be added to the land height.
-  -- @return Core.Point#COORDINATE self
-  function COORDINATE:NewFromVec2( Vec2, LandHeightAdd ) --R2.1 Fixes issue #424.
-
-    self = BASE:Inherit( self, POINT_VEC2:NewFromVec2( Vec2, LandHeightAdd ) ) -- Core.Point#COORDINATE
-    self:F2( self )
-
-    return self
-  end
-
-  --- Create a new COORDINATE object from  Vec3 coordinates.
-  -- @param #COORDINATE self
-  -- @param Dcs.DCSTypes#Vec3 Vec3 The Vec3 point.
-  -- @return Core.Point#COORDINATE self
-  function COORDINATE:NewFromVec3( Vec3 ) --R2.1 Fixes issue #424.
-
-    self = BASE:Inherit( self, POINT_VEC3:NewFromVec3( Vec3 ) ) -- Core.Point#COORDINATE
-    self:F2( self )
-
-    return self
-  end
-
-  function COORDINATE:SetHeading( Heading )
-    self.Heading = Heading
-  end
-
-
-  --- Return a BR string from a COORDINATE to the COORDINATE.
-  -- @param #COORDINATE self
-  -- @param #COORDINATE TargetCoordinate The target COORDINATE.
-  -- @return #string The BR text.
-  function COORDINATE:ToStringBR( TargetCoordinate )
-    local DirectionVec3 = self:GetDirectionVec3( TargetCoordinate )
-    local AngleRadians =  self:GetAngleRadians( DirectionVec3 )
-    local Distance = self:Get2DDistance( TargetCoordinate )
-    return "BR: " .. self:GetBRText( AngleRadians, Distance )
-  end
-
-  --- Return a BRAA string from a COORDINATE to the COORDINATE.
-  -- @param #COORDINATE self
-  -- @param #COORDINATE TargetCoordinate The target COORDINATE.
-  -- @return #string The BR text.
-  function COORDINATE:ToStringBRAA( TargetCoordinate )
-    local DirectionVec3 = self:GetDirectionVec3( TargetCoordinate )
-    local AngleRadians =  self:GetAngleRadians( DirectionVec3 )
-    local Distance = self:Get2DDistance( TargetCoordinate )
-    local Altitude = self:GetAltitudeText()
-    return "BRAA: " .. self:GetBRText( AngleRadians, Distance )
-  end
-
-  --- Return a BULLS string from a COORDINATE to the BULLS of the coalition.
-  -- @param #COORDINATE self
-  -- @param Dcs.DCSCoalition#coalition.side Coalition The coalition.
-  -- @return #string The BR text.
-  function COORDINATE:ToStringBULLS( Coalition )
-    local TargetCoordinate = COORDINATE:NewFromVec3( coalition.getMainRefPoint( Coalition ) )
-    local DirectionVec3 = self:GetDirectionVec3( TargetCoordinate )
-    local AngleRadians =  self:GetAngleRadians( DirectionVec3 )
-    local Distance = self:Get2DDistance( TargetCoordinate )
-    local Altitude = self:GetAltitudeText()
-    return "BULLS: " .. self:GetBRText( AngleRadians, Distance )
-  end
-
-  --- Return an aspect string from a COORDINATE to the Angle of the object.
-  -- @param #COORDINATE self
-  -- @param #COORDINATE TargetCoordinate The target COORDINATE.
-  -- @return #string The Aspect string, which is Hot, Cold or Flanking.
-  function COORDINATE:ToStringAspect( TargetCoordinate )
-    local Heading = self.Heading
-    local DirectionVec3 = self:GetDirectionVec3( TargetCoordinate )
-    local Angle = self:GetAngleDegrees( DirectionVec3 )
-    
-    if Heading then
-      local Aspect = Angle - Heading
-      if Aspect > -135 and Aspect <= -45 then
-        return "Flanking"
-      end
-      if Aspect > -45 and Aspect <= 45 then
-        return "Hot"
-      end
-      if Aspect > 45 and Aspect <= 135 then
-        return "Flanking"
-      end
-      if Aspect > 135 or Aspect <= -135 then
-        return "Cold"
-      end
-    end
-    return ""
-  end
-
-  --- Provides a Lat Lon string
-  -- @param #COORDINATE self
-  -- @param #number LL_Accuracy The accurancy of significant numbers behind the comma... So Accurancy of 2 is 0.01.
-  -- @param #boolean LL_DMS true = Degrees, Minutes, Seconds; false = Degrees, Minutes
-  -- @return #string The LL Text
-  function COORDINATE:ToStringLL( LL_Accuracy, LL_DMS ) --R2.1 Fixes issue #424.
-
-    LL_Accuracy = LL_Accuracy or self.LL_Accuracy
-    LL_DMS = LL_DMS or self.LL_DMS
-    local lat, lon = coord.LOtoLL( self:GetVec3() )
-    return "LL: " .. UTILS.tostringLL( lat, lon, LL_Accuracy, LL_DMS )
-  end
-
-  --- Provides a MGRS string
-  -- @param #COORDINATE self
-  -- @param #number MGRS_Accuracy of the 5 digit code.
-  -- Precision depends on the Accuracy choosen:
-  --   * 0 = no digits - precision level 100 km
-  --   * 1 = 1 digits - precision level 10 km
-  --   * 2 = 2 digits - precision level 1 km
-  --   * 3 = 3 digits - precision level 100 m
-  --   * 4 = 4 digits - precision level 10 m.
-  -- @return #string The MGRS Text
-  function COORDINATE:ToStringMGRS( MGRS_Accuracy ) --R2.1 Fixes issue #424.
-
-    MGRS_Accuracy = MGRS_Accuracy or self.MGRS_Accuracy
-    local lat, lon = coord.LOtoLL( self:GetVec3() )
-    local MGRS = coord.LLtoMGRS( lat, lon )
-    return "MGRS: " .. UTILS.tostringMGRS( MGRS, MGRS_Accuracy )
-  end
-
-  --- Provides a coordinate string of the point, based on a coordinate format system:
-  --   * Uses default settings in COORDINATE.
-  --   * Can be overridden if for a GROUP containing x clients, a menu was selected to override the default.
-  --
-  -- @param #COORDINATE self
-  -- @return #string The coordinate Text in the configured coordinate system.
-  function COORDINATE:ToString() --R2.1 Fixes issue #424.
-
-    local Coordinate = COORDINATE -- Core.Point#COORDINATE
-
-    local CoordSystem = Coordinate.System
-
-    if CoordSystem == "LL" then
-      return self:ToStringLL( Coordinate.LL_Accuracy, Coordinate.LL_DMS )
-    end
-
-    if CoordSystem == "MGRS" then
-      return self:ToStringMGRS( Coordinate.MGRS_Accuracy )
-    end
-
-    return nil
-
-  end
-
-  --- @param #COORDINATE self
-  -- @return #string The coordinate Text in the configured coordinate system.
-  function COORDINATE:CoordinateMenu( RootMenu ) --R2.1 Fixes issue #424.
-
-    if self.SystemMenu then
-      self.SystemMenu:Remove()
-      self.SystemMenu = nil
-  end
-
-  self.SystemMenu = MENU_MISSION:New( "System Settings" )
-  local CoordinateMenu = MENU_MISSION:New( "Coordinates", self.SystemMenu )
-
-  local Coordinate = COORDINATE
-
-  if Coordinate.System == "LL" then
-    MENU_MISSION_COMMAND:New( "Activate MGRS", CoordinateMenu, Coordinate.MenuSystem, Coordinate, "MGRS" )
-    MENU_MISSION_COMMAND:New( "LL Accuracy 1", CoordinateMenu, Coordinate.MenuLL_Accuracy, Coordinate, 1 )
-    MENU_MISSION_COMMAND:New( "LL Accuracy 2", CoordinateMenu, Coordinate.MenuLL_Accuracy, Coordinate, 2 )
-    MENU_MISSION_COMMAND:New( "LL Accuracy 3", CoordinateMenu, Coordinate.MenuLL_Accuracy, Coordinate, 3 )
-    MENU_MISSION_COMMAND:New( "LL Decimal On", CoordinateMenu, Coordinate.MenuLL_DMS, Coordinate, true )
-    MENU_MISSION_COMMAND:New( "LL Decimal Off", CoordinateMenu, Coordinate.MenuLL_DMS, Coordinate, false )
-  end
-
-  if Coordinate.System == "MGRS" then
-    MENU_MISSION_COMMAND:New( "Activate LL", CoordinateMenu, Coordinate.MenuSystem, Coordinate, "LL" )
-    MENU_MISSION_COMMAND:New( "MGRS Accuracy 1", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 1 )
-    MENU_MISSION_COMMAND:New( "MGRS Accuracy 2", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 2 )
-    MENU_MISSION_COMMAND:New( "MGRS Accuracy 3", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 3 )
-    MENU_MISSION_COMMAND:New( "MGRS Accuracy 4", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 4 )
-    MENU_MISSION_COMMAND:New( "MGRS Accuracy 5", CoordinateMenu, Coordinate.MenuMGRS_Accuracy, Coordinate, 5 )
-  end
-
-  end
-
-  --- @param #COORDINATE self
-  function COORDINATE:MenuSystem( System ) --R2.1 Fixes issue #424.
-    self.System = System
-    self:CoordinateMenu()
-  end
-
-  --- @param #COORDINATE self
-  function COORDINATE:MenuLL_Accuracy( LL_Accuracy ) --R2.1 Fixes issue #424.
-    self.LL_Accuracy = LL_Accuracy
-    self:CoordinateMenu()
-  end
-
-  --- @param #COORDINATE self
-  function COORDINATE:MenuLL_DMS( LL_DMS ) --R2.1 Fixes issue #424.
-    self.LL_DMS = LL_DMS
-    self:CoordinateMenu()
-  end
-  --- @param #COORDINATE self
-  function COORDINATE:MenuMGRS_Accuracy( MGRS_Accuracy ) --R2.1 Fixes issue #424.
-    self.MGRS_Accuracy = MGRS_Accuracy
-    self:CoordinateMenu()
-  end
-
-end
---- **Core** - MESSAGE class takes are of the **real-time notifications** and **messages to players** during a simulation.
+--- **Core** -- MESSAGE class takes are of the **real-time notifications** and **messages to players** during a simulation.
 -- 
 -- ![Banner Image](..\Presentations\MESSAGE\Dia1.JPG)
 -- 
@@ -12719,6 +13176,13 @@ end
 --   
 --   * To all players using @{Message#MESSAGE.ToAllIf}().
 --   * To a coalition using @{Message#MESSAGE.ToCoalitionIf}().
+-- 
+-- ====
+--  
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- ### Contributions: 
+-- 
+-- ====
 -- 
 -- @field #MESSAGE
 MESSAGE = {
@@ -12925,7 +13389,7 @@ function MESSAGE:ToAllIf( Condition )
 
 	return self
 end
---- **Core** - The **FSM** (**F**inite **S**tate **M**achine) class and derived **FSM\_** classes 
+--- **Core** -- The **FSM** (**F**inite **S**tate **M**achine) class and derived **FSM\_** classes 
 -- are design patterns allowing efficient (long-lasting) processes and workflows.
 -- 
 -- ![Banner Image](..\Presentations\FSM\Dia1.JPG)
@@ -12985,31 +13449,11 @@ end
 -- 
 -- ====
 -- 
--- # **API CHANGE HISTORY**
 -- 
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
--- 
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
--- 
--- YYYY-MM-DD: CLASS:**NewFunction**( Params ) replaces CLASS:_OldFunction_( Params )
--- YYYY-MM-DD: CLASS:**NewFunction( Params )** added
--- 
--- Hereby the change log:
--- 
---   * 2016-12-18: Released.
--- 
--- ===
--- 
--- # **AUTHORS and CONTRIBUTIONS**
--- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- ### Contributions: 
 -- 
---   * [**Pikey**](https://forums.eagle.ru/member.php?u=62835): Review of documentation & advice for improvements.
--- 
--- ### Authors: 
--- 
---   * [**FlightControl**](https://forums.eagle.ru/member.php?u=89536): Design & Programming & documentation.
+-- ====
 --
 -- @module Fsm
 
@@ -14173,7 +14617,7 @@ do -- FSM_SET
 
 end -- FSM_SET
 
---- **Core** - The RADIO Module is responsible for everything that is related to radio transmission and you can hear in DCS, be it TACAN beacons, Radio transmissions...
+--- **Core** -- The RADIO Module is responsible for everything that is related to radio transmission and you can hear in DCS, be it TACAN beacons, Radio transmissions...
 -- 
 -- ![Banner Image](..\Presentations\RADIO\Dia1.JPG)
 -- 
@@ -14254,7 +14698,7 @@ end -- FSM_SET
 -- @field #string Subtitle Subtitle of the transmission
 -- @field #number SubtitleDuration Duration of the Subtitle in seconds
 -- @field #number Power Power of the antenna is Watts
--- @field #boolean Loop 
+-- @field #boolean Loop (default true)
 -- @extends Core.Base#BASE
 RADIO = {
   ClassName = "RADIO",
@@ -14264,7 +14708,7 @@ RADIO = {
   Subtitle = "",
   SubtitleDuration = 0,
   Power = 100,
-  Loop = 0,
+  Loop = true,
 }
 
 --- Create a new RADIO Object. This doesn't broadcast a transmission, though, use @{#RADIO.Broadcast} to actually broadcast
@@ -14276,6 +14720,7 @@ RADIO = {
 function RADIO:New(Positionable)
   local self = BASE:Inherit( self, BASE:New() ) -- Core.Radio#RADIO
   
+  self.Loop = true        -- default Loop to true (not sure the above RADIO definition actually is working)
   self:F(Positionable)
   
   if Positionable:GetPointVec2() then -- It's stupid, but the only way I found to make sure positionable is valid
@@ -14471,6 +14916,7 @@ end
 -- @return #RADIO self
 function RADIO:Broadcast()
   self:F()
+  
   -- If the POSITIONABLE is actually a UNIT or a GROUP, use the more complicated DCS command system
   if self.Positionable.ClassName == "UNIT" or self.Positionable.ClassName == "GROUP" then
     self:T2("Broadcasting from a UNIT or a GROUP")
@@ -14758,7 +15204,7 @@ function BEACON:StopRadioBeacon()
   self:F()
   -- The unique name of the transmission is the class ID
   trigger.action.stopRadioTransmission(tostring(self.ID))
-end--- (R2.1) **Core** -- Spawn dynamically new STATICs in your missions.
+end--- **Core** -- Spawn dynamically new STATICs in your missions.
 --  
 -- ![Banner Image](..\Presentations\SPAWNSTATIC\Dia1.JPG)
 -- 
@@ -14784,24 +15230,10 @@ end--- (R2.1) **Core** -- Spawn dynamically new STATICs in your missions.
 -- 
 -- ====
 -- 
--- # **API CHANGE HISTORY**
--- 
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
--- 
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
--- 
--- Hereby the change log:
--- 
--- ===
--- 
--- # **AUTHORS and CONTRIBUTIONS**
--- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- ### Contributions: 
 -- 
--- ### Authors: 
--- 
---   * **FlightControl**: Design & Programming
+-- ====
 -- 
 -- @module SpawnStatic
 
@@ -14935,7 +15367,7 @@ function SPAWNSTATIC:SpawnFromZone( Zone, Heading, NewName ) --R2.1
   return Static
 end
 
---- **(R2.1) Core** -- Management of CARGO logistics, that can be transported from and to transportation carriers.
+--- **Core** -- Management of CARGO logistics, that can be transported from and to transportation carriers.
 --
 -- ![Banner Image](..\Presentations\CARGO\Dia1.JPG)
 --
@@ -14946,13 +15378,15 @@ end
 --   * CARGO_UNIT, represented by a @{Unit} in a singleton @{Group}: Cargo can be represented by a Unit in a Group. a CARGO_UNIT is representable...
 --   * CARGO_GROUP, represented by a @{Group}. A CARGO_GROUP is reportable...
 --   
+-- This module is still under construction, but is described above works already, and will keep working ...
+-- 
 -- ====
 -- 
 -- # Demo Missions
 -- 
--- ### [CARGO Demo Missions source code]()
+-- ### [CARGO Demo Missions source code](https://github.com/FlightControl-Master/MOOSE_MISSIONS/tree/master-release/CGO%20-%20Cargo)
 -- 
--- ### [CARGO Demo Missions, only for beta testers]()
+-- ### [CARGO Demo Missions, only for beta testers](https://github.com/FlightControl-Master/MOOSE_MISSIONS/tree/master/CGO%20-%20Cargo)
 --
 -- ### [ALL Demo Missions pack of the last release](https://github.com/FlightControl-Master/MOOSE_MISSIONS/releases)
 -- 
@@ -14960,11 +15394,14 @@ end
 -- 
 -- # YouTube Channel
 -- 
--- ### [SPAWNSTATIC YouTube Channel]()
+-- ### [CARGO YouTube Channel](https://www.youtube.com/watch?v=tM00lTlkpYs&list=PL7ZUrU4zZUl2zUTuKrLW5RsO9zLMqUtbf)
 -- 
 -- ====
 -- 
--- This module is still under construction, but is described above works already, and will keep working ...
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- ### Contributions: 
+-- 
+-- ====
 -- 
 -- @module Cargo
 
@@ -16290,11 +16727,11 @@ end
 
 
 end
---- **Core 2.1** -- Management of SPOT logistics, that can be transported from and to transportation carriers.
+--- **Core** -- Management of SPOT logistics, that can be transported from and to transportation carriers.
 --
 -- ![Banner Image](..\Presentations\SPOT\Dia1.JPG)
 --
--- ===
+-- ====
 -- 
 -- SPOT implements the DCS Spot class functionality, but adds additional luxury to be able to:
 -- 
@@ -16319,20 +16756,16 @@ end
 -- 
 -- ### [SPOT YouTube Channel]()
 -- 
--- ===
+-- ====
 -- 
--- # **AUTHORS and CONTRIBUTIONS**
--- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- ### Contributions: 
 -- 
 --   * [**Ciribob**](https://forums.eagle.ru/member.php?u=112175): Showing the way how to lase targets + how laser codes work!!! Explained the autolase script.
 --   * [**EasyEB**](https://forums.eagle.ru/member.php?u=112055): Ideas and Beta Testing
 --   * [**Wingthor**](https://forums.eagle.ru/member.php?u=123698): Beta Testing
---   
 -- 
--- ### Authors: 
--- 
---   * **FlightControl**: Design & Programming
+-- ====
 -- 
 -- @module Spot
 
@@ -16584,36 +17017,39 @@ do
     return self.Lasing
   end
   
-end--- This module contains the OBJECT class.
+end--- **Wrapper** -- OBJECT wraps the DCS Object derived objects.
 -- 
--- 1) @{Object#OBJECT} class, extends @{Base#BASE}
--- ===========================================================
--- The @{Object#OBJECT} class is a wrapper class to handle the DCS Object objects:
---
---  * Support all DCS Object APIs.
---  * Enhance with Object specific APIs not in the DCS Object API set.
---  * Manage the "state" of the DCS Object.
---
--- 1.1) OBJECT constructor:
--- ------------------------------
--- The OBJECT class provides the following functions to construct a OBJECT instance:
---
---  * @{Object#OBJECT.New}(): Create a OBJECT instance.
---
--- 1.2) OBJECT methods:
--- --------------------------
--- The following methods can be used to identify an Object object:
+-- ====
 -- 
---    * @{Object#OBJECT.GetID}(): Returns the ID of the Object object.
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
 -- 
 -- ===
 -- 
 -- @module Object
 
---- The OBJECT class
--- @type OBJECT
+
+--- @type OBJECT
 -- @extends Core.Base#BASE
 -- @field #string ObjectName The name of the Object.
+
+
+--- # OBJECT class, extends @{Base#BASE}
+-- 
+-- OBJECT handles the DCS Object objects:
+--
+--  * Support all DCS Object APIs.
+--  * Enhance with Object specific APIs not in the DCS Object API set.
+--  * Manage the "state" of the DCS Object.
+--
+-- ## OBJECT constructor:
+-- 
+-- The OBJECT class provides the following functions to construct a OBJECT instance:
+--
+--  * @{Object#OBJECT.New}(): Create a OBJECT instance.
+--
+-- @field #OBJECT
 OBJECT = {
   ClassName = "OBJECT",
   ObjectName = "",
@@ -16672,42 +17108,37 @@ end
 
 
 
---- This module contains the IDENTIFIABLE class.
+--- **Wrapper** -- IDENTIFIABLE is an intermediate class wrapping DCS Object class derived Objects.
 -- 
--- 1) @{#IDENTIFIABLE} class, extends @{Object#OBJECT}
--- ===============================================================
--- The @{#IDENTIFIABLE} class is a wrapper class to handle the DCS Identifiable objects:
+-- ====
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
+-- 
+-- ====
+-- 
+-- @module Identifiable
+
+--- @type IDENTIFIABLE
+-- @extends Wrapper.Object#OBJECT
+-- @field #string IdentifiableName The name of the identifiable.
+
+--- # IDENTIFIABLE class, extends @{Object#OBJECT}
+-- 
+-- The IDENTIFIABLE class is a wrapper class to handle the DCS Identifiable objects:
 --
 --  * Support all DCS Identifiable APIs.
 --  * Enhance with Identifiable specific APIs not in the DCS Identifiable API set.
 --  * Manage the "state" of the DCS Identifiable.
 --
--- 1.1) IDENTIFIABLE constructor:
--- ------------------------------
+-- ## IDENTIFIABLE constructor
+-- 
 -- The IDENTIFIABLE class provides the following functions to construct a IDENTIFIABLE instance:
 --
 --  * @{#IDENTIFIABLE.New}(): Create a IDENTIFIABLE instance.
 --
--- 1.2) IDENTIFIABLE methods:
--- --------------------------
--- The following methods can be used to identify an identifiable object:
--- 
---    * @{#IDENTIFIABLE.GetName}(): Returns the name of the Identifiable.
---    * @{#IDENTIFIABLE.IsAlive}(): Returns if the Identifiable is alive.
---    * @{#IDENTIFIABLE.GetTypeName}(): Returns the type name of the Identifiable.
---    * @{#IDENTIFIABLE.GetCoalition}(): Returns the coalition of the Identifiable.
---    * @{#IDENTIFIABLE.GetCountry}(): Returns the country of the Identifiable.
---    * @{#IDENTIFIABLE.GetDesc}(): Returns the descriptor structure of the Identifiable.
---    
--- 
--- ===
--- 
--- @module Identifiable
-
---- The IDENTIFIABLE class
--- @type IDENTIFIABLE
--- @extends Wrapper.Object#OBJECT
--- @field #string IdentifiableName The name of the identifiable.
+-- @field #IDENTIFIABLE
 IDENTIFIABLE = {
   ClassName = "IDENTIFIABLE",
   IdentifiableName = "",
@@ -16897,11 +17328,18 @@ function IDENTIFIABLE:GetThreatLevel()
 
   return 0, "Scenery"
 end
---- **Wrapper** -- This module contains the POSITIONABLE class.
+--- **Wrapper** -- POSITIONABLE wraps DCS classes that are "positionable".
 -- 
--- ===
+-- ====
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
+-- 
+-- ====
 -- 
 -- @module Positionable
+
 
 --- The POSITIONABLE class
 -- @type POSITIONABLE
@@ -16909,6 +17347,7 @@ end
 -- @field #string PositionableName The name of the measurable.
 -- @field Core.Spot#SPOT Spot The laser Spot.
 -- @field #number LaserCode The last assigned laser code.
+
 
 --- # POSITIONABLE class, extends @{Identifiable#IDENTIFIABLE}
 -- 
@@ -16923,14 +17362,6 @@ end
 -- The POSITIONABLE class provides the following functions to construct a POSITIONABLE instance:
 --
 --  * @{Positionable#POSITIONABLE.New}(): Create a POSITIONABLE instance.
---
--- ## POSITIONABLE methods
--- 
--- The following methods can be used to identify an measurable object:
--- 
---    * @{Positionable#POSITIONABLE.GetID}(): Returns the ID of the measurable object.
---    * @{Positionable#POSITIONABLE.GetName}(): Returns the name of the measurable object.
--- 
 -- 
 -- @field #POSITIONABLE 
 POSITIONABLE = {
@@ -17047,7 +17478,7 @@ function POSITIONABLE:GetCoordinate()
   if DCSPositionable then
     local PositionableVec3 = self:GetPositionVec3()
     
-    local PositionableCoordinate = COORDINATE:NewFromVec3( PositionableVec3 )
+    local PositionableCoordinate = POINT_VEC3:NewFromVec3( PositionableVec3 )
     PositionableCoordinate:SetHeading( self:GetHeading() )
   
     self:T2( PositionableCoordinate )
@@ -17550,32 +17981,51 @@ end
 
 
 
---- This module contains the CONTROLLABLE class.
+--- **Wrapper** -- CONTROLLABLE is an intermediate class wrapping Group and Unit classes "controllers".
 -- 
--- 1) @{Controllable#CONTROLLABLE} class, extends @{Positionable#POSITIONABLE}
--- ===========================================================
--- The @{Controllable#CONTROLLABLE} class is a wrapper class to handle the DCS Controllable objects:
+-- ====
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
+-- 
+-- ===
+-- 
+-- @module Controllable
+
+
+
+--- @type CONTROLLABLE
+-- @extends Wrapper.Positionable#POSITIONABLE
+-- @field Dcs.DCSWrapper.Controllable#Controllable DCSControllable The DCS controllable class.
+-- @field #string ControllableName The name of the controllable.
+
+
+
+--- # CONTROLLABLE class, extends @{Positionable#POSITIONABLE}
+-- 
+-- CONTROLLABLE is a wrapper class to handle the "DCS Controllable objects", which are Groups and Units:
 --
 --  * Support all DCS Controllable APIs.
 --  * Enhance with Controllable specific APIs not in the DCS Controllable API set.
 --  * Handle local Controllable Controller.
 --  * Manage the "state" of the DCS Controllable.
 --
--- 1.1) CONTROLLABLE constructor
--- -----------------------------
+-- ## CONTROLLABLE constructor
+-- 
 -- The CONTROLLABLE class provides the following functions to construct a CONTROLLABLE instance:
 --
 --  * @{#CONTROLLABLE.New}(): Create a CONTROLLABLE instance.
 --
--- 1.2) CONTROLLABLE task methods
--- ------------------------------
+-- ## CONTROLLABLE Task methods
+-- 
 -- Several controllable task methods are available that help you to prepare tasks. 
 -- These methods return a string consisting of the task description, which can then be given to either a @{Controllable#CONTROLLABLE.PushTask} or @{Controllable#SetTask} method to assign the task to the CONTROLLABLE.
 -- Tasks are specific for the category of the CONTROLLABLE, more specific, for AIR, GROUND or AIR and GROUND. 
 -- Each task description where applicable indicates for which controllable category the task is valid.
 -- There are 2 main subdivisions of tasks: Assigned tasks and EnRoute tasks.
 -- 
--- ### 1.2.1) Assigned task methods
+-- ### Task assignment
 -- 
 -- Assigned task methods make the controllable execute the task where the location of the (possible) targets of the task are known before being detected.
 -- This is different from the EnRoute tasks, where the targets of the task need to be detected before the task can be executed.
@@ -17606,19 +18056,20 @@ end
 --   * @{#CONTROLLABLE.TaskRouteToZone}: (AIR + GROUND) Route the controllable to a given zone.
 --   * @{#CONTROLLABLE.TaskReturnToBase}: (AIR) Route the controllable to an airbase.
 --
--- ### 1.2.2) EnRoute task methods
+-- ### EnRoute assignment
 -- 
 -- EnRoute tasks require the targets of the task need to be detected by the controllable (using its sensors) before the task can be executed:
 -- 
 --   * @{#CONTROLLABLE.EnRouteTaskAWACS}: (AIR) Aircraft will act as an AWACS for friendly units (will provide them with information about contacts). No parameters.
 --   * @{#CONTROLLABLE.EnRouteTaskEngageControllable}: (AIR) Engaging a controllable. The task does not assign the target controllable to the unit/controllable to attack now; it just allows the unit/controllable to engage the target controllable as well as other assigned targets.
 --   * @{#CONTROLLABLE.EnRouteTaskEngageTargets}: (AIR) Engaging targets of defined types.
+--   * @{#CONTROLLABLE.EnRouteTaskEngageTargetsInZone}: (AIR) Engaging a targets of defined types at circle-shaped zone.
 --   * @{#CONTROLLABLE.EnRouteTaskEWR}: (AIR) Attack the Unit.
 --   * @{#CONTROLLABLE.EnRouteTaskFAC}: (AIR + GROUND) The task makes the controllable/unit a FAC and lets the FAC to choose a targets (enemy ground controllable) around as well as other assigned targets.
 --   * @{#CONTROLLABLE.EnRouteTaskFAC_EngageControllable}: (AIR + GROUND) The task makes the controllable/unit a FAC and lets the FAC to choose the target (enemy ground controllable) as well as other assigned targets.
 --   * @{#CONTROLLABLE.EnRouteTaskTanker}: (AIR) Aircraft will act as a tanker for friendly units. No parameters.
 -- 
--- ### 1.2.3) Preparation task methods
+-- ### Task preparation
 -- 
 -- There are certain task methods that allow to tailor the task behaviour:
 --
@@ -17627,24 +18078,24 @@ end
 --   * @{#CONTROLLABLE.TaskCondition}: Return a condition section for a controlled task.
 --   * @{#CONTROLLABLE.TaskControlled}: Return a Controlled Task taking a Task and a TaskCondition.
 -- 
--- ### 1.2.4) Obtain the mission from controllable templates
+-- ### Obtain the mission from controllable templates
 -- 
 -- Controllable templates contain complete mission descriptions. Sometimes you want to copy a complete mission from a controllable and assign it to another:
 -- 
 --   * @{#CONTROLLABLE.TaskMission}: (AIR + GROUND) Return a mission task from a mission template.
 --
--- 1.3) CONTROLLABLE Command methods
--- --------------------------
+-- ## CONTROLLABLE Command methods
+-- 
 -- Controllable **command methods** prepare the execution of commands using the @{#CONTROLLABLE.SetCommand} method:
 -- 
 --   * @{#CONTROLLABLE.CommandDoScript}: Do Script command.
 --   * @{#CONTROLLABLE.CommandSwitchWayPoint}: Perform a switch waypoint command.
 -- 
--- 1.4) CONTROLLABLE Option methods
--- -------------------------
+-- ## CONTROLLABLE Option methods
+-- 
 -- Controllable **Option methods** change the behaviour of the Controllable while being alive.
 -- 
--- ### 1.4.1) Rule of Engagement:
+-- ### Rule of Engagement:
 -- 
 --   * @{#CONTROLLABLE.OptionROEWeaponFree} 
 --   * @{#CONTROLLABLE.OptionROEOpenFire}
@@ -17658,7 +18109,7 @@ end
 --   * @{#CONTROLLABLE.OptionROEReturnFirePossible}
 --   * @{#CONTROLLABLE.OptionROEEvadeFirePossible}
 -- 
--- ### 1.4.2) Rule on thread:
+-- ### Rule on thread:
 -- 
 --   * @{#CONTROLLABLE.OptionROTNoReaction}
 --   * @{#CONTROLLABLE.OptionROTPassiveDefense}
@@ -17672,15 +18123,7 @@ end
 --   * @{#CONTROLLABLE.OptionROTEvadeFirePossible}
 --   * @{#CONTROLLABLE.OptionROTVerticalPossible}
 -- 
--- ===
--- 
--- @module Controllable
-
---- The CONTROLLABLE class
--- @type CONTROLLABLE
--- @extends Wrapper.Positionable#POSITIONABLE
--- @field Dcs.DCSWrapper.Controllable#Controllable DCSControllable The DCS controllable class.
--- @field #string ControllableName The name of the controllable.
+-- @field #CONTROLLABLE
 CONTROLLABLE = {
   ClassName = "CONTROLLABLE",
   ControllableName = "",
@@ -18640,7 +19083,7 @@ end
 -- @param Dcs.DCSTypes#AttributeNameArray TargetTypes Array of target categories allowed to engage. 
 -- @param #number Priority All en-route tasks have the priority parameter. This is a number (less value - higher priority) that determines actions related to what task will be performed first. 
 -- @return Dcs.DCSTasking.Task#Task The DCS task structure.
-function CONTROLLABLE:EnRouteTaskEngageTargets( Vec2, Radius, TargetTypes, Priority )
+function CONTROLLABLE:EnRouteTaskEngageTargetsInZone( Vec2, Radius, TargetTypes, Priority )
   self:F2( { self.ControllableName, Vec2, Radius, TargetTypes, Priority } )
 
 --  EngageTargetsInZone = { 
@@ -19769,7 +20212,25 @@ function CONTROLLABLE:WayPointExecute( WayPoint, WaitTime )
   return self
 end
 
--- Message APIs--- **Wrapper** -- GROUP is a wrapper class for the DCS Class Group.
+--- Returns if the Controllable contains AirPlanes.
+-- @param #CONTROLLABLE self
+-- @return #boolean true if Controllable contains AirPlanes.
+function CONTROLLABLE:IsAirPlane()
+  self:F2()
+
+  local DCSObject = self:GetDCSObject()
+
+  if DCSObject then
+    local Category = DCSObject:getDesc().category
+    self:T( Category )
+    return Category == Unit.Category.AIRPLANE
+  end
+
+  return nil
+end
+
+
+-- Message APIs--- **Wrapper** -- GROUP wraps the DCS Class Group objects.
 -- 
 -- ===
 -- 
@@ -19786,44 +20247,21 @@ end
 -- 
 -- ====
 -- 
--- # **API CHANGE HISTORY**
--- 
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
--- 
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
--- 
--- Hereby the change log:
--- 
--- 2017-03-26: GROUP:**RouteRTB( RTBAirbase, Speed )** added.  
--- 
--- 2017-03-07: GROUP:**HandleEvent( Event, EventFunction )** added.  
--- 2017-03-07: GROUP:**UnHandleEvent( Event )** added.
--- 
--- 2017-01-24: GROUP:**SetAIOnOff( AIOnOff )** added.  
--- 
--- 2017-01-24: GROUP:**SetAIOn()** added.  
--- 
--- 2017-01-24: GROUP:**SetAIOff()** added.  
--- 
--- ===
--- 
--- # **AUTHORS and CONTRIBUTIONS**
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- 
 -- ### Contributions: 
 -- 
 --   * [**Entropy**](https://forums.eagle.ru/member.php?u=111471), **Afinegan**: Came up with the requirement for AIOnOff().
 -- 
--- ### Authors: 
--- 
---   * **FlightControl**: Design & Programming
+-- ====
 -- 
 -- @module Group
--- @author FlightControl
+
 
 --- @type GROUP
 -- @extends Wrapper.Controllable#CONTROLLABLE
 -- @field #string GroupName The name of the group.
+
 
 --- 
 -- # GROUP class, extends @{Controllable#CONTROLLABLE}
@@ -20197,6 +20635,24 @@ function GROUP:GetTypeName()
   return nil
 end
 
+--- Gets the player name of the group.
+-- @param #GROUP self
+-- @return #string The player name of the group.
+function GROUP:GetPlayerName()
+  self:F2( self.GroupName )
+
+  local DCSGroup = self:GetDCSObject()
+
+  if DCSGroup then
+    local PlayerName = DCSGroup:getUnit(1):getPlayerName()
+    self:T3( PlayerName )
+    return( PlayerName )
+  end
+
+  return nil
+end
+
+
 --- Gets the CallSign of the first DCS Unit of the DCS Group.
 -- @param #GROUP self
 -- @return #string The CallSign of the first DCS Unit of the DCS Group.
@@ -20255,6 +20711,25 @@ function GROUP:GetPointVec2()
   
   return nil
 end
+
+--- Returns a COORDINATE object indicating the point of the first UNIT of the GROUP within the mission.
+-- @param Wrapper.Group#GROUP self
+-- @return Core.Point#COORDINATE The COORDINATE of the GROUP.
+-- @return #nil The POSITIONABLE is not existing or alive.  
+function GROUP:GetCoordinate()
+  self:F2( self.PositionableName )
+
+  local FirstUnit = self:GetUnit(1)
+  
+  if FirstUnit then
+    local FirstUnitCoordinate = FirstUnit:GetCoordinate()
+    self:T3(FirstUnitCoordinate)
+    return FirstUnitCoordinate
+  end
+  
+  return nil
+end
+
 
 --- Returns a random @{DCSTypes#Vec3} vector (point in 3D of the UNIT within the mission) within a range around the first UNIT of the GROUP.
 -- @param #GROUP self
@@ -20927,7 +21402,16 @@ end--- **Wrapper** - UNIT is a wrapper class for the DCS Class Unit.
 --  * Handle local Unit Controller.
 --  * Manage the "state" of the DCS Unit.
 --  
+-- ====
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
+-- 
+-- ====
+-- 
 -- @module Unit
+
 
 --- @type UNIT
 -- @extends Wrapper.Controllable#CONTROLLABLE
@@ -21233,7 +21717,8 @@ function UNIT:GetPlayerName()
     return PlayerName
   end
 
-  return nil
+    return nil
+
 end
 
 --- Returns the unit's number in the group. 
@@ -21953,13 +22438,29 @@ do -- Detection
   end
   
 
-end--- This module contains the CLIENT class.
+end--- **Wrapper** -- CLIENT wraps DCS Unit objects acting as a __Client__ or __Player__ within a mission.
 -- 
--- 1) @{Client#CLIENT} class, extends @{Unit#UNIT}
--- ===============================================
+-- ====
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
+-- 
+-- ===
+-- 
+-- @module Client
+
+
+--- The CLIENT class
+-- @type CLIENT
+-- @extends Wrapper.Unit#UNIT
+
+
+--- # CLIENT class, extends @{Unit#UNIT}
+-- 
 -- Clients are those **Units** defined within the Mission Editor that have the skillset defined as __Client__ or __Player__.
 -- Note that clients are NOT the same as Units, they are NOT necessarily alive.
--- The @{Client#CLIENT} class is a wrapper class to handle the DCS Unit objects that have the skillset defined as __Client__ or __Player__:
+-- The CLIENT class is a wrapper class to handle the DCS Unit objects that have the skillset defined as __Client__ or __Player__:
 -- 
 --  * Wraps the DCS Unit objects with skill level set to Player or Client.
 --  * Support all DCS Unit APIs.
@@ -21970,8 +22471,8 @@ end--- This module contains the CLIENT class.
 -- 
 -- Clients are being used by the @{MISSION} class to follow players and register their successes.
 --  
--- 1.1) CLIENT reference methods
--- -----------------------------
+-- ## CLIENT reference methods
+-- 
 -- For each DCS Unit having skill level Player or Client, a CLIENT wrapper object (instance) will be created within the _@{DATABASE} object.
 -- This is done at the beginning of the mission (when the mission starts).
 --  
@@ -21987,13 +22488,9 @@ end--- This module contains the CLIENT class.
 --  * @{#CLIENT.Find}(): Find a CLIENT instance from the _DATABASE object using a DCS Unit object.
 --  * @{#CLIENT.FindByName}(): Find a CLIENT instance from the _DATABASE object using a DCS Unit name.
 --  
--- IMPORTANT: ONE SHOULD NEVER SANATIZE these CLIENT OBJECT REFERENCES! (make the CLIENT object references nil).
+-- **IMPORTANT: ONE SHOULD NEVER SANATIZE these CLIENT OBJECT REFERENCES! (make the CLIENT object references nil).**
 -- 
--- @module Client
-
---- The CLIENT class
--- @type CLIENT
--- @extends Wrapper.Unit#UNIT
+-- @field #CLIENT
 CLIENT = {
 	ONBOARDSIDE = {
 		NONE = 0,
@@ -22428,10 +22925,24 @@ function CLIENT:Message( Message, MessageDuration, MessageCategory, MessageInter
     end
 	end
 end
---- This module contains the STATIC class.
+--- **Wrapper** -- STATIC wraps the DCS StaticObject class.
 -- 
--- 1) @{Static#STATIC} class, extends @{Positionable#POSITIONABLE}
--- ===============================================================
+-- ====
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
+-- 
+-- ====
+-- 
+-- @module Static
+
+
+--- @type STATIC
+-- @extends Wrapper.Positionable#POSITIONABLE
+
+--- # STATIC class, extends @{Positionable#POSITIONABLE}
+-- 
 -- Statics are **Static Units** defined within the Mission Editor.
 -- Note that Statics are almost the same as Units, but they don't have a controller.
 -- The @{Static#STATIC} class is a wrapper class to handle the DCS Static objects:
@@ -22440,8 +22951,8 @@ end
 --  * Support all DCS Static APIs.
 --  * Enhance with Static specific APIs not in the DCS API set.
 -- 
--- 1.1) STATIC reference methods
--- -----------------------------
+-- ## STATIC reference methods
+-- 
 -- For each DCS Static will have a STATIC wrapper object (instance) within the _@{DATABASE} object.
 -- This is done at the beginning of the mission (when the mission starts).
 --  
@@ -22458,17 +22969,7 @@ end
 --  
 -- IMPORTANT: ONE SHOULD NEVER SANATIZE these STATIC OBJECT REFERENCES! (make the STATIC object references nil).
 -- 
--- @module Static
--- @author FlightControl
-
-
-
-
-
-
---- The STATIC class
--- @type STATIC
--- @extends Wrapper.Positionable#POSITIONABLE
+-- @field #STATIC
 STATIC = {
 	ClassName = "STATIC",
 }
@@ -22518,20 +23019,31 @@ end
 function STATIC:GetThreatLevel()
 
   return 1, "Static"
-end--- This module contains the AIRBASE classes.
+end--- **Wrapper** -- AIRBASE is a wrapper class to handle the DCS Airbase objects.
+-- 
+-- ====
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
 -- 
 -- ===
 -- 
--- 1) @{Airbase#AIRBASE} class, extends @{Positionable#POSITIONABLE}
--- =================================================================
--- The @{AIRBASE} class is a wrapper class to handle the DCS Airbase objects:
+-- @module Airbase
+
+
+--- @type AIRBASE
+-- @extends Wrapper.Positionable#POSITIONABLE
+
+--- # AIRBASE class, extends @{Positionable#POSITIONABLE}
+-- 
+-- AIRBASE is a wrapper class to handle the DCS Airbase objects:
 -- 
 --  * Support all DCS Airbase APIs.
 --  * Enhance with Airbase specific APIs not in the DCS Airbase API set.
 --  
---  
--- 1.1) AIRBASE reference methods
--- ------------------------------ 
+-- ## AIRBASE reference methods
+-- 
 -- For each DCS Airbase object alive within a running mission, a AIRBASE wrapper object (instance) will be created within the _@{DATABASE} object.
 -- This is done at the beginning of the mission (when the mission starts).
 --  
@@ -22549,27 +23061,14 @@ end--- This module contains the AIRBASE classes.
 --  
 -- IMPORTANT: ONE SHOULD NEVER SANATIZE these AIRBASE OBJECT REFERENCES! (make the AIRBASE object references nil).
 -- 
--- 1.2) DCS AIRBASE APIs
--- ---------------------
+-- ## DCS Airbase APIs
+-- 
 -- The DCS Airbase APIs are used extensively within MOOSE. The AIRBASE class has for each DCS Airbase API a corresponding method.
 -- To be able to distinguish easily in your code the difference between a AIRBASE API call and a DCS Airbase API call,
 -- the first letter of the method is also capitalized. So, by example, the DCS Airbase method @{DCSWrapper.Airbase#Airbase.getName}()
 -- is implemented in the AIRBASE class as @{#AIRBASE.GetName}().
 -- 
--- More functions will be added
--- ----------------------------
--- During the MOOSE development, more functions will be added. 
--- 
--- @module Airbase
--- @author FlightControl
-
-
-
-
-
---- The AIRBASE class
--- @type AIRBASE
--- @extends Wrapper.Positionable#POSITIONABLE
+-- @field #AIRBASE
 AIRBASE = {
   ClassName="AIRBASE",
   CategoryName = { 
@@ -22627,25 +23126,34 @@ end
 
 
 
---- This module contains the SCENERY class.
+--- **Wrapper** -- SCENERY models scenery within the DCS simulator.
 -- 
--- 1) @{Scenery#SCENERY} class, extends @{Positionable#POSITIONABLE}
--- ===============================================================
+-- ====
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
+-- 
+-- ====
+-- 
+-- @module Scenery
+
+
+
+--- @type SCENERY
+-- @extends Wrapper.Positionable#POSITIONABLE
+
+
+--- # SCENERY class, extends @{Positionable#POSITIONABLE}
+-- 
 -- Scenery objects are defined on the map.
 -- The @{Scenery#SCENERY} class is a wrapper class to handle the DCS Scenery objects:
 -- 
 --  * Wraps the DCS Scenery objects.
 --  * Support all DCS Scenery APIs.
 --  * Enhance with Scenery specific APIs not in the DCS API set.
--- 
--- @module Scenery
--- @author FlightControl
-
-
-
---- The SCENERY class
--- @type SCENERY
--- @extends Wrapper.Positionable#POSITIONABLE
+--  
+--  @field #SCENERY
 SCENERY = {
 	ClassName = "SCENERY",
 }
@@ -22666,7 +23174,7 @@ function SCENERY:GetThreatLevel()
 
   return 0, "Scenery"
 end
---- Single-Player:**Yes** / Multi-Player:**Yes** / Core:**Yes** -- **Administer the scoring of player achievements, 
+--- **Functional** -- **Administer the SCORING of player achievements, 
 -- and create a CSV file logging the scoring events for use at team or squadron websites.**
 -- 
 -- ![Banner Image](..\Presentations\SCORING\Dia1.JPG)
@@ -22792,6 +23300,32 @@ end
 --     local ScoringSecondMission = SCORING:New( "SecondMission" )
 --     
 -- The above documents that 2 Scoring objects are created, ScoringFirstMission and ScoringSecondMission. 
+-- 
+-- ### **IMPORTANT!!!*  
+-- In order to allow DCS world to write CSV files, you need to adapt a configuration file in your DCS world installation **on the server**.
+-- For this, browse to the **missionscripting.lua** file in your DCS world installation folder.
+-- For me, this installation folder is in _D:\\Program Files\\Eagle Dynamics\\DCS World\Scripts_.
+-- 
+-- Edit a few code lines in the MissionScripting.lua file. Comment out the lines **os**, **io** and **lfs**:
+-- 
+--        do
+--          --sanitizeModule('os')
+--          --sanitizeModule('io')
+--          --sanitizeModule('lfs')
+--          require = nil
+--          loadlib = nil
+--        end
+-- 
+-- When these lines are not sanitized, functions become available to check the time, and to write files to your system at the above specified location.  
+-- Note that the MissionScripting.lua file provides a warning. So please beware of this warning as outlined by Eagle Dynamics!
+-- 
+--        --Sanitize Mission Scripting environment
+--        --This makes unavailable some unsecure functions. 
+--        --Mission downloaded from server to client may contain potentialy harmful lua code that may use these functions.
+--        --You can remove the code below and make availble these functions at your own risk.
+-- 
+-- The MOOSE designer cannot take any responsibility of any damage inflicted as a result of the de-sanitization.
+-- That being said, I hope that the SCORING class provides you with a great add-on to score your squad mates achievements.
 -- 
 -- ## 1.9) Configure messages.
 -- 
@@ -24405,9 +24939,10 @@ function SCORING:CloseCSV()
   end
 end
 
---- The CLEANUP class keeps an area clean of crashing or colliding airplanes. It also prevents airplanes from firing within this area.
+--- **Functional** -- The CLEANUP class keeps an area clean of crashing or colliding airplanes. It also prevents airplanes from firing within this area.
+-- 
+-- ====
 -- @module CleanUp
--- @author Flightcontrol
 
 
 
@@ -25576,7 +26111,10 @@ function SPAWN:SpawnWithIndex( SpawnIndex )
 			
 			-- If there is a SpawnFunction hook defined, call it.
 			if self.SpawnFunctionHook then
-			  self.SpawnFunctionHook( self.SpawnGroups[self.SpawnIndex].Group, unpack( self.SpawnFunctionArguments ) )
+			  -- delay calling this for .1 seconds so that it hopefully comes after the BIRTH event of the group.
+			  self.SpawnHookScheduler = SCHEDULER:New()
+			  self.SpawnHookScheduler:Schedule( nil, self.SpawnFunctionHook, { self.SpawnGroups[self.SpawnIndex].Group, unpack( self.SpawnFunctionArguments)}, 0.1 )
+			  -- self.SpawnFunctionHook( self.SpawnGroups[self.SpawnIndex].Group, unpack( self.SpawnFunctionArguments ) )
 			end
 			-- TODO: Need to fix this by putting an "R" in the name of the group when the group repeats.
 			--if self.Repeat then
@@ -26495,7 +27033,11 @@ function SPAWN:_SpawnCleanUpScheduler()
 	return true -- Repeat
 	
 end
---- Limit the simultaneous movement of Groups within a running Mission.
+--- **Functional** -- Limit the MOVEMENT of simulaneous moving ground vehicles.
+-- 
+-- ====
+--  
+-- Limit the simultaneous movement of Groups within a running Mission.
 -- This module is defined to improve the performance in missions, and to bring additional realism for GROUND vehicles.
 -- Performance: If in a DCSRTE there are a lot of moving GROUND units, then in a multi player mission, this WILL create lag if
 -- the main DCS execution core of your CPU is fully utilized. So, this class will limit the amount of simultaneous moving GROUND units
@@ -26626,10 +27168,11 @@ function MOVEMENT:_Scheduler()
 	end
 	return true
 end
---- Provides defensive behaviour to a set of SAM sites within a running Mission.
+--- **Functional** -- Provides defensive behaviour to a set of SAM sites within a running Mission.
+-- 
+-- ====
+-- 
 -- @module Sead
--- @author to be searched on the forum
--- @author (co) Flightcontrol (Modified and enriched with functionality)
 
 --- The SEAD class
 -- @type SEAD
@@ -26758,7 +27301,9 @@ function SEAD:OnEventShot( EventData )
 		end
 	end
 end
---- Taking the lead of AI escorting your flight.
+--- **Functional** -- Taking the lead of AI escorting your flight.
+-- 
+-- ====
 -- 
 -- @{#ESCORT} class
 -- ================
@@ -27924,7 +28469,7 @@ function ESCORT:_ReportTargetsScheduler()
           self:E( { DetectedItemID, DetectedItem } )
           -- Remove the sub menus of the Attack menu of the Escort for the EscortGroup.
   
-          local DetectedItemReportSummary = self.Detection:DetectedItemReportSummary( DetectedItemID )
+          local DetectedItemReportSummary = self.Detection:DetectedItemReportSummary( DetectedItemID, EscortGroupData )
 
           if ClientEscortGroupName == EscortGroupName then
           
@@ -28140,7 +28685,7 @@ function ESCORT:_ReportTargetsScheduler()
   
   return false
 end
---- This module contains the MISSILETRAINER class.
+--- **Functional** -- MISSILETRAINER helps you to train missile avoidance.
 -- 
 -- ===
 --
@@ -28846,7 +29391,7 @@ function MISSILETRAINER:_TrackMissiles()
 
   return true
 end
---- This module contains the AIRBASEPOLICE classes.
+--- **Functional** -- This module monitors airbases traffic.
 --
 -- ===
 --
@@ -30042,7 +30587,7 @@ end
      
 
 
-     --- **Functional** - DETECTION_ classes model the detection of enemy units by FACs or RECCEs and group them according various methods.
+     --- **Functional** -- DETECTION_ classes model the detection of enemy units by FACs or RECCEs and group them according various methods.
 -- 
 -- ![Banner Image](..\Presentations\DETECTION\Dia1.JPG)
 -- 
@@ -30283,6 +30828,11 @@ do -- DETECTION_BASE
   --      
   --      -- Start the Detection.
   --      Detection:Start()
+  --      
+  -- ## Detection of Friendlies Nearby
+  -- 
+  -- Use the method @{Detection#DETECTION_BASE.SetFriendliesRange}() to set the range what will indicate when friendlies are nearby
+  -- a DetectedItem. The default range is 6000 meters. For air detections, it is advisory to use about 30.000 meters.
   -- 
   -- ## DETECTION_BASE is a Finite State Machine
   --
@@ -30373,6 +30923,8 @@ do -- DETECTION_BASE
       Unit.Category.SHIP,
       Unit.Category.STRUCTURE
     } )
+    
+    self:SetFriendliesRange( 6000 )
   
     -- Create FSM transitions.
     
@@ -30549,16 +31101,18 @@ do -- DETECTION_BASE
     -- @param #string Event The Event string.
     -- @param #string To The To State string.
     function DETECTION_BASE:onafterDetect(From,Event,To)
-      self:E( {From,Event,To})
+      self:E( { From, Event, To } )
 
       local DetectDelay = 0.1
       self.DetectionCount = 0
       self.DetectionRun = 0
       self:UnIdentifyAllDetectedObjects() -- Resets the DetectedObjectsIdentified table
       
+      local DetectionTimeStamp = timer.getTime()
+      
       for DetectionGroupID, DetectionGroupData in pairs( self.DetectionSetGroup:GetSet() ) do
-        self:E( {DetectionGroupData})
-        self:__DetectionGroup( DetectDelay, DetectionGroupData ) -- Process each detection asynchronously.
+        --self:E( { DetectionGroupData } )
+        self:__DetectionGroup( DetectDelay, DetectionGroupData, DetectionTimeStamp ) -- Process each detection asynchronously.
         self.DetectionCount = self.DetectionCount + 1
         DetectDelay = DetectDelay + 0.1
       end
@@ -30569,8 +31123,8 @@ do -- DETECTION_BASE
     -- @param #string Event The Event string.
     -- @param #string To The To State string.
     -- @param Wrapper.Group#GROUP DetectionGroup The Group detecting.
-    function DETECTION_BASE:onafterDetectionGroup( From, Event, To, DetectionGroup  )
-      self:E( {From,Event,To})
+    function DETECTION_BASE:onafterDetectionGroup( From, Event, To, DetectionGroup, DetectionTimeStamp  )
+      self:E( { From, Event, To } )
       
       self.DetectionRun = self.DetectionRun + 1
       
@@ -30594,7 +31148,7 @@ do -- DETECTION_BASE
           self.DetectDLINK
         )
         
-        self:T( DetectedTargets )
+        self:F( DetectedTargets )
         
         for DetectionObjectID, Detection in pairs( DetectedTargets ) do
           local DetectedObject = Detection.object -- Dcs.DCSWrapper.Object#Object
@@ -30629,7 +31183,7 @@ do -- DETECTION_BASE
 
             local DetectedUnitCategory = DetectedObject:getDesc().category
     
-            self:T2( { "Detected Target:", DetectionGroupName, DetectedObjectName, Distance, DetectedUnitCategory } )
+            self:F( { "Detected Target:", DetectionGroupName, DetectedObjectName, Distance, DetectedUnitCategory } )
 
             -- Calculate Acceptance
             
@@ -30713,6 +31267,7 @@ do -- DETECTION_BASE
     
               self.DetectedObjects[DetectedObjectName] = self.DetectedObjects[DetectedObjectName] or {} 
               self.DetectedObjects[DetectedObjectName].Name = DetectedObjectName
+              self.DetectedObjects[DetectedObjectName].IsDetected = TargetIsDetected
               self.DetectedObjects[DetectedObjectName].IsVisible = TargetIsVisible 
               self.DetectedObjects[DetectedObjectName].LastTime = TargetLastTime
               self.DetectedObjects[DetectedObjectName].LastPos = TargetLastPos
@@ -30720,6 +31275,7 @@ do -- DETECTION_BASE
               self.DetectedObjects[DetectedObjectName].KnowType = TargetKnowType
               self.DetectedObjects[DetectedObjectName].KnowDistance = Detection.distance   -- TargetKnowDistance
               self.DetectedObjects[DetectedObjectName].Distance = Distance
+              self.DetectedObjects[DetectedObjectName].DetectionTimeStamp = DetectionTimeStamp
               
               local DetectedUnit = UNIT:FindByName( DetectedObjectName )
               
@@ -30743,9 +31299,23 @@ do -- DETECTION_BASE
       
       if self.DetectionCount > 0 and self.DetectionRun == self.DetectionCount then
         self:T( "--> Create Detection Sets" )
+        
+        -- First check if all DetectedObjects were detected.
+        -- This is important. When there are DetectedObjects in the list, but were not detected,
+        -- And these remain undetected for more than 60 seconds, then these DetectedObjects will be flagged as not Detected.
+        -- IsDetected = false!
+        -- This is used in A2A_TASK_DISPATCHER to initiate fighter sweeping! The TASK_A2A_INTERCEPT tasks will be replaced with TASK_A2A_SWEEP tasks.
+        for DetectedObjectName, DetectedObject in pairs( self.DetectedObjects ) do
+          if self.DetectedObjects[DetectedObjectName].IsDetected == true and self.DetectedObjects[DetectedObjectName].DetectionTimeStamp + 60 <= DetectionTimeStamp then
+            self.DetectedObjects[DetectedObjectName].IsDetected = false
+          end
+        end
 
         self:CreateDetectionItems() -- Polymorphic call to Create/Update the DetectionItems list for the DETECTION_ class grouping method.
-        self:CleanDetectionItems() -- Any DetectionItem that has a Set with zero elements in it, must be removed from the DetectionItems list.
+        for DetectedItemID, DetectedItem in pairs( self.DetectedItems ) do
+          self:UpdateDetectedItemDetection( DetectedItem )
+          self:CleanDetectionItem( DetectedItem, DetectedItemID ) -- Any DetectionItem that has a Set with zero elements in it, must be removed from the DetectionItems list.
+        end
  
         self:__Detect( self.DetectionInterval )
       end
@@ -30757,23 +31327,19 @@ do -- DETECTION_BASE
   
   do -- DetectionItems Creation
   
-    --- Make a DetectionSet table. This function will be overridden in the derived clsses.
+    -- Clean the DetectedItem table.
     -- @param #DETECTION_BASE self
     -- @return #DETECTION_BASE
-    function DETECTION_BASE:CleanDetectionItems() --R2.1 Clean the DetectionItems list
+    function DETECTION_BASE:CleanDetectionItem( DetectedItem, DetectedItemID )
       self:F2()
     
       -- We clean all DetectedItems.
       -- if there are any remaining DetectedItems with no Set Objects then the Item in the DetectedItems must be deleted.
   
-      for DetectedItemID, DetectedItemData in pairs( self.DetectedItems ) do
-    
-        local DetectedItem = DetectedItemData -- #DETECTION_BASE.DetectedItem
-        local DetectedSet = DetectedItem.Set
-        
-        if DetectedSet:Count() == 0 then
-          self:RemoveDetectedItem(DetectedItemID)
-        end
+      local DetectedSet = DetectedItem.Set
+      
+      if DetectedSet:Count() == 0 then
+        self:RemoveDetectedItem( DetectedItemID )
       end
 
       return self
@@ -30918,6 +31484,22 @@ do -- DETECTION_BASE
       self:F2()
     
       self.DetectionInterval = DetectionInterval
+      
+      return self
+    end
+  
+  end
+
+  do -- Friendlies Radius
+
+    --- Set the radius in meters to validate if friendlies are nearby.
+    -- @param #DETECTION_BASE self
+    -- @param #number FriendliesRange Radius to use when checking if Friendlies are nearby.
+    -- @return #DETECTION_BASE self
+    function DETECTION_BASE:SetFriendliesRange( FriendliesRange ) --R2.2 Friendlies range
+      self:F2()
+    
+      self.FriendliesRange = FriendliesRange
       
       return self
     end
@@ -31093,8 +31675,31 @@ do -- DETECTION_BASE
     -- @return #boolean trhe if there are friendlies nearby 
     function DETECTION_BASE:IsFriendliesNearBy( DetectedItem )
       
-      self:T3( DetectedItem.FriendliesNearBy )
-      return DetectedItem.FriendliesNearBy or false
+      return DetectedItem.FriendliesNearBy ~= nil or false
+    end
+  
+    --- Returns friendly units nearby the FAC units ...
+    -- @param #DETECTION_BASE self
+    -- @return #map<#string,Wrapper.Unit#UNIT> The map of Friendly UNITs. 
+    function DETECTION_BASE:GetFriendliesNearBy( DetectedItem )
+      
+      return DetectedItem.FriendliesNearBy
+    end
+  
+    --- Returns if there are friendlies nearby the FAC units ...
+    -- @param #DETECTION_BASE self
+    -- @return #boolean trhe if there are friendlies nearby 
+    function DETECTION_BASE:IsPlayersNearBy( DetectedItem )
+      
+      return DetectedItem.PlayersNearBy ~= nil
+    end
+  
+    --- Returns friendly units nearby the FAC units ...
+    -- @param #DETECTION_BASE self
+    -- @return #map<#string,Wrapper.Unit#UNIT> The map of Friendly UNITs. 
+    function DETECTION_BASE:GetPlayersNearBy( DetectedItem )
+      
+      return DetectedItem.PlayersNearBy
     end
   
     --- Background worker function to determine if there are friendlies nearby ...
@@ -31106,7 +31711,7 @@ do -- DETECTION_BASE
       local DetectedSet = ReportGroupData.DetectedItem.Set
       local DetectedUnit = DetectedSet:GetFirst()
     
-      DetectedItem.FriendliesNearBy = false
+      DetectedItem.FriendliesNearBy = nil
 
       if DetectedUnit then
       
@@ -31115,40 +31720,59 @@ do -- DETECTION_BASE
          id = world.VolumeType.SPHERE,
           params = {
            point = DetectedUnit:GetVec3(),
-           radius = 6000,
+           radius = self.FriendliesRange,
           }
           
          }
          
-         --- @param Dcs.DCSWrapper.Unit#Unit FoundDCSUnit
-         -- @param Wrapper.Group#GROUP ReportGroup
-         -- @param Set#SET_GROUP ReportSetGroup
-         local FindNearByFriendlies = function( FoundDCSUnit, ReportGroupData )
+        --- @param Dcs.DCSWrapper.Unit#Unit FoundDCSUnit
+        -- @param Wrapper.Group#GROUP ReportGroup
+        -- @param Set#SET_GROUP ReportSetGroup
+        local FindNearByFriendlies = function( FoundDCSUnit, ReportGroupData )
             
-            local DetectedItem = ReportGroupData.DetectedItem  -- Functional.Detection#DETECTION_BASE.DetectedItem    
-            local DetectedSet = ReportGroupData.DetectedItem.Set
-            local DetectedUnit = DetectedSet:GetFirst() -- Wrapper.Unit#UNIT
-            local ReportSetGroup = ReportGroupData.ReportSetGroup
-      
-            local EnemyCoalition = DetectedUnit:GetCoalition()
-            
-            local FoundUnitCoalition = FoundDCSUnit:getCoalition()
-            local FoundUnitName = FoundDCSUnit:getName()
-            local FoundUnitGroupName = FoundDCSUnit:getGroup():getName()
-            local EnemyUnitName = DetectedUnit:GetName()
-            local FoundUnitInReportSetGroup = ReportSetGroup:FindGroup( FoundUnitGroupName ) ~= nil
-            
-            self:T3( { "Friendlies search:", FoundUnitName, FoundUnitCoalition, EnemyUnitName, EnemyCoalition, FoundUnitInReportSetGroup } )
-            
-            if FoundUnitCoalition ~= EnemyCoalition and FoundUnitInReportSetGroup == false then
-              DetectedItem.FriendliesNearBy = true
-              return false
-            end
-            
-            return true
+          local DetectedItem = ReportGroupData.DetectedItem  -- Functional.Detection#DETECTION_BASE.DetectedItem    
+          local DetectedSet = ReportGroupData.DetectedItem.Set
+          local DetectedUnit = DetectedSet:GetFirst() -- Wrapper.Unit#UNIT
+          local ReportSetGroup = ReportGroupData.ReportSetGroup
+    
+          local EnemyCoalition = DetectedUnit:GetCoalition()
+          
+          local FoundUnitCoalition = FoundDCSUnit:getCoalition()
+          local FoundUnitName = FoundDCSUnit:getName()
+          local FoundUnitGroupName = FoundDCSUnit:getGroup():getName()
+          local EnemyUnitName = DetectedUnit:GetName()
+          local FoundUnitInReportSetGroup = ReportSetGroup:FindGroup( FoundUnitGroupName ) ~= nil
+          
+          self:T3( { "Friendlies search:", FoundUnitName, FoundUnitCoalition, EnemyUnitName, EnemyCoalition, FoundUnitInReportSetGroup } )
+          
+          if FoundUnitCoalition ~= EnemyCoalition and FoundUnitInReportSetGroup == false then
+            DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
+            DetectedItem.FriendliesNearBy[FoundUnitName] = UNIT:Find( FoundDCSUnit )
+            return false
+          end
+          
+          return true
         end
         
         world.searchObjects( Object.Category.UNIT, SphereSearch, FindNearByFriendlies, ReportGroupData )
+
+        DetectedItem.PlayersNearBy = nil
+        local DetectionZone = ZONE_UNIT:New( "DetectionPlayers", DetectedUnit, self.FriendliesRange )
+        
+        _DATABASE:ForEachPlayer(
+          --- @param Wrapper.Unit#UNIT PlayerUnit
+          function( PlayerUnitName )
+            local PlayerUnit = UNIT:FindByName( PlayerUnitName )
+            if PlayerUnit and PlayerUnit:IsInZone(DetectionZone) then
+              DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
+              local PlayerUnitName = PlayerUnit:GetName()
+              DetectedItem.PlayersNearBy = DetectedItem.PlayersNearBy or {}
+              DetectedItem.PlayersNearBy[PlayerUnitName] = PlayerUnit
+              DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
+              DetectedItem.FriendliesNearBy[PlayerUnitName] = PlayerUnit
+            end
+          end
+        )
       end    
     end
   
@@ -31347,12 +31971,43 @@ do -- DETECTION_BASE
     return nil
   end
   
+  --- Set IsDetected flag for all DetectedItems.
+  -- @param #DETECTION_BASE self
+  -- @return #DETECTION_BASE.DetectedItem DetectedItem
+  -- @return #boolean true if at least one UNIT is detected from the DetectedSet, false if no UNIT was detected from the DetectedSet.
+  function DETECTION_BASE:UpdateDetectedItemDetection( DetectedItem )
+    
+    local IsDetected = false
+    
+    for UnitName, UnitData in pairs( DetectedItem.Set:GetSet() ) do
+      local DetectedObject = self.DetectedObjects[UnitName]
+      if DetectedObject.IsDetected then
+        IsDetected = true
+        break
+      end
+    end
+  
+    self:F( { IsDetected = DetectedItem.IsDetected } )
+  
+    DetectedItem.IsDetected = IsDetected
+    
+    return IsDetected
+  end
+
+  --- Checks if there is at least one UNIT detected in the Set of the the DetectedItem.
+  -- @param #DETECTION_BASE self
+  -- @return #boolean true if at least one UNIT is detected from the DetectedSet, false if no UNIT was detected from the DetectedSet.
+  function DETECTION_BASE:IsDetectedItemDetected( DetectedItem ) 
+  
+    return DetectedItem.IsDetected
+  end
+  
   do -- Coordinates
 
     --- Get the COORDINATE of a detection item using a given numeric index.
     -- @param #DETECTION_BASE self
     -- @param #number Index
-    -- @return Core.Point#COORDINATE Coordinate
+    -- @return Core.Point#COORDINATE
     function DETECTION_BASE:GetDetectedItemCoordinate( Index )
     
       -- If the Zone is set, return the coordinate of the Zone.
@@ -31361,14 +32016,15 @@ do -- DETECTION_BASE
 
       local DetectedZone = self:GetDetectedItemZone( Index )
       if DetectedZone then
-        local Coordinate = DetectedZone:GetCoordinate()
+        local Coordinate = DetectedZone:GetPointVec2()
         Coordinate:SetHeading(FirstUnit:GetHeading())
+        Coordinate:SetAlt( FirstUnit:GetAltitude() )
         return Coordinate
       end
       
       -- If no Zone is set, return the coordinate of the first unit in the Set
       if FirstUnit then
-        local Coordinate = FirstUnit:GetCoordinate()
+        local Coordinate = FirstUnit:GetPointVec3()
         FirstUnit:SetHeading(FirstUnit:GetHeading())
         return Coordinate
       end
@@ -31402,7 +32058,7 @@ do -- DETECTION_BASE
   -- @param #DETECTION_BASE self
   -- @param Index
   -- @return #string
-  function DETECTION_BASE:DetectedItemMenu( Index )
+  function DETECTION_BASE:DetectedItemMenu( Index, AttackGroup )
     self:F( Index )
     return nil
   end
@@ -31412,7 +32068,7 @@ do -- DETECTION_BASE
   -- @param #DETECTION_BASE self
   -- @param Index
   -- @return #string
-  function DETECTION_BASE:DetectedItemReportSummary( Index )
+  function DETECTION_BASE:DetectedItemReportSummary( Index, AttackGroup )
     self:F( Index )
     return nil
   end
@@ -31420,7 +32076,7 @@ do -- DETECTION_BASE
   --- Report detailed of a detectedion result.
   -- @param #DETECTION_BASE self
   -- @return #string
-  function DETECTION_BASE:DetectedReportDetailed()
+  function DETECTION_BASE:DetectedReportDetailed( AttackGroup )
     self:F()
     return nil
   end
@@ -31454,7 +32110,7 @@ end
 
 do -- DETECTION_UNITS
 
-  --- # 2) DETECTION_UNITS class, extends @{Detection#DETECTION_BASE}
+  --- # DETECTION_UNITS class, extends @{Detection#DETECTION_BASE}
   -- 
   -- The DETECTION_UNITS class will detect units within the battle zone.
   -- It will build a DetectedItems list filled with DetectedItems. Each DetectedItem will contain a field Set, which contains a @{Set#SET_UNIT} containing ONE @{UNIT} object reference.
@@ -31541,7 +32197,7 @@ do -- DETECTION_UNITS
         local DetectedUnit = DetectedUnitData -- Wrapper.Unit#UNIT
 
         local DetectedObject = nil
-        self:E( DetectedUnit )
+        --self:E( DetectedUnit )
         if DetectedUnit:IsAlive() then
         --self:E(DetectedUnit:GetName())
           DetectedObject = self:GetDetectedObject( DetectedUnit:GetName() )
@@ -31617,7 +32273,7 @@ do -- DETECTION_UNITS
   -- @param #DETECTION_UNITS self
   -- @param Index
   -- @return #string
-  function DETECTION_UNITS:DetectedItemMenu( Index )
+  function DETECTION_UNITS:DetectedItemMenu( Index, AttackGroup )
     self:F( Index )
   
     local DetectedItem = self:GetDetectedItem( Index )
@@ -31636,7 +32292,7 @@ do -- DETECTION_UNITS
         self:T(DetectedItemUnit)
   
         local DetectedItemCoordinate = DetectedItemUnit:GetCoordinate()
-        local DetectedItemCoordText = DetectedItemCoordinate:ToString()
+        local DetectedItemCoordText = DetectedItemCoordinate:ToString( AttackGroup )
  
         ReportSummary = string.format( 
           "%s - %s",
@@ -31655,7 +32311,7 @@ do -- DETECTION_UNITS
   -- @param #DETECTION_UNITS self
   -- @param Index
   -- @return #string
-  function DETECTION_UNITS:DetectedItemReportSummary( Index )
+  function DETECTION_UNITS:DetectedItemReportSummary( Index, AttackGroup )
     self:F( { Index, self.DetectedItems } )
   
     local DetectedItem = self:GetDetectedItem( Index )
@@ -31697,7 +32353,7 @@ do -- DETECTION_UNITS
         end
         
         local DetectedItemCoordinate = DetectedItemUnit:GetCoordinate()
-        local DetectedItemCoordText = DetectedItemCoordinate:ToString()
+        local DetectedItemCoordText = DetectedItemCoordinate:ToString( AttackGroup )
  
         local ThreatLevelA2G = DetectedItemUnit:GetThreatLevel( DetectedItem )
         
@@ -31722,13 +32378,13 @@ do -- DETECTION_UNITS
   --- Report detailed of a detection result.
   -- @param #DETECTION_UNITS self
   -- @return #string
-  function DETECTION_UNITS:DetectedReportDetailed()
+  function DETECTION_UNITS:DetectedReportDetailed( AttackGroup )
     self:F()
     
     local Report = REPORT:New( "Detected units:" )
     for DetectedItemID, DetectedItem in pairs( self.DetectedItems ) do
       local DetectedItem = DetectedItem -- #DETECTION_BASE.DetectedItem
-      local ReportSummary = self:DetectedItemReportSummary( DetectedItemID )
+      local ReportSummary = self:DetectedItemReportSummary( DetectedItemID, AttackGroup )
       Report:Add( ReportSummary )
     end
     
@@ -31887,7 +32543,7 @@ do -- DETECTION_TYPES
   -- @param #DETECTION_TYPES self
   -- @param Index
   -- @return #string
-  function DETECTION_TYPES:DetectedItemMenu( DetectedTypeName )
+  function DETECTION_TYPES:DetectedItemMenu( DetectedTypeName, AttackGroup )
     self:F( DetectedTypeName )
   
     local DetectedItem = self:GetDetectedItem( DetectedTypeName )
@@ -31900,10 +32556,10 @@ do -- DETECTION_TYPES
       local DetectedItemUnit = DetectedSet:GetFirst()
 
       local DetectedItemCoordinate = DetectedItemUnit:GetCoordinate()
-      local DetectedItemCoordText = DetectedItemCoordinate:ToString()
+      local DetectedItemCoordText = DetectedItemCoordinate:ToString( AttackGroup )
       
-      self:E( { DetectedItemID,
-        DetectedItemCoordText } )
+      --self:E( { DetectedItemID,
+      --  DetectedItemCoordText } )
 
       local ReportSummary = string.format( 
         "%s - %s", 
@@ -31920,7 +32576,7 @@ do -- DETECTION_TYPES
   -- @param #DETECTION_TYPES self
   -- @param Index
   -- @return #string
-  function DETECTION_TYPES:DetectedItemReportSummary( DetectedTypeName )
+  function DETECTION_TYPES:DetectedItemReportSummary( DetectedTypeName, AttackGroup )
     self:F( DetectedTypeName )
   
     local DetectedItem = self:GetDetectedItem( DetectedTypeName )
@@ -31937,7 +32593,7 @@ do -- DETECTION_TYPES
       local DetectedItemUnit = DetectedSet:GetFirst()
 
       local DetectedItemCoordinate = DetectedItemUnit:GetCoordinate()
-      local DetectedItemCoordText = DetectedItemCoordinate:ToString()
+      local DetectedItemCoordText = DetectedItemCoordinate:ToString( AttackGroup )
 
       local ReportSummary = string.format( 
         "%s - %s - Threat:[%s](%2d) - %2d of %s", 
@@ -31957,13 +32613,13 @@ do -- DETECTION_TYPES
   --- Report detailed of a detection result.
   -- @param #DETECTION_TYPES self
   -- @return #string
-  function DETECTION_TYPES:DetectedReportDetailed()
+  function DETECTION_TYPES:DetectedReportDetailed( AttackGroup )
     self:F()
     
     local Report = REPORT:New( "Detected types:" )
     for DetectedItemTypeName, DetectedItem in pairs( self.DetectedItems ) do
       local DetectedItem = DetectedItem -- #DETECTION_BASE.DetectedItem
-      local ReportSummary = self:DetectedItemReportSummary( DetectedItemTypeName )
+      local ReportSummary = self:DetectedItemReportSummary( DetectedItemTypeName, AttackGroup )
       Report:Add( ReportSummary )
     end
     
@@ -32044,7 +32700,7 @@ do -- DETECTION_AREAS
   -- @param #DETECTION_AREAS self
   -- @param Index
   -- @return #string
-  function DETECTION_AREAS:DetectedItemMenu( Index )
+  function DETECTION_AREAS:DetectedItemMenu( Index, AttackGroup )
     self:F( Index )
   
     local DetectedItem = self:GetDetectedItem( Index )
@@ -32056,7 +32712,7 @@ do -- DETECTION_AREAS
       
       local DetectedZone = self:GetDetectedItemZone( Index )
       local DetectedItemCoordinate = DetectedZone:GetCoordinate()
-      local DetectedItemCoordText = DetectedItemCoordinate:ToString()
+      local DetectedItemCoordText = DetectedItemCoordinate:ToString( AttackGroup )
 
       local ReportSummary = string.format( 
         "%s - %s", 
@@ -32074,7 +32730,7 @@ do -- DETECTION_AREAS
   -- @param #DETECTION_AREAS self
   -- @param Index
   -- @return #string
-  function DETECTION_AREAS:DetectedItemReportSummary( Index )
+  function DETECTION_AREAS:DetectedItemReportSummary( Index, AttackGroup )
     self:F( Index )
   
     local DetectedItem = self:GetDetectedItem( Index )
@@ -32086,7 +32742,7 @@ do -- DETECTION_AREAS
       
       local DetectedZone = self:GetDetectedItemZone( Index )
       local DetectedItemCoordinate = DetectedZone:GetCoordinate()
-      local DetectedItemCoordText = DetectedItemCoordinate:ToString()
+      local DetectedItemCoordText = DetectedItemCoordinate:ToString( AttackGroup )
 
       local ThreatLevelA2G = self:GetTreatLevelA2G( DetectedItem )
       local DetectedItemsCount = DetectedSet:Count()
@@ -32111,13 +32767,13 @@ do -- DETECTION_AREAS
   --- Report detailed of a detection result.
   -- @param #DETECTION_AREAS self
   -- @return #string
-  function DETECTION_AREAS:DetectedReportDetailed() --R2.1  Fixed missing report
+  function DETECTION_AREAS:DetectedReportDetailed( AttackGroup) --R2.1  Fixed missing report
     self:F()
     
     local Report = REPORT:New( "Detected areas:" )
     for DetectedItemIndex, DetectedItem in pairs( self.DetectedItems ) do
       local DetectedItem = DetectedItem -- #DETECTION_BASE.DetectedItem
-      local ReportSummary = self:DetectedItemReportSummary( DetectedItemIndex )
+      local ReportSummary = self:DetectedItemReportSummary( DetectedItemIndex, AttackGroup )
       Report:Add( ReportSummary )
     end
     
@@ -32126,16 +32782,6 @@ do -- DETECTION_AREAS
     return ReportText
   end
 
-  
-  
-  --- Returns if there are friendlies nearby the FAC units ...
-  -- @param #DETECTION_AREAS self
-  -- @return #boolean trhe if there are friendlies nearby 
-  function DETECTION_AREAS:IsFriendliesNearBy( DetectedItem )
-    
-    self:T3( DetectedItem.FriendliesNearBy )
-    return DetectedItem.FriendliesNearBy or false
-  end
   
   --- Calculate the maxium A2G threat level of the DetectedItem.
   -- @param #DETECTION_AREAS self
@@ -32183,7 +32829,7 @@ do -- DETECTION_AREAS
     DetectedItem.NearestFAC = NearestFAC
     
   end
-  
+
   --- Returns the A2G threat level of the units in the DetectedItem
   -- @param #DETECTION_AREAS self
   -- @param #DETECTION_BASE.DetectedItem DetectedItem
@@ -32313,6 +32959,7 @@ do -- DETECTION_AREAS
     for DetectedItemID, DetectedItemData in pairs( self.DetectedItems ) do
       
       local DetectedItem = DetectedItemData -- #DETECTION_BASE.DetectedItem
+      
       if DetectedItem then
       
         self:T( { "Detected Item ID:", DetectedItemID } )
@@ -32353,7 +33000,7 @@ do -- DETECTION_AREAS
               self:IdentifyDetectedObject( DetectedObject )
               AreaExists = true
   
-              DetectedItem.Zone:BoundZone( 12, self.CountryID, true)
+              --DetectedItem.Zone:BoundZone( 12, self.CountryID, true)
   
               -- Assign the Unit as the new center unit of the detected area.
               DetectedItem.Zone = ZONE_UNIT:New( DetectedUnit:GetName(), DetectedUnit, self.DetectionZoneRange )
@@ -32362,6 +33009,9 @@ do -- DETECTION_AREAS
   
               -- We don't need to add the DetectedObject to the area set, because it is already there ...
               break
+            else
+              DetectedSet:Remove( DetectedUnitName )
+              self:AddChangeUnit( DetectedItem, "RU", DetectedUnit:GetTypeName() )
             end
           end
         end
@@ -32406,12 +33056,14 @@ do -- DETECTION_AREAS
             end
           end
         else
-          DetectedItem.Zone:BoundZone( 12, self.CountryID, true)
+          --DetectedItem.Zone:BoundZone( 12, self.CountryID, true)
           self:RemoveDetectedItem( DetectedItemID )
           self:AddChangeItem( DetectedItem, "RA" )
         end
       end
     end
+    
+    
     
     -- We iterated through the existing detection areas and:
     --  - We checked which units are still detected in each detection area. Those units were flagged as Identified.
@@ -32472,15 +33124,18 @@ do -- DETECTION_AREAS
       self:ReportFriendliesNearBy( { DetectedItem = DetectedItem, ReportSetGroup = self.DetectionSetGroup } ) -- Fill the Friendlies table
       self:CalculateThreatLevelA2G( DetectedItem )  -- Calculate A2G threat level
       self:NearestFAC( DetectedItem )
-  
+      
       if DETECTION_AREAS._SmokeDetectedUnits or self._SmokeDetectedUnits then
         DetectedZone.ZoneUNIT:SmokeRed()
       end
+      
+      --DetectedSet:Flush()
+      
       DetectedSet:ForEachUnit(
         --- @param Wrapper.Unit#UNIT DetectedUnit
         function( DetectedUnit )
           if DetectedUnit:IsAlive() then
-            self:T( "Detected Set #" .. DetectedItem.ItemID .. ":" .. DetectedUnit:GetName() )
+            --self:T( "Detected Set #" .. DetectedItem.ItemID .. ":" .. DetectedUnit:GetName() )
             if DETECTION_AREAS._FlareDetectedUnits or self._FlareDetectedUnits then
               DetectedUnit:FlareGreen()
             end
@@ -32505,7 +33160,7 @@ do -- DETECTION_AREAS
   end
   
 end  
---- **Funtional R2.1** -- Management of target **Designation**.
+--- **Functional** -- Management of target **Designation**.
 --
 -- --![Banner Image](..\Presentations\DESIGNATE\Dia1.JPG)
 --
@@ -33045,7 +33700,7 @@ do -- DESIGNATE
           
           for Index, DetectedItemData in pairs( DetectedItems ) do
             
-            local Report = self.Detection:DetectedItemReportSummary( Index )
+            local Report = self.Detection:DetectedItemReportSummary( Index, AttackGroup )
             DetectedReport:Add(" - " .. Report)
           end
           
@@ -33146,7 +33801,7 @@ do -- DESIGNATE
         
         for Index, DetectedItemData in pairs( DetectedItems ) do
           
-          local Report = self.Detection:DetectedItemMenu( Index )
+          local Report = self.Detection:DetectedItemMenu( Index, AttackGroup )
           
           if not self.Designating[Index] then
             local DetectedMenu = MENU_GROUP:New( AttackGroup, Report, DesignateMenu )
@@ -33429,7 +34084,7 @@ end
 
 -- Help from Ciribob
 
---- Single-Player:**No** / Multi-Player:**Yes** / AI:**Yes** / Human:**No** / Types:**All** -- **AI Balancing will replace in multi player missions 
+--- **AI** -- **AI Balancing will replace in multi player missions 
 -- non-occupied human slots with AI groups, in order to provide an engaging simulation environment, 
 -- even when there are hardly any players in the mission.**
 -- 
@@ -33451,33 +34106,14 @@ end
 -- 
 -- ### [AI_BALANCER YouTube Channel](https://www.youtube.com/playlist?list=PL7ZUrU4zZUl2CJVIrL1TdAumuVS8n64B7)
 -- 
--- ===
+-- ====
 -- 
--- # **API CHANGE HISTORY**
--- 
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
--- 
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
--- 
--- Hereby the change log:
--- 
--- 2017-01-17: There is still a problem with AI being destroyed, but not respawned. Need to check further upon that.
--- 
--- 2017-01-08: AI_BALANCER:**InitSpawnInterval( Earliest, Latest )** added.
--- 
--- ===
--- 
--- # **AUTHORS and CONTRIBUTIONS**
--- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- ### Contributions: 
 -- 
 --   * **[Dutch_Baron](https://forums.eagle.ru/member.php?u=112075)**: Working together with James has resulted in the creation of the AI_BALANCER class. James has shared his ideas on balancing AI with air units, and together we made a first design which you can use now :-)
---   * **SNAFU**: Had a couple of mails with the guys to validate, if the same concept in the GCI/CAP script could be reworked within MOOSE. None of the script code has been used however within the new AI_BALANCER moose class.
 -- 
--- ### Authors: 
--- 
---   * FlightControl: Framework Design &  Programming and Documentation.
+-- ====
 -- 
 -- @module AI_Balancer
 
@@ -33781,44 +34417,13 @@ end
 -- 
 -- ====
 -- 
--- # **OPEN ISSUES**
--- 
--- 2017-01-17: When Spawned AI is located at an airbase, it will be routed first back to the airbase after take-off.
--- 
--- 2016-01-17: 
---   -- Fixed problem with AI returning to base too early and unexpected.
---   -- ReSpawning of AI will reset the AI_PATROL and derived classes.
---   -- Checked the correct workings of SCHEDULER, and it DOES work correctly.
--- 
--- ====
--- 
--- # **API CHANGE HISTORY**
--- 
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
--- 
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
--- 
--- Hereby the change log:
--- 
--- 2017-01-17: Rename of class: **AI\_PATROL\_ZONE** is the new name for the old _AI\_PATROLZONE_.
--- 
--- 2017-01-15: Complete revision. AI_PATROL_ZONE is the base class for other AI_PATROL like classes.
--- 
--- 2016-09-01: Initial class and API.
--- 
--- ===
--- 
--- # **AUTHORS and CONTRIBUTIONS**
--- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- ### Contributions: 
 -- 
 --   * **[Dutch_Baron](https://forums.eagle.ru/member.php?u=112075)**: Working together with James has resulted in the creation of the AI_BALANCER class. James has shared his ideas on balancing AI with air units, and together we made a first design which you can use now :-)
 --   * **[Pikey](https://forums.eagle.ru/member.php?u=62835)**: Testing and API concept review.
 -- 
--- ### Authors: 
--- 
---   * **FlightControl**: Design & Programming.
+-- ====
 -- 
 -- @module AI_Patrol
 
@@ -34715,7 +35320,7 @@ function AI_PATROL_ZONE:OnPilotDead( EventData )
     self:__PilotDead( 1, EventData )
   end
 end
---- **AI** - **Execute Combat Air Patrol (CAP).**
+--- **AI** -- **Execute Combat Air Patrol (CAP).**
 --
 -- ![Banner Image](..\Presentations\AI_CAP\Dia1.JPG)
 -- 
@@ -34744,33 +35349,18 @@ end
 -- ### [AI_CAP YouTube Channel](https://www.youtube.com/playlist?list=PL7ZUrU4zZUl1YCyPxJgoZn-CfhwyeW65L)
 -- 
 -- ====
---
--- # **API CHANGE HISTORY**
---
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
---
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
---
--- Hereby the change log:
---
--- 2017-01-15: Initial class and API.
---
--- ===
---
--- # **AUTHORS and CONTRIBUTIONS**
---
--- ### Contributions:
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
 --
 --   * **[Quax](https://forums.eagle.ru/member.php?u=90530)**: Concept, Advice & Testing.
 --   * **[Pikey](https://forums.eagle.ru/member.php?u=62835)**: Concept, Advice & Testing.
 --   * **[Gunterlund](http://forums.eagle.ru:8080/member.php?u=75036)**: Test case revision.
 --   * **[Whisper](http://forums.eagle.ru/member.php?u=3829): Testing.
 --   * **[Delta99](https://forums.eagle.ru/member.php?u=125166): Testing. 
---        
--- ### Authors:
---
---   * **FlightControl**: Concept, Design & Programming.
+-- 
+-- ====       
 --
 -- @module AI_Cap
 
@@ -35323,19 +35913,18 @@ end
 -- 
 -- ### [AI_CAS YouTube Channel](https://www.youtube.com/playlist?list=PL7ZUrU4zZUl3JBO1WDqqpyYRRmIkR2ir2)
 -- 
--- ===
+-- ====
 --
--- # **AUTHORS and CONTRIBUTIONS**
---
--- ### Contributions:
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
 --
 --   * **[Quax](https://forums.eagle.ru/member.php?u=90530)**: Concept, Advice & Testing.
 --   * **[Pikey](https://forums.eagle.ru/member.php?u=62835)**: Concept, Advice & Testing.
 --   * **[Gunterlund](http://forums.eagle.ru:8080/member.php?u=75036)**: Test case revision.
 --
--- ### Authors:
---
---   * **FlightControl**: Concept, Design & Programming.
+-- ====
 --
 -- @module AI_Cas
 
@@ -35404,11 +35993,11 @@ end
 -- 
 -- ![Engage Event](..\Presentations\AI_CAS\Dia12.JPG)
 --
--- # 1. AI_CAS_ZONE constructor
+-- ## AI_CAS_ZONE constructor
 --
 --   * @{#AI_CAS_ZONE.New}(): Creates a new AI_CAS_ZONE object.
 --
--- ## 2. AI_CAS_ZONE is a FSM
+-- ## AI_CAS_ZONE is a FSM
 -- 
 -- ![Process](..\Presentations\AI_CAS\Dia2.JPG)
 -- 
@@ -35910,30 +36499,15 @@ end
 -- 
 -- ### [AI_BAI YouTube Channel](https://www.youtube.com/playlist?list=PL7ZUrU4zZUl3JBO1WDqqpyYRRmIkR2ir2)
 -- 
--- ===
---
--- # **API CHANGE HISTORY**
---
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
---
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
---
--- Hereby the change log:
---
--- 2017-01-15: Initial class and API.
---
--- ===
---
--- # **AUTHORS and CONTRIBUTIONS**
---
--- ### Contributions:
---
+-- ====
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
+-- 
 --   * **[Gunterlund](http://forums.eagle.ru:8080/member.php?u=75036)**: Test case revision.
---
--- ### Authors:
---
---   * **FlightControl**: Concept, Design & Programming.
+-- 
+-- ====
 --
 -- @module AI_Bai
 
@@ -36556,7 +37130,7 @@ function AI_BAI_ZONE:OnEventDead( EventData )
 end
 
 
---- **AI** -- (R2.1) Build large **formations** of AI @{Group}s flying together.
+--- **AI** -- Build large **formations** of AI @{Group}s flying together.
 -- 
 -- ![Banner Image](..\Presentations\AI_FORMATION\Dia1.JPG)
 -- 
@@ -36604,13 +37178,11 @@ end
 -- 
 -- ===
 -- 
--- # **AUTHORS and CONTRIBUTIONS**
---
--- ### Contributions:
---
--- ### Authors:
---
---   * **FlightControl**: Concept, Design & Programming.
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
+-- 
+-- ====
 --   
 -- @module AI_Formation
 
@@ -38078,29 +38650,54 @@ do -- ACT_ROUTE
   --- Get the routing text to be displayed.
   -- The route mode determines the text displayed.
   -- @param #ACT_ROUTE self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable
   -- @return #string
-  function ACT_ROUTE:GetRouteText( FromCoordinate )
-
+  function ACT_ROUTE:GetRouteText( Controllable )
+    
+    self:E()
+    
     local RouteText = ""
 
-    if self.Coordinate and self.RouteMode == "B" then
-      RouteText = "Route to " .. FromCoordinate:GetBRText( self.Coordinate ) .. " km."
+    local Coordinate = nil -- Core.Point#COORDINATE
+    
+    if self.Coordinate then
+      Coordinate = self.Coordinate
     end
     
-    if self.Coordinate and self.RouteMode == "C" then
-      RouteText = "Route to " .. self.Coordinate:ToString()
+    if self.Zone then
+      Coordinate = self.Zone:GetPointVec3( self.Altitude )
+      Coordinate:SetHeading( self.Heading )
     end
     
-    if self.Zone and self.RouteMode == "B" then
-      local Coordinate = self.Zone:GetCoordinate()
-      RouteText = "Route to zone bearing " .. FromCoordinate:GetBRText( Coordinate ) .. " km."
+
+    local CC = self:GetTask():GetMission():GetCommandCenter()
+    if CC then
+      if CC:IsModeWWII() then
+        -- Find closest reference point to the target.
+        local ShortestDistance = 0
+        local ShortestReferencePoint = nil
+        local ShortestReferenceName = ""
+        self:E( { CC.ReferencePoints } )
+        for ZoneName, Zone in pairs( CC.ReferencePoints ) do
+          self:E( { ZoneName = ZoneName } )
+          local Zone = Zone -- Core.Zone#ZONE
+          local ZoneCoord = Zone:GetCoordinate()
+          local ZoneDistance = ZoneCoord:Get2DDistance( self.Coordinate )
+          self:E( { ShortestDistance, ShortestReferenceName } )
+          if ShortestDistance == 0 or ZoneDistance < ShortestDistance then
+            ShortestDistance = ZoneDistance
+            ShortestReferencePoint = ZoneCoord
+            ShortestReferenceName = CC.ReferenceNames[ZoneName]
+          end
+        end
+        if ShortestReferencePoint then
+          RouteText = Coordinate:ToStringFromRP( ShortestReferencePoint, ShortestReferenceName, Controllable )
+        end
+      else
+        RouteText = self.Coordinate:ToString( Controllable )
+      end
     end
 
-    if self.Zone and self.RouteMode == "C" then
-      local Coordinate = self.Zone:GetCoordinate()
-      RouteText = "Route to zone at " .. Coordinate:ToString()
-    end
-      
     return RouteText
   end
 
@@ -38277,8 +38874,7 @@ do -- ACT_ROUTE_POINT
   -- @param #string To
   function ACT_ROUTE_POINT:onafterReport( ProcessUnit, From, Event, To )
   
-    local TaskUnitCoordinate = ProcessUnit:GetCoordinate()
-    local RouteText = self:GetRouteText( TaskUnitCoordinate )
+    local RouteText = self:GetRouteText( ProcessUnit )
     self:Message( RouteText )
   end
 
@@ -38327,8 +38923,12 @@ do -- ACT_ROUTE_ZONE
   --- Set Zone
   -- @param #ACT_ROUTE_ZONE self
   -- @param Core.Zone#ZONE_BASE Zone The Zone object where to route to.
-  function ACT_ROUTE_ZONE:SetZone( Zone )
+  -- @param #number Altitude
+  -- @param #number Heading
+  function ACT_ROUTE_ZONE:SetZone( Zone, Altitude, Heading ) -- R2.2 Added altitude and heading
     self.Zone = Zone
+    self.Altitude = Altitude
+    self.Heading = Heading
   end  
 
   --- Get Zone
@@ -38361,12 +38961,9 @@ do -- ACT_ROUTE_ZONE
   -- @param #string From
   -- @param #string To
   function ACT_ROUTE_ZONE:onafterReport( ProcessUnit, From, Event, To )
+    self:E( { ProcessUnit = ProcessUnit } )
   
-    local ZoneVec2 = self.Zone:GetVec2()
-    local ZoneCoordinate = COORDINATE:New( ZoneVec2.x, ZoneVec2.y )
-    local TaskUnitVec2 = ProcessUnit:GetVec2()
-    local TaskUnitCoordinate = COORDINATE:New( TaskUnitVec2.x, TaskUnitVec2.y )
-    local RouteText = self:GetRouteText( TaskUnitCoordinate )
+    local RouteText = self:GetRouteText( ProcessUnit )
     self:Message( RouteText )
   end
 
@@ -38837,8 +39434,17 @@ do -- ACT_ASSIST_SMOKE_TARGETS_ZONE
     
   end
   
-end--- A COMMANDCENTER is the owner of multiple missions within MOOSE. 
+end--- **Tasking** -- A COMMANDCENTER is the owner of multiple missions within MOOSE. 
 -- A COMMANDCENTER governs multiple missions, the tasking and the reporting.
+-- 
+-- ===
+--  
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
+-- 
+-- ====
+-- 
 -- @module CommandCenter
 
 
@@ -38865,6 +39471,8 @@ function REPORT:New( Title )
   if Title then
     self.Title = Title  
   end
+  
+  self:SetIndent( 3 )
 
   return self
 end
@@ -38922,13 +39530,64 @@ end
 -- @field Dcs.DCSCoalitionWrapper.Object#coalition CommandCenterCoalition
 -- @list<Tasking.Mission#MISSION> Missions
 -- @extends Core.Base#BASE
+
+
+--- # COMMANDCENTER class, extends @{Base#BASE}
+-- 
+--  The COMMANDCENTER class governs multiple missions, the tasking and the reporting.
+--  
+--  The commandcenter communicates important messages between the various groups of human players executing tasks in missions.
+--  
+-- ## COMMANDCENTER constructor
+--
+--   * @{#COMMANDCENTER.New}(): Creates a new COMMANDCENTER object.
+-- 
+-- ## Mission Management
+-- 
+--   * @{#COMMANDCENTER.AddMission}(): Adds a mission to the commandcenter control.
+--   * @{#COMMANDCENTER.RemoveMission}(): Removes a mission to the commandcenter control.
+--   * @{#COMMANDCENTER.GetMissions}(): Retrieves the missions table controlled by the commandcenter.
+-- 
+-- ## Reference Zones
+-- 
+-- Command Centers may be aware of certain Reference Zones within the battleground. These Reference Zones can refer to
+-- known areas, recognizable buildings or sites, or any other point of interest.
+-- Command Centers will use these Reference Zones to help pilots with defining coordinates in terms of navigation
+-- during the WWII era.
+-- The Reference Zones are related to the WWII mode that the Command Center will operate in.
+-- Use the method @{#COMMANDCENTER.SetModeWWII}() to set the mode of communication to the WWII mode.
+-- 
+-- In WWII mode, the Command Center will receive detected targets, and will select for each target the closest
+-- nearby Reference Zone. This allows pilots to navigate easier through the battle field readying for combat.
+-- 
+-- The Reference Zones need to be set by the Mission Designer in the Mission Editor.
+-- Reference Zones are set by normal trigger zones. One can color the zones in a specific color, 
+-- and the radius of the zones doesn't matter, only the point is important. Place the center of these Reference Zones at
+-- specific scenery objects or points of interest (like cities, rivers, hills, crossing etc).
+-- The trigger zones indicating a Reference Zone need to follow a specific syntax.
+-- The name of each trigger zone expressing a Reference Zone need to start with a classification name of the object,
+-- followed by a #, followed by a symbolic name of the Reference Zone.
+-- A few examples:
+-- 
+--   * A church at Tskinvali would be indicated as: *Church#Tskinvali*
+--   * A train station near Kobuleti would be indicated as: *Station#Kobuleti*
+--   
+-- The COMMANDCENTER class contains a method to indicate which trigger zones need to be used as Reference Zones.
+-- This is done by using the method @{#COMMANDCENTER.SetReferenceZones}().
+-- For the moment, only one Reference Zone class can be specified, but in the future, more classes will become possible.
+-- 
+-- @field #COMMANDCENTER
 COMMANDCENTER = {
   ClassName = "COMMANDCENTER",
   CommandCenterName = "",
   CommandCenterCoalition = nil,
   CommandCenterPositionable = nil,
   Name = "",
+  ReferencePoints = {},
+  ReferenceNames = {},
+  CommunicationMode = "80",
 }
+
 --- The constructor takes an IDENTIFIABLE as the HQ command center.
 -- @param #COMMANDCENTER self
 -- @param Wrapper.Positionable#POSITIONABLE CommandCenterPositionable
@@ -38955,13 +39614,14 @@ function COMMANDCENTER:New( CommandCenterPositionable, CommandCenterName )
           local MenuMissionsSummary = MENU_GROUP_COMMAND:New( EventGroup, "Missions Status Report", MenuReporting, self.ReportMissionsStatus, self, EventGroup )
           local MenuMissionsDetails = MENU_GROUP_COMMAND:New( EventGroup, "Missions Players Report", MenuReporting, self.ReportMissionsPlayers, self, EventGroup )
           self:ReportSummary( EventGroup )
-        end
-        local PlayerUnit = EventData.IniUnit
-        for MissionID, Mission in pairs( self:GetMissions() ) do
-          local Mission = Mission -- Tasking.Mission#MISSION
-          local PlayerGroup = EventData.IniGroup -- The GROUP object should be filled!
-          Mission:JoinUnit( PlayerUnit, PlayerGroup )
-          Mission:ReportDetails()
+          local PlayerUnit = EventData.IniUnit
+          for MissionID, Mission in pairs( self:GetMissions() ) do
+            local Mission = Mission -- Tasking.Mission#MISSION
+            local PlayerGroup = EventData.IniGroup -- The GROUP object should be filled!
+            Mission:JoinUnit( PlayerUnit, PlayerGroup )
+          end
+          self:SetMenu()
+         _DATABASE:PlayerSettingsMenu( PlayerUnit ) 
         end
       end
       
@@ -38982,7 +39642,6 @@ function COMMANDCENTER:New( CommandCenterPositionable, CommandCenterName )
         local Mission = Mission -- Tasking.Mission#MISSION
         local PlayerGroup = EventData.IniGroup -- The GROUP object should be filled!
         Mission:JoinUnit( PlayerUnit, PlayerGroup )
-        Mission:ReportDetails()
       end
     end
   )
@@ -39086,6 +39745,66 @@ function COMMANDCENTER:RemoveMission( Mission )
 
   return Mission
 end
+
+--- Set special Reference Zones known by the Command Center to guide airborne pilots during WWII.
+-- 
+-- These Reference Zones are normal trigger zones, with a special naming.
+-- The Reference Zones need to be set by the Mission Designer in the Mission Editor.
+-- Reference Zones are set by normal trigger zones. One can color the zones in a specific color, 
+-- and the radius of the zones doesn't matter, only the center of the zone is important. Place the center of these Reference Zones at
+-- specific scenery objects or points of interest (like cities, rivers, hills, crossing etc).
+-- The trigger zones indicating a Reference Zone need to follow a specific syntax.
+-- The name of each trigger zone expressing a Reference Zone need to start with a classification name of the object,
+-- followed by a #, followed by a symbolic name of the Reference Zone.
+-- A few examples:
+-- 
+--   * A church at Tskinvali would be indicated as: *Church#Tskinvali*
+--   * A train station near Kobuleti would be indicated as: *Station#Kobuleti*
+-- 
+-- Taking the above example, this is how this method would be used:
+-- 
+--     CC:SetReferenceZones( "Church" )
+--     CC:SetReferenceZones( "Station" )
+-- 
+-- 
+-- @param #COMMANDCENTER self
+-- @param #string ReferenceZonePrefix The name before the #-mark indicating the class of the Reference Zones.
+-- @return #COMMANDCENTER
+function COMMANDCENTER:SetReferenceZones( ReferenceZonePrefix )
+  local MatchPattern = "(.*)#(.*)"
+  self:F( { MatchPattern = MatchPattern } )
+  for ReferenceZoneName in pairs( _DATABASE.ZONENAMES ) do
+    local ZoneName, ReferenceName = string.match( ReferenceZoneName, MatchPattern )
+    self:F( { ZoneName = ZoneName, ReferenceName = ReferenceName } )
+    if ZoneName and ReferenceName and ZoneName == ReferenceZonePrefix then
+      self.ReferencePoints[ReferenceZoneName] = ZONE:New( ReferenceZoneName )
+      self.ReferenceNames[ReferenceZoneName] = ReferenceName
+    end
+  end
+  return self
+end
+
+--- Set the commandcenter operations in WWII mode
+-- This will disable LL, MGRS, BRA, BULLS navigatin messages sent by the Command Center, 
+-- and will be replaced by a navigation using Reference Zones.
+-- It will also disable the settings at the settings menu for these.
+-- @param #COMMANDCENTER self
+-- @return #COMMANDCENTER
+function COMMANDCENTER:SetModeWWII()
+  self.CommunicationMode = "WWII"
+  return self
+end
+
+
+--- Returns if the commandcenter operations is in WWII mode
+-- @param #COMMANDCENTER self
+-- @return #boolean true if in WWII mode.
+function COMMANDCENTER:IsModeWWII()
+  return self.CommunicationMode == "WWII"
+end
+
+
+
 
 --- Sets the menu structure of the Missions governed by the HQ command center.
 -- @param #COMMANDCENTER self
@@ -39216,8 +39935,16 @@ function COMMANDCENTER:ReportDetails( ReportGroup, Task )
   self:MessageToGroup( Report:Text(), ReportGroup )
 end
 
---- A MISSION is the main owner of a Mission orchestration within MOOSE	. The Mission framework orchestrates @{CLIENT}s, @{TASK}s, @{STAGE}s etc.
--- A @{CLIENT} needs to be registered within the @{MISSION} through the function @{AddClient}. A @{TASK} needs to be registered within the @{MISSION} through the function @{AddTask}.
+--- **Tasking** -- A MISSION is the main owner of a Mission orchestration within MOOSE.
+-- 
+-- ====
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
+-- 
+-- ===
+-- 
 -- @module Mission
 
 --- The MISSION class
@@ -39438,6 +40165,33 @@ function MISSION:New( CommandCenter, MissionName, MissionPriority, MissionBriefi
   -- @param #MISSION self
   -- @param #number Delay The delay in seconds.
   
+  
+  self:AddTransition( "*", "MissionGoals", "*" )
+  
+  --- MissionGoals Handler OnBefore for MISSION
+  -- @function [parent=#MISSION] OnBeforeMissionGoals
+  -- @param #MISSION self
+  -- @param #string From
+  -- @param #string Event
+  -- @param #string To
+  -- @return #boolean
+  
+  --- MissionGoals Handler OnAfter for MISSION
+  -- @function [parent=#MISSION] OnAfterMissionGoals
+  -- @param #MISSION self
+  -- @param #string From
+  -- @param #string Event
+  -- @param #string To
+  
+  --- MissionGoals Trigger for MISSION
+  -- @function [parent=#MISSION] MissionGoals
+  -- @param #MISSION self
+  
+  --- MissionGoals Asynchronous Trigger for MISSION
+  -- @function [parent=#MISSION] __MissionGoals
+  -- @param #MISSION self
+  -- @param #number Delay
+  
 	-- Private  implementations
 	
 	CommandCenter:SetMenu()
@@ -39482,8 +40236,6 @@ function MISSION:JoinUnit( PlayerUnit, PlayerGroup )
       PlayerUnitAdded = true
     end
   end
-  
-  self:GetCommandCenter():SetMenu()
   
   return PlayerUnitAdded
 end
@@ -39678,13 +40430,16 @@ function MISSION:GetMenu( TaskGroup ) -- R2.1 -- Changed Menu Structure
   Menu.MainMenu = Menu.MainMenu or MENU_GROUP:New( TaskGroup, self:GetName(), CommandCenterMenu )
   Menu.BriefingMenu = Menu.BriefingMenu or MENU_GROUP_COMMAND:New( TaskGroup, "Mission Briefing", Menu.MainMenu, self.MenuReportBriefing, self, TaskGroup )
 
-  Menu.ReportsMenu = Menu.ReportsMenu or                              MENU_GROUP:New( TaskGroup, "Reports", Menu.MainMenu )
-  Menu.ReportTasksMenu = Menu.ReportTasksMenu or                      MENU_GROUP_COMMAND:New( TaskGroup, "Report Tasks", Menu.ReportsMenu, self.MenuReportSummary, self, TaskGroup )
-  Menu.ReportPlannedTasksMenu = Menu.ReportPlannedTasksMenu or        MENU_GROUP_COMMAND:New( TaskGroup, "Report Planned Tasks", Menu.ReportsMenu, self.MenuReportOverview, self, TaskGroup, "Planned" )
-  Menu.ReportAssignedTasksMenu = Menu.ReportAssignedTasksMenu or      MENU_GROUP_COMMAND:New( TaskGroup, "Report Assigned Tasks", Menu.ReportsMenu, self.MenuReportOverview, self, TaskGroup, "Assigned" )
-  Menu.ReportSuccessTasksMenu = Menu.ReportSuccessTasksMenu or        MENU_GROUP_COMMAND:New( TaskGroup, "Report Successful Tasks", Menu.ReportsMenu, self.MenuReportOverview, self, TaskGroup, "Success" )
-  Menu.ReportFailedTasksMenu = Menu.ReportFailedTasksMenu or          MENU_GROUP_COMMAND:New( TaskGroup, "Report Failed Tasks", Menu.ReportsMenu, self.MenuReportOverview, self, TaskGroup, "Failed" )
-  Menu.ReportHeldTasksMenu = Menu.ReportHeldTasksMenu or              MENU_GROUP_COMMAND:New( TaskGroup, "Report Held Tasks", Menu.ReportsMenu, self.MenuReportOverview, self, TaskGroup, "Hold" )
+  Menu.TaskReportsMenu = Menu.TaskReportsMenu or                      MENU_GROUP:New( TaskGroup, "Task Reports", Menu.MainMenu )
+  Menu.ReportTasksMenu = Menu.ReportTasksMenu or                      MENU_GROUP_COMMAND:New( TaskGroup, "Report Tasks", Menu.TaskReportsMenu, self.MenuReportTasksSummary, self, TaskGroup )
+  Menu.ReportPlannedTasksMenu = Menu.ReportPlannedTasksMenu or        MENU_GROUP_COMMAND:New( TaskGroup, "Report Planned Tasks", Menu.TaskReportsMenu, self.MenuReportTasksPerStatus, self, TaskGroup, "Planned" )
+  Menu.ReportAssignedTasksMenu = Menu.ReportAssignedTasksMenu or      MENU_GROUP_COMMAND:New( TaskGroup, "Report Assigned Tasks", Menu.TaskReportsMenu, self.MenuReportTasksPerStatus, self, TaskGroup, "Assigned" )
+  Menu.ReportSuccessTasksMenu = Menu.ReportSuccessTasksMenu or        MENU_GROUP_COMMAND:New( TaskGroup, "Report Successful Tasks", Menu.TaskReportsMenu, self.MenuReportTasksPerStatus, self, TaskGroup, "Success" )
+  Menu.ReportFailedTasksMenu = Menu.ReportFailedTasksMenu or          MENU_GROUP_COMMAND:New( TaskGroup, "Report Failed Tasks", Menu.TaskReportsMenu, self.MenuReportTasksPerStatus, self, TaskGroup, "Failed" )
+  Menu.ReportHeldTasksMenu = Menu.ReportHeldTasksMenu or              MENU_GROUP_COMMAND:New( TaskGroup, "Report Held Tasks", Menu.TaskReportsMenu, self.MenuReportTasksPerStatus, self, TaskGroup, "Hold" )
+  
+  Menu.PlayerReportsMenu = Menu.PlayerReportsMenu or                  MENU_GROUP:New( TaskGroup, "Player Reports", Menu.MainMenu )
+  Menu.ReportPlayersPerTaskMenu = Menu.ReportPlayersPerTaskMenu or    MENU_GROUP_COMMAND:New( TaskGroup, "Report Players per Task", Menu.PlayerReportsMenu, self.MenuReportPlayersPerTask, self, TaskGroup )
   
   return Menu.MainMenu
 end
@@ -39918,17 +40673,17 @@ function MISSION:ReportStatus()
   return Report:Text()
 end
 
---- Create a player report of the Mission.
+--- Create an active player report of the Mission.
 -- This reports provides a one liner of the mission status. It indicates how many players and how many Tasks.
 -- 
---     Mission "<MissionName>" - Status "<MissionStatus>"
+--     Mission "<MissionName>" - <MissionStatus> - Active Players Report
 --      - Player "<PlayerName>: Task <TaskName> <TaskStatus>, Task <TaskName> <TaskStatus>
 --      - Player <PlayerName>: Task <TaskName> <TaskStatus>, Task <TaskName> <TaskStatus>
 --      - ..
 -- 
 -- @param #MISSION self
 -- @return #string
-function MISSION:ReportPlayers()
+function MISSION:ReportPlayersPerTask( ReportGroup )
 
   local Report = REPORT:New()
 
@@ -39937,9 +40692,8 @@ function MISSION:ReportPlayers()
   
   -- Determine the status of the mission.
   local Status = self:GetState()
-  local TasksRemaining = self:GetTasksRemaining()
 
-  Report:Add( string.format( '%s - Status "%s"', Name, Status ) )
+  Report:Add( string.format( '%s - %s - Players per Task Report', Name, Status ) )
   
   local PlayerList = {}
   
@@ -39947,7 +40701,7 @@ function MISSION:ReportPlayers()
   for TaskID, Task in pairs( self:GetTasks() ) do
     local Task = Task -- Tasking.Task#TASK
     local PlayerNames = Task:GetPlayerNames()
-    for PlayerID, PlayerName in pairs( PlayerNames ) do
+    for PlayerName, PlayerGroup in pairs( PlayerNames ) do
       PlayerList[PlayerName] = Task:GetName()
     end
     
@@ -39973,9 +40727,8 @@ function MISSION:ReportSummary()
   
   -- Determine the status of the mission.
   local Status = self:GetState()
-  local TasksRemaining = self:GetTasksRemaining()
   
-  Report:Add( "Mission " .. Name .. " - " .. Status .. " - " .. TasksRemaining .. " tasks remaining." )
+  Report:Add( string.format( '%s - %s - Task Overview Report', Name, Status ) )
 
   -- Determine how many tasks are remaining.
   for TaskID, Task in pairs( self:GetTasks() ) do
@@ -39989,7 +40742,7 @@ end
 --- Create a overview report of the Mission (multiple lines).
 -- @param #MISSION self
 -- @return #string
-function MISSION:ReportOverview( TaskStatus )
+function MISSION:ReportOverview( ReportGroup, TaskStatus )
 
   local Report = REPORT:New()
 
@@ -39998,16 +40751,15 @@ function MISSION:ReportOverview( TaskStatus )
   
   -- Determine the status of the mission.
   local Status = self:GetState()
-  local TasksRemaining = self:GetTasksRemaining()
 
-  Report:Add( string.format( '%s - Status "%s"', Name, Status ) )
+  Report:Add( string.format( '%s - %s - %s Tasks Report', Name, Status, TaskStatus ) )
   
   -- Determine how many tasks are remaining.
   local TasksRemaining = 0
   for TaskID, Task in pairs( self:GetTasks() ) do
     local Task = Task -- Tasking.Task#TASK
     if Task:Is( TaskStatus ) then
-      Report:Add( "\n - " .. Task:ReportOverview() )
+      Report:Add( " - " .. Task:ReportOverview( ReportGroup ) )
     end
   end
 
@@ -40017,7 +40769,7 @@ end
 --- Create a detailed report of the Mission, listing all the details of the Task.
 -- @param #MISSION self
 -- @return #string
-function MISSION:ReportDetails()
+function MISSION:ReportDetails( ReportGroup )
 
   local Report = REPORT:New()
   
@@ -40027,13 +40779,13 @@ function MISSION:ReportDetails()
   -- Determine the status of the mission.
   local Status = self:GetState()
   
-  Report:Add( string.format( '%s - Status "%s"', Name, Status ) )
+  Report:Add( string.format( '%s - %s - Task Detailed Report', Name, Status ) )
   
   -- Determine how many tasks are remaining.
   local TasksRemaining = 0
   for TaskID, Task in pairs( self:GetTasks() ) do
     local Task = Task -- Tasking.Task#TASK
-    Report:Add( Task:ReportDetails() )
+    Report:Add( Task:ReportDetails( ReportGroup ) )
   end
 
   return Report:Text()
@@ -40060,7 +40812,7 @@ end
 
 --- @param #MISSION self
 -- @param Wrapper.Group#GROUP ReportGroup
-function MISSION:MenuReportSummary( ReportGroup )
+function MISSION:MenuReportTasksSummary( ReportGroup )
 
   local Report = self:ReportSummary()
   
@@ -40070,20 +40822,36 @@ end
 --- @param #MISSION self
 -- @param #string TaskStatus The status
 -- @param Wrapper.Group#GROUP ReportGroup
-function MISSION:MenuReportOverview( ReportGroup, TaskStatus )
+function MISSION:MenuReportTasksPerStatus( ReportGroup, TaskStatus )
 
-  local Report = self:ReportOverview( TaskStatus )
+  local Report = self:ReportOverview( ReportGroup, TaskStatus )
   
   self:GetCommandCenter():MessageToGroup( Report, ReportGroup )
 end
---- **Tasking** -- This module contains the TASK class.
+
+
+--- @param #MISSION self
+-- @param Wrapper.Group#GROUP ReportGroup
+function MISSION:MenuReportPlayersPerTask( ReportGroup )
+
+  local Report = self:ReportPlayersPerTask()
+  
+  self:GetCommandCenter():MessageToGroup( Report, ReportGroup )
+end
+
+
+
+
+
+--- **Tasking** -- This module contains the TASK class, the main engine to run human taskings.
 -- 
--- ===
+-- ====
 -- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- 
--- ===
+-- ### Contributions: 
 -- 
--- ### Authors: FlightControl - Design and Programming
+-- ====
 -- 
 -- @module Task
 
@@ -41252,7 +42020,7 @@ function TASK:onenterSuccess( From, Event, To )
   self:GetMission():GetCommandCenter():MessageToCoalition( "Task " .. self:GetName() .. " is successful! Good job!" )
   self:UnAssignFromGroups()
   
-  --self:GetMission():__Complete( 1 )
+  self:GetMission():__MissionGoals( 1 )
   
 end
 
@@ -41385,21 +42153,35 @@ end
 -- List the Task Name and Status
 -- @param #TASK self
 -- @return #string
-function TASK:ReportOverview() --R2.1 fixed report. Now nicely formatted and contains the info required.
+function TASK:ReportOverview( ReportGroup ) --R2.1 fixed report. Now nicely formatted and contains the info required.
 
-  local Report = REPORT:New()
   
   -- List the name of the Task.
   local Name = self:GetName()
+  local Report = REPORT:New( Name )
   
   -- Determine the status of the Task.
   local State = self:GetState()
   
-  local Detection = self.TaskInfo["Detection"] and " - " .. self.TaskInfo["Detection"] or "" 
-  
-  Report:Add( "Task " .. Name .. Detection )
+  for TaskInfoID, TaskInfo in pairs( self.TaskInfo ) do
 
-  return Report:Text()
+    local TaskInfoIDText = string.format( "%s: ", TaskInfoID )
+  
+    if type(TaskInfo) == "string" then
+      Report:Add( TaskInfoIDText .. TaskInfo )
+    elseif type(TaskInfo) == "table" then
+      if TaskInfoID == "Coordinates" then
+        local FromCoordinate = ReportGroup:GetUnit(1):GetCoordinate()
+        local ToCoordinate = TaskInfo -- Core.Point#COORDINATE
+        --Report:Add( TaskInfoIDText )
+        Report:Add( ToCoordinate:ToString( ReportGroup ) )
+        --Report:AddIndent( ToCoordinate:ToStringBULLS( ReportGroup:GetCoalition() ) )
+      else
+      end
+    end
+  end
+  
+  return Report:Text( ", ")
 end
 
 --- Create a count of the players in the Task.
@@ -41449,7 +42231,7 @@ end
 -- @param #TASK self
 -- @param Wrapper.Group#GROUP TaskGroup
 -- @return #string
-function TASK:ReportDetails( TaskGroup ) --R2.1 fixed report. Now nicely formatted and contains the info required.
+function TASK:ReportDetails( ReportGroup )
 
   local Report = REPORT:New():SetIndent( 3 )
   
@@ -41480,10 +42262,11 @@ function TASK:ReportDetails( TaskGroup ) --R2.1 fixed report. Now nicely formatt
       Report:Add( TaskInfoIDText .. TaskInfo )
     elseif type(TaskInfo) == "table" then
       if TaskInfoID == "Coordinates" then
-        local FromCoordinate = TaskGroup:GetUnit(1):GetCoordinate()
+        local FromCoordinate = ReportGroup:GetUnit(1):GetCoordinate()
+        local ToCoordinate = TaskInfo -- Core.Point#COORDINATE
         Report:Add( TaskInfoIDText )
-        Report:AddIndent( TaskInfo:ToStringBRAA( FromCoordinate ) .. ", " .. TaskInfo:ToStringAspect( FromCoordinate ) )
-        Report:AddIndent( TaskInfo:ToStringBULLS( TaskGroup:GetCoalition() ) )
+        Report:AddIndent( ToCoordinate:ToStringBRA( FromCoordinate ) .. ", " .. TaskInfo:ToStringAspect( FromCoordinate ) )
+        Report:AddIndent( ToCoordinate:ToStringBULLS( ReportGroup:GetCoalition() ) )
       else
       end
     end
@@ -41574,7 +42357,7 @@ do -- DETECTION MANAGER
     self:SetReportDisplayTime( 25 )
   
     self:E( { Detection = Detection } )
-    Detection:__Start( 1 )
+    Detection:__Start( 3 )
 
     return self
   end
@@ -41716,46 +42499,13 @@ end
 
 --- **Tasking** - The TASK_A2G_DISPATCHER creates and manages player TASK_A2G tasks based on detected targets.
 -- 
--- ===
+-- ====
 -- 
--- # 1) @{#TASK_A2G_DISPATCHER} class, extends @{#DETECTION_MANAGER}
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- 
--- The @{#TASK_A2G_DISPATCHER} class implements the dynamic dispatching of tasks upon groups of detected units determined a @{Set} of FAC (groups).
--- The FAC will detect units, will group them, and will dispatch @{Task}s to groups. Depending on the type of target detected, different tasks will be dispatched.
--- Find a summary below describing for which situation a task type is created:
+-- ### Contributions: 
 -- 
---   * **CAS Task**: Is created when there are enemy ground units within range of the FAC, while there are friendly units in the FAC perimeter.
---   * **BAI Task**: Is created when there are enemy ground units within range of the FAC, while there are NO other friendly units within the FAC perimeter.
---   * **SEAD Task**: Is created when there are enemy ground units wihtin range of the FAC, with air search radars.
---   
--- Other task types will follow...
--- 
--- 3.1) TASK_A2G_DISPATCHER constructor:
--- --------------------------------------
--- The @{#TASK_A2G_DISPATCHER.New}() method creates a new TASK_A2G_DISPATCHER instance.
---    
--- ===
---
--- # **API CHANGE HISTORY**
---
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
---
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
---
--- Hereby the change log:
---
--- 2017-03-09: Initial class and API.
---
--- ===
---
--- # **AUTHORS and CONTRIBUTIONS**
---
--- ### Contributions:
---        
--- ### Authors:
---
---   * **FlightControl**: Concept, Design & Programming.
+-- ====
 -- 
 -- @module Task_A2G_Dispatcher
 
@@ -41767,6 +42517,24 @@ do -- TASK_A2G_DISPATCHER
   -- @field Functional.Detection#DETECTION_BASE Detection The DETECTION_BASE object that is used to report the detected objects.
   -- @field Tasking.Mission#MISSION Mission
   -- @extends Tasking.DetectionManager#DETECTION_MANAGER
+
+  --- # TASK_A2G_DISPATCHE} class, extends @{#DETECTION_MANAGER}
+  -- 
+  -- The TASK_A2G_DISPATCHER class implements the dynamic dispatching of tasks upon groups of detected units determined a @{Set} of FAC (groups).
+  -- The FAC will detect units, will group them, and will dispatch @{Task}s to groups. Depending on the type of target detected, different tasks will be dispatched.
+  -- Find a summary below describing for which situation a task type is created:
+  -- 
+  --   * **CAS Task**: Is created when there are enemy ground units within range of the FAC, while there are friendly units in the FAC perimeter.
+  --   * **BAI Task**: Is created when there are enemy ground units within range of the FAC, while there are NO other friendly units within the FAC perimeter.
+  --   * **SEAD Task**: Is created when there are enemy ground units wihtin range of the FAC, with air search radars.
+  --   
+  -- Other task types will follow...
+  -- 
+  -- ## TASK_A2G_DISPATCHER constructor
+  -- 
+  -- The @{#TASK_A2G_DISPATCHER.New}() method creates a new TASK_A2G_DISPATCHER instance.
+  --
+  -- @field #TASK_A2G_DISPATCHER
   TASK_A2G_DISPATCHER = {
     ClassName = "TASK_A2G_DISPATCHER",
     Mission = nil,
@@ -41901,13 +42669,13 @@ do -- TASK_A2G_DISPATCHER
   -- @param #boolean DetectedItemID
   -- @param #boolean DetectedItemChange
   -- @return Tasking.Task#TASK
-  function TASK_A2G_DISPATCHER:EvaluateRemoveTask( Mission, Task, DetectedItemID, DetectedItemChanged )
+  function TASK_A2G_DISPATCHER:EvaluateRemoveTask( Mission, Task, TaskIndex, DetectedItemChanged )
     
     if Task then
       if Task:IsStatePlanned() and DetectedItemChanged == true then
-        self:E( "Removing Tasking: " .. Task:GetTaskName() )
+        --self:E( "Removing Tasking: " .. Task:GetTaskName() )
         Mission:RemoveTask( Task )
-        self.Tasks[DetectedItemID] = nil
+        self.Tasks[TaskIndex] = nil
       end
     end
     
@@ -41932,60 +42700,74 @@ do -- TASK_A2G_DISPATCHER
     
       local TaskReport = REPORT:New()
 
+      -- Checking the task queue for the dispatcher, and removing any obsolete task!
+      for TaskIndex, TaskData in pairs( self.Tasks ) do
+        local Task = TaskData -- Tasking.Task#TASK
+        if Task:IsStatePlanned() then
+          local DetectedItem = Detection:GetDetectedItem( TaskIndex )
+          if not DetectedItem then
+            local TaskText = Task:GetName()
+            for TaskGroupID, TaskGroup in pairs( self.SetGroup:GetSet() ) do
+              Mission:GetCommandCenter():MessageToGroup( string.format( "Obsolete A2G task %s for %s removed.", TaskText, Mission:GetName() ), TaskGroup )
+            end
+            Mission:RemoveTask( Task )
+            self.Tasks[TaskIndex] = nil
+          end
+        end
+      end
+
       --- First we need to  the detected targets.
       for DetectedItemID, DetectedItem in pairs( Detection:GetDetectedItems() ) do
       
         local DetectedItem = DetectedItem -- Functional.Detection#DETECTION_BASE.DetectedItem
         local DetectedSet = DetectedItem.Set -- Core.Set#SET_UNIT
         local DetectedZone = DetectedItem.Zone
-        self:E( { "Targets in DetectedItem", DetectedItem.ItemID, DetectedSet:Count(), tostring( DetectedItem ) } )
+        --self:E( { "Targets in DetectedItem", DetectedItem.ItemID, DetectedSet:Count(), tostring( DetectedItem ) } )
         DetectedSet:Flush()
         
         local DetectedItemID = DetectedItem.ID
-        local DetectedItemIndex = DetectedItem.Index
+        local TaskIndex = DetectedItem.Index
         local DetectedItemChanged = DetectedItem.Changed
         
-        local Task = self.Tasks[DetectedItemID]
-        Task = self:EvaluateRemoveTask( Mission, Task, DetectedItemID, DetectedItemChanged ) -- Task will be removed if it is planned and changed.
+        local Task = self.Tasks[TaskIndex]
+        Task = self:EvaluateRemoveTask( Mission, Task, TaskIndex, DetectedItemChanged ) -- Task will be removed if it is planned and changed.
 
         -- Evaluate SEAD
         if not Task then
           local TargetSetUnit = self:EvaluateSEAD( DetectedItem ) -- Returns a SetUnit if there are targets to be SEADed...
           if TargetSetUnit then
-            Task = TASK_SEAD:New( Mission, self.SetGroup, string.format( "SEAD.%03d", DetectedItemID ), TargetSetUnit )
+            Task = TASK_A2G_SEAD:New( Mission, self.SetGroup, string.format( "SEAD.%03d", DetectedItemID ), TargetSetUnit )
           end
 
           -- Evaluate CAS
           if not Task then
             local TargetSetUnit = self:EvaluateCAS( DetectedItem ) -- Returns a SetUnit if there are targets to be CASed...
             if TargetSetUnit then
-              Task = TASK_CAS:New( Mission, self.SetGroup, string.format( "CAS.%03d", DetectedItemID ), TargetSetUnit )
+              Task = TASK_A2G_CAS:New( Mission, self.SetGroup, string.format( "CAS.%03d", DetectedItemID ), TargetSetUnit )
             end
 
             -- Evaluate BAI
             if not Task then
               local TargetSetUnit = self:EvaluateBAI( DetectedItem, self.Mission:GetCommandCenter():GetPositionable():GetCoalition() ) -- Returns a SetUnit if there are targets to be BAIed...
               if TargetSetUnit then
-                Task = TASK_BAI:New( Mission, self.SetGroup, string.format( "BAI.%03d", DetectedItemID ), TargetSetUnit )
+                Task = TASK_A2G_BAI:New( Mission, self.SetGroup, string.format( "BAI.%03d", DetectedItemID ), TargetSetUnit )
               end
             end
           end
           
           if Task then
-            self.Tasks[DetectedItemID] = Task
+            self.Tasks[TaskIndex] = Task
             Task:SetTargetZone( DetectedZone )
             Task:SetDispatcher( self )
-            Task:SetInfo( "ThreatLevel", DetectedSet:CalculateThreatLevelA2G() )
-            Task:SetInfo( "Detection", Detection:DetectedItemReportSummary( DetectedItemIndex ) )
-            Task:SetInfo( "Changes", Detection:GetChangeText( DetectedItem ) )
             Mission:AddTask( Task )
+    
+            TaskReport:Add( Task:GetName() )
           else
             self:E("This should not happen")
           end
 
         end
 
-        TaskReport:Add( Task:GetName() )
   
         -- OK, so the tasking has been done, now delete the changes reported for the area.
         Detection:AcceptChanges( DetectedItem )
@@ -42011,67 +42793,13 @@ end--- **Tasking** - The TASK_A2G models tasks for players in Air to Ground enga
 -- 
 -- ![Banner Image](..\Presentations\TASK_A2G\Dia1.JPG)
 -- 
+-- ====
 -- 
--- # 1) @{Task_A2G#TASK_A2G} class, extends @{Task#TASK}
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- 
--- The @{#TASK_A2G} class defines Air To Ground tasks for a @{Set} of Target Units, 
--- based on the tasking capabilities defined in @{Task#TASK}.
--- The TASK_A2G is implemented using a @{Statemachine#FSM_TASK}, and has the following statuses:
--- 
---   * **None**: Start of the process
---   * **Planned**: The A2G task is planned.
---   * **Assigned**: The A2G task is assigned to a @{Group#GROUP}.
---   * **Success**: The A2G task is successfully completed.
---   * **Failed**: The A2G task has failed. This will happen if the player exists the task early, without communicating a possible cancellation to HQ.
--- 
--- # 1.1) Set the scoring of achievements in an A2G attack.
--- 
--- Scoring or penalties can be given in the following circumstances:
--- 
---   * @{#TASK_A2G.SetScoreOnDestroy}(): Set a score when a target in scope of the A2G attack, has been destroyed.
---   * @{#TASK_A2G.SetScoreOnSuccess}(): Set a score when all the targets in scope of the A2G attack, have been destroyed.
---   * @{#TASK_A2G.SetPenaltyOnFailed}(): Set a penalty when the A2G attack has failed.
--- 
--- # 2) @{Task_A2G#TASK_SEAD} class, extends @{Task_A2G#TASK_A2G}
--- 
--- The @{#TASK_SEAD} class defines a SEAD task for a @{Set} of Target Units.
--- 
--- ===
--- 
--- # 3) @{Task_A2G#TASK_CAS} class, extends @{Task_A2G#TASK_A2G}
--- 
--- The @{#TASK_CAS} class defines a CAS task for a @{Set} of Target Units.
--- 
--- ===
--- 
--- # 4) @{Task_A2G#TASK_BAI} class, extends @{Task_A2G#TASK_A2G}
--- 
--- The @{#TASK_BAI} class defines a BAI task for a @{Set} of Target Units.
+-- ### Contributions: 
 -- 
 -- ====
---
--- # **API CHANGE HISTORY**
---
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
---
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
---
--- Hereby the change log:
---
--- 2017-03-09: Revised version.
---
--- ===
---
--- # **AUTHORS and CONTRIBUTIONS**
---
--- ### Contributions:
---
---   * **[WingThor]**: Concept, Advice & Testing.
---        
--- ### Authors:
---
---   * **FlightControl**: Concept, Design & Programming.
 --   
 -- @module Task_A2G
 
@@ -42081,6 +42809,28 @@ do -- TASK_A2G
   -- @type TASK_A2G
   -- @field Set#SET_UNIT TargetSetUnit
   -- @extends Tasking.Task#TASK
+
+  --- # TASK_A2G class, extends @{Task#TASK}
+  -- 
+  -- The TASK_A2G class defines Air To Ground tasks for a @{Set} of Target Units, 
+  -- based on the tasking capabilities defined in @{Task#TASK}.
+  -- The TASK_A2G is implemented using a @{Fsm#FSM_TASK}, and has the following statuses:
+  -- 
+  --   * **None**: Start of the process
+  --   * **Planned**: The A2G task is planned.
+  --   * **Assigned**: The A2G task is assigned to a @{Group#GROUP}.
+  --   * **Success**: The A2G task is successfully completed.
+  --   * **Failed**: The A2G task has failed. This will happen if the player exists the task early, without communicating a possible cancellation to HQ.
+  -- 
+  -- ## Set the scoring of achievements in an A2G attack.
+  -- 
+  -- Scoring or penalties can be given in the following circumstances:
+  -- 
+  --   * @{#TASK_A2G.SetScoreOnDestroy}(): Set a score when a target in scope of the A2G attack, has been destroyed.
+  --   * @{#TASK_A2G.SetScoreOnSuccess}(): Set a score when all the targets in scope of the A2G attack, have been destroyed.
+  --   * @{#TASK_A2G.SetPenaltyOnFailed}(): Set a penalty when the A2G attack has failed.
+  -- 
+  -- @field #TASK_A2G
   TASK_A2G = {
     ClassName = "TASK_A2G",
   }
@@ -42183,7 +42933,7 @@ do -- TASK_A2G
         local TargetUnit = Task.TargetSetUnit:GetFirst() -- Wrapper.Unit#UNIT
         if TargetUnit then
           local Coordinate = TargetUnit:GetCoordinate()
-          self:T( { TargetCoordinate = Coordinate, Coordinate:GetX(), Coordinate:GetAlt(), Coordinate:GetZ() } )
+          self:T( { TargetCoordinate = Coordinate, Coordinate:GetX(), Coordinate:GetY(), Coordinate:GetZ() } )
           Task:SetTargetCoordinate( TargetUnit:GetCoordinate(), TaskUnit )
         end
         self:__RouteToTargetPoint( 0.1 )
@@ -42360,166 +43110,172 @@ do -- TASK_A2G
 end 
 
 
-do -- TASK_SEAD
+do -- TASK_A2G_SEAD
 
-  --- The TASK_SEAD class
-  -- @type TASK_SEAD
+  --- The TASK_A2G_SEAD class
+  -- @type TASK_A2G_SEAD
   -- @field Set#SET_UNIT TargetSetUnit
   -- @extends Tasking.Task#TASK
-  TASK_SEAD = {
-    ClassName = "TASK_SEAD",
+
+  --- # TASK_A2G_SEAD class, extends @{Task_A2G#TASK_A2G}
+  -- 
+  -- The TASK_A2G_SEAD class defines an Suppression or Extermination of Air Defenses task for a human player to be executed.
+  -- These tasks are important to be executed as they will help to achieve air superiority at the vicinity.
+  -- 
+  -- The TASK_A2G_SEAD is used by the @{Task_A2G_Dispatcher#TASK_A2G_DISPATCHER} to automatically create SEAD tasks 
+  -- based on detected enemy ground targets.
+  -- 
+  -- @field #TASK_A2G_SEAD
+  TASK_A2G_SEAD = {
+    ClassName = "TASK_A2G_SEAD",
   }
   
-  --- Instantiates a new TASK_SEAD.
-  -- @param #TASK_SEAD self
+  --- Instantiates a new TASK_A2G_SEAD.
+  -- @param #TASK_A2G_SEAD self
   -- @param Tasking.Mission#MISSION Mission
   -- @param Core.Set#SET_GROUP SetGroup The set of groups for which the Task can be assigned.
   -- @param #string TaskName The name of the Task.
   -- @param Core.Set#SET_UNIT TargetSetUnit 
   -- @param #string TaskBriefing The briefing of the task.
-  -- @return #TASK_SEAD self
-  function TASK_SEAD:New( Mission, SetGroup, TaskName, TargetSetUnit, TaskBriefing )
-    local self = BASE:Inherit( self, TASK_A2G:New( Mission, SetGroup, TaskName, TargetSetUnit, "SEAD", TaskBriefing ) ) -- #TASK_SEAD
+  -- @return #TASK_A2G_SEAD self
+  function TASK_A2G_SEAD:New( Mission, SetGroup, TaskName, TargetSetUnit, TaskBriefing )
+    local self = BASE:Inherit( self, TASK_A2G:New( Mission, SetGroup, TaskName, TargetSetUnit, "SEAD", TaskBriefing ) ) -- #TASK_A2G_SEAD
     self:F()
     
     Mission:AddTask( self )
     
-    local TargetCoord = TargetSetUnit:GetFirst():GetCoordinate()
-    local TargetPositionText = TargetCoord:ToString()
-    local TargetThreatLevel = TargetSetUnit:CalculateThreatLevelA2G()
-
     self:SetBriefing( 
       TaskBriefing or 
-      "Execute a Suppression of Enemy Air Defenses.\n" ..
-      "Initial Coordinates: " .. TargetPositionText .. "\n" ..
-      "Threat Level: [" .. string.rep(  "■", TargetThreatLevel ) .. "]"
+      "Execute a Suppression of Enemy Air Defenses.\n"
     )
+
+    local TargetCoordinate = TargetSetUnit:GetFirst():GetCoordinate()
+    self:SetInfo( "Coordinates", TargetCoordinate )
+
+    self:SetInfo( "Threat", "[" .. string.rep(  "■", TargetSetUnit:CalculateThreatLevelA2G() ) .. "]" )
+    local DetectedItemsCount = TargetSetUnit:Count()
+    local DetectedItemsTypes = TargetSetUnit:GetTypeNames()
+    self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ) ) 
 
     return self
   end 
 
 end
 
-do -- TASK_BAI
+do -- TASK_A2G_BAI
 
-  --- The TASK_BAI class
-  -- @type TASK_BAI
+  --- The TASK_A2G_BAI class
+  -- @type TASK_A2G_BAI
   -- @field Set#SET_UNIT TargetSetUnit
   -- @extends Tasking.Task#TASK
-  TASK_BAI = {
-    ClassName = "TASK_BAI",
+
+  --- # TASK_A2G_BAI class, extends @{Task_A2G#TASK_A2G}
+  -- 
+  -- The TASK_A2G_BAI class defines an Battlefield Air Interdiction task for a human player to be executed.
+  -- These tasks are more strategic in nature and are most of the time further away from friendly forces.
+  -- BAI tasks can also be used to express the abscence of friendly forces near the vicinity.
+  -- 
+  -- The TASK_A2G_BAI is used by the @{Task_A2G_Dispatcher#TASK_A2G_DISPATCHER} to automatically create BAI tasks 
+  -- based on detected enemy ground targets.
+  -- 
+  -- @field #TASK_A2G_BAI
+  TASK_A2G_BAI = {
+    ClassName = "TASK_A2G_BAI",
   }
   
-  --- Instantiates a new TASK_BAI.
-  -- @param #TASK_BAI self
+  --- Instantiates a new TASK_A2G_BAI.
+  -- @param #TASK_A2G_BAI self
   -- @param Tasking.Mission#MISSION Mission
   -- @param Core.Set#SET_GROUP SetGroup The set of groups for which the Task can be assigned.
   -- @param #string TaskName The name of the Task.
   -- @param Core.Set#SET_UNIT TargetSetUnit 
   -- @param #string TaskBriefing The briefing of the task.
-  -- @return #TASK_BAI self
-  function TASK_BAI:New( Mission, SetGroup, TaskName, TargetSetUnit, TaskBriefing )
-    local self = BASE:Inherit( self, TASK_A2G:New( Mission, SetGroup, TaskName, TargetSetUnit, "BAI", TaskBriefing ) ) -- #TASK_BAI
+  -- @return #TASK_A2G_BAI self
+  function TASK_A2G_BAI:New( Mission, SetGroup, TaskName, TargetSetUnit, TaskBriefing )
+    local self = BASE:Inherit( self, TASK_A2G:New( Mission, SetGroup, TaskName, TargetSetUnit, "BAI", TaskBriefing ) ) -- #TASK_A2G_BAI
     self:F()
     
     Mission:AddTask( self )
     
-    local TargetCoord = TargetSetUnit:GetFirst():GetCoordinate()
-    local TargetPositionText = TargetCoord:ToString()
-    local TargetThreatLevel = TargetSetUnit:CalculateThreatLevelA2G()
-    
     self:SetBriefing( 
       TaskBriefing or 
-      "Execute a Battlefield Air Interdiction of a group of enemy targets.\n" ..
-      "Initial Coordinates: " .. TargetPositionText .. "\n" ..
-      "Threat Level: [" .. string.rep(  "■", TargetThreatLevel ) .. "]"
+      "Execute a Battlefield Air Interdiction of a group of enemy targets.\n"
     )
+
+    local TargetCoordinate = TargetSetUnit:GetFirst():GetCoordinate()
+    self:SetInfo( "Coordinates", TargetCoordinate )
+
+    self:SetInfo( "Threat", "[" .. string.rep(  "■", TargetSetUnit:CalculateThreatLevelA2G() ) .. "]" )
+    local DetectedItemsCount = TargetSetUnit:Count()
+    local DetectedItemsTypes = TargetSetUnit:GetTypeNames()
+    self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ) ) 
 
     return self
   end 
 
 end
 
-do -- TASK_CAS
+do -- TASK_A2G_CAS
 
-  --- The TASK_CAS class
-  -- @type TASK_CAS
+  --- The TASK_A2G_CAS class
+  -- @type TASK_A2G_CAS
   -- @field Set#SET_UNIT TargetSetUnit
   -- @extends Tasking.Task#TASK
-  TASK_CAS = {
-    ClassName = "TASK_CAS",
+
+  --- # TASK_A2G_CAS class, extends @{Task_A2G#TASK_A2G}
+  -- 
+  -- The TASK_A2G_CAS class defines an Close Air Support task for a human player to be executed.
+  -- Friendly forces will be in the vicinity within 6km from the enemy.
+  -- 
+  -- The TASK_A2G_CAS is used by the @{Task_A2G_Dispatcher#TASK_A2G_DISPATCHER} to automatically create CAS tasks 
+  -- based on detected enemy ground targets.
+  -- 
+  -- @field #TASK_A2G_CAS
+  TASK_A2G_CAS = {
+    ClassName = "TASK_A2G_CAS",
   }
   
-  --- Instantiates a new TASK_CAS.
-  -- @param #TASK_CAS self
+  --- Instantiates a new TASK_A2G_CAS.
+  -- @param #TASK_A2G_CAS self
   -- @param Tasking.Mission#MISSION Mission
   -- @param Core.Set#SET_GROUP SetGroup The set of groups for which the Task can be assigned.
   -- @param #string TaskName The name of the Task.
   -- @param Core.Set#SET_UNIT TargetSetUnit 
   -- @param #string TaskBriefing The briefing of the task.
-  -- @return #TASK_CAS self
-  function TASK_CAS:New( Mission, SetGroup, TaskName, TargetSetUnit, TaskBriefing )
-    local self = BASE:Inherit( self, TASK_A2G:New( Mission, SetGroup, TaskName, TargetSetUnit, "CAS", TaskBriefing ) ) -- #TASK_CAS
+  -- @return #TASK_A2G_CAS self
+  function TASK_A2G_CAS:New( Mission, SetGroup, TaskName, TargetSetUnit, TaskBriefing )
+    local self = BASE:Inherit( self, TASK_A2G:New( Mission, SetGroup, TaskName, TargetSetUnit, "CAS", TaskBriefing ) ) -- #TASK_A2G_CAS
     self:F()
     
     Mission:AddTask( self )
-    
-    local TargetCoord = TargetSetUnit:GetFirst():GetCoordinate()
-    local TargetPositionText = TargetCoord:ToString()
-    local TargetThreatLevel = TargetSetUnit:CalculateThreatLevelA2G()
     
     self:SetBriefing( 
       TaskBriefing or 
       "Execute a Close Air Support for a group of enemy targets.\n" ..
-      "Beware of friendlies at the vicinity!\n" ..
-      "Initial Coordinates: " .. TargetPositionText .. "\n" ..
-      "Threat Level: [" .. string.rep(  "■", TargetThreatLevel ) .. "]"
+      "Beware of friendlies at the vicinity!\n"
     )
-    
+
+    local TargetCoordinate = TargetSetUnit:GetFirst():GetCoordinate()
+    self:SetInfo( "Coordinates", TargetCoordinate )
+
+    self:SetInfo( "Threat", "[" .. string.rep(  "■", TargetSetUnit:CalculateThreatLevelA2G() ) .. "]" )
+    local DetectedItemsCount = TargetSetUnit:Count()
+    local DetectedItemsTypes = TargetSetUnit:GetTypeNames()
+    self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ) ) 
+
     return self
   end 
 
 end
 --- **Tasking** - The TASK_A2A_DISPATCHER creates and manages player TASK_A2A tasks based on detected targets.
 -- 
--- ===
+-- ====
 -- 
--- # 1) @{#TASK_A2A_DISPATCHER} class, extends @{#DETECTION_MANAGER}
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- 
--- The @{#TASK_A2A_DISPATCHER} class implements the dynamic dispatching of tasks upon groups of detected units determined a @{Set} of EWR installation groups.
--- The EWR will detect units, will group them, and will dispatch @{Task}s to groups. Depending on the type of target detected, different tasks will be dispatched.
--- Find a summary below describing for which situation a task type is created:
+-- ### Contributions: 
 -- 
---   * **INTERCEPT Task**: Is created when the target is known, is detected and within a danger zone, and there is no friendly airborne in range.
---   * **SWEEP Task**: Is created when the target is unknown, was detected and the last position is only known, and within a danger zone, and there is no friendly airborne in range.
---   * **ENGAGE Task**: Is created when the target is known, is detected and within a danger zone, and there is a friendly airborne in range, that will receive this task.
---   
--- Other task types will follow...
--- 
--- 3.1) TASK_A2A_DISPATCHER constructor:
--- --------------------------------------
--- The @{#TASK_A2A_DISPATCHER.New}() method creates a new TASK_A2A_DISPATCHER instance.
---    
--- ===
---
--- # **API CHANGE HISTORY**
---
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
---
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
---
--- Hereby the change log:
---
--- ===
---
--- # **AUTHORS and CONTRIBUTIONS**
---
--- ### Contributions:
---        
--- ### Authors:
---
---   * **FlightControl**: Concept, Design & Programming.
+-- ====
 -- 
 -- @module Task_A2A_Dispatcher
 
@@ -42527,15 +43283,31 @@ do -- TASK_A2A_DISPATCHER
 
   --- TASK_A2A_DISPATCHER class.
   -- @type TASK_A2A_DISPATCHER
-  -- @field Set#SET_GROUP SetGroup The groups to which the FAC will report to.
-  -- @field Functional.Detection#DETECTION_BASE Detection The DETECTION_BASE object that is used to report the detected objects. The Detection object will only function in RADAR mode!!!
-  -- @field Tasking.Mission#MISSION Mission
   -- @extends Tasking.DetectionManager#DETECTION_MANAGER
+
+  --- # TASK_A2A_DISPATCHER class, extends @{Tasking#DETECTION_MANAGER}
+  -- 
+  -- The @{#TASK_A2A_DISPATCHER} class implements the dynamic dispatching of tasks upon groups of detected units determined a @{Set} of EWR installation groups.
+  -- The EWR will detect units, will group them, and will dispatch @{Task}s to groups. Depending on the type of target detected, different tasks will be dispatched.
+  -- Find a summary below describing for which situation a task type is created:
+  -- 
+  --   * **INTERCEPT Task**: Is created when the target is known, is detected and within a danger zone, and there is no friendly airborne in range.
+  --   * **SWEEP Task**: Is created when the target is unknown, was detected and the last position is only known, and within a danger zone, and there is no friendly airborne in range.
+  --   * **ENGAGE Task**: Is created when the target is known, is detected and within a danger zone, and there is a friendly airborne in range, that will receive this task.
+  --   
+  -- Other task types will follow...
+  -- 
+  -- # TASK_A2A_DISPATCHER constructor:
+  -- --------------------------------------
+  -- The @{#TASK_A2A_DISPATCHER.New}() method creates a new TASK_A2A_DISPATCHER instance.
+  -- 
+  -- @field #TASK_A2A_DISPATCHER
   TASK_A2A_DISPATCHER = {
     ClassName = "TASK_A2A_DISPATCHER",
     Mission = nil,
     Detection = nil,
     Tasks = {},
+    SweepZones = {},
   }
   
   
@@ -42553,8 +43325,10 @@ do -- TASK_A2A_DISPATCHER
     self.Detection = Detection
     self.Mission = Mission
     
+    
+    -- TODO: Check detection through radar.
     self.Detection:FilterCategories( Unit.Category.AIRPLANE, Unit.Category.HELICOPTER )
-    self.Detection:InitDetectRadar( true )
+    --self.Detection:InitDetectRadar( true )
     self.Detection:SetDetectionInterval( 30 )
     
     self:AddTransition( "Started", "Assign", "Started" )
@@ -42586,11 +43360,11 @@ do -- TASK_A2A_DISPATCHER
     local DetectedSet = DetectedItem.Set
     local DetectedZone = DetectedItem.Zone
 
-    -- Put here the intercept logic....
+    -- Check if there is at least one UNIT in the DetectedSet is visible.
+    
+    if DetectedItem.IsDetected == true then
 
-    if true then
-
-      -- Here we're doing something advanced... We're copying the DetectedSet, but making a new Set only with SEADable Radar units in it.
+      -- Here we're doing something advanced... We're copying the DetectedSet.
       local TargetSetUnit = SET_UNIT:New()
       TargetSetUnit:SetDatabase( DetectedSet )
       TargetSetUnit:FilterOnce() -- Filter but don't do any events!!! Elements are added manually upon each detection.
@@ -42602,27 +43376,214 @@ do -- TASK_A2A_DISPATCHER
   end
 
   
+  --- Creates an SWEEP task when there are targets for it.
+  -- @param #TASK_A2A_DISPATCHER self
+  -- @param Functional.Detection#DETECTION_BASE.DetectedItem DetectedItem
+  -- @return Set#SET_UNIT TargetSetUnit: The target set of units.
+  -- @return #nil If there are no targets to be set.
+  function TASK_A2A_DISPATCHER:EvaluateSWEEP( DetectedItem )
+    self:F( { DetectedItem.ItemID } )
+  
+    local DetectedSet = DetectedItem.Set
+    local DetectedZone = DetectedItem.Zone
+
+
+    if DetectedItem.IsDetected == false then
+
+      -- Here we're doing something advanced... We're copying the DetectedSet.
+      local TargetSetUnit = SET_UNIT:New()
+      TargetSetUnit:SetDatabase( DetectedSet )
+      TargetSetUnit:FilterOnce() -- Filter but don't do any events!!! Elements are added manually upon each detection.
+    
+      return TargetSetUnit
+    end
+    
+    return nil
+  end
+
+  
+  --- Creates an ENGAGE task when there are human friendlies airborne near the targets.
+  -- @param #TASK_A2A_DISPATCHER self
+  -- @param Functional.Detection#DETECTION_BASE.DetectedItem DetectedItem
+  -- @return Set#SET_UNIT TargetSetUnit: The target set of units.
+  -- @return #nil If there are no targets to be set.
+  function TASK_A2A_DISPATCHER:EvaluateENGAGE( DetectedItem )
+    self:F( { DetectedItem.ItemID } )
+  
+    local DetectedSet = DetectedItem.Set
+    local DetectedZone = DetectedItem.Zone
+
+    local PlayersCount, PlayersReport = self:GetPlayerFriendliesNearBy( DetectedItem )
+
+    
+    -- Only allow ENGAGE when there are Players near the zone, and when the Area has detected items since the last run in a 60 seconds time zone.
+    if PlayersCount > 0 and DetectedItem.IsDetected == true then
+
+      -- Here we're doing something advanced... We're copying the DetectedSet.
+      local TargetSetUnit = SET_UNIT:New()
+      TargetSetUnit:SetDatabase( DetectedSet )
+      TargetSetUnit:FilterOnce() -- Filter but don't do any events!!! Elements are added manually upon each detection.
+    
+      return TargetSetUnit
+    end
+    
+    return nil
+  end
+  
+
+
+  
   --- Evaluates the removal of the Task from the Mission.
   -- Can only occur when the DetectedItem is Changed AND the state of the Task is "Planned".
   -- @param #TASK_A2A_DISPATCHER self
   -- @param Tasking.Mission#MISSION Mission
   -- @param Tasking.Task#TASK Task
+  -- @param Functional.Detection#DETECTION_BASE Detection The detection created by the @{Detection#DETECTION_BASE} derived object.
   -- @param #boolean DetectedItemID
   -- @param #boolean DetectedItemChange
   -- @return Tasking.Task#TASK
-  function TASK_A2A_DISPATCHER:EvaluateRemoveTask( Mission, Task, DetectedItemID, DetectedItemChanged )
+  function TASK_A2A_DISPATCHER:EvaluateRemoveTask( Mission, Task, Detection, DetectedItem, DetectedItemIndex, DetectedItemChanged )
     
     if Task then
-      if Task:IsStatePlanned() and DetectedItemChanged == true then
-        self:E( "Removing Tasking: " .. Task:GetTaskName() )
-        Mission:RemoveTask( Task )
-        self.Tasks[DetectedItemID] = nil
+
+      if Task:IsStatePlanned() then
+        local TaskName = Task:GetName()
+        local TaskType = TaskName:match( "(%u+)%.%d+" )
+        
+        self:T2( { TaskType = TaskType } )
+        
+        local Remove = false
+        
+        local IsPlayers = Detection:IsPlayersNearBy( DetectedItem )
+        if TaskType == "ENGAGE" then
+          if IsPlayers == false then
+            Remove = true
+          end
+        end
+        
+        if TaskType == "INTERCEPT" then
+          if IsPlayers == true then
+            Remove = true
+          end
+          if DetectedItem.IsDetected == false then
+            Remove = true
+          end
+        end
+        
+        if TaskType == "SWEEP" then
+          if DetectedItem.IsDetected == true then
+            Remove = true
+          end
+        end
+
+        local DetectedSet = DetectedItem.Set -- Core.Set#SET_UNIT
+        --DetectedSet:Flush()
+        --self:E( { DetectedSetCount = DetectedSet:Count() } )
+        if DetectedSet:Count() == 0 then
+          Remove = true
+        end
+         
+        if DetectedItemChanged == true or Remove then
+          --self:E( "Removing Tasking: " .. Task:GetTaskName() )
+          Mission:RemoveTask( Task )
+          self.Tasks[DetectedItemIndex] = nil
+        end
       end
     end
     
     return Task
   end
+
+  --- Calculates which friendlies are nearby the area
+  -- @param #TASK_A2A_DISPATCHER self
+  -- @param DetectedItem
+  -- @return #number, Core.CommandCenter#REPORT
+  function TASK_A2A_DISPATCHER:GetFriendliesNearBy( DetectedItem )
   
+    local DetectedSet = DetectedItem.Set
+    local FriendlyUnitsNearBy = self.Detection:GetFriendliesNearBy( DetectedItem )
+    
+    local FriendlyTypes = {}
+    local FriendliesCount = 0
+
+    if FriendlyUnitsNearBy then
+      local DetectedTreatLevel = DetectedSet:CalculateThreatLevelA2G()
+      for FriendlyUnitName, FriendlyUnitData in pairs( FriendlyUnitsNearBy ) do
+        local FriendlyUnit = FriendlyUnitData -- Wrapper.Unit#UNIT
+        if FriendlyUnit:IsAirPlane() then
+          local FriendlyUnitThreatLevel = FriendlyUnit:GetThreatLevel()
+          FriendliesCount = FriendliesCount + 1
+          local FriendlyType = FriendlyUnit:GetTypeName()
+          FriendlyTypes[FriendlyType] = FriendlyTypes[FriendlyType] and ( FriendlyTypes[FriendlyType] + 1 ) or 1
+          if DetectedTreatLevel < FriendlyUnitThreatLevel + 2 then
+          end
+        end
+      end
+      
+    end
+
+    --self:E( { FriendliesCount = FriendliesCount } )
+    
+    local FriendlyTypesReport = REPORT:New()
+    
+    if FriendliesCount > 0 then
+      for FriendlyType, FriendlyTypeCount in pairs( FriendlyTypes ) do
+        FriendlyTypesReport:Add( string.format("%d of %s", FriendlyTypeCount, FriendlyType ) )
+      end
+    else
+      FriendlyTypesReport:Add( "-" )
+    end
+    
+    
+    return FriendliesCount, FriendlyTypesReport
+  end
+
+  --- Calculates which HUMAN friendlies are nearby the area
+  -- @param #TASK_A2A_DISPATCHER self
+  -- @param DetectedItem
+  -- @return #number, Core.CommandCenter#REPORT
+  function TASK_A2A_DISPATCHER:GetPlayerFriendliesNearBy( DetectedItem )
+  
+    local DetectedSet = DetectedItem.Set
+    local PlayersNearBy = self.Detection:GetPlayersNearBy( DetectedItem )
+    
+    local PlayerTypes = {}
+    local PlayersCount = 0
+
+    if PlayersNearBy then
+      local DetectedTreatLevel = DetectedSet:CalculateThreatLevelA2G()
+      for PlayerUnitName, PlayerUnitData in pairs( PlayersNearBy ) do
+        local PlayerUnit = PlayerUnitData -- Wrapper.Unit#UNIT
+        local PlayerName = PlayerUnit:GetPlayerName()
+        --self:E( { PlayerName = PlayerName, PlayerUnit = PlayerUnit } )
+        if PlayerUnit:IsAirPlane() and PlayerName ~= nil then
+          local FriendlyUnitThreatLevel = PlayerUnit:GetThreatLevel()
+          PlayersCount = PlayersCount + 1
+          local PlayerType = PlayerUnit:GetTypeName()
+          PlayerTypes[PlayerName] = PlayerType
+          if DetectedTreatLevel < FriendlyUnitThreatLevel + 2 then
+          end
+        end
+      end
+      
+    end
+
+    --self:E( { PlayersCount = PlayersCount } )
+    
+    local PlayerTypesReport = REPORT:New()
+    
+    if PlayersCount > 0 then
+      for PlayerName, PlayerType in pairs( PlayerTypes ) do
+        PlayerTypesReport:Add( string.format('"%s" in %s', PlayerName, PlayerType ) )
+      end
+    else
+      PlayerTypesReport:Add( "-" )
+    end
+    
+    
+    return PlayersCount, PlayerTypesReport
+  end
+
 
   --- Assigns tasks in relation to the detected items to the @{Set#SET_GROUP}.
   -- @param #TASK_A2A_DISPATCHER self
@@ -42640,48 +43601,76 @@ do -- TASK_A2A_DISPATCHER
     if Mission:IsIDLE() or Mission:IsENGAGED() then
     
       local TaskReport = REPORT:New()
+      
+      -- Checking the task queue for the dispatcher, and removing any obsolete task!
+      for TaskIndex, TaskData in pairs( self.Tasks ) do
+        local Task = TaskData -- Tasking.Task#TASK
+        if Task:IsStatePlanned() then
+          local DetectedItem = Detection:GetDetectedItem( TaskIndex )
+          if not DetectedItem then
+            local TaskText = Task:GetName()
+            for TaskGroupID, TaskGroup in pairs( self.SetGroup:GetSet() ) do
+              Mission:GetCommandCenter():MessageToGroup( string.format( "Obsolete A2A task %s for %s removed.", TaskText, Mission:GetName() ), TaskGroup )
+            end
+            Mission:RemoveTask( Task )
+            self.Tasks[TaskIndex] = nil
+          end
+        end
+      end
 
-      --- First we need to  the detected targets.
+      -- Now that all obsolete tasks are removed, loop through the detected targets.
       for DetectedItemID, DetectedItem in pairs( Detection:GetDetectedItems() ) do
       
         local DetectedItem = DetectedItem -- Functional.Detection#DETECTION_BASE.DetectedItem
         local DetectedSet = DetectedItem.Set -- Core.Set#SET_UNIT
+        local DetectedCount = DetectedSet:Count()
         local DetectedZone = DetectedItem.Zone
-        self:E( { "Targets in DetectedItem", DetectedItem.ItemID, DetectedSet:Count(), tostring( DetectedItem ) } )
-        DetectedSet:Flush()
+        --self:E( { "Targets in DetectedItem", DetectedItem.ItemID, DetectedSet:Count(), tostring( DetectedItem ) } )
+        --DetectedSet:Flush()
         
         local DetectedID = DetectedItem.ID
-        local DetectedIndex = DetectedItem.Index
+        local TaskIndex = DetectedItem.Index
         local DetectedItemChanged = DetectedItem.Changed
         
-        local Task = self.Tasks[DetectedID]
-        Task = self:EvaluateRemoveTask( Mission, Task, DetectedID, DetectedItemChanged ) -- Task will be removed if it is planned and changed.
+        local Task = self.Tasks[TaskIndex]
+        Task = self:EvaluateRemoveTask( Mission, Task, Detection, DetectedItem, TaskIndex, DetectedItemChanged ) -- Task will be removed if it is planned and changed.
 
         -- Evaluate INTERCEPT
-        if not Task then
-          local TargetSetUnit = self:EvaluateINTERCEPT( DetectedItem ) -- Returns a SetUnit if there are targets to be INTERCEPTed...
+        if not Task and DetectedCount > 0 then
+          local TargetSetUnit = self:EvaluateENGAGE( DetectedItem ) -- Returns a SetUnit if there are targets to be INTERCEPTed...
           if TargetSetUnit then
-            Task = TASK_INTERCEPT:New( Mission, self.SetGroup, string.format( "INTERCEPT.%03d", DetectedID ), TargetSetUnit )
+            Task = TASK_A2A_ENGAGE:New( Mission, self.SetGroup, string.format( "ENGAGE.%03d", DetectedID ), TargetSetUnit )
+          else
+            local TargetSetUnit = self:EvaluateINTERCEPT( DetectedItem ) -- Returns a SetUnit if there are targets to be INTERCEPTed...
+            if TargetSetUnit then
+              Task = TASK_A2A_INTERCEPT:New( Mission, self.SetGroup, string.format( "INTERCEPT.%03d", DetectedID ), TargetSetUnit )
+            else
+              local TargetSetUnit = self:EvaluateSWEEP( DetectedItem ) -- Returns a SetUnit 
+              if TargetSetUnit then
+                Task = TASK_A2A_SWEEP:New( Mission, self.SetGroup, string.format( "SWEEP.%03d", DetectedID ), TargetSetUnit )
+              end  
+            end
           end
 
           if Task then
-            self.Tasks[DetectedID] = Task
-            Task:SetTargetZone( DetectedZone )
+            self.Tasks[TaskIndex] = Task
+            Task:SetTargetZone( DetectedZone, DetectedSet:GetFirst():GetAltitude(), DetectedSet:GetFirst():GetHeading() )
             Task:SetDispatcher( self )
-            Task:SetInfo( "ThreatLevel", "[" .. string.rep(  "■", DetectedSet:CalculateThreatLevelA2G() ) .. "]" )
-            local DetectedItemsCount = DetectedSet:Count()
-            local DetectedItemsTypes = DetectedSet:GetTypeNames()
-            Task:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ) ) 
-            Task:SetInfo( "Coordinates", Detection:GetDetectedItemCoordinate( DetectedIndex ) )
-            Task:SetInfo( "Object", DetectedSet:GetFirst() )
             Mission:AddTask( Task )
+            
+            TaskReport:Add( Task:GetName() )
           else
             self:E("This should not happen")
           end
 
         end
 
-        TaskReport:Add( Task:GetName() )
+        if Task then
+          local FriendliesCount, FriendliesReport = self:GetFriendliesNearBy( DetectedItem )
+          Task:SetInfo( "Friendlies", string.format( "%d ( %s )", FriendliesCount, FriendliesReport:Text( "," ) ) ) 
+          local PlayersCount, PlayersReport = self:GetPlayerFriendliesNearBy( DetectedItem )
+          Task:SetInfo( "Players", string.format( "%d ( %s )", PlayersCount, PlayersReport:Text( "," ) ) ) 
+        end
   
         -- OK, so the tasking has been done, now delete the changes reported for the area.
         Detection:AcceptChanges( DetectedItem )
@@ -42709,52 +43698,13 @@ end
 -- ![Banner Image](..\Presentations\TASK_A2A\Dia1.JPG)
 -- 
 -- 
--- # 1) @{Task_A2A#TASK_A2A} class, extends @{Task#TASK}
+-- ====
 -- 
--- The @{#TASK_A2A} class defines Air To Air tasks for a @{Set} of Target Units, 
--- based on the tasking capabilities defined in @{Task#TASK}.
--- The TASK_A2A is implemented using a @{Statemachine#FSM_TASK}, and has the following statuses:
+-- ### Author: **Sven Van de Velde (FlightControl)**
 -- 
---   * **None**: Start of the process
---   * **Planned**: The A2A task is planned.
---   * **Assigned**: The A2A task is assigned to a @{Group#GROUP}.
---   * **Success**: The A2A task is successfully completed.
---   * **Failed**: The A2A task has failed. This will happen if the player exists the task early, without communicating a possible cancellation to HQ.
--- 
--- # 1.1) Set the scoring of achievements in an A2A attack.
--- 
--- Scoring or penalties can be given in the following circumstances:
--- 
---   * @{#TASK_A2A.SetScoreOnDestroy}(): Set a score when a target in scope of the A2A attack, has been destroyed.
---   * @{#TASK_A2A.SetScoreOnSuccess}(): Set a score when all the targets in scope of the A2A attack, have been destroyed.
---   * @{#TASK_A2A.SetPenaltyOnFailed}(): Set a penalty when the A2A attack has failed.
--- 
--- # 2) @{Task_A2A#TASK_INTERCEPT} class, extends @{Task_A2A#TASK_A2A}
--- 
--- The TASK_A2A_INTERCEPT class defines an INTERCEPT task for a @{Set} of Target Units.
+-- ### Contributions: 
 -- 
 -- ====
---
--- # **API CHANGE HISTORY**
---
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
---
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
---
--- Hereby the change log:
---
--- ===
---
--- # **AUTHORS and CONTRIBUTIONS**
---
--- ### Contributions:
---
---
---        
--- ### Authors:
---
---   * **FlightControl**: Concept, Design & Programming.
 --   
 -- @module Task_A2A
 
@@ -42764,6 +43714,28 @@ do -- TASK_A2A
   -- @type TASK_A2A
   -- @field Set#SET_UNIT TargetSetUnit
   -- @extends Tasking.Task#TASK
+
+  --- # TASK_A2A class, extends @{Task#TASK}
+  -- 
+  -- The TASK_A2A class defines Air To Air tasks for a @{Set} of Target Units, 
+  -- based on the tasking capabilities defined in @{Task#TASK}.
+  -- The TASK_A2A is implemented using a @{Fsm#FSM_TASK}, and has the following statuses:
+  -- 
+  --   * **None**: Start of the process
+  --   * **Planned**: The A2A task is planned.
+  --   * **Assigned**: The A2A task is assigned to a @{Group#GROUP}.
+  --   * **Success**: The A2A task is successfully completed.
+  --   * **Failed**: The A2A task has failed. This will happen if the player exists the task early, without communicating a possible cancellation to HQ.
+  -- 
+  -- # 1.1) Set the scoring of achievements in an A2A attack.
+  -- 
+  -- Scoring or penalties can be given in the following circumstances:
+  -- 
+  --   * @{#TASK_A2A.SetScoreOnDestroy}(): Set a score when a target in scope of the A2A attack, has been destroyed.
+  --   * @{#TASK_A2A.SetScoreOnSuccess}(): Set a score when all the targets in scope of the A2A attack, have been destroyed.
+  --   * @{#TASK_A2A.SetPenaltyOnFailed}(): Set a penalty when the A2A attack has failed.
+  -- 
+  -- @field #TASK_A2A
   TASK_A2A = {
     ClassName = "TASK_A2A",
   }
@@ -42971,12 +43943,12 @@ do -- TASK_A2A
   --- @param #TASK_A2A self
   -- @param Core.Zone#ZONE_BASE TargetZone The Zone object where the Target is located on the map.
   -- @param Wrapper.Unit#UNIT TaskUnit
-  function TASK_A2A:SetTargetZone( TargetZone, TaskUnit )
+  function TASK_A2A:SetTargetZone( TargetZone, Altitude, Heading, TaskUnit )
   
     local ProcessUnit = self:GetUnitProcess( TaskUnit )
 
     local ActRouteTarget = ProcessUnit:GetProcess( "Engaging", "RouteToTargetZone" ) -- Actions.Act_Route#ACT_ROUTE_ZONE
-    ActRouteTarget:SetZone( TargetZone )
+    ActRouteTarget:SetZone( TargetZone, Altitude, Heading )
   end
    
 
@@ -43043,49 +44015,188 @@ do -- TASK_A2A
 end 
 
 
-do -- TASK_INTERCEPT
+do -- TASK_A2A_INTERCEPT
 
-  --- The TASK_INTERCEPT class
-  -- @type TASK_INTERCEPT
+  --- The TASK_A2A_INTERCEPT class
+  -- @type TASK_A2A_INTERCEPT
   -- @field Set#SET_UNIT TargetSetUnit
   -- @extends Tasking.Task#TASK
-  TASK_INTERCEPT = {
-    ClassName = "TASK_INTERCEPT",
+
+  --- # TASK_A2A_INTERCEPT class, extends @{Task_A2A#TASK_A2A}
+  -- 
+  -- The TASK_A2A_INTERCEPT class defines an intercept task for a human player to be executed.
+  -- When enemy planes need to be intercepted by human players, use this task type to urgen the players to get out there!
+  -- 
+  -- The TASK_A2A_INTERCEPT is used by the @{Task_A2A_Dispatcher#TASK_A2A_DISPATCHER} to automatically create intercept tasks 
+  -- based on detected airborne enemy targets intruding friendly airspace.
+  -- 
+  -- The task is defined for a @{Mission#MISSION}, where a friendly @{Set#SET_GROUP} consisting of GROUPs with one human players each, is intercepting the targets.
+  -- The task is given a name and a briefing, that is used in the menu structure and in the reporting.
+  -- 
+  -- @field #TASK_A2A_INTERCEPT
+  TASK_A2A_INTERCEPT = {
+    ClassName = "TASK_A2A_INTERCEPT",
   }
-  
-  --- Instantiates a new TASK_INTERCEPT.
-  -- @param #TASK_INTERCEPT self
+
+
+
+  --- Instantiates a new TASK_A2A_INTERCEPT.
+  -- @param #TASK_A2A_INTERCEPT self
   -- @param Tasking.Mission#MISSION Mission
   -- @param Core.Set#SET_GROUP SetGroup The set of groups for which the Task can be assigned.
   -- @param #string TaskName The name of the Task.
   -- @param Core.Set#SET_UNIT TargetSetUnit 
   -- @param #string TaskBriefing The briefing of the task.
-  -- @return #TASK_INTERCEPT self
-  function TASK_INTERCEPT:New( Mission, SetGroup, TaskName, TargetSetUnit, TaskBriefing )
-    local self = BASE:Inherit( self, TASK_A2A:New( Mission, SetGroup, TaskName, TargetSetUnit, "INTERCEPT", TaskBriefing ) ) -- #TASK_INTERCEPT
+  -- @return #TASK_A2A_INTERCEPT self
+  function TASK_A2A_INTERCEPT:New( Mission, SetGroup, TaskName, TargetSetUnit, TaskBriefing )
+    local self = BASE:Inherit( self, TASK_A2A:New( Mission, SetGroup, TaskName, TargetSetUnit, "INTERCEPT", TaskBriefing ) ) -- #TASK_A2A_INTERCEPT
     self:F()
     
     Mission:AddTask( self )
     
     --TODO: Add BR, Altitude, type of planes...
     
-    local TargetCoord = TargetSetUnit:GetFirst():GetCoordinate()
-    local TargetPositionText = TargetCoord:ToString()
-    local TargetThreatLevel = TargetSetUnit:CalculateThreatLevelA2G()
-
     self:SetBriefing( 
       TaskBriefing or 
-      "Intercept incoming intruders.\n" ..
-      "Last Known Coordinates: " .. TargetPositionText .. "\n" ..
-      "Threat Level: [" .. string.rep(  "■", TargetThreatLevel ) .. "]"
+      "Intercept incoming intruders.\n"
     )
 
+    local TargetCoordinate = TargetSetUnit:GetFirst():GetCoordinate()
+    self:SetInfo( "Coordinates", TargetCoordinate )
+
+    self:SetInfo( "Threat", "[" .. string.rep(  "■", TargetSetUnit:CalculateThreatLevelA2G() ) .. "]" )
+    local DetectedItemsCount = TargetSetUnit:Count()
+    local DetectedItemsTypes = TargetSetUnit:GetTypeNames()
+    self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ) ) 
+    
     return self
   end 
 
 end
 
---- **Tasking (Release 2.1)** -- The TASK_CARGO models tasks for players to transport @{Cargo}.
+
+do -- TASK_A2A_SWEEP
+
+  --- The TASK_A2A_SWEEP class
+  -- @type TASK_A2A_SWEEP
+  -- @field Set#SET_UNIT TargetSetUnit
+  -- @extends Tasking.Task#TASK
+
+  --- # TASK_A2A_SWEEP class, extends @{Task_A2A#TASK_A2A}
+  -- 
+  -- The TASK_A2A_SWEEP class defines a sweep task for a human player to be executed.
+  -- A sweep task needs to be given when targets were detected but somehow the detection was lost.
+  -- Most likely, these enemy planes are hidden in the mountains or are flying under radar.
+  -- These enemy planes need to be sweeped by human players, and use this task type to urge the players to get out there and find those enemy fighters.
+  -- 
+  -- The TASK_A2A_SWEEP is used by the @{Task_A2A_Dispatcher#TASK_A2A_DISPATCHER} to automatically create sweep tasks 
+  -- based on detected airborne enemy targets intruding friendly airspace, for which the detection has been lost for more than 60 seconds.
+  -- 
+  -- The task is defined for a @{Mission#MISSION}, where a friendly @{Set#SET_GROUP} consisting of GROUPs with one human players each, is sweeping the targets.
+  -- The task is given a name and a briefing, that is used in the menu structure and in the reporting.
+  -- 
+  -- @field #TASK_A2A_SWEEP
+  TASK_A2A_SWEEP = {
+    ClassName = "TASK_A2A_SWEEP",
+  }
+
+
+
+  --- Instantiates a new TASK_A2A_SWEEP.
+  -- @param #TASK_A2A_SWEEP self
+  -- @param Tasking.Mission#MISSION Mission
+  -- @param Core.Set#SET_GROUP SetGroup The set of groups for which the Task can be assigned.
+  -- @param #string TaskName The name of the Task.
+  -- @param Core.Set#SET_UNIT TargetSetUnit 
+  -- @param #string TaskBriefing The briefing of the task.
+  -- @return #TASK_A2A_SWEEP self
+  function TASK_A2A_SWEEP:New( Mission, SetGroup, TaskName, TargetSetUnit, TaskBriefing )
+    local self = BASE:Inherit( self, TASK_A2A:New( Mission, SetGroup, TaskName, TargetSetUnit, "INTERCEPT", TaskBriefing ) ) -- #TASK_A2A_SWEEP
+    self:F()
+    
+    Mission:AddTask( self )
+    
+    --TODO: Add BR, Altitude, type of planes...
+    
+    self:SetBriefing( 
+      TaskBriefing or 
+      "Perform a fighter sweep. Incoming intruders were detected and could be hiding at the location.\n"
+    )
+
+    local TargetCoordinate = TargetSetUnit:GetFirst():GetCoordinate()
+    self:SetInfo( "Coordinates", TargetCoordinate )
+
+    self:SetInfo( "Assumed Threat", "[" .. string.rep(  "■", TargetSetUnit:CalculateThreatLevelA2G() ) .. "]" )
+    local DetectedItemsCount = TargetSetUnit:Count()
+    local DetectedItemsTypes = TargetSetUnit:GetTypeNames()
+    self:SetInfo( "Lost Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ) ) 
+    
+    return self
+  end 
+
+end
+
+
+do -- TASK_A2A_ENGAGE
+
+  --- The TASK_A2A_ENGAGE class
+  -- @type TASK_A2A_ENGAGE
+  -- @field Set#SET_UNIT TargetSetUnit
+  -- @extends Tasking.Task#TASK
+
+  --- # TASK_A2A_ENGAGE class, extends @{Task_A2A#TASK_A2A}
+  -- 
+  -- The TASK_A2A_ENGAGE class defines an engage task for a human player to be executed.
+  -- When enemy planes are close to human players, use this task type is used urge the players to get out there!
+  -- 
+  -- The TASK_A2A_ENGAGE is used by the @{Task_A2A_Dispatcher#TASK_A2A_DISPATCHER} to automatically create engage tasks 
+  -- based on detected airborne enemy targets intruding friendly airspace.
+  -- 
+  -- The task is defined for a @{Mission#MISSION}, where a friendly @{Set#SET_GROUP} consisting of GROUPs with one human players each, is engaging the targets.
+  -- The task is given a name and a briefing, that is used in the menu structure and in the reporting.
+  -- 
+  -- @field #TASK_A2A_ENGAGE
+  TASK_A2A_ENGAGE = {
+    ClassName = "TASK_A2A_ENGAGE",
+  }
+
+
+
+  --- Instantiates a new TASK_A2A_ENGAGE.
+  -- @param #TASK_A2A_ENGAGE self
+  -- @param Tasking.Mission#MISSION Mission
+  -- @param Core.Set#SET_GROUP SetGroup The set of groups for which the Task can be assigned.
+  -- @param #string TaskName The name of the Task.
+  -- @param Core.Set#SET_UNIT TargetSetUnit 
+  -- @param #string TaskBriefing The briefing of the task.
+  -- @return #TASK_A2A_ENGAGE self
+  function TASK_A2A_ENGAGE:New( Mission, SetGroup, TaskName, TargetSetUnit, TaskBriefing )
+    local self = BASE:Inherit( self, TASK_A2A:New( Mission, SetGroup, TaskName, TargetSetUnit, "ENGAGE", TaskBriefing ) ) -- #TASK_A2A_ENGAGE
+    self:F()
+    
+    Mission:AddTask( self )
+    
+    --TODO: Add BR, Altitude, type of planes...
+    
+    self:SetBriefing( 
+      TaskBriefing or 
+      "Bogeys are nearby! Players close by are ordered to ENGAGE the intruders!\n"
+    )
+
+    local TargetCoordinate = TargetSetUnit:GetFirst():GetCoordinate()
+    self:SetInfo( "Coordinates", TargetCoordinate )
+
+    self:SetInfo( "Threat", "[" .. string.rep(  "■", TargetSetUnit:CalculateThreatLevelA2G() ) .. "]" )
+    local DetectedItemsCount = TargetSetUnit:Count()
+    local DetectedItemsTypes = TargetSetUnit:GetTypeNames()
+    self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ) ) 
+    
+    return self
+  end 
+
+end
+
+--- **Tasking** -- The TASK_CARGO models tasks for players to transport @{Cargo}.
 -- 
 -- ![Banner Image](..\Presentations\TASK_CARGO\Dia1.JPG)
 -- 
@@ -43101,28 +44212,13 @@ end
 -- 
 --   * @{#TASK_CARGO_TRANSPORT}: Defines a task for a human player to transport a set of cargo between various zones.
 -- 
--- ==
+-- ====
 -- 
--- # **API CHANGE HISTORY**
---
--- The underlying change log documents the API changes. Please read this carefully. The following notation is used:
---
---   * **Added** parts are expressed in bold type face.
---   * _Removed_ parts are expressed in italic type face.
---
--- Hereby the change log:
---
--- 2017-03-09: Revised version.
---
--- ===
---
--- # **AUTHORS and CONTRIBUTIONS**
---
--- ### Contributions:
---
--- ### Authors:
---
---   * **FlightControl**: Concept, Design & Programming.
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
+-- 
+-- ====
 --   
 -- @module Task_Cargo
 
@@ -43261,6 +44357,7 @@ do -- TASK_CARGO
   
     self.SetCargo = SetCargo
     self.TaskType = TaskType
+    self.SmokeColor = SMOKECOLOR.Red
     
     self.DeployZones = {} -- setmetatable( {}, { __mode = "v" } ) -- weak table on value
 
@@ -43414,6 +44511,13 @@ do -- TASK_CARGO
       self:__RouteToDeploy( 1.0, DeployZone )
     end
     
+    
+    
+    ---
+    --#TASK_CAROG_TRANSPORT self
+    --#Wrapper.Unit#UNIT
+
+    
     --- Route to Cargo
     -- @param #FSM_PROCESS self
     -- @param Wrapper.Unit#UNIT TaskUnit
@@ -43434,16 +44538,16 @@ do -- TASK_CARGO
     end
 
 
+
     --- 
     -- @param #FSM_PROCESS self
     -- @param Wrapper.Unit#UNIT TaskUnit
     -- @param Tasking.Task_Cargo#TASK_CARGO Task
     function Fsm:onafterArriveAtPickup( TaskUnit, Task )
       self:E( { TaskUnit = TaskUnit, Task = Task and Task:GetClassNameAndID() } )
-      
       if self.Cargo:IsAlive() then
+        TaskUnit:Smoke( Task:GetSmokeColor(), 15 )
         if TaskUnit:IsAir() then
-          self.Cargo.CargoObject:GetUnit(1):SmokeRed()
           self:__Land( -0.1, "Pickup" )
         else
           self:__SelectAction( -0.1 )
@@ -43692,6 +44796,26 @@ do -- TASK_CARGO
     return self
  
   end
+  
+
+    ---@param Color Might be SMOKECOLOR.Blue, SMOKECOLOR.Red SMOKECOLOR.Orange, SMOKECOLOR.White or SMOKECOLOR.Green
+    function TASK_CARGO:SetSmokeColor(SmokeColor)
+       -- Makes sure Coloe is set
+       if SmokeColor == nil then
+          self.SmokeColor = SMOKECOLOR.Red -- Make sure a default color is exist
+          
+       elseif type(SmokeColor) == "number" then
+       self:F2(SmokeColor)
+        if SmokeColor > 0 and SmokeColor <=5 then -- Make sure number is within ragne, assuming first enum is one
+          self.SmokeColor = SMOKECOLOR.SmokeColor
+        end
+       end
+    end
+     
+    --@return SmokeColor
+    function TASK_CARGO:GetSmokeColor()
+      return self.SmokeColor
+    end
   
   --- @param #TASK_CARGO self
   function TASK_CARGO:GetPlannedMenuText()
@@ -43998,6 +45122,11 @@ do -- TASK_CARGO_TRANSPORT
     return CargoDeployed
   end
   
+      
+    ---
+  
+  
+  
 
 end
 
@@ -44010,8 +45139,9 @@ _EVENTDISPATCHER = EVENT:New() -- Core.Event#EVENT
 _SCHEDULEDISPATCHER = SCHEDULEDISPATCHER:New() -- Core.Timer#SCHEDULEDISPATCHER
 
 --- Declare the main database object, which is used internally by the MOOSE classes.
-_DATABASE = DATABASE:New() -- Database#DATABASE
+_DATABASE = DATABASE:New() -- Core.Database#DATABASE
 
---COORDINATE:CoordinateMenu()
+_SETTINGS = SETTINGS:Set()
+_SETTINGS:SetSystemMenu( nil )
 BASE:TraceOnOff( false )
 env.info( '*** MOOSE INCLUDE END *** ' )

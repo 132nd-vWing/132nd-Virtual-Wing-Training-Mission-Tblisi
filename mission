@@ -52028,6 +52028,7 @@ mission =
                                 ["frequency"] = 251,
                                 ["groupId"] = 1383,
                                 ["hidden"] = false,
+                                ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_3614",
                                 ["radioSet"] = false,
@@ -52039,11 +52040,88 @@ mission =
                                         {
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
+                                            ["action"] = "From Parking Area Hot",
+                                            ["airdromeId"] = 27,
+                                            ["alt"] = 88,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_3616",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 138.88888888889,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                        [1] =
+                                                        {
+                                                            ["auto"] = true,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "AWACS",
+                                                            ["number"] = 1,
+                                                            ["params"] =
+                                                            {
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [1]
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "TakeOffParkingHot",
+                                            ["x"] = -125187.2265625,
+                                            ["y"] = 760701.875,
+                                        }, -- end of [1]
+                                        [2] =
+                                        {
+                                            ["ETA"] = 1223.7852335171,
+                                            ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 11999.976,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_3616",
+                                            ["name"] = "DictKey_WptName_3668",
+                                            ["properties"] =
+                                            {
+                                                ["angle"] = 0,
+                                                ["scale"] = 0,
+                                                ["steer"] = 2,
+                                                ["vangle"] = 0,
+                                                ["vnav"] = 1,
+                                            }, -- end of ["properties"]
+                                            ["speed"] = 154.16666666667,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = -201142.85714286,
+                                            ["y"] = 588000.00000001,
+                                        }, -- end of [2]
+                                        [3] =
+                                        {
+                                            ["ETA"] = 1856.9732924394,
+                                            ["ETA_locked"] = false,
+                                            ["action"] = "Turning Point",
+                                            ["alt"] = 11999.976,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_3666",
                                             ["properties"] =
                                             {
                                                 ["angle"] = 0,
@@ -52063,38 +52141,27 @@ mission =
                                                     {
                                                         [1] =
                                                         {
-                                                            ["auto"] = true,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "AWACS",
-                                                            ["number"] = 1,
-                                                            ["params"] =
-                                                            {
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [1]
-                                                        [2] =
-                                                        {
                                                             ["auto"] = false,
                                                             ["enabled"] = true,
                                                             ["id"] = "Orbit",
-                                                            ["number"] = 2,
+                                                            ["number"] = 1,
                                                             ["params"] =
                                                             {
                                                                 ["altitude"] = 11999.976,
                                                                 ["pattern"] = "Race-Track",
-                                                                ["speed"] = 159.30555555556,
-                                                                ["speedEdited"] = true,
+                                                                ["speed"] = 118.05555555556,
                                                             }, -- end of ["params"]
-                                                        }, -- end of [2]
+                                                        }, -- end of [1]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -292529.42857147,
-                                            ["y"] = 616642.85714286,
-                                        }, -- end of [1]
-                                        [2] =
+                                            ["x"] = -294571.42857143,
+                                            ["y"] = 616285.71428572,
+                                        }, -- end of [3]
+                                        [4] =
                                         {
-                                            ["ETA"] = 368.48981634642,
+                                            ["ETA"] = 2211.121242505,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 2000,
@@ -52124,8 +52191,9 @@ mission =
                                             ["type"] = "Turning Point",
                                             ["x"] = -343443.71428576,
                                             ["y"] = 621842.85714286,
-                                        }, -- end of [2]
+                                        }, -- end of [4]
                                     }, -- end of ["points"]
+                                    ["routeRelativeTOT"] = true,
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
                                 ["task"] = "AWACS",
@@ -52149,13 +52217,15 @@ mission =
                                             ["RocketBurst"] = 6,
                                             ["WpBullseye"] = 0,
                                         }, -- end of ["AddPropAircraft"]
-                                        ["alt"] = 11999.976,
+                                        ["alt"] = 88,
                                         ["alt_type"] = "BARO",
                                         ["callsign"] = 117,
-                                        ["heading"] = 3.0398131276646,
+                                        ["heading"] = 0,
                                         ["livery_id"] = "RF Air Force",
                                         ["name"] = "DictKey_UnitName_3615",
                                         ["onboard_num"] = "333",
+                                        ["parking"] = "24",
+                                        ["parking_id"] = "04",
                                         ["payload"] =
                                         {
                                             ["chaff"] = 192,
@@ -52166,17 +52236,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = -3.0398131276646,
+                                        ["psi"] = 1.9851421590718,
                                         ["skill"] = "Excellent",
-                                        ["speed"] = 154.16666666667,
+                                        ["speed"] = 138.88888888889,
                                         ["type"] = "A-50",
                                         ["unitId"] = 1969,
-                                        ["x"] = -292529.42857147,
-                                        ["y"] = 616642.85714286,
+                                        ["x"] = -125187.2265625,
+                                        ["y"] = 760701.875,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -292529.42857147,
-                                ["y"] = 616642.85714286,
+                                ["x"] = -125187.2265625,
+                                ["y"] = 760701.875,
                             }, -- end of [20]
                         }, -- end of ["group"]
                     }, -- end of ["plane"]
@@ -54312,7 +54382,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3661231,
+    ["currentKey"] = 3667288,
     ["date"] =
     {
         ["Day"] = 20,
@@ -57404,11 +57474,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -284000.28571428,
-        ["centerY"] = 875324.00000001,
-        ["zoom"] = 200000,
+        ["centerX"] = -254428.57142857,
+        ["centerY"] = 717714.28571429,
+        ["zoom"] = 1000000,
     }, -- end of ["map"]
-    ["maxDictId"] = 3665,
+    ["maxDictId"] = 3671,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
@@ -57467,10 +57537,10 @@ mission =
         ["actions"] =
         {
             [1] = "a_set_flag_value(2501, 1);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3009\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3010\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3011\"), 1, false);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_group_off(1326);",
-            [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3448\")); mission.trig.func[2]=nil;",
+            [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3671\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2294\")); mission.trig.func[3]=nil;",
             [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2831\")); mission.trig.func[4]=nil;",
-            [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3449\")); mission.trig.func[5]=nil;",
+            [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3669\")); mission.trig.func[5]=nil;",
             [6] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3018\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3014\")); mission.trig.func[6]=nil;",
             [7] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3019\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3016\")); mission.trig.func[7]=nil;",
             [8] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[8]=nil;",
@@ -58855,7 +58925,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3448",
+                    ["file"] = "ResKey_Action_3671",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -58948,7 +59018,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3449",
+                    ["file"] = "ResKey_Action_3669",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [2]
             }, -- end of ["actions"]
