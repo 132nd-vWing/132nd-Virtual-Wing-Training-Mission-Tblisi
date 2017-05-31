@@ -35,6 +35,11 @@ Changes
   - Deleted Bravo and Mosquito AC
 - Added SA-6 on/off to NECK AC. [Neck]
 
+Fix
+~~~
+- Agressor AWACS now added to script and not starting mid-air fix: MOOSE
+  updated to latest. [entropySG]
+
 
 3.0.0 (2017-05-21)
 ------------------
