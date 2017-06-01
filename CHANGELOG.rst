@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+3.1.0 (2017-06-01)
+------------------
 
 New
 ~~~
@@ -15,6 +15,7 @@ New
 
 Changes
 ~~~~~~~
+- Release 3.1. [entropySG]
 - Added various artillery and MLRS targets at TKIBULi range. [Neck]
 - Added two SA-6 Launchers to the SA-6 battery to avoid the SA-6 running
   out of missiles too fast. [Neck]
