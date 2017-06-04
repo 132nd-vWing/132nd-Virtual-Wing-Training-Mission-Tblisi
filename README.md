@@ -3,7 +3,7 @@ Training Mission used by the 132nd Virtual Wing flying DCS World
 
 This mission is designed for conducting all sort of training within the 132nd Virtual Wing including live fire exercise and aerial refueling.
 
-132nd Virtual Wing and various other virtual organizations are located in the Tblisi area. The 3 airfields in Tblisi (Tblisi-Lochini, Vaziani and Soganlung) all lies within Tblisi TMA (Terminal Manouver Area).
+132nd Virtual Wing and various other virtual organizations are located in the Tblisi area. The 3 airfields in Tblisi (Tblisi-Lochini, Vaziani and Soganlung) all lies within Tblisi TMA (Terminal Manoeuvre Area).
 
 There are 4 ranges in the vicinity of Tblisi: Marnueli range, Tetra range, Dusheti range and Tianeti range. All ranges are close to Tblisi TMA, see full briefing for map overview of Tblisi TMA and range airspace.
 
@@ -69,13 +69,13 @@ The following types of units are CTLD units:
 3. The logistics Trucks at DUSHETI, TIANETI and TETRA
 
 #### CTLD units have the following options available via F10 radio: 
-1. Loadup Troops at Pickup Zones and unload them anywhere outside any pickup zones (Pickup zones locations see below)
+1. Load Troops at Pickup Zones and unload them anywhere outside any pickup zones (Pickup zones locations see below)
 2. Extract any deployed troops and/or JTACs
 3. Spawn Cargo Crates for slingload at a Warehouse and assemble crates anywhere outside a Warehouse
 4. Deploy Smoke Markers
-5. Deploy Radio Beacons (A10, KA50, Huey and Mi-8 can home in on the beacons, all players can use F10 to get a list of active beacions)
+5. Deploy Radio Beacons (A10, KA50, Huey and Mi-8 can home in on the beacons, all players can use F10 to get a list of active beacons)
 
-#### Pickupzones (for loading infantry):
+#### Pickup zones (for loading infantry):
 1. In the range storage at DUSHETI TIANETI and TETRA
 2. At the apron of LOCHINI and SOGANLUG
 3. At the FARPs
@@ -119,14 +119,14 @@ The downed pilot is also extractable, so he can be rescued via any transport hel
 
 Any player can request green smoke from the downed pilot at any time using the F10 menu. 
 
-If no human transport pilots are available, in order to practice CAS or CSAR, any player can request an AI Huey via F10 menu. The Huey, when called, will take off from FARP MARNUELI and make its way to the crashsite. It will automatically pick up the pilot and RTB to FARP MARNUELI. 
+If no human transport pilots are available, in order to practice CAS or CSAR, any player can request an AI Huey via F10 menu. The Huey, when called, will take off from FARP MARNUELI and make its way to the crash site. It will automatically pick up the pilot and RTB to FARP MARNUELI. 
 
 If desired, one can 'Activate Hostile Forces' to simulate a CSAR scenario. This will activate simulated red units (in fact they are blue, like the range targets) that will start making their way towards the downed pilot. The 'hostiles' will try to engage the downed pilot, so CAS will be required to save him. 
 
 There are two types of 'hostiles': 1. armored vehicles such as IFVs and 2. Transport trucks that will automatically unload their troops to engage the pilot. 
 
 
-What you shoudl keep in mind: 
+What you should keep in mind: 
 1. The location of the crash site will be random. This means the site can possibly be very hard to access from the ground. In this case, the 'hostiles' will maybe not manage to get within firing range. 
 
 2. If you are unhappy with the crash site, you can simply spawn a new one at a better location. Just make sure you tune into the second beacon then. 
