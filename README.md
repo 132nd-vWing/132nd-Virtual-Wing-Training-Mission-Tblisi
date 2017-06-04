@@ -165,10 +165,13 @@ Latest build artifact can be downloaded from (Appveyor)[https://ci.appveyor.com/
 
 
 ## Credits
-thanks to the creators of 
-- MIST 
-- MOOSE 
-- CTLD
-- DAWS Weather
-thanks also to Hansolo for updating all Navpoints and implementing TACAN and SADL for tankers
-thanks to 476th for the range objects mod
+
+Thanks to the creators of 
+* MIST 
+* MOOSE 
+* CTLD
+* DAWS Weather
+
+Thanks also to Hansolo for updating all Navpoints and implementing TACAN and SADL for tankers
+
+Thanks to 476th for the range objects mod
