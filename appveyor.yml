@@ -5,12 +5,12 @@ skip_commits:
 
 environment:
   fast_finish: true
-  PYTHON: "C:\\Python35"
-  PYTHON_VERSION: "3.5.2"
-  GH_MAIL:
-    secure: lRD0NTgFubnB8Ms3IyTAeWVODbX6j5pgcn3Q4Ye3a9Y=
-  GH_TOKEN:
-    secure: +Pie5rykLN4kjgp/QVj8xmdID7awCtvMG22pkM9ONWbFa9hY4O4AsmYq/1lc+jQQ
+#  PYTHON: "C:\\Python35"
+#  PYTHON_VERSION: "3.5.2"
+#  GH_MAIL:
+#    secure: lRD0NTgFubnB8Ms3IyTAeWVODbX6j5pgcn3Q4Ye3a9Y=
+#  GH_TOKEN:
+#    secure: +Pie5rykLN4kjgp/QVj8xmdID7awCtvMG22pkM9ONWbFa9hY4O4AsmYq/1lc+jQQ
 
 init:
   # If there is a newer build queued for the same PR, cancel this one.
@@ -24,48 +24,48 @@ init:
         throw "There are newer queued builds for this pull request, failing early." }
 
   # Check that we have the expected version and architecture for Python
-  - "python --version"
-  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
-  - "pip --version"
+#  - "python --version"
+#  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+#  - "pip --version"
   
   # Setup Git for push
-  - git config --global credential.helper store
-  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GH_TOKEN):x-oauth-basic@github.com`n"
-  - "git config --global user.email %GH_MAIL%"
-  - "git config --global user.name %APPVEYOR_ACCOUNT_NAME%"  
+#  - git config --global credential.helper store
+#  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:GH_TOKEN):x-oauth-basic@github.com`n"
+#  - "git config --global user.email %GH_MAIL%"
+#  - "git config --global user.name %APPVEYOR_ACCOUNT_NAME%"
 
-  - cmd: echo "%PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"
-  - cmd: echo "%APPVEYOR_BUILD_WORKER_IMAGE%"
-  - cmd: echo "%APPVEYOR_REPO_COMMIT_TIMESTAMP%"
+#  - cmd: echo "%PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"
+#  - cmd: echo "%APPVEYOR_BUILD_WORKER_IMAGE%"
+#  - cmd: echo "%APPVEYOR_REPO_COMMIT_TIMESTAMP%"
   # - cmd: echo "%APPVEYOR_REPO_COMMIT_MESSAGE%"
   # - cmd: echo "%APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED%"
   
 install:
   - cmd: choco install 7zip.commandline
-  - "%PYTHON%/Scripts/pip.exe install --disable-pip-version-check --user --upgrade pip"
-  - cmd: pip install gitversion
-  - cmd: pip install gitchangelog
+#  - "%PYTHON%/Scripts/pip.exe install --disable-pip-version-check --user --upgrade pip"
+#  - cmd: pip install gitversion
+#  - cmd: pip install gitchangelog
   
 
 cache:
   - C:\ProgramData\chocolatey\lib
   - C:\ProgramData\chocolatey\bin
-  
-before_build:
-  - cmd: gitversion
-  - cmd: gitchangelog
+
+#before_build:
+#  - cmd: gitversion
+#  - cmd: gitchangelog
 
 build_script:
   - cmd: 7za a -bb0 dummy.miz C:\projects\132nd-virtual-wing-training-mission-tblisi\* -xr!.git -x!*.miz -x!*.yml
   - cmd: IF /I "%APPVEYOR_REPO_TAG%"=="true" (ren dummy.miz TRMT_%APPVEYOR_REPO_TAG_NAME%.miz) ELSE (ren dummy.miz TRMT_%APPVEYOR_BUILD_VERSION%.miz)
   
-after_build:
-  - cmd: git fetch && git checkout %APPVEYOR_REPO_BRANCH%
-  - cmd: gitchangelog > CHANGELOG.rst
-  - cmd: git add CHANGELOG.rst & exit 0
-  - cmd: >
-     git commit -m "chg: update changelog !minor [skip ci]" & exit 0
-  - cmd: git push & exit 0
+#after_build:
+#  - cmd: git fetch && git checkout %APPVEYOR_REPO_BRANCH%
+#  - cmd: gitchangelog > CHANGELOG.rst
+#  - cmd: git add CHANGELOG.rst & exit 0
+#  - cmd: >
+#     git commit -m "chg: update changelog !minor [skip ci]" & exit 0
+#  - cmd: git push & exit 0
 
 test: off
 
