@@ -30,8 +30,7 @@ test:
     - gitchangelog > CHANGELOG.rst
     - git add CHANGELOG.rst
     - >
-      git commit -m "chg: update changelog !minor [skip ci]"
-    - git push origin $CIRCLE_BRANCH
+      git diff-index --quiet HEAD || git commit -m "chg: update changelog !minor [skip ci]" && git push origin $CIRCLE_BRANCH
 
 
 ########################
