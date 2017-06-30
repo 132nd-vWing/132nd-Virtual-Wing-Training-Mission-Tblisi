@@ -4,6 +4,14 @@ Changelog
 
 (unreleased)
 ------------
+
+Changes
+~~~~~~~
+- Updated CTLD Now Huey can only transport 8 Troops, while Mi-8 can
+  transport 20 Troops. [132nd-Entropy]
+
+Other
+~~~~~
 - Update to latest MOOSE June30. [entropySG]
 
 
