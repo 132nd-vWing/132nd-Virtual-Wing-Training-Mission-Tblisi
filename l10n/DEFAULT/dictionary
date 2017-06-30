@@ -1405,7 +1405,7 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_GroupName_3424"] = "TIANETI_JTAC_TRAINING2",
     ["DictKey_GroupName_3427"] = "DUSHETI_JTAC_TRAINING1 ",
     ["DictKey_GroupName_3430"] = "DUSHETI_JTAC_TRAINING3",
-    ["DictKey_GroupName_3433"] = "DUSHETI_JTAC_TRAINING2 #001",
+    ["DictKey_GroupName_3433"] = "DUSHETI_JTAC_TRAINING2",
     ["DictKey_GroupName_3436"] = "New Vehicle Group",
     ["DictKey_GroupName_3441"] = "AWACS2",
     ["DictKey_GroupName_3450"] = "$$DRAW_TMA",
@@ -2616,7 +2616,7 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_UnitName_3425"] = "TIANETI_JTAC_TRAINING2",
     ["DictKey_UnitName_3428"] = "DUSHETI_JTAC_TRAINING1",
     ["DictKey_UnitName_3431"] = "DUSHETI_JTAC_TRAINING3",
-    ["DictKey_UnitName_3434"] = "DUSHETI_JTAC_TRAINING2 #001",
+    ["DictKey_UnitName_3434"] = "DUSHETI_JTAC_TRAINING2",
     ["DictKey_UnitName_3437"] = "Unit #076",
     ["DictKey_UnitName_3442"] = "AWACS2",
     ["DictKey_UnitName_3451"] = "Pilot #007",
@@ -3756,8 +3756,7 @@ RED SAM  located via nav points:\
 2xStrela groups; STRELA_SA9, STRELA_SA13\
 1xSA-8 group; SA8_EAST\
 \
-\
-METAR by DAWS: UGTB 301200Z 31012KT 9999 SCT050CB 30/18 Q1013 R31L/CLRD70 NOSIG",
+METAR by DAWS: UGTB 301430Z 10008KT 060V140 9999 TS SCT057CB 28/19 Q1014 R31L/CLRD70 NOSIG",
     ["DictKey_sortie_652"] = "132nd - Training mission",
     ["DictKey_subtitle_1843"] = "",
     ["DictKey_subtitle_1845"] = "",
