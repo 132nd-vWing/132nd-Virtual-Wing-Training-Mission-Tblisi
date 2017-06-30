@@ -2,16 +2,13 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+- Update to latest MOOSE June30. [entropySG]
+
+
 3.1.0 (2017-06-01)
 ------------------
-
-New
-~~~
-- Added 4x Aggresor Mirag2000C at Kobuleti Airfield. [Neck]
-
-  - Kobuleti Airfield now RED
-  - Added Red AWACS
-  - Adjusted Blue AWACS altituds to 39.000ft and 40.000ft
 
 Changes
 ~~~~~~~
