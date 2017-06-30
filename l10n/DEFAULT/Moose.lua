@@ -1,5 +1,5 @@
 env.info( '*** MOOSE STATIC INCLUDE START *** ' )
-env.info( 'Moose Generation Timestamp: 20170531_1255' )
+env.info( 'Moose Generation Timestamp: 20170630_1424' )
 
 --- Various routines
 -- @module routines
@@ -2794,13 +2794,33 @@ function UTILS.DoString( s )
     return false, err
   end
 end
+
+-- Here is a customized version of pairs, which I called spairs because it iterates over the table in a sorted order.
+function UTILS.spairs( t, order )
+    -- collect the keys
+    local keys = {}
+    for k in pairs(t) do keys[#keys+1] = k end
+
+    -- if order function given, sort by it by passing the table and keys a, b,
+    -- otherwise just sort the keys 
+    if order then
+        table.sort(keys, function(a,b) return order(t, a, b) end)
+    else
+        table.sort(keys)
+    end
+
+    -- return the iterator function
+    local i = 0
+    return function()
+        i = i + 1
+        if keys[i] then
+            return keys[i], t[keys[i]]
+        end
+    end
+end
 --- **Core** -- BASE forms **the basis of the MOOSE framework**. Each class within the MOOSE framework derives from BASE.
 -- 
 -- ![Banner Image](..\Presentations\BASE\Dia1.JPG)
--- 
--- ===
--- 
--- The @{#BASE} class is the core root class from where every other class in moose is derived.
 -- 
 -- ===
 -- 
@@ -4075,7 +4095,7 @@ function SCHEDULEDISPATCHER:AddSchedule( Scheduler, ScheduleFunction, ScheduleAr
 
   -- Initialize the ObjectSchedulers array, which is a weakly coupled table.
   -- If the object used as the key is nil, then the garbage collector will remove the item from the Functions array.
-  self.ObjectSchedulers = self.ObjectSchedulers or setmetatable( {}, { __mode = "v" } ) -- or {}
+  self.ObjectSchedulers = self.ObjectSchedulers or setmetatable( {}, { __mode = "v" } ) 
   
   if Scheduler.MasterObject then
     self.ObjectSchedulers[self.CallID] = Scheduler
@@ -4114,13 +4134,13 @@ function SCHEDULEDISPATCHER:AddSchedule( Scheduler, ScheduleFunction, ScheduleAr
       Scheduler = self.PersistentSchedulers[CallID]
     end
 
-    self:T3( { Scheduler = Scheduler } )
+    --self:T3( { Scheduler = Scheduler } )
     
     if Scheduler then
 
       local Schedule = self.Schedule[Scheduler][CallID]
       
-      self:T3( { Schedule = Schedule } )
+      --self:T3( { Schedule = Schedule } )
 
       local ScheduleObject = Scheduler.SchedulerObject
       --local ScheduleObjectName = Scheduler.SchedulerObject:GetNameAndClassID()
@@ -4158,7 +4178,7 @@ function SCHEDULEDISPATCHER:AddSchedule( Scheduler, ScheduleFunction, ScheduleAr
               ( Randomize * Repeat  / 2 )
             ) +
             0.01
-          self:T3( { Repeat = CallID, CurrentTime, ScheduleTime, ScheduleArguments } )
+          --self:T3( { Repeat = CallID, CurrentTime, ScheduleTime, ScheduleArguments } )
           return ScheduleTime -- returns the next time the function needs to be called.
         else
           self:Stop( Scheduler, CallID )
@@ -4167,7 +4187,7 @@ function SCHEDULEDISPATCHER:AddSchedule( Scheduler, ScheduleFunction, ScheduleAr
         self:Stop( Scheduler, CallID )
       end
     else
-      self:E( "Scheduled obscolete call for CallID: " .. CallID )
+      self:E( "Scheduled obsolete call for CallID: " .. CallID )
     end
     
     return nil
@@ -4981,7 +5001,10 @@ function EVENT:onEvent( Event )
 
   local EventMeta = _EVENTMETA[Event.id]
 
-  if self and self.Events and self.Events[Event.id] then
+  if self and 
+     self.Events and 
+     self.Events[Event.id] and
+     ( Event.initiator ~= nil or ( Event.initiator == nil and Event.id ~= EVENTS.PlayerLeaveUnit ) ) then
 
     if Event.initiator then    
 
@@ -5027,7 +5050,7 @@ function EVENT:onEvent( Event )
         Event.IniUnitName = Event.IniDCSUnitName
         Event.IniUnit = SCENERY:Register( Event.IniDCSUnitName, Event.initiator )
         Event.IniCategory = Event.IniDCSUnit:getDesc().category
-        Event.IniTypeName = Event.IniDCSUnit:getTypeName()
+        Event.IniTypeName = Event.initiator:isExist() and Event.IniDCSUnit:getTypeName() or "SCENERY" -- TODO: Bug fix for 2.1!
       end
     end
     
@@ -5221,7 +5244,7 @@ function EVENT:onEvent( Event )
                   
                   -- There is an EventFunction defined, so call the EventFunction.
                   if Event.IniObjectCategory ~= 3 then
-                    self:E( { "Calling EventFunction for Class ", EventClass:GetClassNameAndID(), EventPriority } )
+                    self:F2( { "Calling EventFunction for Class ", EventClass:GetClassNameAndID(), EventPriority } )
                   end                
                   local Result, Value = xpcall( 
                     function() 
@@ -5235,7 +5258,7 @@ function EVENT:onEvent( Event )
                     
                     -- Now call the default event function.
                     if Event.IniObjectCategory ~= 3 then
-                      self:E( { "Calling " .. EventMeta.Event .. " for Class ", EventClass:GetClassNameAndID(), EventPriority } )
+                      self:F2( { "Calling " .. EventMeta.Event .. " for Class ", EventClass:GetClassNameAndID(), EventPriority } )
                     end
                                   
                     local Result, Value = xpcall( 
@@ -8189,7 +8212,12 @@ function DATABASE:Spawn( SpawnTemplate )
   SpawnTemplate.CountryID = SpawnCountryID
   SpawnTemplate.CategoryID = SpawnCategoryID
 
+  -- Ensure that for the spawned group and its units, there are GROUP and UNIT objects created in the DATABASE.
   local SpawnGroup = self:AddGroup( SpawnTemplate.name )
+  for UnitID, UnitData in pairs( SpawnTemplate.units ) do
+    self:AddUnit( UnitData.name )
+  end
+  
   return SpawnGroup
 end
 
@@ -8941,11 +8969,6 @@ function SET_BASE:New( Database )
   self.TimeInterval = 0.001
 
   self.Set = {}
-
-  self.List = {}
-  self.List.__index = self.List
-  self.List = setmetatable( { Count = 0 }, self.List )
-  
   self.Index = {}
   
   self.CallScheduler = SCHEDULER:New( self )
@@ -8983,24 +9006,8 @@ end
 function SET_BASE:Add( ObjectName, Object )
   self:F( ObjectName )
 
-  local t = { _ = Object }
-
-  if self.List.last then
-    self.List.last._next = t
-    t._prev = self.List.last
-    self.List.last = t
-  else
-    -- this is the first node
-    self.List.first = t
-    self.List.last = t
-  end
-  
-  self.List.Count = self.List.Count + 1
-  
   self.Set[ObjectName] = Object
-  
   table.insert( self.Index, ObjectName )
-  
 end
 
 --- Adds a @{Base#BASE} object in the @{Set#SET_BASE}, using the Object Name as the index.
@@ -9023,42 +9030,18 @@ end
 -- @param #string ObjectName
 function SET_BASE:Remove( ObjectName )
 
-  local t = self.Set[ObjectName]
+  local Object = self.Set[ObjectName]
   
-  self:F3( { ObjectName, t } )
+  self:F3( { ObjectName, Object } )
 
-  if t then  
-    if t._next then
-      if t._prev then
-        t._next._prev = t._prev
-        t._prev._next = t._next
-      else
-        -- this was the first node
-        t._next._prev = nil
-        self.List._first = t._next
-      end
-    elseif t._prev then
-      -- this was the last node
-      t._prev._next = nil
-      self.List._last = t._prev
-    else
-      -- this was the only node
-      self.List._first = nil
-      self.List._last = nil
-    end
-  
-    t._next = nil
-    t._prev = nil
-    self.List.Count = self.List.Count - 1
-    
+  if Object then  
     for Index, Key in ipairs( self.Index ) do
       if Key == ObjectName then
         table.remove( self.Index, Index )
+        self.Set[ObjectName] = nil
         break
       end
     end
-    
-    self.Set[ObjectName] = nil
     
   end
   
@@ -9071,19 +9054,16 @@ end
 function SET_BASE:Get( ObjectName )
   self:F( ObjectName )
 
-  local t = self.Set[ObjectName]
+  local Object = self.Set[ObjectName]
   
-  self:T3( { ObjectName, t } )
-  
-  return t
-  
+  self:T3( { ObjectName, Object } )
+  return Object
 end
 
 --- Gets the first object from the @{Set#SET_BASE} and derived classes.
 -- @param #SET_BASE self
 -- @return Core.Base#BASE
 function SET_BASE:GetFirst()
-  self:F()
 
   local ObjectName = self.Index[1]
   local FirstObject = self.Set[ObjectName]
@@ -9095,7 +9075,6 @@ end
 -- @param #SET_BASE self
 -- @return Core.Base#BASE
 function SET_BASE:GetLast()
-  self:F()
 
   local ObjectName = self.Index[#self.Index]
   local LastObject = self.Set[ObjectName]
@@ -9107,12 +9086,9 @@ end
 -- @param #SET_BASE self
 -- @return Core.Base#BASE
 function SET_BASE:GetRandom()
-  self:F()
 
   local RandomItem = self.Set[self.Index[math.random(#self.Index)]]
-
   self:T3( { RandomItem } )
-
   return RandomItem
 end
 
@@ -9122,7 +9098,7 @@ end
 -- @return #number Count
 function SET_BASE:Count()
 
-  return #self.Index or 0
+  return self.Index and #self.Index or 0
 end
 
 
@@ -9460,6 +9436,20 @@ function SET_BASE:IsIncludeObject( Object )
   return true
 end
 
+--- Gets a string with all the object names.
+-- @param #SET_BASE self
+-- @return #string A string with the names of the objects.
+function SET_BASE:GetObjectNames()
+  self:F3()
+
+  local ObjectNames = ""
+  for ObjectName, Object in pairs( self.Set ) do
+    ObjectNames = ObjectNames .. ObjectName .. ", "
+  end
+  
+  return ObjectNames
+end
+
 --- Flushes the current SET_BASE contents in the log ... (for debugging reasons).
 -- @param #SET_BASE self
 -- @return #string A string with the names of the objects.
@@ -9479,7 +9469,7 @@ end
 --- @type SET_GROUP
 -- @extends Core.Set#SET_BASE
 
---- # 2) SET_GROUP class, extends @{Set#SET_BASE}
+--- # SET_GROUP class, extends @{Set#SET_BASE}
 -- 
 -- Mission designers can use the @{Set#SET_GROUP} class to build sets of groups belonging to certain:
 -- 
@@ -9488,18 +9478,18 @@ end
 --  * Countries
 --  * Starting with certain prefix strings.
 --  
--- ## 2.1) SET_GROUP constructor
+-- ## 1. SET_GROUP constructor
 -- 
 -- Create a new SET_GROUP object with the @{#SET_GROUP.New} method:
 -- 
 --    * @{#SET_GROUP.New}: Creates a new SET_GROUP object.
 -- 
--- ## 2.2) Add or Remove GROUP(s) from SET_GROUP
+-- ## 2. Add or Remove GROUP(s) from SET_GROUP
 -- 
 -- GROUPS can be added and removed using the @{Set#SET_GROUP.AddGroupsByName} and @{Set#SET_GROUP.RemoveGroupsByName} respectively. 
 -- These methods take a single GROUP name or an array of GROUP names to be added or removed from SET_GROUP.
 -- 
--- ## 2.3) SET_GROUP filter criteria
+-- ## 3. SET_GROUP filter criteria
 -- 
 -- You can set filter criteria to define the set of groups within the SET_GROUP.
 -- Filter criteria are defined by:
@@ -9508,6 +9498,15 @@ end
 --    * @{#SET_GROUP.FilterCategories}: Builds the SET_GROUP with the groups belonging to the category(ies).
 --    * @{#SET_GROUP.FilterCountries}: Builds the SET_GROUP with the gruops belonging to the country(ies).
 --    * @{#SET_GROUP.FilterPrefixes}: Builds the SET_GROUP with the groups starting with the same prefix string(s).
+-- 
+-- For the Category Filter, extra methods have been added:
+-- 
+--    * @{#SET_GROUP.FilterCategoryAirplane}: Builds the SET_GROUP from airplanes.
+--    * @{#SET_GROUP.FilterCategoryHelicopter}: Builds the SET_GROUP from helicopters.
+--    * @{#SET_GROUP.FilterCategoryGround}: Builds the SET_GROUP from ground vehicles or infantry.
+--    * @{#SET_GROUP.FilterCategoryShip}: Builds the SET_GROUP from ships.
+--    * @{#SET_GROUP.FilterCategoryStructure}: Builds the SET_GROUP from structures.
+-- 
 --   
 -- Once the filter criteria have been set for the SET_GROUP, you can start filtering using:
 -- 
@@ -9517,7 +9516,7 @@ end
 -- 
 --    * @{#SET_GROUP.FilterZones}: Builds the SET_GROUP with the groups within a @{Zone#ZONE}.
 -- 
--- ## 2.4) SET_GROUP iterators
+-- ## 4. SET_GROUP iterators
 -- 
 -- Once the filters have been defined and the SET_GROUP has been built, you can iterate the SET_GROUP with the available iterator methods.
 -- The iterator methods will walk the SET_GROUP set, and call for each element within the set a function that you provide.
@@ -9547,7 +9546,7 @@ SET_GROUP = {
     Categories = {
       plane = Group.Category.AIRPLANE,
       helicopter = Group.Category.HELICOPTER,
-      ground = Group.Category.GROUND_UNIT,
+      ground = Group.Category.GROUND, -- R2.2
       ship = Group.Category.SHIP,
       structure = Group.Category.STRUCTURE,
     },
@@ -9675,6 +9674,48 @@ function SET_GROUP:FilterCategories( Categories )
   end
   return self
 end
+
+--- Builds a set of groups out of ground category.
+-- @param #SET_GROUP self
+-- @return #SET_GROUP self
+function SET_GROUP:FilterCategoryGround()
+  self:FilterCategories( "ground" )
+  return self
+end
+
+--- Builds a set of groups out of airplane category.
+-- @param #SET_GROUP self
+-- @return #SET_GROUP self
+function SET_GROUP:FilterCategoryAirplane()
+  self:FilterCategories( "plane" )
+  return self
+end
+
+--- Builds a set of groups out of helicopter category.
+-- @param #SET_GROUP self
+-- @return #SET_GROUP self
+function SET_GROUP:FilterCategoryHelicopter()
+  self:FilterCategories( "helicopter" )
+  return self
+end
+
+--- Builds a set of groups out of ship category.
+-- @param #SET_GROUP self
+-- @return #SET_GROUP self
+function SET_GROUP:FilterCategoryShip()
+  self:FilterCategories( "ship" )
+  return self
+end
+
+--- Builds a set of groups out of structure category.
+-- @param #SET_GROUP self
+-- @return #SET_GROUP self
+function SET_GROUP:FilterCategoryStructure()
+  self:FilterCategories( "structure" )
+  return self
+end
+
+
 
 --- Builds a set of groups of defined countries.
 -- Possible current countries are those known within DCS world.
@@ -10088,7 +10129,7 @@ function SET_GROUP:IsIncludeObject( MooseGroup )
     local MooseGroupPrefix = false
     for GroupPrefixId, GroupPrefix in pairs( self.Filter.GroupPrefixes ) do
       self:T3( { "Prefix:", string.find( MooseGroup:GetName(), GroupPrefix, 1 ), GroupPrefix } )
-      if string.find( MooseGroup:GetName(), GroupPrefix, 1 ) then
+      if string.find( MooseGroup:GetName(), GroupPrefix:gsub ("-", "%%-"), 1 ) then
         MooseGroupPrefix = true
       end
     end
@@ -12007,12 +12048,13 @@ do -- COORDINATE
     ClassName = "COORDINATE",
   }
 
+
   --- COORDINATE constructor.
   -- @param #COORDINATE self
   -- @param Dcs.DCSTypes#Distance x The x coordinate of the Vec3 point, pointing to the North.
   -- @param Dcs.DCSTypes#Distance y The y coordinate of the Vec3 point, pointing to the Right.
   -- @param Dcs.DCSTypes#Distance z The z coordinate of the Vec3 point, pointing to the Right.
-  -- @return Core.Point#COORDINATE
+  -- @return #COORDINATE
   function COORDINATE:New( x, y, z ) 
 
     local self = BASE:Inherit( self, BASE:New() ) -- #COORDINATE
@@ -12046,7 +12088,7 @@ do -- COORDINATE
   --- Create a new COORDINATE object from  Vec3 coordinates.
   -- @param #COORDINATE self
   -- @param Dcs.DCSTypes#Vec3 Vec3 The Vec3 point.
-  -- @return Core.Point#COORDINATE
+  -- @return #COORDINATE
   function COORDINATE:NewFromVec3( Vec3 ) 
 
     local self = self:New( Vec3.x, Vec3.y, Vec3.z ) -- #COORDINATE
@@ -12146,6 +12188,14 @@ do -- COORDINATE
     local RandomVec3 = { x = RandomVec2.x, y = y, z = RandomVec2.y }
 
     return RandomVec3
+  end
+  
+  --- Return the height of the land at the coordinate.
+  -- @param #COORDINATE self
+  -- @return #number
+  function COORDINATE:GetLandHeight()
+    local Vec2 = { x = self.x, y = self.z }
+    return land.getHeight( Vec2 )
   end
 
 
@@ -12670,8 +12720,8 @@ do -- COORDINATE
       end
   
       if Settings:IsA2A_BULLS() then
-        local Coordinate = Controllable:GetCoordinate()
-        return self:ToStringBULLS( Coordinate, Settings )
+        local Coalition = Controllable:GetCoalition()
+        return self:ToStringBULLS( Coalition, Settings )
       end
     else
       if Settings:IsA2G_BRA()  then
@@ -13225,7 +13275,7 @@ function MESSAGE:New( MessageText, MessageDuration, MessageCategory )
 
 	self.MessageDuration = MessageDuration or 5
 	self.MessageTime = timer.getTime()
-	self.MessageText = MessageText
+	self.MessageText = MessageText:gsub("^\n","",1):gsub("\n$","",1)
 	
 	self.MessageSent = false
 	self.MessageGroup = false
@@ -13787,7 +13837,7 @@ do -- FSM
     Transition.Event = Event
     Transition.To = To
   
-    self:T( Transition )
+    self:T2( Transition )
     
     self._Transitions[Transition] = Transition
     self:_eventmap( self.Events, Transition )
@@ -13925,7 +13975,7 @@ do -- FSM
       local __Event = "__" .. EventStructure.Event
       self[Event] = self[Event] or self:_create_transition(Event)
       self[__Event] = self[__Event] or self:_delayed_transition(Event)
-      self:T( "Added methods: " .. Event .. ", " .. __Event )
+      self:T2( "Added methods: " .. Event .. ", " .. __Event )
       Events[Event] = self.Events[Event] or { map = {} }
       self:_add_to_map( Events[Event].map, EventStructure )
   
@@ -13960,7 +14010,7 @@ do -- FSM
       return errmsg
     end
     if self[handler] then
-      self:T( "Calling " .. handler )
+      self:T2( "Calling " .. handler )
       self._EventSchedules[EventName] = nil
       local Result, Value = xpcall( function() return self[handler]( self, unpack( params ) ) end, ErrorHandler )
       return Value
@@ -14381,7 +14431,6 @@ do -- FSM_PROCESS
     
     -- Copy Processes
     for ProcessID, Process in pairs( self:GetProcesses() ) do
-      self:E( { Process} )
       if Process.fsm then
         Process.fsm:Remove()
         Process.fsm = nil
@@ -14475,12 +14524,7 @@ end
   
     self.Task:Fail()
   end
-  
-  function FSM_PROCESS:onenterSuccess( ProcessUnit )
-    self:T( "Success" )
-  
-    self.Task:Success()
-  end
+
   
   --- StateMachine callback function for a FSM_PROCESS
   -- @param #FSM_PROCESS self
@@ -17361,7 +17405,18 @@ end
 -- 
 -- The POSITIONABLE class provides the following functions to construct a POSITIONABLE instance:
 --
---  * @{Positionable#POSITIONABLE.New}(): Create a POSITIONABLE instance.
+--  * @{#POSITIONABLE.New}(): Create a POSITIONABLE instance.
+-- 
+-- ## Get the current speed
+-- 
+-- There are 3 methods that can be used to determine the speed.
+-- Use @{#POSITIONABLE.GetVelocityKMH}() to retrieve the current speed in km/h. Use @{#POSITIONABLE.GetVelocityMPS}() to retrieve the speed in meters per second.
+-- The method @{#POSITIONABLE.GetVelocity}() returns the speed vector (a Vec3).
+-- 
+-- ## Get the current altitude
+-- 
+-- Altitude can be retrieved using the method @{#POSITIONABLE.GetHeight}() and returns the current altitude in meters from the orthonormal plane.
+-- 
 -- 
 -- @field #POSITIONABLE 
 POSITIONABLE = {
@@ -17694,6 +17749,25 @@ function POSITIONABLE:GetVelocityKMH()
     local VelocityVec3 = self:GetVelocity()
     local Velocity = ( VelocityVec3.x ^ 2 + VelocityVec3.y ^ 2 + VelocityVec3.z ^ 2 ) ^ 0.5 -- in meters / sec
     local Velocity = Velocity * 3.6 -- now it is in km/h.
+    self:T3( Velocity )
+    return Velocity
+  end
+  
+  return nil
+end
+
+--- Returns the POSITIONABLE velocity in meters per second.
+-- @param Wrapper.Positionable#POSITIONABLE self
+-- @return #number The velocity in meters per second.
+-- @return #nil The POSITIONABLE is not existing or alive.  
+function POSITIONABLE:GetVelocityMPS()
+  self:F2( self.PositionableName )
+
+  local DCSPositionable = self:GetDCSObject()
+  
+  if DCSPositionable then
+    local VelocityVec3 = self:GetVelocity()
+    local Velocity = ( VelocityVec3.x ^ 2 + VelocityVec3.y ^ 2 + VelocityVec3.z ^ 2 ) ^ 0.5 -- in meters / sec
     self:T3( Velocity )
     return Velocity
   end
@@ -18135,7 +18209,7 @@ CONTROLLABLE = {
 -- @param Dcs.DCSWrapper.Controllable#Controllable ControllableName The DCS Controllable name
 -- @return #CONTROLLABLE self
 function CONTROLLABLE:New( ControllableName )
-  local self = BASE:Inherit( self, POSITIONABLE:New( ControllableName ) )
+  local self = BASE:Inherit( self, POSITIONABLE:New( ControllableName ) ) -- #CONTROLLABLE
   self:F2( ControllableName )
   self.ControllableName = ControllableName
   
@@ -18149,12 +18223,10 @@ end
 -- @param #CONTROLLABLE self
 -- @return Dcs.DCSController#Controller
 function CONTROLLABLE:_GetController()
-  self:F2( { self.ControllableName } )
   local DCSControllable = self:GetDCSObject()
 
   if DCSControllable then
     local ControllableController = DCSControllable:getController()
-    self:T3( ControllableController )
     return ControllableController
   end
 
@@ -18212,6 +18284,36 @@ function CONTROLLABLE:GetLife()
   
   return nil
 end
+
+--- Returns the initial health.
+-- @param #CONTROLLABLE self
+-- @return #number The controllable health value (unit or group average).
+-- @return #nil The controllable is not existing or alive.  
+function CONTROLLABLE:GetLife0()
+  self:F2( self.ControllableName )
+
+  local DCSControllable = self:GetDCSObject()
+  
+  if DCSControllable then
+    local UnitLife = 0
+    local Units = self:GetUnits()
+    if #Units == 1 then
+      local Unit = Units[1] -- Wrapper.Unit#UNIT
+      UnitLife = Unit:GetLife0()
+    else
+      local UnitLifeTotal = 0
+      for UnitID, Unit in pairs( Units ) do
+        local Unit = Unit -- Wrapper.Unit#UNIT
+        UnitLifeTotal = UnitLifeTotal + Unit:GetLife0()
+      end
+      UnitLife = UnitLifeTotal / #Units
+    end
+    return UnitLife
+  end
+  
+  return nil
+end
+
 
 
 
@@ -18283,14 +18385,13 @@ end
 -- @param #CONTROLLABLE self
 -- @return Wrapper.Controllable#CONTROLLABLE self
 function CONTROLLABLE:SetTask( DCSTask, WaitTime )
-  self:F2( { DCSTask } )
+  self:F2( { DCSTask = DCSTask } )
 
   local DCSControllable = self:GetDCSObject()
 
   if DCSControllable then
 
     local Controller = self:_GetController()
-    self:T3( Controller )
 
     -- When a controllable SPAWNs, it takes about a second to get the controllable in the simulator. Setting tasks to unspawned controllables provides unexpected results.
     -- Therefore we schedule the functions to set the mission and options for the Controllable.
@@ -18306,6 +18407,24 @@ function CONTROLLABLE:SetTask( DCSTask, WaitTime )
   end
 
   return nil
+end
+
+--- Checking the Task Queue of the controllable. Returns false if no task is on the queue. true if there is a task.
+-- @param #CONTROLLABLE self
+-- @return Wrapper.Controllable#CONTROLLABLE self
+function CONTROLLABLE:HasTask() --R2.2
+
+  local HasTaskResult = false
+
+  local DCSControllable = self:GetDCSObject()
+
+  if DCSControllable then
+
+    local Controller = self:_GetController()
+    HasTaskResult = Controller:hasTask()
+  end
+
+  return HasTaskResult
 end
 
 
@@ -18372,7 +18491,7 @@ function CONTROLLABLE:TaskCombo( DCSTasks )
   }
   
   for TaskID, Task in ipairs( DCSTasks ) do
-    self:E( Task )
+    self:T( Task )
   end
 
   self:T3( { DCSTaskCombo } )
@@ -18571,7 +18690,7 @@ function CONTROLLABLE:TaskAttackUnit( AttackUnit, GroupAttack, WeaponExpend, Att
     }
   }
 
-  self:E( DCSTask )
+  self:T3( DCSTask )
   
   return DCSTask
 end
@@ -19642,6 +19761,59 @@ function CONTROLLABLE:TaskRouteToZone( Zone, Randomize, Speed, Formation )
   return nil
 end
 
+--- (GROUND) Route the controllable to a given Vec2.
+-- A speed can be given in km/h.
+-- A given formation can be given.
+-- @param #CONTROLLABLE self
+-- @param #Vec2 Vec2 The Vec2 where to route to.
+-- @param #number Speed The speed.
+-- @param Base#FORMATION Formation The formation string.
+function CONTROLLABLE:TaskRouteToVec2( Vec2, Speed, Formation )
+
+  local DCSControllable = self:GetDCSObject()
+
+  if DCSControllable then
+
+    local ControllablePoint = self:GetVec2()
+
+    local PointFrom = {}
+    PointFrom.x = ControllablePoint.x
+    PointFrom.y = ControllablePoint.y
+    PointFrom.type = "Turning Point"
+    PointFrom.action = Formation or "Cone"
+    PointFrom.speed = 20 / 1.6
+
+
+    local PointTo = {}
+
+    PointTo.x = Vec2.x
+    PointTo.y = Vec2.y
+    PointTo.type = "Turning Point"
+
+    if Formation then
+      PointTo.action = Formation
+    else
+      PointTo.action = "Cone"
+    end
+
+    if Speed then
+      PointTo.speed = Speed
+    else
+      PointTo.speed = 60 / 3.6
+    end
+
+    local Points = { PointFrom, PointTo }
+
+    self:T3( Points )
+
+    self:Route( Points )
+
+    return self
+  end
+
+  return nil
+end
+
 
 -- Commands
 
@@ -20113,6 +20285,57 @@ function CONTROLLABLE:OptionROTVertical()
   return nil
 end
 
+
+--- Set RTB on bingo fuel.
+-- @param #CONTROLLABLE self
+-- @param #boolean RTB true if RTB on bingo fuel (default), false if no RTB on bingo fuel.
+-- Warning! When you switch this option off, the airborne group will continue to fly until all fuel has been consumed, and will crash.
+-- @return #CONTROLLABLE self
+function CONTROLLABLE:OptionRTBBingoFuel( RTB ) --R2.2
+  self:F2( { self.ControllableName } )
+
+  RTB = RTB or true
+
+  local DCSControllable = self:GetDCSObject()
+  if DCSControllable then
+    local Controller = self:_GetController()
+
+    if self:IsAir() then
+      Controller:setOption( AI.Option.Air.id.RTB_ON_BINGO, RTB )
+    end
+
+    return self
+  end
+
+  return nil
+end
+
+
+--- Set RTB on ammo.
+-- @param #CONTROLLABLE self
+-- @param #boolean WeaponsFlag Weapons.flag enumerator.
+-- @return #CONTROLLABLE self
+function CONTROLLABLE:OptionRTBAmmo( WeaponsFlag )
+  self:F2( { self.ControllableName } )
+
+  local DCSControllable = self:GetDCSObject()
+  if DCSControllable then
+    local Controller = self:_GetController()
+
+    if self:IsAir() then
+      Controller:setOption( AI.Option.GROUND.id.RTB_ON_OUT_OF_AMMO, WeaponsFlag )
+    end
+
+    return self
+  end
+
+  return nil
+end
+
+
+
+
+
 --- Retrieve the controllable mission and allow to place function hooks within the mission waypoint plan.
 -- Use the method @{Controllable#CONTROLLABLE:WayPointFunction} to define the hook functions for specific waypoints.
 -- Use the method @{Controllable@CONTROLLABLE:WayPointExecute) to start the execution of the new mission plan.
@@ -20180,7 +20403,7 @@ function CONTROLLABLE:TaskFunction( WayPoint, WayPointIndex, FunctionString, Fun
     ), WayPointIndex
   )
 
-  self:T3( DCSTask )
+  self:T( DCSTask )
 
   return DCSTask
 
@@ -20321,6 +20544,25 @@ end
 -- @field #GROUP GROUP
 GROUP = {
   ClassName = "GROUP",
+}
+
+
+--- Enumerator for location at airbases
+-- @type GROUP.Takeoff
+GROUP.Takeoff = {
+  Air = 1,
+  Runway = 2,
+  Hot = 3,
+  Cold = 4,
+}
+
+GROUPTEMPLATE = {}
+
+GROUPTEMPLATE.Takeoff = {
+  [GROUP.Takeoff.Air] =     "Turning Point",
+  [GROUP.Takeoff.Runway] =  "TakeOff",
+  [GROUP.Takeoff.Hot] =     "TakeOffParkingHot",
+  [GROUP.Takeoff.Cold] =    "TakeOffParking",
 }
 
 --- Create a new GROUP from a DCSGroup
@@ -23068,7 +23310,7 @@ end--- **Wrapper** -- AIRBASE is a wrapper class to handle the DCS Airbase objec
 -- the first letter of the method is also capitalized. So, by example, the DCS Airbase method @{DCSWrapper.Airbase#Airbase.getName}()
 -- is implemented in the AIRBASE class as @{#AIRBASE.GetName}().
 -- 
--- @field #AIRBASE
+-- @field #AIRBASE AIRBASE
 AIRBASE = {
   ClassName="AIRBASE",
   CategoryName = { 
@@ -23076,6 +23318,88 @@ AIRBASE = {
     [Airbase.Category.HELIPAD]    = "Helipad",
     [Airbase.Category.SHIP]       = "Ship",
     },
+  }
+
+--- @field Caucasus
+AIRBASE.Caucasus = {
+  ["Gelendzhik"] = "Gelendzhik",
+  ["Krasnodar_Pashkovsky"] = "Krasnodar-Pashkovsky",
+  ["Sukhumi_Babushara"] = "Sukhumi-Babushara",
+  ["Gudauta"] = "Gudauta",
+  ["Batumi"] = "Batumi",
+  ["Senaki_Kolkhi"] = "Senaki-Kolkhi",
+  ["Kobuleti"] = "Kobuleti",
+  ["Kutaisi"] = "Kutaisi",
+  ["Tbilisi_Lochini"] = "Tbilisi-Lochini",
+  ["Soganlug"] = "Soganlug",
+  ["Vaziani"] = "Vaziani",
+  ["Anapa_Vityazevo"] = "Anapa-Vityazevo",
+  ["Krasnodar_Center"] = "Krasnodar-Center",
+  ["Novorossiysk"] = "Novorossiysk",
+  ["Krymsk"] = "Krymsk",
+  ["Maykop_Khanskaya"] = "Maykop-Khanskaya",
+  ["Sochi_Adler"] = "Sochi-Adler",
+  ["Mineralnye_Vody"] = "Mineralnye Vody",
+  ["Nalchik"] = "Nalchik",
+  ["Mozdok"] = "Mozdok",
+  ["Beslan"] = "Beslan",
+  }
+  
+--- @field Nevada
+AIRBASE.Nevada = {
+  ["Creech_AFB"] = "Creech AFB",
+  ["Groom_Lake_AFB"] = "Groom Lake AFB",
+  ["McCarran_International_Airport"] = "McCarran International Airport",
+  ["Nellis_AFB"] = "Nellis AFB",
+  ["Beatty_Airport"] = "Beatty Airport",
+  ["Boulder_City_Airport"] = "Boulder City Airport",
+  ["Echo_Bay"] = "Echo Bay",
+  ["Henderson_Executive_Airport"] = "Henderson Executive Airport",
+  ["Jean_Airport"] = "Jean Airport",
+  ["Laughlin_Airport"] = "Laughlin Airport",
+  ["Lincoln_County"] = "Lincoln County",
+  ["Mellan_Airstrip"] = "Mellan Airstrip",
+  ["Mesquite"] = "Mesquite",
+  ["Mina_Airport_3Q0"] = "Mina Airport 3Q0",
+  ["North_Las_Vegas"] = "North Las Vegas",
+  ["Pahute_Mesa_Airstrip"] = "Pahute Mesa Airstrip",
+  ["Tonopah_Airport"] = "Tonopah Airport",
+  ["Tonopah_Test_Range_Airfield"] = "Tonopah Test Range Airfield",
+  }
+
+--- @field Normandy
+AIRBASE.Normandy = {
+  ["Saint_Pierre_du_Mont"] = "Saint Pierre du Mont",
+  ["Lignerolles"] = "Lignerolles",
+  ["Cretteville"] = "Cretteville",
+  ["Maupertus"] = "Maupertus",
+  ["Brucheville"] = "Brucheville",
+  ["Meautis"] = "Meautis",
+  ["Cricqueville_en_Bessin"] = "Cricqueville-en-Bessin",
+  ["Lessay"] = "Lessay",
+  ["Sainte_Laurent_sur_Mer"] = "Sainte-Laurent-sur-Mer",
+  ["Biniville"] = "Biniville",
+  ["Cardonville"] = "Cardonville",
+  ["Deux_Jumeaux"] = "Deux Jumeaux",
+  ["Chippelle"] = "Chippelle",
+  ["Beuzeville"] = "Beuzeville",
+  ["Azeville"] = "Azeville",
+  ["Picauville"] = "Picauville",
+  ["Le_Molay"] = "Le Molay",
+  ["Longues_sur_Mer"] = "Longues-sur-Mer",
+  ["Carpiquet"] = "Carpiquet",
+  ["Bazenville"] = "Bazenville",
+  ["Sainte_Croix_sur_Mer"] = "Sainte-Croix-sur-Mer",
+  ["Beny_sur_Mer"] = "Beny-sur-Mer",
+  ["Rucqueville"] = "Rucqueville",
+  ["Sommervieu"] = "Sommervieu",
+  ["Lantheuil"] = "Lantheuil",
+  ["Evreux"] = "Evreux",
+  ["Chailey"] = "Chailey",
+  ["Needs_Oar_Point"] = "Needs Oar Point",
+  ["Funtington"] = "Funtington",
+  ["Tangmere"] = "Tangmere",
+  ["Ford"] = "Ford",
   }
 
 -- Registration.
@@ -23088,6 +23412,7 @@ function AIRBASE:Register( AirbaseName )
 
   local self = BASE:Inherit( self, POSITIONABLE:New( AirbaseName ) )
   self.AirbaseName = AirbaseName
+  self.AirbaseZone = ZONE_RADIUS:New( AirbaseName, self:GetVec2(), 8000 )
   return self
 end
 
@@ -23122,6 +23447,13 @@ function AIRBASE:GetDCSObject()
   end
     
   return nil
+end
+
+--- Get the airbase zone.
+-- @param #AIRBASE self
+-- @return Core.Zone#ZONE_RADIUS The zone radius of the airbase.
+function AIRBASE:GetZone()
+  return self.AirbaseZone
 end
 
 
@@ -23449,6 +23781,8 @@ function SCORING:New( GameName )
   -- Default penalty when a player changes coalition.
   self:SetCoalitionChangePenalty( self.ScaleDestroyPenalty )
   
+  self:SetDisplayMessagePrefix()
+  
   -- Event handlers  
   self:HandleEvent( EVENTS.Dead, self._EventOnDeadOrCrash )
   self:HandleEvent( EVENTS.Crash, self._EventOnDeadOrCrash )
@@ -23463,15 +23797,23 @@ function SCORING:New( GameName )
   
 end
 
+--- Set a prefix string that will be displayed at each scoring message sent.
+-- @param #SCORING self
+-- @param #string DisplayMessagePrefix (Default="Scoring: ") The scoring prefix string.
+-- @return #SCORING
+function SCORING:SetDisplayMessagePrefix( DisplayMessagePrefix )
+  self.DisplayMessagePrefix = DisplayMessagePrefix or "Scoring: "
+  return self
+end
+
+
 --- Set the scale for scoring valid destroys (enemy destroys).
 -- A default calculated score is a value between 1 and 10.
 -- The scale magnifies the scores given to the players.
 -- @param #SCORING self
 -- @param #number Scale The scale of the score given.
 function SCORING:SetScaleDestroyScore( Scale )
-
   self.ScaleDestroyScore = Scale
-  
   return self
 end
 
@@ -23774,7 +24116,7 @@ function SCORING:_AddPlayerFromUnit( UnitData )
       if self.Players[PlayerName].UnitCoalition ~= UnitCoalition then
         self.Players[PlayerName].Penalty = self.Players[PlayerName].Penalty + 50
         self.Players[PlayerName].PenaltyCoalition = self.Players[PlayerName].PenaltyCoalition + 1
-        MESSAGE:New( "Player '" .. PlayerName .. "' changed coalition from " .. _SCORINGCoalition[self.Players[PlayerName].UnitCoalition] .. " to " .. _SCORINGCoalition[UnitCoalition] ..
+        MESSAGE:New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' changed coalition from " .. _SCORINGCoalition[self.Players[PlayerName].UnitCoalition] .. " to " .. _SCORINGCoalition[UnitCoalition] ..
           "(changed " .. self.Players[PlayerName].PenaltyCoalition .. " times the coalition). 50 Penalty points added.",
           2
         ):ToAll()
@@ -23792,7 +24134,7 @@ function SCORING:_AddPlayerFromUnit( UnitData )
 
     if self.Players[PlayerName].Penalty > self.Fratricide * 0.50 then
       if self.Players[PlayerName].PenaltyWarning < 1 then
-        MESSAGE:New( "Player '" .. PlayerName .. "': WARNING! If you continue to commit FRATRICIDE and have a PENALTY score higher than " .. self.Fratricide .. ", you will be COURT MARTIALED and DISMISSED from this mission! \nYour total penalty is: " .. self.Players[PlayerName].Penalty,
+        MESSAGE:New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "': WARNING! If you continue to commit FRATRICIDE and have a PENALTY score higher than " .. self.Fratricide .. ", you will be COURT MARTIALED and DISMISSED from this mission! \nYour total penalty is: " .. self.Players[PlayerName].Penalty,
           30
         ):ToAll()
         self.Players[PlayerName].PenaltyWarning = self.Players[PlayerName].PenaltyWarning + 1
@@ -23801,7 +24143,7 @@ function SCORING:_AddPlayerFromUnit( UnitData )
 
     if self.Players[PlayerName].Penalty > self.Fratricide then
       --UnitData:Destroy()
-      MESSAGE:New( "Player '" .. PlayerName .. "' committed FRATRICIDE, he will be COURT MARTIALED and is DISMISSED from this mission!",
+      MESSAGE:New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' committed FRATRICIDE, he will be COURT MARTIALED and is DISMISSED from this mission!",
         10
       ):ToAll()
     end
@@ -23834,7 +24176,7 @@ function SCORING:AddGoalScore( PlayerUnit, GoalTag, Text, Score )
     PlayerData.Goals[GoalTag].Score = PlayerData.Goals[GoalTag].Score + Score  
     PlayerData.Score = PlayerData.Score + Score
   
-    MESSAGE:New( Text, 30 ):ToAll()
+    MESSAGE:New( self.DisplayMessagePrefix .. Text, 30 ):ToAll()
   
     self:ScoreCSV( PlayerName, "", "GOAL_" .. string.upper( GoalTag ), 1, Score, PlayerUnit:GetName() )
   end
@@ -23870,9 +24212,7 @@ function SCORING:_AddMissionTaskScore( Mission, PlayerUnit, Text, Score )
     PlayerData.Score = self.Players[PlayerName].Score + Score
     PlayerData.Mission[MissionName].ScoreTask = self.Players[PlayerName].Mission[MissionName].ScoreTask + Score
   
-    MESSAGE:New( "Player '" .. PlayerName .. "' has " .. Text .. " in Mission '" .. MissionName .. "'. " ..
-      Score .. " task score!",
-      30 ):ToAll()
+    MESSAGE:New( self.DisplayMessagePrefix .. MissionName .. " : " .. Text .. " Score: " .. Score, 30 ):ToAll()
   
     self:ScoreCSV( PlayerName, "", "TASK_" .. MissionName:gsub( ' ', '_' ), 1, Score, PlayerUnit:GetName() )
   end
@@ -23900,7 +24240,7 @@ function SCORING:_AddMissionScore( Mission, Text, Score )
       PlayerData.Score = PlayerData.Score + Score
       PlayerData.Mission[MissionName].ScoreMission = PlayerData.Mission[MissionName].ScoreMission + Score
 
-      MESSAGE:New( "Player '" .. PlayerName .. "' has " .. Text .. " in Mission '" .. MissionName .. "'. " ..
+      MESSAGE:New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' has " .. Text .. " in Mission '" .. MissionName .. "'. " ..
         Score .. " mission score!",
         60 ):ToAll()
 
@@ -24070,7 +24410,7 @@ function SCORING:_EventOnHit( Event )
       
               if TargetPlayerName ~= nil then -- It is a player hitting another player ...
                 MESSAGE
-                  :New( "Player '" .. InitPlayerName .. "' hit friendly player '" .. TargetPlayerName .. "' " .. 
+                  :New( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit friendly player '" .. TargetPlayerName .. "' " .. 
                         TargetUnitCategory .. " ( " .. TargetType .. " ) " .. PlayerHit.PenaltyHit .. " times. " .. 
                         "Penalty: -" .. PlayerHit.Penalty .. ".  Score Total:" .. Player.Score - Player.Penalty,
                         2
@@ -24079,7 +24419,7 @@ function SCORING:_EventOnHit( Event )
                   :ToCoalitionIf( InitCoalition, self:IfMessagesHit() and self:IfMessagesToCoalition() )
               else
                 MESSAGE
-                  :New( "Player '" .. InitPlayerName .. "' hit a friendly target " .. 
+                  :New( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit a friendly target " .. 
                         TargetUnitCategory .. " ( " .. TargetType .. " ) " .. PlayerHit.PenaltyHit .. " times. " .. 
                         "Penalty: -" .. PlayerHit.Penalty .. ".  Score Total:" .. Player.Score - Player.Penalty,
                         2
@@ -24094,7 +24434,7 @@ function SCORING:_EventOnHit( Event )
               PlayerHit.ScoreHit = PlayerHit.ScoreHit + 1
               if TargetPlayerName ~= nil then -- It is a player hitting another player ...
                 MESSAGE
-                  :New( "Player '" .. InitPlayerName .. "' hit enemy player '" .. TargetPlayerName .. "' "  .. 
+                  :New( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit enemy player '" .. TargetPlayerName .. "' "  .. 
                         TargetUnitCategory .. " ( " .. TargetType .. " ) " .. PlayerHit.ScoreHit .. " times. " .. 
                         "Score: " .. PlayerHit.Score .. ".  Score Total:" .. Player.Score - Player.Penalty,
                         2
@@ -24103,7 +24443,7 @@ function SCORING:_EventOnHit( Event )
                   :ToCoalitionIf( InitCoalition, self:IfMessagesHit() and self:IfMessagesToCoalition() )
               else
                 MESSAGE
-                  :New( "Player '" .. InitPlayerName .. "' hit an enemy target " .. 
+                  :New( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit an enemy target " .. 
                         TargetUnitCategory .. " ( " .. TargetType .. " ) " .. PlayerHit.ScoreHit .. " times. " .. 
                         "Score: " .. PlayerHit.Score .. ".  Score Total:" .. Player.Score - Player.Penalty,
                         2
@@ -24115,7 +24455,7 @@ function SCORING:_EventOnHit( Event )
             end
           else -- A scenery object was hit.
             MESSAGE
-              :New( "Player '" .. InitPlayerName .. "' hit a scenery object.",
+              :New( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit a scenery object.",
                     2
                   )
               :ToAllIf( self:IfMessagesHit() and self:IfMessagesToAll() )
@@ -24176,7 +24516,7 @@ function SCORING:_EventOnHit( Event )
               PlayerHit.PenaltyHit = PlayerHit.PenaltyHit + 1
       
               MESSAGE
-                :New( "Player '" .. Event.WeaponPlayerName .. "' hit a friendly target " .. 
+                :New( self.DisplayMessagePrefix .. "Player '" .. Event.WeaponPlayerName .. "' hit a friendly target " .. 
                       TargetUnitCategory .. " ( " .. TargetType .. " ) " .. PlayerHit.PenaltyHit .. " times. " .. 
                       "Penalty: -" .. PlayerHit.Penalty .. ".  Score Total:" .. Player.Score - Player.Penalty,
                       2
@@ -24189,7 +24529,7 @@ function SCORING:_EventOnHit( Event )
               PlayerHit.Score = PlayerHit.Score + 1
               PlayerHit.ScoreHit = PlayerHit.ScoreHit + 1
               MESSAGE
-                :New( "Player '" .. Event.WeaponPlayerName .. "' hit an enemy target " .. 
+                :New( self.DisplayMessagePrefix .. "Player '" .. Event.WeaponPlayerName .. "' hit an enemy target " .. 
                       TargetUnitCategory .. " ( " .. TargetType .. " ) " .. PlayerHit.ScoreHit .. " times. " .. 
                       "Score: " .. PlayerHit.Score .. ".  Score Total:" .. Player.Score - Player.Penalty,
                       2
@@ -24200,7 +24540,7 @@ function SCORING:_EventOnHit( Event )
             end
           else -- A scenery object was hit.
             MESSAGE
-              :New( "Player '" .. Event.WeaponPlayerName .. "' hit a scenery object.",
+              :New( self.DisplayMessagePrefix .. "Player '" .. Event.WeaponPlayerName .. "' hit a scenery object.",
                     2
                   )
               :ToAllIf( self:IfMessagesHit() and self:IfMessagesToAll() )
@@ -24299,7 +24639,7 @@ function SCORING:_EventOnDeadOrCrash( Event )
             
             if Player.HitPlayers[TargetPlayerName] then -- A player destroyed another player
               MESSAGE
-                :New( "Player '" .. PlayerName .. "' destroyed friendly player '" .. TargetPlayerName .. "' " .. 
+                :New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' destroyed friendly player '" .. TargetPlayerName .. "' " .. 
                       TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " .. TargetDestroy.PenaltyDestroy .. " times. " .. 
                       "Penalty: -" .. TargetDestroy.Penalty .. ".  Score Total:" .. Player.Score - Player.Penalty,
                       15 
@@ -24308,7 +24648,7 @@ function SCORING:_EventOnDeadOrCrash( Event )
                 :ToCoalitionIf( InitCoalition, self:IfMessagesDestroy() and self:IfMessagesToCoalition() )
             else
               MESSAGE
-                :New( "Player '" .. PlayerName .. "' destroyed a friendly target " .. 
+                :New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' destroyed a friendly target " .. 
                       TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " .. TargetDestroy.PenaltyDestroy .. " times. " .. 
                       "Penalty: -" .. TargetDestroy.Penalty .. ".  Score Total:" .. Player.Score - Player.Penalty,
                       15 
@@ -24333,7 +24673,7 @@ function SCORING:_EventOnDeadOrCrash( Event )
             TargetDestroy.ScoreDestroy = TargetDestroy.ScoreDestroy + 1
             if Player.HitPlayers[TargetPlayerName] then -- A player destroyed another player
               MESSAGE
-                :New( "Player '" .. PlayerName .. "' destroyed enemy player '" .. TargetPlayerName .. "' " .. 
+                :New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' destroyed enemy player '" .. TargetPlayerName .. "' " .. 
                       TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " .. TargetDestroy.ScoreDestroy .. " times. " .. 
                       "Score: " .. TargetDestroy.Score .. ".  Score Total:" .. Player.Score - Player.Penalty,
                       15 
@@ -24342,7 +24682,7 @@ function SCORING:_EventOnDeadOrCrash( Event )
                 :ToCoalitionIf( InitCoalition, self:IfMessagesDestroy() and self:IfMessagesToCoalition() )
             else
               MESSAGE
-                :New( "Player '" .. PlayerName .. "' destroyed an enemy " .. 
+                :New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' destroyed an enemy " .. 
                       TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " .. TargetDestroy.ScoreDestroy .. " times. " .. 
                       "Score: " .. TargetDestroy.Score .. ".  Total:" .. Player.Score - Player.Penalty,
                       15 
@@ -24359,7 +24699,7 @@ function SCORING:_EventOnDeadOrCrash( Event )
               Player.Score = Player.Score + Score
               TargetDestroy.Score = TargetDestroy.Score + Score
               MESSAGE
-                :New( "Special target '" .. TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " .. " destroyed! " .. 
+                :New( self.DisplayMessagePrefix .. "Special target '" .. TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " .. " destroyed! " .. 
                       "Player '" .. PlayerName .. "' receives an extra " .. Score .. " points! Total: " .. Player.Score - Player.Penalty,
                       15 
                     )
@@ -24378,7 +24718,7 @@ function SCORING:_EventOnDeadOrCrash( Event )
                 Player.Score = Player.Score + Score
                 TargetDestroy.Score = TargetDestroy.Score + Score
                 MESSAGE
-                  :New( "Target destroyed in zone '" .. ScoreZone:GetName() .. "'." .. 
+                  :New( self.DisplayMessagePrefix .. "Target destroyed in zone '" .. ScoreZone:GetName() .. "'." .. 
                         "Player '" .. PlayerName .. "' receives an extra " .. Score .. " points! " .. 
                         "Total: " .. Player.Score - Player.Penalty,
                         15 )
@@ -24400,7 +24740,7 @@ function SCORING:_EventOnDeadOrCrash( Event )
               Player.Score = Player.Score + Score
               TargetDestroy.Score = TargetDestroy.Score + Score
               MESSAGE
-                :New( "Scenery destroyed in zone '" .. ScoreZone:GetName() .. "'." .. 
+                :New( self.DisplayMessagePrefix .. "Scenery destroyed in zone '" .. ScoreZone:GetName() .. "'." .. 
                       "Player '" .. PlayerName .. "' receives an extra " .. Score .. " points! " .. 
                       "Total: " .. Player.Score - Player.Penalty, 
                       15 
@@ -24941,57 +25281,100 @@ end
 
 --- **Functional** -- The CLEANUP class keeps an area clean of crashing or colliding airplanes. It also prevents airplanes from firing within this area.
 -- 
+-- ![Banner Image](..\Presentations\CLEANUP\Dia1.JPG)
+-- 
+-- ===
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- ### Contributions: 
+-- 
 -- ====
+-- 
 -- @module CleanUp
 
 
-
-
-
-
-
---- The CLEANUP class.
--- @type CLEANUP
+--- @type CLEANUP
 -- @extends Core.Base#BASE
+-- @field #map<#string,Wrapper.Airbase#AIRBASE> Airbases Map of Airbases.
+
+--- # CLEANUP, extends @{Base#BASE}
+-- 
+-- The CLEANUP class keeps airbases clean, and tries to guarantee continuous airbase operations, even under combat.
+-- 
+-- @field #CLEANUP
 CLEANUP = {
 	ClassName = "CLEANUP",
-	ZoneNames = {},
-	TimeInterval = 300,
+	TimeInterval = 0.2,
 	CleanUpList = {},
+	Airbases = {},
 }
 
 --- Creates the main object which is handling the cleaning of the debris within the given Zone Names.
 -- @param #CLEANUP self
--- @param #table ZoneNames Is a table of zone names where the debris should be cleaned. Also a single string can be passed with one zone name.
--- @param #number TimeInterval The interval in seconds when the clean activity takes place. The default is 300 seconds, thus every 5 minutes.
+-- @param #list<#string> AirbaseNames Is a table of airbase names where the debris should be cleaned. Also a single string can be passed with one airbase name.
 -- @return #CLEANUP
 -- @usage
 --  -- Clean these Zones.
--- CleanUpAirports = CLEANUP:New( { 'CLEAN Tbilisi', 'CLEAN Kutaisi' }, 150 )
+-- CleanUpAirports = CLEANUP:New( { AIRBASE.Caucasus.Tbilisi, AIRBASE.Caucasus.Kutaisi )
 -- or
--- CleanUpTbilisi = CLEANUP:New( 'CLEAN Tbilisi', 150 )
--- CleanUpKutaisi = CLEANUP:New( 'CLEAN Kutaisi', 600 )
-function CLEANUP:New( ZoneNames, TimeInterval )	
+-- CleanUpTbilisi = CLEANUP:New( AIRBASE.Caucasus.Tbilisi )
+-- CleanUpKutaisi = CLEANUP:New( AIRBASE.Caucasus.Kutaisi )
+function CLEANUP:New( AirbaseNames )	
 
   local self = BASE:Inherit( self, BASE:New() ) -- #CLEANUP
-	self:F( { ZoneNames, TimeInterval } )
+	self:F( { AirbaseNames } )
 	
-	if type( ZoneNames ) == 'table' then
-		self.ZoneNames = ZoneNames
+	if type( AirbaseNames ) == 'table' then
+    for AirbaseID, AirbaseName in pairs( AirbaseNames ) do
+      self:AddAirbase( AirbaseName )
+    end
 	else
-		self.ZoneNames = { ZoneNames }
-	end
-	if TimeInterval then
-		self.TimeInterval = TimeInterval
+    local AirbaseName = AirbaseNames
+    self:AddAirbase( AirbaseName )
 	end
 	
 	self:HandleEvent( EVENTS.Birth )
 	
-  self.CleanUpScheduler = SCHEDULER:New( self, self._CleanUpScheduler, {}, 1, TimeInterval )
+  self.CleanUpScheduler = SCHEDULER:New( self, self._CleanUpScheduler, {}, 1, self.TimeInterval )
 	
 	return self
 end
 
+--- Adds an airbase to the airbase validation list.
+-- @param #CLEANUP self
+-- @param #string AirbaseName
+-- @return #CLEANUP
+function CLEANUP:AddAirbase( AirbaseName )
+  self.Airbases[AirbaseName] = AIRBASE:FindByName( AirbaseName )
+  self:F({"Airbase:", AirbaseName, self.Airbases[AirbaseName]:GetDesc()})
+  
+  return self
+end
+
+--- Removes an airbase from the airbase validation list.
+-- @param #CLEANUP self
+-- @param #string AirbaseName
+-- @return #CLEANUP
+function CLEANUP:RemoveAirbase( AirbaseName )
+  self.Airbases[AirbaseName] = nil
+  return self
+end
+
+
+
+function CLEANUP:IsInAirbase( Vec2 )
+
+  local InAirbase = false
+  for AirbaseName, Airbase in pairs( self.Airbases ) do
+    local Airbase = Airbase -- Wrapper.Airbase#AIRBASE
+    if Airbase:GetZone():IsVec2InZone( Vec2 ) then
+      InAirbase = true
+      break;
+    end
+  end
+  
+  return InAirbase
+end
 
 --- Destroys a group from the simulator, but checks first if it is still existing!
 -- @param #CLEANUP self
@@ -25006,29 +25389,25 @@ function CLEANUP:_DestroyGroup( GroupObject, CleanUpGroupName )
 	end
 end
 
---- Destroys a @{DCSWrapper.Unit#Unit} from the simulator, but checks first if it is still existing!
+--- Destroys a @{Unit} from the simulator, but checks first if it is still existing!
 -- @param #CLEANUP self
--- @param Dcs.DCSWrapper.Unit#Unit CleanUpUnit The object to be destroyed.
--- @param #string CleanUpUnitName The Unit name ...
-function CLEANUP:_DestroyUnit( CleanUpUnit, CleanUpUnitName )
-	self:F( { CleanUpUnit, CleanUpUnitName } )
+-- @param Wrapper.Unit#UNIT CleanUpUnit The object to be destroyed.
+function CLEANUP:_DestroyUnit( CleanUpUnit )
+	self:F( { CleanUpUnit } )
 
 	if CleanUpUnit then
-		local CleanUpGroup = Unit.getGroup(CleanUpUnit)
+	  local CleanUpUnitName = CleanUpUnit:GetName()
+		local CleanUpGroup = CleanUpUnit:GetGroup()
     -- TODO Client bug in 1.5.3
-		if CleanUpGroup and CleanUpGroup:isExist() then
-			local CleanUpGroupUnits = CleanUpGroup:getUnits()
+		if CleanUpGroup:IsAlive() then
+			local CleanUpGroupUnits = CleanUpGroup:GetUnits()
 			if #CleanUpGroupUnits == 1 then
-				local CleanUpGroupName = CleanUpGroup:getName()
-				--self:CreateEventCrash( timer.getTime(), CleanUpUnit )
-				CleanUpGroup:destroy()
-				self:T( { "Destroyed Group:", CleanUpGroupName } )
+				local CleanUpGroupName = CleanUpGroup:GetName()
+				CleanUpGroup:Destroy()
 			else
-				CleanUpUnit:destroy()
-				self:T( { "Destroyed Unit:", CleanUpUnitName } )
+				CleanUpUnit:Destroy()
 			end
-			self.CleanUpList[CleanUpUnitName] = nil -- Cleaning from the list
-			CleanUpUnit = nil
+			self.CleanUpList[CleanUpUnitName] = nil
 		end
 	end
 end
@@ -25048,7 +25427,7 @@ end
 
 --- @param #CLEANUP self
 -- @param Core.Event#EVENTDATA EventData
-function CLEANUP:_OnEventBirth( EventData )
+function CLEANUP:OnEventBirth( EventData )
   self:F( { EventData } )
   
   self.CleanUpList[EventData.IniDCSUnitName] = {}
@@ -25057,13 +25436,13 @@ function CLEANUP:_OnEventBirth( EventData )
   self.CleanUpList[EventData.IniDCSUnitName].CleanUpGroupName = EventData.IniDCSGroupName
   self.CleanUpList[EventData.IniDCSUnitName].CleanUpUnitName = EventData.IniDCSUnitName
 
-  EventData.IniUnit:HandleEvent( EVENTS.EngineShutdown , self._EventAddForCleanUp )
-  EventData.IniUnit:HandleEvent( EVENTS.EngineStartup, self._EventAddForCleanUp )
-  EventData.IniUnit:HandleEvent( EVENTS.Hit, self._EventAddForCleanUp )
-  EventData.IniUnit:HandleEvent( EVENTS.PilotDead, self._EventCrash )
-  EventData.IniUnit:HandleEvent( EVENTS.Dead, self._EventCrash )
-  EventData.IniUnit:HandleEvent( EVENTS.Crash, self._EventCrash )
-  EventData.IniUnit:HandleEvent( EVENTS.Shot, self._EventShot )
+  self:HandleEvent( EVENTS.EngineShutdown , self._EventAddForCleanUp )
+  self:HandleEvent( EVENTS.EngineStartup, self._EventAddForCleanUp )
+  self:HandleEvent( EVENTS.Hit, self._EventAddForCleanUp )
+  self:HandleEvent( EVENTS.PilotDead, self.OnEventCrash )
+  self:HandleEvent( EVENTS.Dead, self.OnEventCrash )
+  self:HandleEvent( EVENTS.Crash, self.OnEventCrash )
+  self:HandleEvent( EVENTS.Shot, self.OnEventShot )
 
 end
 
@@ -25071,7 +25450,7 @@ end
 -- Crashed units go into a CleanUpList for removal.
 -- @param #CLEANUP self
 -- @param Dcs.DCSTypes#Event event
-function CLEANUP:_EventCrash( Event )
+function CLEANUP:OnEventCrash( Event )
 	self:F( { Event } )
 
   --TODO: This stuff is not working due to a DCS bug. Burning units cannot be destroyed.
@@ -25082,54 +25461,53 @@ function CLEANUP:_EventCrash( Event )
 	-- self:T("after deactivateGroup")
 	-- event.initiator:destroy()
 
-  self.CleanUpList[Event.IniDCSUnitName] = {}
-  self.CleanUpList[Event.IniDCSUnitName].CleanUpUnit = Event.IniDCSUnit
-  self.CleanUpList[Event.IniDCSUnitName].CleanUpGroup = Event.IniDCSGroup
-  self.CleanUpList[Event.IniDCSUnitName].CleanUpGroupName = Event.IniDCSGroupName
-  self.CleanUpList[Event.IniDCSUnitName].CleanUpUnitName = Event.IniDCSUnitName
+  if Event.IniDCSUnitName then
+    self.CleanUpList[Event.IniDCSUnitName] = {}
+    self.CleanUpList[Event.IniDCSUnitName].CleanUpUnit = Event.IniDCSUnit
+    self.CleanUpList[Event.IniDCSUnitName].CleanUpGroup = Event.IniDCSGroup
+    self.CleanUpList[Event.IniDCSUnitName].CleanUpGroupName = Event.IniDCSGroupName
+    self.CleanUpList[Event.IniDCSUnitName].CleanUpUnitName = Event.IniDCSUnitName
+  end
   
 end
 
 --- Detects if a unit shoots a missile.
--- If this occurs within one of the zones, then the weapon used must be destroyed.
+-- If this occurs within one of the airbases, then the weapon used must be destroyed.
 -- @param #CLEANUP self
--- @param Dcs.DCSTypes#Event event
-function CLEANUP:_EventShot( Event )
+-- @param Core.Event#EVENTDATA Event
+function CLEANUP:OnEventShot( Event )
 	self:F( { Event } )
 
-	-- Test if the missile was fired within one of the CLEANUP.ZoneNames.
-	local CurrentLandingZoneID = 0
-	CurrentLandingZoneID  = routines.IsUnitInZones( Event.IniDCSUnit, self.ZoneNames )
-	if  ( CurrentLandingZoneID ) then
-		-- Okay, the missile was fired within the CLEANUP.ZoneNames, destroy the fired weapon.
-		--_SEADmissile:destroy()
-    SCHEDULER:New( self, CLEANUP._DestroyMissile, { Event.Weapon }, 0.1 )
+	-- Test if the missile was fired within one of the CLEANUP.AirbaseNames.
+	if self:IsInAirbase( Event.IniUnit:GetVec2() ) then
+		-- Okay, the missile was fired within the CLEANUP.AirbaseNames, destroy the fired weapon.
+    self:_DestroyMissile( Event.Weapon )
 	end
 end
 
 
---- Detects if the Unit has an S_EVENT_HIT within the given ZoneNames. If this is the case, destroy the unit.
+--- Detects if the Unit has an S_EVENT_HIT within the given AirbaseNames. If this is the case, destroy the unit.
 -- @param #CLEANUP self
--- @param Dcs.DCSTypes#Event event
-function CLEANUP:_EventHitCleanUp( Event )
+-- @param Core.Event#EVENTDATA Event
+function CLEANUP:OnEventHit( Event )
 	self:F( { Event } )
 
-	if Event.IniDCSUnit then
-		if routines.IsUnitInZones( Event.IniDCSUnit, self.ZoneNames ) ~= nil then
+	if Event.IniUnit then
+		if self:IsInAirbase( Event.IniUnit:GetVec2() ) then
 			self:T( { "Life: ", Event.IniDCSUnitName, ' = ',  Event.IniDCSUnit:getLife(), "/", Event.IniDCSUnit:getLife0() } )
 			if Event.IniDCSUnit:getLife() < Event.IniDCSUnit:getLife0() then
 				self:T( "CleanUp: Destroy: " .. Event.IniDCSUnitName )
-        SCHEDULER:New( self, CLEANUP._DestroyUnit, { Event.IniDCSUnit }, 0.1 )
+        CLEANUP:_DestroyUnit( Event.IniUnit )
 			end
 		end
 	end
 
-	if Event.TgtDCSUnit then
-		if routines.IsUnitInZones( Event.TgtDCSUnit, self.ZoneNames ) ~= nil then
+	if Event.TgtUnit then
+		if self:IsInAirbase( Event.TgtUnit:GetVec2() ) then
 			self:T( { "Life: ", Event.TgtDCSUnitName, ' = ', Event.TgtDCSUnit:getLife(), "/", Event.TgtDCSUnit:getLife0() } )
 			if Event.TgtDCSUnit:getLife() < Event.TgtDCSUnit:getLife0() then
 				self:T( "CleanUp: Destroy: " .. Event.TgtDCSUnitName )
-        SCHEDULER:New( self, CLEANUP._DestroyUnit, { Event.TgtDCSUnit }, 0.1 )
+        CLEANUP:_DestroyUnit( Event.TgtUnit )
 			end
 		end
 	end
@@ -25151,14 +25529,16 @@ function CLEANUP:_AddForCleanUp( CleanUpUnit, CleanUpUnitName )
 	
 end
 
---- Detects if the Unit has an S_EVENT_ENGINE_SHUTDOWN or an S_EVENT_HIT within the given ZoneNames. If this is the case, add the Group to the CLEANUP List.
+--- Detects if the Unit has an S_EVENT_ENGINE_SHUTDOWN or an S_EVENT_HIT within the given AirbaseNames. If this is the case, add the Group to the CLEANUP List.
 -- @param #CLEANUP self
--- @param Dcs.DCSTypes#Event event
+-- @param Core.Event#EVENTDATA Event
 function CLEANUP:_EventAddForCleanUp( Event )
+
+  self:F({Event})
 
 	if Event.IniDCSUnit then
 		if self.CleanUpList[Event.IniDCSUnitName] == nil then
-			if routines.IsUnitInZones( Event.IniDCSUnit, self.ZoneNames ) ~= nil then
+			if self:IsInAirbase( Event.IniUnit:GetVec2() ) then
 				self:_AddForCleanUp( Event.IniDCSUnit, Event.IniDCSUnitName )
 			end
 		end
@@ -25166,7 +25546,7 @@ function CLEANUP:_EventAddForCleanUp( Event )
 
 	if Event.TgtDCSUnit then
 		if self.CleanUpList[Event.TgtDCSUnitName] == nil then
-			if routines.IsUnitInZones( Event.TgtDCSUnit, self.ZoneNames ) ~= nil then
+			if self:IsInAirbase( Event.TgtUnit:GetVec2() ) then
 				self:_AddForCleanUp( Event.TgtDCSUnit, Event.TgtDCSUnitName )
 			end
 		end
@@ -25174,64 +25554,50 @@ function CLEANUP:_EventAddForCleanUp( Event )
 	
 end
 
-local CleanUpSurfaceTypeText = {
-   "LAND",
-   "SHALLOW_WATER",
-   "WATER",
-   "ROAD",
-   "RUNWAY"
- }
 
 --- At the defined time interval, CleanUp the Groups within the CleanUpList.
 -- @param #CLEANUP self
 function CLEANUP:_CleanUpScheduler()
-	self:F( { "CleanUp Scheduler" } )
 
   local CleanUpCount = 0
 	for CleanUpUnitName, UnitData in pairs( self.CleanUpList ) do
 	  CleanUpCount = CleanUpCount + 1
 	
-		self:T( { CleanUpUnitName, UnitData } )
-		local CleanUpUnit = Unit.getByName(UnitData.CleanUpUnitName)
+		local CleanUpUnit = UNIT:FindByName( CleanUpUnitName )
+		local CleanUpDCSUnit = Unit.getByName( CleanUpUnitName )
 		local CleanUpGroupName = UnitData.CleanUpGroupName
-		local CleanUpUnitName = UnitData.CleanUpUnitName
+
 		if CleanUpUnit then
-			self:T( { "CleanUp Scheduler", "Checking:", CleanUpUnitName } )
+
 			if _DATABASE:GetStatusGroup( CleanUpGroupName ) ~= "ReSpawn" then
-				local CleanUpUnitVec3 = CleanUpUnit:getPoint()
-				--self:T( CleanUpUnitVec3 )
-				local CleanUpUnitVec2 = {}
-				CleanUpUnitVec2.x = CleanUpUnitVec3.x
-				CleanUpUnitVec2.y = CleanUpUnitVec3.z
-				--self:T( CleanUpUnitVec2 )
-				local CleanUpSurfaceType = land.getSurfaceType(CleanUpUnitVec2)
-				--self:T( CleanUpSurfaceType )
-				
-				if CleanUpUnit and CleanUpUnit:getLife() <= CleanUpUnit:getLife0() * 0.95 then
-					if CleanUpSurfaceType == land.SurfaceType.RUNWAY then
-						if CleanUpUnit:inAir() then
-							local CleanUpLandHeight = land.getHeight(CleanUpUnitVec2)
-							local CleanUpUnitHeight = CleanUpUnitVec3.y - CleanUpLandHeight
-							self:T( { "CleanUp Scheduler", "Height = " .. CleanUpUnitHeight } )
+
+				local CleanUpCoordinate = CleanUpUnit:GetCoordinate()
+
+				if CleanUpDCSUnit and CleanUpDCSUnit:getLife() <= CleanUpDCSUnit:getLife0() * 0.95 then
+					if CleanUpUnit:IsAboveRunway() then
+						if CleanUpUnit:InAir() then
+
+							local CleanUpLandHeight = CleanUpCoordinate:GetLandHeight()
+							local CleanUpUnitHeight = CleanUpCoordinate.y - CleanUpLandHeight
+							
 							if CleanUpUnitHeight < 30 then
 								self:T( { "CleanUp Scheduler", "Destroy " .. CleanUpUnitName .. " because below safe height and damaged." } )
-								self:_DestroyUnit(CleanUpUnit, CleanUpUnitName)
+								self:_DestroyUnit( CleanUpUnit )
 							end
 						else
 							self:T( { "CleanUp Scheduler", "Destroy " .. CleanUpUnitName .. " because on runway and damaged." } )
-							self:_DestroyUnit(CleanUpUnit, CleanUpUnitName)
+							self:_DestroyUnit(CleanUpUnit )
 						end
 					end
 				end
 				-- Clean Units which are waiting for a very long time in the CleanUpZone.
 				if CleanUpUnit then
-					local CleanUpUnitVelocity = CleanUpUnit:getVelocity()
-					local CleanUpUnitVelocityTotal = math.abs(CleanUpUnitVelocity.x) + math.abs(CleanUpUnitVelocity.y) + math.abs(CleanUpUnitVelocity.z)
-					if CleanUpUnitVelocityTotal < 1 then
+					local CleanUpUnitVelocity = CleanUpUnit:GetVelocityKMH()
+					if CleanUpUnitVelocity < 1 then
 						if UnitData.CleanUpMoved then
 							if UnitData.CleanUpTime + 180 <= timer.getTime() then
 								self:T( { "CleanUp Scheduler", "Destroy due to not moving anymore " .. CleanUpUnitName } )
-								self:_DestroyUnit(CleanUpUnit, CleanUpUnitName)
+								self:_DestroyUnit( CleanUpUnit )
 							end
 						end
 					else
@@ -25242,11 +25608,11 @@ function CLEANUP:_CleanUpScheduler()
 				
 			else
 				-- Do nothing ...
-				self.CleanUpList[CleanUpUnitName] = nil -- Not anymore in the DCSRTE
+				self.CleanUpList[CleanUpUnitName] = nil
 			end
 		else
 			self:T( "CleanUp: Group " .. CleanUpUnitName .. " cannot be found in DCS RTE, removing ..." )
-			self.CleanUpList[CleanUpUnitName] = nil -- Not anymore in the DCSRTE
+			self.CleanUpList[CleanUpUnitName] = nil
 		end
 	end
 	self:T(CleanUpCount)
@@ -25293,6 +25659,7 @@ end
 -- 
 -- @module Spawn
 
+----BASE:TraceClass("SPAWN")
 
 
 --- SPAWN Class
@@ -25520,6 +25887,14 @@ SPAWN = {
 }
 
 
+--- Enumerator for spawns at airbases
+-- @type SPAWN.Takeoff
+-- @extends Wrapper.Group#GROUP.Takeoff
+
+--- @field #SPAWN.Takeoff Takeoff
+SPAWN.Takeoff = GROUP.Takeoff
+
+
 --- @type SPAWN.SpawnZoneTable
 -- @list <Core.Zone#ZONE_BASE> SpawnZone
 
@@ -25555,6 +25930,7 @@ function SPAWN:New( SpawnTemplatePrefix )
     self.SpawnUnControlled = false
     self.SpawnInitKeepUnitNames = false               -- Overwrite unit names by default with group name.
     self.DelayOnOff = false                           -- No intial delay when spawning the first group.
+    self.Grouping = nil                               -- No grouping
 
 		self.SpawnGroups = {}														-- Array containing the descriptions of each Group to be Spawned.
 	else
@@ -25599,6 +25975,7 @@ function SPAWN:NewWithAlias( SpawnTemplatePrefix, SpawnAliasPrefix )
     self.SpawnUnControlled = false
     self.SpawnInitKeepUnitNames = false               -- Overwrite unit names by default with group name.
     self.DelayOnOff = false                           -- No intial delay when spawning the first group.
+    self.Grouping = nil
 
 		self.SpawnGroups = {}														-- Array containing the descriptions of each Group to be Spawned.
 	else
@@ -25764,6 +26141,20 @@ function SPAWN:InitRandomizeTemplate( SpawnTemplatePrefixTable )
 	
 	return self
 end
+
+--- When spawning a new group, make the grouping of the units according the InitGrouping setting.
+-- @param #SPAWN self
+-- @param #number Grouping Indicates the maximum amount of units in the group. 
+-- @return #SPAWN
+function SPAWN:InitGrouping( Grouping ) -- R2.2
+  self:F( { self.SpawnTemplatePrefix, Grouping } )
+
+  self.SpawnGrouping = Grouping
+
+  return self
+end
+
+
 
 --TODO: Add example.
 --- This method provides the functionality to randomize the spawning of the Groups at a given list of zones of different types.
@@ -26213,6 +26604,64 @@ function SPAWN:OnSpawnGroup( SpawnCallBackFunction, ... )
   return self
 end
 
+--- Will spawn a group at an airbase. 
+-- This method is mostly advisable to be used if you want to simulate spawning units at an airbase.
+-- Note that each point in the route assigned to the spawning group is reset to the point of the spawn.
+-- You can use the returned group to further define the route to be followed.
+-- @param #SPAWN self
+-- @param Wrapper.Airbase#AIRBASE Airbase The @{Airbase} where to spawn the group.
+-- @param #SPAWN.Takeoff Takeoff (optional) The location and takeoff method. Default is Hot.
+-- @return Wrapper.Group#GROUP that was spawned.
+-- @return #nil Nothing was spawned.
+function SPAWN:SpawnAtAirbase( Airbase, Takeoff ) -- R2.2
+  self:F( { self.SpawnTemplatePrefix, Airbase } )
+
+  local PointVec3 = Airbase:GetPointVec3()
+  self:T2(PointVec3)
+
+  Takeoff = Takeoff or SPAWN.Takeoff.Hot
+  
+  if self:_GetSpawnIndex( self.SpawnIndex + 1 ) then
+    
+    local SpawnTemplate = self.SpawnGroups[self.SpawnIndex].SpawnTemplate
+  
+    if SpawnTemplate then
+
+      self:T( { "Current point of ", self.SpawnTemplatePrefix, Airbase } )
+
+      -- Translate the position of the Group Template to the Vec3.
+      for UnitID = 1, #SpawnTemplate.units do
+        self:T( 'Before Translation SpawnTemplate.units['..UnitID..'].x = ' .. SpawnTemplate.units[UnitID].x .. ', SpawnTemplate.units['..UnitID..'].y = ' .. SpawnTemplate.units[UnitID].y )
+        local UnitTemplate = SpawnTemplate.units[UnitID]
+        local SX = UnitTemplate.x
+        local SY = UnitTemplate.y 
+        local BX = SpawnTemplate.route.points[1].x
+        local BY = SpawnTemplate.route.points[1].y
+        local TX = PointVec3.x + ( SX - BX )
+        local TY = PointVec3.z + ( SY - BY )
+        SpawnTemplate.units[UnitID].x = TX
+        SpawnTemplate.units[UnitID].y = TY
+        SpawnTemplate.units[UnitID].alt = PointVec3.y
+        self:T( 'After Translation SpawnTemplate.units['..UnitID..'].x = ' .. SpawnTemplate.units[UnitID].x .. ', SpawnTemplate.units['..UnitID..'].y = ' .. SpawnTemplate.units[UnitID].y )
+      end
+      
+      SpawnTemplate.route.points[1].x = PointVec3.x
+      SpawnTemplate.route.points[1].y = PointVec3.z
+      SpawnTemplate.route.points[1].alt = Airbase.y
+      SpawnTemplate.route.points[1].type = GROUPTEMPLATE.Takeoff[Takeoff]
+      SpawnTemplate.route.points[1].airdromeId = Airbase:GetID()
+      
+      SpawnTemplate.x = PointVec3.x
+      SpawnTemplate.y = PointVec3.z
+              
+      return self:SpawnWithIndex( self.SpawnIndex )
+    end
+  end
+  
+  return nil
+end
+
+
 
 --- Will spawn a group from a Vec3 in 3D space. 
 -- This method is mostly advisable to be used if you want to simulate spawning units in the air, like helicopters or airplanes.
@@ -26367,6 +26816,19 @@ function SPAWN:InitUnControlled( UnControlled )
 	return self
 end
 
+
+--- Get the Coordinate of the Group that is Late Activated as the template for the SPAWN object.
+-- @param #SPAWN self
+-- @return Core.Point#COORDINATE The Coordinate
+function SPAWN:GetCoordinate()
+
+  local LateGroup = GROUP:FindByName( self.SpawnTemplatePrefix )
+  if LateGroup then
+    return LateGroup:GetCoordinate()
+  end
+  
+  return nil
+end
 
 
 --- Will return the SpawnGroupName either with with a specific count number or without any count.
@@ -26626,7 +27088,7 @@ end
 -- @param #string SpawnTemplatePrefix
 -- @param #number SpawnIndex
 -- @return #SPAWN self
-function SPAWN:_Prepare( SpawnTemplatePrefix, SpawnIndex )
+function SPAWN:_Prepare( SpawnTemplatePrefix, SpawnIndex ) --R2.2
 	self:F( { self.SpawnTemplatePrefix, self.SpawnAliasPrefix } )
 	
 	local SpawnTemplate = self:_GetTemplate( SpawnTemplatePrefix )
@@ -26640,6 +27102,23 @@ function SPAWN:_Prepare( SpawnTemplatePrefix, SpawnIndex )
 	  self:T3( "For ground units, visible needs to be false..." )
 		SpawnTemplate.visible = false 
 	end
+	
+	if self.SpawnGrouping then
+	  local UnitAmount = #SpawnTemplate.units
+	  self:F( { UnitAmount = UnitAmount, SpawnGrouping = self.SpawnGrouping } )
+	  if UnitAmount > self.SpawnGrouping then
+      for UnitID = self.SpawnGrouping + 1, UnitAmount do
+        SpawnTemplate.units[UnitID] = nil
+      end
+    else
+      if UnitAmount < self.SpawnGrouping then
+        for UnitID = UnitAmount + 1, self.SpawnGrouping do
+          SpawnTemplate.units[UnitID] = UTILS.DeepCopy( SpawnTemplate.units[1] )
+          SpawnTemplate.units[UnitID].unitId = nil
+        end
+      end
+    end
+  end
 	
   if self.SpawnInitKeepUnitNames == false then
   	for UnitID = 1, #SpawnTemplate.units do
@@ -30626,6 +31105,10 @@ end
 -- 
 -- @module Detection
 
+----BASE:TraceClass("DETECTION_BASE")
+----BASE:TraceClass("DETECTION_AREAS")
+----BASE:TraceClass("DETECTION_UNITS")
+----BASE:TraceClass("DETECTION_TYPES")
 
 do -- DETECTION_BASE
 
@@ -31196,7 +31679,7 @@ do -- DETECTION_BASE
             if self.AcceptZones then
               for AcceptZoneID, AcceptZone in pairs( self.AcceptZones ) do
                 local AcceptZone = AcceptZone -- Core.Zone#ZONE_BASE
-                if AcceptZone:IsPointVec2InZone( DetectedObjectVec2 ) == false then
+                if AcceptZone:IsVec2InZone( DetectedObjectVec2 ) == false then
                   DetectionAccepted = false
                 end
               end
@@ -31340,6 +31823,25 @@ do -- DETECTION_BASE
       
       if DetectedSet:Count() == 0 then
         self:RemoveDetectedItem( DetectedItemID )
+      end
+
+      return self
+    end
+    
+    --- Forget a Unit from a DetectionItem
+    -- @param #DETECTION_BASE self
+    -- @param #string UnitName The UnitName that needs to be forgotten from the DetectionItem Sets.
+    -- @return #DETECTION_BASE
+    function DETECTION_BASE:ForgetDetectedUnit( UnitName )
+      self:F2()
+    
+      local DetectedItems = self:GetDetectedItems()
+      
+      for DetectedItemIndex, DetectedItem in pairs( DetectedItems ) do
+        local DetectedSet = self:GetDetectedSet( DetectedItemIndex )
+        if DetectedSet then
+          DetectedSet:RemoveUnitsByName( UnitName )
+        end
       end
 
       return self
@@ -31686,6 +32188,14 @@ do -- DETECTION_BASE
       return DetectedItem.FriendliesNearBy
     end
   
+    --- Returns friendly units nearby the FAC units sorted per distance ...
+    -- @param #DETECTION_BASE self
+    -- @return #map<#number,Wrapper.Unit#UNIT> The map of Friendly UNITs. 
+    function DETECTION_BASE:GetFriendliesDistance( DetectedItem )
+      
+      return DetectedItem.FriendliesDistance
+    end
+  
     --- Returns if there are friendlies nearby the FAC units ...
     -- @param #DETECTION_BASE self
     -- @return #boolean trhe if there are friendlies nearby 
@@ -31733,6 +32243,7 @@ do -- DETECTION_BASE
           local DetectedItem = ReportGroupData.DetectedItem  -- Functional.Detection#DETECTION_BASE.DetectedItem    
           local DetectedSet = ReportGroupData.DetectedItem.Set
           local DetectedUnit = DetectedSet:GetFirst() -- Wrapper.Unit#UNIT
+          local CenterCoord = DetectedUnit:GetCoordinate()
           local ReportSetGroup = ReportGroupData.ReportSetGroup
     
           local EnemyCoalition = DetectedUnit:GetCoalition()
@@ -31743,12 +32254,17 @@ do -- DETECTION_BASE
           local EnemyUnitName = DetectedUnit:GetName()
           local FoundUnitInReportSetGroup = ReportSetGroup:FindGroup( FoundUnitGroupName ) ~= nil
           
-          self:T3( { "Friendlies search:", FoundUnitName, FoundUnitCoalition, EnemyUnitName, EnemyCoalition, FoundUnitInReportSetGroup } )
+          self:F( { "Friendlies search:", FoundUnitName, FoundUnitCoalition, EnemyUnitName, EnemyCoalition, FoundUnitInReportSetGroup } )
           
           if FoundUnitCoalition ~= EnemyCoalition and FoundUnitInReportSetGroup == false then
             DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
-            DetectedItem.FriendliesNearBy[FoundUnitName] = UNIT:Find( FoundDCSUnit )
-            return false
+            local FriendlyUnit = UNIT:Find( FoundDCSUnit )
+            local FriendlyUnitName = FriendlyUnit:GetName()
+            DetectedItem.FriendliesNearBy[FriendlyUnitName] = FriendlyUnit
+            local Distance = CenterCoord:Get2DDistance( FriendlyUnit:GetCoordinate() )
+            DetectedItem.FriendliesDistance = DetectedItem.FriendliesDistance or {}
+            DetectedItem.FriendliesDistance[Distance] = FriendlyUnit
+            return true
           end
           
           return true
@@ -31763,13 +32279,22 @@ do -- DETECTION_BASE
           --- @param Wrapper.Unit#UNIT PlayerUnit
           function( PlayerUnitName )
             local PlayerUnit = UNIT:FindByName( PlayerUnitName )
+    
             if PlayerUnit and PlayerUnit:IsInZone(DetectionZone) then
+    
               DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
               local PlayerUnitName = PlayerUnit:GetName()
+    
               DetectedItem.PlayersNearBy = DetectedItem.PlayersNearBy or {}
               DetectedItem.PlayersNearBy[PlayerUnitName] = PlayerUnit
+    
               DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
               DetectedItem.FriendliesNearBy[PlayerUnitName] = PlayerUnit
+    
+              local CenterCoord = DetectedUnit:GetCoordinate()
+              local Distance = CenterCoord:Get2DDistance( PlayerUnit:GetCoordinate() )
+              DetectedItem.FriendliesDistance = DetectedItem.FriendliesDistance or {}
+              DetectedItem.FriendliesDistance[Distance] = PlayerUnit
             end
           end
         )
@@ -34387,6 +34912,4082 @@ end
 
 
 
+--- **AI** -- **AI A2A Air Patrolling or Staging.**
+-- 
+-- ====
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- ### Contributions: 
+-- 
+--   * **[Dutch_Baron](https://forums.eagle.ru/member.php?u=112075)**: Working together with James has resulted in the creation of the AI_BALANCER class. James has shared his ideas on balancing AI with air units, and together we made a first design which you can use now :-)
+--   * **[Pikey](https://forums.eagle.ru/member.php?u=62835)**: Testing and API concept review.
+-- 
+-- ====
+-- 
+-- @module AI_A2A
+
+--BASE:TraceClass("AI_A2A")
+
+
+--- @type AI_A2A
+-- @extends Core.Fsm#FSM_CONTROLLABLE
+
+--- # AI_A2A class, extends @{Fsm#FSM_CONTROLLABLE}
+-- 
+-- The AI_A2A class implements the core functions to operate an AI @{Group} A2A tasking.
+-- 
+-- 
+-- ## AI_A2A constructor
+--   
+--   * @{#AI_A2A.New}(): Creates a new AI_A2A object.
+-- 
+-- ## 2. AI_A2A is a FSM
+-- 
+-- ![Process](..\Presentations\AI_PATROL\Dia2.JPG)
+-- 
+-- ### 2.1. AI_A2A States
+-- 
+--   * **None** ( Group ): The process is not started yet.
+--   * **Patrolling** ( Group ): The AI is patrolling the Patrol Zone.
+--   * **Returning** ( Group ): The AI is returning to Base.
+--   * **Stopped** ( Group ): The process is stopped.
+--   * **Crashed** ( Group ): The AI has crashed or is dead.
+-- 
+-- ### 2.2. AI_A2A Events
+-- 
+--   * **Start** ( Group ): Start the process.
+--   * **Stop** ( Group ): Stop the process.
+--   * **Route** ( Group ): Route the AI to a new random 3D point within the Patrol Zone.
+--   * **RTB** ( Group ): Route the AI to the home base.
+--   * **Detect** ( Group ): The AI is detecting targets.
+--   * **Detected** ( Group ): The AI has detected new targets.
+--   * **Status** ( Group ): The AI is checking status (fuel and damage). When the tresholds have been reached, the AI will RTB.
+--    
+-- ## 3. Set or Get the AI controllable
+-- 
+--   * @{#AI_A2A.SetControllable}(): Set the AIControllable.
+--   * @{#AI_A2A.GetControllable}(): Get the AIControllable.
+--
+-- @field #AI_A2A
+AI_A2A = {
+  ClassName = "AI_A2A",
+}
+
+--- Creates a new AI_A2A object
+-- @param #AI_A2A self
+-- @param Wrapper.Group#GROUP AIGroup The GROUP object to receive the A2A Process.
+-- @return #AI_A2A
+function AI_A2A:New( AIGroup )
+
+  -- Inherits from BASE
+  local self = BASE:Inherit( self, FSM_CONTROLLABLE:New() ) -- #AI_A2A
+  
+  self:SetControllable( AIGroup )
+  
+  self:ManageFuel( .2, 60 )
+  self:ManageDamage( 0.4 )
+
+  self:SetStartState( "Stopped" ) 
+  
+  self:AddTransition( "*", "Start", "Started" )
+  
+  --- Start Handler OnBefore for AI_A2A
+  -- @function [parent=#AI_A2A] OnBeforeStart
+  -- @param #AI_A2A self
+  -- @param #string From
+  -- @param #string Event
+  -- @param #string To
+  -- @return #boolean
+  
+  --- Start Handler OnAfter for AI_A2A
+  -- @function [parent=#AI_A2A] OnAfterStart
+  -- @param #AI_A2A self
+  -- @param #string From
+  -- @param #string Event
+  -- @param #string To
+  
+  --- Start Trigger for AI_A2A
+  -- @function [parent=#AI_A2A] Start
+  -- @param #AI_A2A self
+  
+  --- Start Asynchronous Trigger for AI_A2A
+  -- @function [parent=#AI_A2A] __Start
+  -- @param #AI_A2A self
+  -- @param #number Delay
+
+  self:AddTransition( "*", "Stop", "Stopped" )
+
+--- OnLeave Transition Handler for State Stopped.
+-- @function [parent=#AI_A2A] OnLeaveStopped
+-- @param #AI_A2A self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+-- @return #boolean Return false to cancel Transition.
+
+--- OnEnter Transition Handler for State Stopped.
+-- @function [parent=#AI_A2A] OnEnterStopped
+-- @param #AI_A2A self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+
+--- OnBefore Transition Handler for Event Stop.
+-- @function [parent=#AI_A2A] OnBeforeStop
+-- @param #AI_A2A self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+-- @return #boolean Return false to cancel Transition.
+
+--- OnAfter Transition Handler for Event Stop.
+-- @function [parent=#AI_A2A] OnAfterStop
+-- @param #AI_A2A self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+	
+--- Synchronous Event Trigger for Event Stop.
+-- @function [parent=#AI_A2A] Stop
+-- @param #AI_A2A self
+
+--- Asynchronous Event Trigger for Event Stop.
+-- @function [parent=#AI_A2A] __Stop
+-- @param #AI_A2A self
+-- @param #number Delay The delay in seconds.
+
+  self:AddTransition( "*", "Status", "*" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A.
+
+--- OnBefore Transition Handler for Event Status.
+-- @function [parent=#AI_A2A] OnBeforeStatus
+-- @param #AI_A2A self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+-- @return #boolean Return false to cancel Transition.
+
+--- OnAfter Transition Handler for Event Status.
+-- @function [parent=#AI_A2A] OnAfterStatus
+-- @param #AI_A2A self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+	
+--- Synchronous Event Trigger for Event Status.
+-- @function [parent=#AI_A2A] Status
+-- @param #AI_A2A self
+
+--- Asynchronous Event Trigger for Event Status.
+-- @function [parent=#AI_A2A] __Status
+-- @param #AI_A2A self
+-- @param #number Delay The delay in seconds.
+
+  self:AddTransition( "*", "RTB", "*" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A.
+
+--- OnBefore Transition Handler for Event RTB.
+-- @function [parent=#AI_A2A] OnBeforeRTB
+-- @param #AI_A2A self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+-- @return #boolean Return false to cancel Transition.
+
+--- OnAfter Transition Handler for Event RTB.
+-- @function [parent=#AI_A2A] OnAfterRTB
+-- @param #AI_A2A self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+	
+--- Synchronous Event Trigger for Event RTB.
+-- @function [parent=#AI_A2A] RTB
+-- @param #AI_A2A self
+
+--- Asynchronous Event Trigger for Event RTB.
+-- @function [parent=#AI_A2A] __RTB
+-- @param #AI_A2A self
+-- @param #number Delay The delay in seconds.
+
+--- OnLeave Transition Handler for State Returning.
+-- @function [parent=#AI_A2A] OnLeaveReturning
+-- @param #AI_A2A self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+-- @return #boolean Return false to cancel Transition.
+
+--- OnEnter Transition Handler for State Returning.
+-- @function [parent=#AI_A2A] OnEnterReturning
+-- @param #AI_A2A self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+
+
+  self:AddTransition( "*", "Return", "Returning" )
+  self:AddTransition( "*", "Home", "Home" )
+  self:AddTransition( "*", "LostControl", "LostControl" )
+  self:AddTransition( "*", "Fuel", "Fuel" )
+  self:AddTransition( "*", "Damaged", "Damaged" )
+  self:AddTransition( "*", "Eject", "*" )
+  self:AddTransition( "*", "Crash", "Crashed" )
+  self:AddTransition( "*", "PilotDead", "*" )
+  
+  self.IdleCount = 0
+  
+  return self
+end
+
+function AI_A2A:SetDispatcher( Dispatcher )
+  self.Dispatcher = Dispatcher
+end
+
+function AI_A2A:GetDispatcher()
+  return self.Dispatcher
+end
+
+function AI_A2A:SetTargetDistance( Coordinate )
+
+  local CurrentCoord = self.Controllable:GetCoordinate()
+  self.TargetDistance = CurrentCoord:Get2DDistance( Coordinate )
+
+  self.ClosestTargetDistance = ( not self.ClosestTargetDistance or self.ClosestTargetDistance > self.TargetDistance ) and self.TargetDistance or self.ClosestTargetDistance
+end
+
+
+function AI_A2A:ClearTargetDistance()
+
+  self.TargetDistance = nil
+  self.ClosestTargetDistance = nil
+end
+
+
+--- Sets (modifies) the minimum and maximum speed of the patrol.
+-- @param #AI_A2A self
+-- @param Dcs.DCSTypes#Speed  PatrolMinSpeed The minimum speed of the @{Controllable} in km/h.
+-- @param Dcs.DCSTypes#Speed  PatrolMaxSpeed The maximum speed of the @{Controllable} in km/h.
+-- @return #AI_A2A self
+function AI_A2A:SetSpeed( PatrolMinSpeed, PatrolMaxSpeed )
+  self:F2( { PatrolMinSpeed, PatrolMaxSpeed } )
+  
+  self.PatrolMinSpeed = PatrolMinSpeed
+  self.PatrolMaxSpeed = PatrolMaxSpeed
+end
+
+
+--- Sets the floor and ceiling altitude of the patrol.
+-- @param #AI_A2A self
+-- @param Dcs.DCSTypes#Altitude PatrolFloorAltitude The lowest altitude in meters where to execute the patrol.
+-- @param Dcs.DCSTypes#Altitude PatrolCeilingAltitude The highest altitude in meters where to execute the patrol.
+-- @return #AI_A2A self
+function AI_A2A:SetAltitude( PatrolFloorAltitude, PatrolCeilingAltitude )
+  self:F2( { PatrolFloorAltitude, PatrolCeilingAltitude } )
+  
+  self.PatrolFloorAltitude = PatrolFloorAltitude
+  self.PatrolCeilingAltitude = PatrolCeilingAltitude
+end
+
+
+--- Sets the home airbase.
+-- @param #AI_A2A self
+-- @param Wrapper.Airbase#AIRBASE HomeAirbase
+-- @return #AI_A2A self
+function AI_A2A:SetHomeAirbase( HomeAirbase )
+  self:F2( { HomeAirbase } )
+  
+  self.HomeAirbase = HomeAirbase
+end
+
+
+
+--- Set the status checking off.
+-- @param #AI_A2A self
+-- @return #AI_A2A self
+function AI_A2A:SetStatusOff()
+  self:F2()
+  
+  self.CheckStatus = false
+end
+
+
+--- When the AI is out of fuel, it is required that a new AI is started, before the old AI can return to the home base.
+-- Therefore, with a parameter and a calculation of the distance to the home base, the fuel treshold is calculated.
+-- When the fuel treshold is reached, the AI will continue for a given time its patrol task in orbit, while a new AIControllable is targetted to the AI_A2A.
+-- Once the time is finished, the old AI will return to the base.
+-- @param #AI_A2A self
+-- @param #number PatrolFuelTresholdPercentage The treshold in percentage (between 0 and 1) when the AIControllable is considered to get out of fuel.
+-- @param #number PatrolOutOfFuelOrbitTime The amount of seconds the out of fuel AIControllable will orbit before returning to the base.
+-- @return #AI_A2A self
+function AI_A2A:ManageFuel( PatrolFuelTresholdPercentage, PatrolOutOfFuelOrbitTime )
+
+  self.PatrolManageFuel = true
+  self.PatrolFuelTresholdPercentage = PatrolFuelTresholdPercentage
+  self.PatrolOutOfFuelOrbitTime = PatrolOutOfFuelOrbitTime
+  
+  self.Controllable:OptionRTBBingoFuel( false )
+  
+  return self
+end
+
+--- When the AI is damaged beyond a certain treshold, it is required that the AI returns to the home base.
+-- However, damage cannot be foreseen early on. 
+-- Therefore, when the damage treshold is reached, 
+-- the AI will return immediately to the home base (RTB).
+-- Note that for groups, the average damage of the complete group will be calculated.
+-- So, in a group of 4 airplanes, 2 lost and 2 with damage 0.2, the damage treshold will be 0.25.
+-- @param #AI_A2A self
+-- @param #number PatrolDamageTreshold The treshold in percentage (between 0 and 1) when the AI is considered to be damaged.
+-- @return #AI_A2A self
+function AI_A2A:ManageDamage( PatrolDamageTreshold )
+
+  self.PatrolManageDamage = true
+  self.PatrolDamageTreshold = PatrolDamageTreshold
+  
+  return self
+end
+
+--- Defines a new patrol route using the @{Process_PatrolZone} parameters and settings.
+-- @param #AI_A2A self
+-- @return #AI_A2A self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A:onafterStart( Controllable, From, Event, To )
+  self:F2()
+
+  self:__Status( 10 ) -- Check status status every 30 seconds.
+  
+  self:HandleEvent( EVENTS.PilotDead, self.OnPilotDead )
+  self:HandleEvent( EVENTS.Crash, self.OnCrash )
+  self:HandleEvent( EVENTS.Ejection, self.OnEjection )
+  
+  Controllable:OptionROEHoldFire()
+  Controllable:OptionROTVertical()
+end
+
+
+
+--- @param #AI_A2A self
+function AI_A2A:onbeforeStatus()
+
+  return self.CheckStatus
+end
+
+--- @param #AI_A2A self
+function AI_A2A:onafterStatus()
+  self:F()
+
+  if self.Controllable and self.Controllable:IsAlive() then
+  
+    local RTB = false
+    
+    local Fuel = self.Controllable:GetUnit(1):GetFuel()
+    self:F({Fuel=Fuel})
+    if Fuel < self.PatrolFuelTresholdPercentage then
+      self:E( self.Controllable:GetName() .. " is out of fuel: " .. Fuel .. " ... RTB!" )
+      local OldAIControllable = self.Controllable
+      local AIControllableTemplate = self.Controllable:GetTemplate()
+      
+      local OrbitTask = OldAIControllable:TaskOrbitCircle( math.random( self.PatrolFloorAltitude, self.PatrolCeilingAltitude ), self.PatrolMinSpeed )
+      local TimedOrbitTask = OldAIControllable:TaskControlled( OrbitTask, OldAIControllable:TaskCondition(nil,nil,nil,nil,self.PatrolOutOfFuelOrbitTime,nil ) )
+      OldAIControllable:SetTask( TimedOrbitTask, 10 )
+
+      self:Fuel()
+      RTB = true
+    else
+    end
+    
+    -- TODO: Check GROUP damage function.
+    local Damage = self.Controllable:GetLife()
+    local InitialLife = self.Controllable:GetLife0()
+    self:F( { Damage = Damage, InitialLife = InitialLife, DamageTreshold = self.PatrolDamageTreshold } )
+    if ( Damage / InitialLife ) < self.PatrolDamageTreshold then
+      self:E( self.Controllable:GetName() .. " is damaged: " .. Damage .. " ... RTB!" )
+      self:Damaged()
+      RTB = true
+    end
+
+    -- Check if planes went RTB and are out of control.
+    if self.Controllable:HasTask() == false then
+      if not self:Is( "Started" ) and 
+         not self:Is( "Stopped" ) then
+        if self.IdleCount >= 2 then
+          self:E( self.Controllable:GetName() .. " control lost! " )
+          self:LostControl()
+        else
+          self.IdleCount = self.IdleCount + 1
+        end
+      end
+    else
+      self.IdleCount = 0
+    end
+    
+    if RTB == true then
+      self:__RTB( 0.5 )
+    end
+    
+    self:__Status( 10 )
+  end
+end
+
+
+--- @param Wrapper.Group#GROUP AIGroup
+function AI_A2A.RTBRoute( AIGroup )
+
+  AIGroup:E( { "RTBRoute:", AIGroup:GetName() } )
+  local _AI_A2A = AIGroup:GetState( AIGroup, "AI_A2A" ) -- #AI_A2A
+  _AI_A2A:__RTB( 0.5 )
+end
+
+
+
+--- @param #AI_A2A self
+-- @param Wrapper.Group#GROUP AIGroup
+function AI_A2A:onafterRTB( AIGroup, From, Event, To )
+  self:F( { AIGroup, From, Event, To } )
+
+  
+  if AIGroup and AIGroup:IsAlive() then
+
+    self:E( "Group " .. AIGroup:GetName() .. " ... RTB! ( " .. self:GetState() .. " )" )
+    
+    self.CheckStatus = false
+    
+    self:ClearTargetDistance()
+    AIGroup:ClearTasks()
+
+    local EngageRoute = {}
+
+    --- Calculate the target route point.
+    
+    local CurrentCoord = AIGroup:GetCoordinate()
+    local ToTargetCoord = self.HomeAirbase:GetCoordinate()
+    local ToTargetSpeed = math.random( self.PatrolMinSpeed, self.PatrolMaxSpeed )
+    local ToAirbaseAngle = CurrentCoord:GetAngleDegrees( CurrentCoord:GetDirectionVec3( ToTargetCoord ) )
+
+    local Distance = CurrentCoord:Get2DDistance( ToTargetCoord )
+    
+    local ToAirbaseCoord = CurrentCoord:Translate( 5000, ToAirbaseAngle )
+    if Distance < 5000 then
+      self:Home()
+      return
+    end
+    --- Create a route point of type air.
+    local ToPatrolRoutePoint = ToAirbaseCoord:RoutePointAir( 
+      self.PatrolAltType, 
+      POINT_VEC3.RoutePointType.TurningPoint, 
+      POINT_VEC3.RoutePointAction.TurningPoint, 
+      ToTargetSpeed, 
+      true 
+    )
+
+    self:F( { Angle = ToAirbaseAngle, ToTargetSpeed = ToTargetSpeed } )
+    self:T2( { self.MinSpeed, self.MaxSpeed, ToTargetSpeed } )
+    
+    EngageRoute[#EngageRoute+1] = ToPatrolRoutePoint
+    
+    AIGroup:OptionROEHoldFire()
+    AIGroup:OptionROTEvadeFire()
+
+    --- Now we're going to do something special, we're going to call a function from a waypoint action at the AIControllable...
+    AIGroup:WayPointInitialize( EngageRoute )
+  
+    local Tasks = {}
+    Tasks[#Tasks+1] = AIGroup:TaskFunction( 1, 1, "AI_A2A.RTBRoute" )
+    EngageRoute[1].task = AIGroup:TaskCombo( Tasks )
+
+    AIGroup:SetState( AIGroup, "AI_A2A", self )
+
+    --- NOW ROUTE THE GROUP!
+    AIGroup:WayPointExecute( 1, 0 )
+      
+  end
+    
+end
+
+--- @param #AI_A2A self
+-- @param Wrapper.Group#GROUP AIGroup
+function AI_A2A:onafterHome( AIGroup, From, Event, To )
+  self:F( { AIGroup, From, Event, To } )
+
+  self:E( "Group " .. self.Controllable:GetName() .. " ... Home! ( " .. self:GetState() .. " )" )
+  
+  if AIGroup and AIGroup:IsAlive() then
+  end
+
+end
+    
+
+
+--- @param #AI_A2A self
+function AI_A2A:onafterDead()
+  self:SetStatusOff()
+end
+
+
+--- @param #AI_A2A self
+-- @param Core.Event#EVENTDATA EventData
+function AI_A2A:OnCrash( EventData )
+
+  if self.Controllable:IsAlive() and EventData.IniDCSGroupName == self.Controllable:GetName() then
+    self:E( self.Controllable:GetUnits() )
+    if #self.Controllable:GetUnits() == 1 then
+      self:__Crash( 1, EventData )
+    end
+  end
+end
+
+--- @param #AI_A2A self
+-- @param Core.Event#EVENTDATA EventData
+function AI_A2A:OnEjection( EventData )
+
+  if self.Controllable:IsAlive() and EventData.IniDCSGroupName == self.Controllable:GetName() then
+    self:__Eject( 1, EventData )
+  end
+end
+
+--- @param #AI_A2A self
+-- @param Core.Event#EVENTDATA EventData
+function AI_A2A:OnPilotDead( EventData )
+
+  if self.Controllable:IsAlive() and EventData.IniDCSGroupName == self.Controllable:GetName() then
+    self:__PilotDead( 1, EventData )
+  end
+end
+--- **AI** -- **Air Patrolling or Staging.**
+-- 
+-- ![Banner Image](..\Presentations\AI_PATROL\Dia1.JPG)
+-- 
+-- ===
+-- 
+-- AI PATROL classes makes AI Controllables execute an Patrol.
+-- 
+-- There are the following types of PATROL classes defined:
+-- 
+--   * @{#AI_A2A_PATROL}: Perform a PATROL in a zone.
+--   
+-- ====
+-- 
+-- # Demo Missions
+-- 
+-- ### [AI_PATROL Demo Missions source code](https://github.com/FlightControl-Master/MOOSE_MISSIONS/tree/master-release/PAT%20-%20Patrolling)
+-- 
+-- ### [AI_PATROL Demo Missions, only for beta testers](https://github.com/FlightControl-Master/MOOSE_MISSIONS/tree/master/PAT%20-%20Patrolling)
+--
+-- ### [ALL Demo Missions pack of the last release](https://github.com/FlightControl-Master/MOOSE_MISSIONS/releases)
+-- 
+-- ====
+-- 
+-- # YouTube Channel
+-- 
+-- ### [AI_PATROL YouTube Channel](https://www.youtube.com/playlist?list=PL7ZUrU4zZUl35HvYZKA6G22WMt7iI3zky)
+-- 
+-- ====
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- ### Contributions: 
+-- 
+--   * **[Dutch_Baron](https://forums.eagle.ru/member.php?u=112075)**: Working together with James has resulted in the creation of the AI_BALANCER class. James has shared his ideas on balancing AI with air units, and together we made a first design which you can use now :-)
+--   * **[Pikey](https://forums.eagle.ru/member.php?u=62835)**: Testing and API concept review.
+-- 
+-- ====
+-- 
+-- @module AI_A2A_Patrol
+
+
+--- @type AI_A2A_PATROL
+-- @extends AI.AI_A2A#AI_A2A
+
+--- # AI_A2A_PATROL class, extends @{Fsm#FSM_CONTROLLABLE}
+-- 
+-- The AI_A2A_PATROL class implements the core functions to patrol a @{Zone} by an AI @{Controllable} or @{Group}.
+-- 
+-- ![Process](..\Presentations\AI_PATROL\Dia3.JPG)
+-- 
+-- The AI_A2A_PATROL is assigned a @{Group} and this must be done before the AI_A2A_PATROL process can be started using the **Start** event.
+-- 
+-- ![Process](..\Presentations\AI_PATROL\Dia4.JPG)
+-- 
+-- The AI will fly towards the random 3D point within the patrol zone, using a random speed within the given altitude and speed limits.
+-- Upon arrival at the 3D point, a new random 3D point will be selected within the patrol zone using the given limits.
+-- 
+-- ![Process](..\Presentations\AI_PATROL\Dia5.JPG)
+-- 
+-- This cycle will continue.
+-- 
+-- ![Process](..\Presentations\AI_PATROL\Dia6.JPG)
+-- 
+-- During the patrol, the AI will detect enemy targets, which are reported through the **Detected** event.
+--
+-- ![Process](..\Presentations\AI_PATROL\Dia9.JPG)
+-- 
+---- Note that the enemy is not engaged! To model enemy engagement, either tailor the **Detected** event, or
+-- use derived AI_ classes to model AI offensive or defensive behaviour.
+-- 
+-- ![Process](..\Presentations\AI_PATROL\Dia10.JPG)
+-- 
+-- Until a fuel or damage treshold has been reached by the AI, or when the AI is commanded to RTB.
+-- When the fuel treshold has been reached, the airplane will fly towards the nearest friendly airbase and will land.
+-- 
+-- ![Process](..\Presentations\AI_PATROL\Dia11.JPG)
+-- 
+-- ## 1. AI_A2A_PATROL constructor
+--   
+--   * @{#AI_A2A_PATROL.New}(): Creates a new AI_A2A_PATROL object.
+-- 
+-- ## 2. AI_A2A_PATROL is a FSM
+-- 
+-- ![Process](..\Presentations\AI_PATROL\Dia2.JPG)
+-- 
+-- ### 2.1. AI_A2A_PATROL States
+-- 
+--   * **None** ( Group ): The process is not started yet.
+--   * **Patrolling** ( Group ): The AI is patrolling the Patrol Zone.
+--   * **Returning** ( Group ): The AI is returning to Base.
+--   * **Stopped** ( Group ): The process is stopped.
+--   * **Crashed** ( Group ): The AI has crashed or is dead.
+-- 
+-- ### 2.2. AI_A2A_PATROL Events
+-- 
+--   * **Start** ( Group ): Start the process.
+--   * **Stop** ( Group ): Stop the process.
+--   * **Route** ( Group ): Route the AI to a new random 3D point within the Patrol Zone.
+--   * **RTB** ( Group ): Route the AI to the home base.
+--   * **Detect** ( Group ): The AI is detecting targets.
+--   * **Detected** ( Group ): The AI has detected new targets.
+--   * **Status** ( Group ): The AI is checking status (fuel and damage). When the tresholds have been reached, the AI will RTB.
+--    
+-- ## 3. Set or Get the AI controllable
+-- 
+--   * @{#AI_A2A_PATROL.SetControllable}(): Set the AIControllable.
+--   * @{#AI_A2A_PATROL.GetControllable}(): Get the AIControllable.
+--
+-- ## 4. Set the Speed and Altitude boundaries of the AI controllable
+--
+--   * @{#AI_A2A_PATROL.SetSpeed}(): Set the patrol speed boundaries of the AI, for the next patrol.
+--   * @{#AI_A2A_PATROL.SetAltitude}(): Set altitude boundaries of the AI, for the next patrol.
+-- 
+-- ## 5. Manage the detection process of the AI controllable
+-- 
+-- The detection process of the AI controllable can be manipulated.
+-- Detection requires an amount of CPU power, which has an impact on your mission performance.
+-- Only put detection on when absolutely necessary, and the frequency of the detection can also be set.
+-- 
+--   * @{#AI_A2A_PATROL.SetDetectionOn}(): Set the detection on. The AI will detect for targets.
+--   * @{#AI_A2A_PATROL.SetDetectionOff}(): Set the detection off, the AI will not detect for targets. The existing target list will NOT be erased.
+-- 
+-- The detection frequency can be set with @{#AI_A2A_PATROL.SetDetectionInterval}( seconds ), where the amount of seconds specify how much seconds will be waited before the next detection.
+-- Use the method @{#AI_A2A_PATROL.GetDetectedUnits}() to obtain a list of the @{Unit}s detected by the AI.
+-- 
+-- The detection can be filtered to potential targets in a specific zone.
+-- Use the method @{#AI_A2A_PATROL.SetDetectionZone}() to set the zone where targets need to be detected.
+-- Note that when the zone is too far away, or the AI is not heading towards the zone, or the AI is too high, no targets may be detected
+-- according the weather conditions.
+-- 
+-- ## 6. Manage the "out of fuel" in the AI_A2A_PATROL
+-- 
+-- When the AI is out of fuel, it is required that a new AI is started, before the old AI can return to the home base.
+-- Therefore, with a parameter and a calculation of the distance to the home base, the fuel treshold is calculated.
+-- When the fuel treshold is reached, the AI will continue for a given time its patrol task in orbit, 
+-- while a new AI is targetted to the AI_A2A_PATROL.
+-- Once the time is finished, the old AI will return to the base.
+-- Use the method @{#AI_A2A_PATROL.ManageFuel}() to have this proces in place.
+-- 
+-- ## 7. Manage "damage" behaviour of the AI in the AI_A2A_PATROL
+-- 
+-- When the AI is damaged, it is required that a new AIControllable is started. However, damage cannon be foreseen early on. 
+-- Therefore, when the damage treshold is reached, the AI will return immediately to the home base (RTB).
+-- Use the method @{#AI_A2A_PATROL.ManageDamage}() to have this proces in place.
+-- 
+-- ===
+-- 
+-- @field #AI_A2A_PATROL
+AI_A2A_PATROL = {
+  ClassName = "AI_A2A_PATROL",
+}
+
+--- Creates a new AI_A2A_PATROL object
+-- @param #AI_A2A_PATROL self
+-- @param Wrapper.Group#GROUP AIGroup
+-- @param Core.Zone#ZONE_BASE PatrolZone The @{Zone} where the patrol needs to be executed.
+-- @param Dcs.DCSTypes#Altitude PatrolFloorAltitude The lowest altitude in meters where to execute the patrol.
+-- @param Dcs.DCSTypes#Altitude PatrolCeilingAltitude The highest altitude in meters where to execute the patrol.
+-- @param Dcs.DCSTypes#Speed  PatrolMinSpeed The minimum speed of the @{Controllable} in km/h.
+-- @param Dcs.DCSTypes#Speed  PatrolMaxSpeed The maximum speed of the @{Controllable} in km/h.
+-- @param Dcs.DCSTypes#AltitudeType PatrolAltType The altitude type ("RADIO"=="AGL", "BARO"=="ASL"). Defaults to RADIO
+-- @return #AI_A2A_PATROL self
+-- @usage
+-- -- Define a new AI_A2A_PATROL Object. This PatrolArea will patrol an AIControllable within PatrolZone between 3000 and 6000 meters, with a variying speed between 600 and 900 km/h.
+-- PatrolZone = ZONE:New( 'PatrolZone' )
+-- PatrolSpawn = SPAWN:New( 'Patrol Group' )
+-- PatrolArea = AI_A2A_PATROL:New( PatrolZone, 3000, 6000, 600, 900 )
+function AI_A2A_PATROL:New( AIGroup, PatrolZone, PatrolFloorAltitude, PatrolCeilingAltitude, PatrolMinSpeed, PatrolMaxSpeed, PatrolAltType )
+
+  -- Inherits from BASE
+  local self = BASE:Inherit( self, AI_A2A:New( AIGroup ) ) -- #AI_A2A_PATROL
+  
+  self.PatrolZone = PatrolZone
+  self.PatrolFloorAltitude = PatrolFloorAltitude
+  self.PatrolCeilingAltitude = PatrolCeilingAltitude
+  self.PatrolMinSpeed = PatrolMinSpeed
+  self.PatrolMaxSpeed = PatrolMaxSpeed
+  
+  -- defafult PatrolAltType to "RADIO" if not specified
+  self.PatrolAltType = PatrolAltType or "RADIO"
+  
+  self:AddTransition( "Started", "Patrol", "Patrolling" )
+
+--- OnBefore Transition Handler for Event Patrol.
+-- @function [parent=#AI_A2A_PATROL] OnBeforePatrol
+-- @param #AI_A2A_PATROL self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+-- @return #boolean Return false to cancel Transition.
+
+--- OnAfter Transition Handler for Event Patrol.
+-- @function [parent=#AI_A2A_PATROL] OnAfterPatrol
+-- @param #AI_A2A_PATROL self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+	
+--- Synchronous Event Trigger for Event Patrol.
+-- @function [parent=#AI_A2A_PATROL] Patrol
+-- @param #AI_A2A_PATROL self
+
+--- Asynchronous Event Trigger for Event Patrol.
+-- @function [parent=#AI_A2A_PATROL] __Patrol
+-- @param #AI_A2A_PATROL self
+-- @param #number Delay The delay in seconds.
+
+--- OnLeave Transition Handler for State Patrolling.
+-- @function [parent=#AI_A2A_PATROL] OnLeavePatrolling
+-- @param #AI_A2A_PATROL self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+-- @return #boolean Return false to cancel Transition.
+
+--- OnEnter Transition Handler for State Patrolling.
+-- @function [parent=#AI_A2A_PATROL] OnEnterPatrolling
+-- @param #AI_A2A_PATROL self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+
+  self:AddTransition( "Patrolling", "Route", "Patrolling" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_PATROL.
+
+--- OnBefore Transition Handler for Event Route.
+-- @function [parent=#AI_A2A_PATROL] OnBeforeRoute
+-- @param #AI_A2A_PATROL self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+-- @return #boolean Return false to cancel Transition.
+
+--- OnAfter Transition Handler for Event Route.
+-- @function [parent=#AI_A2A_PATROL] OnAfterRoute
+-- @param #AI_A2A_PATROL self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+	
+--- Synchronous Event Trigger for Event Route.
+-- @function [parent=#AI_A2A_PATROL] Route
+-- @param #AI_A2A_PATROL self
+
+--- Asynchronous Event Trigger for Event Route.
+-- @function [parent=#AI_A2A_PATROL] __Route
+-- @param #AI_A2A_PATROL self
+-- @param #number Delay The delay in seconds.
+
+  self:AddTransition( "*", "Reset", "Patrolling" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_PATROL.
+  
+  return self
+end
+
+
+
+
+--- Sets (modifies) the minimum and maximum speed of the patrol.
+-- @param #AI_A2A_PATROL self
+-- @param Dcs.DCSTypes#Speed  PatrolMinSpeed The minimum speed of the @{Controllable} in km/h.
+-- @param Dcs.DCSTypes#Speed  PatrolMaxSpeed The maximum speed of the @{Controllable} in km/h.
+-- @return #AI_A2A_PATROL self
+function AI_A2A_PATROL:SetSpeed( PatrolMinSpeed, PatrolMaxSpeed )
+  self:F2( { PatrolMinSpeed, PatrolMaxSpeed } )
+  
+  self.PatrolMinSpeed = PatrolMinSpeed
+  self.PatrolMaxSpeed = PatrolMaxSpeed
+end
+
+
+
+--- Sets the floor and ceiling altitude of the patrol.
+-- @param #AI_A2A_PATROL self
+-- @param Dcs.DCSTypes#Altitude PatrolFloorAltitude The lowest altitude in meters where to execute the patrol.
+-- @param Dcs.DCSTypes#Altitude PatrolCeilingAltitude The highest altitude in meters where to execute the patrol.
+-- @return #AI_A2A_PATROL self
+function AI_A2A_PATROL:SetAltitude( PatrolFloorAltitude, PatrolCeilingAltitude )
+  self:F2( { PatrolFloorAltitude, PatrolCeilingAltitude } )
+  
+  self.PatrolFloorAltitude = PatrolFloorAltitude
+  self.PatrolCeilingAltitude = PatrolCeilingAltitude
+end
+
+
+--- Defines a new patrol route using the @{Process_PatrolZone} parameters and settings.
+-- @param #AI_A2A_PATROL self
+-- @return #AI_A2A_PATROL self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A_PATROL:onafterPatrol( Controllable, From, Event, To )
+  self:F2()
+
+  self:ClearTargetDistance()
+
+  self:__Route( 1 )
+  
+  self.Controllable:OnReSpawn(
+    function( PatrolGroup )
+      self:E( "ReSpawn" )
+      self:__Reset( 1 )
+      self:__Route( 5 )
+    end
+  )
+end
+
+
+
+--- @param Wrapper.Group#GROUP AIGroup
+-- This statis method is called from the route path within the last task at the last waaypoint of the Controllable.
+-- Note that this method is required, as triggers the next route when patrolling for the Controllable.
+function AI_A2A_PATROL.PatrolRoute( AIGroup )
+
+  local _AI_A2A_Patrol = AIGroup:GetState( AIGroup, "AI_A2A_PATROL" ) -- #AI_A2A_PATROL
+  _AI_A2A_Patrol:Route()
+end
+
+
+--- Defines a new patrol route using the @{Process_PatrolZone} parameters and settings.
+-- @param #AI_A2A_PATROL self
+-- @param Wrapper.Group#GROUP AIGroup The AIGroup managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A_PATROL:onafterRoute( AIGroup, From, Event, To )
+
+  self:F2()
+
+  -- When RTB, don't allow anymore the routing.
+  if From == "RTB" then
+    return
+  end
+
+  
+  if AIGroup:IsAlive() then
+    
+    local PatrolRoute = {}
+
+    --- Calculate the target route point.
+    
+    local CurrentCoord = AIGroup:GetCoordinate()
+    
+    local ToTargetCoord = self.PatrolZone:GetRandomPointVec2()
+    ToTargetCoord:SetAlt(math.random( self.PatrolFloorAltitude,self.PatrolCeilingAltitude ) )
+    self:SetTargetDistance( ToTargetCoord ) -- For RTB status check
+    
+    local ToTargetSpeed = math.random( self.PatrolMinSpeed, self.PatrolMaxSpeed )
+    
+    --- Create a route point of type air.
+    local ToPatrolRoutePoint = ToTargetCoord:RoutePointAir( 
+      self.PatrolAltType, 
+      POINT_VEC3.RoutePointType.TurningPoint, 
+      POINT_VEC3.RoutePointAction.TurningPoint, 
+      ToTargetSpeed, 
+      true 
+    )
+
+    PatrolRoute[#PatrolRoute+1] = ToPatrolRoutePoint
+    
+    --- Now we're going to do something special, we're going to call a function from a waypoint action at the AIControllable...
+    AIGroup:WayPointInitialize( PatrolRoute )
+
+    local Tasks = {}
+    Tasks[#Tasks+1] = AIGroup:TaskFunction( 1, 1, "AI_A2A_PATROL.PatrolRoute" )
+    
+    PatrolRoute[1].task = AIGroup:TaskCombo( Tasks )
+    
+    --- Do a trick, link the NewPatrolRoute function of the PATROLGROUP object to the AIControllable in a temporary variable ...
+    AIGroup:SetState( AIGroup, "AI_A2A_PATROL", self )
+
+    --- NOW ROUTE THE GROUP!
+    AIGroup:WayPointExecute( 1, 2 )
+  end
+
+end
+
+--- **AI** -- **Execute Combat Air Patrol (CAP).**
+--
+-- ![Banner Image](..\Presentations\AI_CAP\Dia1.JPG)
+-- 
+-- ===
+-- 
+-- AI CAP classes makes AI Controllables execute a Combat Air Patrol.
+-- 
+-- There are the following types of CAP classes defined:
+-- 
+--   * @{#AI_A2A_CAP}: Perform a CAP in a zone.
+--   
+-- ====
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
+--
+--   * **[Quax](https://forums.eagle.ru/member.php?u=90530)**: Concept, Advice & Testing.
+--   * **[Pikey](https://forums.eagle.ru/member.php?u=62835)**: Concept, Advice & Testing.
+--   * **[Gunterlund](http://forums.eagle.ru:8080/member.php?u=75036)**: Test case revision.
+--   * **[Whisper](http://forums.eagle.ru/member.php?u=3829): Testing.
+--   * **[Delta99](https://forums.eagle.ru/member.php?u=125166): Testing. 
+-- 
+-- ====       
+--
+-- @module AI_A2A_Cap
+
+--BASE:TraceClass("AI_A2A_CAP")
+
+--- @type AI_A2A_CAP
+-- @extends AI.AI_A2A_Patrol#AI_A2A_PATROL
+
+
+--- # AI_A2A_CAP class, extends @{AI_CAP#AI_PATROL_ZONE}
+-- 
+-- The AI_A2A_CAP class implements the core functions to patrol a @{Zone} by an AI @{Controllable} or @{Group} 
+-- and automatically engage any airborne enemies that are within a certain range or within a certain zone.
+-- 
+-- ![Process](..\Presentations\AI_CAP\Dia3.JPG)
+-- 
+-- The AI_A2A_CAP is assigned a @{Group} and this must be done before the AI_A2A_CAP process can be started using the **Start** event.
+-- 
+-- ![Process](..\Presentations\AI_CAP\Dia4.JPG)
+-- 
+-- The AI will fly towards the random 3D point within the patrol zone, using a random speed within the given altitude and speed limits.
+-- Upon arrival at the 3D point, a new random 3D point will be selected within the patrol zone using the given limits.
+-- 
+-- ![Process](..\Presentations\AI_CAP\Dia5.JPG)
+-- 
+-- This cycle will continue.
+-- 
+-- ![Process](..\Presentations\AI_CAP\Dia6.JPG)
+-- 
+-- During the patrol, the AI will detect enemy targets, which are reported through the **Detected** event.
+--
+-- ![Process](..\Presentations\AI_CAP\Dia9.JPG)
+-- 
+-- When enemies are detected, the AI will automatically engage the enemy.
+-- 
+-- ![Process](..\Presentations\AI_CAP\Dia10.JPG)
+-- 
+-- Until a fuel or damage treshold has been reached by the AI, or when the AI is commanded to RTB.
+-- When the fuel treshold has been reached, the airplane will fly towards the nearest friendly airbase and will land.
+-- 
+-- ![Process](..\Presentations\AI_CAP\Dia13.JPG)
+-- 
+-- ## 1. AI_A2A_CAP constructor
+--   
+--   * @{#AI_A2A_CAP.New}(): Creates a new AI_A2A_CAP object.
+-- 
+-- ## 2. AI_A2A_CAP is a FSM
+-- 
+-- ![Process](..\Presentations\AI_CAP\Dia2.JPG)
+-- 
+-- ### 2.1 AI_A2A_CAP States
+-- 
+--   * **None** ( Group ): The process is not started yet.
+--   * **Patrolling** ( Group ): The AI is patrolling the Patrol Zone.
+--   * **Engaging** ( Group ): The AI is engaging the bogeys.
+--   * **Returning** ( Group ): The AI is returning to Base..
+-- 
+-- ### 2.2 AI_A2A_CAP Events
+-- 
+--   * **@{AI_Patrol#AI_PATROL_ZONE.Start}**: Start the process.
+--   * **@{AI_Patrol#AI_PATROL_ZONE.Route}**: Route the AI to a new random 3D point within the Patrol Zone.
+--   * **@{#AI_A2A_CAP.Engage}**: Let the AI engage the bogeys.
+--   * **@{#AI_A2A_CAP.Abort}**: Aborts the engagement and return patrolling in the patrol zone.
+--   * **@{AI_Patrol#AI_PATROL_ZONE.RTB}**: Route the AI to the home base.
+--   * **@{AI_Patrol#AI_PATROL_ZONE.Detect}**: The AI is detecting targets.
+--   * **@{AI_Patrol#AI_PATROL_ZONE.Detected}**: The AI has detected new targets.
+--   * **@{#AI_A2A_CAP.Destroy}**: The AI has destroyed a bogey @{Unit}.
+--   * **@{#AI_A2A_CAP.Destroyed}**: The AI has destroyed all bogeys @{Unit}s assigned in the CAS task.
+--   * **Status** ( Group ): The AI is checking status (fuel and damage). When the tresholds have been reached, the AI will RTB.
+--
+-- ## 3. Set the Range of Engagement
+-- 
+-- ![Range](..\Presentations\AI_CAP\Dia11.JPG)
+-- 
+-- An optional range can be set in meters, 
+-- that will define when the AI will engage with the detected airborne enemy targets.
+-- The range can be beyond or smaller than the range of the Patrol Zone.
+-- The range is applied at the position of the AI.
+-- Use the method @{AI_CAP#AI_A2A_CAP.SetEngageRange}() to define that range.
+--
+-- ## 4. Set the Zone of Engagement
+-- 
+-- ![Zone](..\Presentations\AI_CAP\Dia12.JPG)
+-- 
+-- An optional @{Zone} can be set, 
+-- that will define when the AI will engage with the detected airborne enemy targets.
+-- Use the method @{AI_Cap#AI_A2A_CAP.SetEngageZone}() to define that Zone.
+--  
+-- ===
+-- 
+-- @field #AI_A2A_CAP
+AI_A2A_CAP = {
+  ClassName = "AI_A2A_CAP",
+}
+
+--- Creates a new AI_A2A_CAP object
+-- @param #AI_A2A_CAP self
+-- @param Wrapper.Group#GROUP AIGroup
+-- @param Core.Zone#ZONE_BASE PatrolZone The @{Zone} where the patrol needs to be executed.
+-- @param Dcs.DCSTypes#Altitude PatrolFloorAltitude The lowest altitude in meters where to execute the patrol.
+-- @param Dcs.DCSTypes#Altitude PatrolCeilingAltitude The highest altitude in meters where to execute the patrol.
+-- @param Dcs.DCSTypes#Speed  PatrolMinSpeed The minimum speed of the @{Controllable} in km/h.
+-- @param Dcs.DCSTypes#Speed  PatrolMaxSpeed The maximum speed of the @{Controllable} in km/h.
+-- @param Dcs.DCSTypes#Speed  EngageMinSpeed The minimum speed of the @{Controllable} in km/h when engaging a target.
+-- @param Dcs.DCSTypes#Speed  EngageMaxSpeed The maximum speed of the @{Controllable} in km/h when engaging a target.
+-- @param Dcs.DCSTypes#AltitudeType PatrolAltType The altitude type ("RADIO"=="AGL", "BARO"=="ASL"). Defaults to RADIO
+-- @return #AI_A2A_CAP
+function AI_A2A_CAP:New( AIGroup, PatrolZone, PatrolFloorAltitude, PatrolCeilingAltitude, PatrolMinSpeed, PatrolMaxSpeed, EngageMinSpeed, EngageMaxSpeed, PatrolAltType )
+
+  -- Inherits from BASE
+  local self = BASE:Inherit( self, AI_A2A_PATROL:New( AIGroup, PatrolZone, PatrolFloorAltitude, PatrolCeilingAltitude, PatrolMinSpeed, PatrolMaxSpeed, PatrolAltType ) ) -- #AI_A2A_CAP
+
+  self.Accomplished = false
+  self.Engaging = false
+  
+  self.EngageMinSpeed = EngageMinSpeed
+  self.EngageMaxSpeed = EngageMaxSpeed
+  
+  self:AddTransition( { "Patrolling", "Engaging", "Returning" }, "Engage", "Engaging" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_CAP.
+
+  --- OnBefore Transition Handler for Event Engage.
+  -- @function [parent=#AI_A2A_CAP] OnBeforeEngage
+  -- @param #AI_A2A_CAP self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  -- @return #boolean Return false to cancel Transition.
+  
+  --- OnAfter Transition Handler for Event Engage.
+  -- @function [parent=#AI_A2A_CAP] OnAfterEngage
+  -- @param #AI_A2A_CAP self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  	
+  --- Synchronous Event Trigger for Event Engage.
+  -- @function [parent=#AI_A2A_CAP] Engage
+  -- @param #AI_A2A_CAP self
+  
+  --- Asynchronous Event Trigger for Event Engage.
+  -- @function [parent=#AI_A2A_CAP] __Engage
+  -- @param #AI_A2A_CAP self
+  -- @param #number Delay The delay in seconds.
+
+--- OnLeave Transition Handler for State Engaging.
+-- @function [parent=#AI_A2A_CAP] OnLeaveEngaging
+-- @param #AI_A2A_CAP self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+-- @return #boolean Return false to cancel Transition.
+
+--- OnEnter Transition Handler for State Engaging.
+-- @function [parent=#AI_A2A_CAP] OnEnterEngaging
+-- @param #AI_A2A_CAP self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+
+  self:AddTransition( "Engaging", "Fired", "Engaging" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_CAP.
+  
+  --- OnBefore Transition Handler for Event Fired.
+  -- @function [parent=#AI_A2A_CAP] OnBeforeFired
+  -- @param #AI_A2A_CAP self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  -- @return #boolean Return false to cancel Transition.
+  
+  --- OnAfter Transition Handler for Event Fired.
+  -- @function [parent=#AI_A2A_CAP] OnAfterFired
+  -- @param #AI_A2A_CAP self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  	
+  --- Synchronous Event Trigger for Event Fired.
+  -- @function [parent=#AI_A2A_CAP] Fired
+  -- @param #AI_A2A_CAP self
+  
+  --- Asynchronous Event Trigger for Event Fired.
+  -- @function [parent=#AI_A2A_CAP] __Fired
+  -- @param #AI_A2A_CAP self
+  -- @param #number Delay The delay in seconds.
+
+  self:AddTransition( "*", "Destroy", "*" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_CAP.
+
+  --- OnBefore Transition Handler for Event Destroy.
+  -- @function [parent=#AI_A2A_CAP] OnBeforeDestroy
+  -- @param #AI_A2A_CAP self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  -- @return #boolean Return false to cancel Transition.
+  
+  --- OnAfter Transition Handler for Event Destroy.
+  -- @function [parent=#AI_A2A_CAP] OnAfterDestroy
+  -- @param #AI_A2A_CAP self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  	
+  --- Synchronous Event Trigger for Event Destroy.
+  -- @function [parent=#AI_A2A_CAP] Destroy
+  -- @param #AI_A2A_CAP self
+  
+  --- Asynchronous Event Trigger for Event Destroy.
+  -- @function [parent=#AI_A2A_CAP] __Destroy
+  -- @param #AI_A2A_CAP self
+  -- @param #number Delay The delay in seconds.
+
+
+  self:AddTransition( "Engaging", "Abort", "Patrolling" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_CAP.
+
+  --- OnBefore Transition Handler for Event Abort.
+  -- @function [parent=#AI_A2A_CAP] OnBeforeAbort
+  -- @param #AI_A2A_CAP self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  -- @return #boolean Return false to cancel Transition.
+  
+  --- OnAfter Transition Handler for Event Abort.
+  -- @function [parent=#AI_A2A_CAP] OnAfterAbort
+  -- @param #AI_A2A_CAP self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  	
+  --- Synchronous Event Trigger for Event Abort.
+  -- @function [parent=#AI_A2A_CAP] Abort
+  -- @param #AI_A2A_CAP self
+  
+  --- Asynchronous Event Trigger for Event Abort.
+  -- @function [parent=#AI_A2A_CAP] __Abort
+  -- @param #AI_A2A_CAP self
+  -- @param #number Delay The delay in seconds.
+
+  self:AddTransition( "Engaging", "Accomplish", "Patrolling" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_CAP.
+
+  --- OnBefore Transition Handler for Event Accomplish.
+  -- @function [parent=#AI_A2A_CAP] OnBeforeAccomplish
+  -- @param #AI_A2A_CAP self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  -- @return #boolean Return false to cancel Transition.
+  
+  --- OnAfter Transition Handler for Event Accomplish.
+  -- @function [parent=#AI_A2A_CAP] OnAfterAccomplish
+  -- @param #AI_A2A_CAP self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  	
+  --- Synchronous Event Trigger for Event Accomplish.
+  -- @function [parent=#AI_A2A_CAP] Accomplish
+  -- @param #AI_A2A_CAP self
+  
+  --- Asynchronous Event Trigger for Event Accomplish.
+  -- @function [parent=#AI_A2A_CAP] __Accomplish
+  -- @param #AI_A2A_CAP self
+  -- @param #number Delay The delay in seconds.  
+
+  return self
+end
+
+
+--- Set the Engage Zone which defines where the AI will engage bogies. 
+-- @param #AI_A2A_CAP self
+-- @param Core.Zone#ZONE EngageZone The zone where the AI is performing CAP.
+-- @return #AI_A2A_CAP self
+function AI_A2A_CAP:SetEngageZone( EngageZone )
+  self:F2()
+
+  if EngageZone then  
+    self.EngageZone = EngageZone
+  else
+    self.EngageZone = nil
+  end
+end
+
+--- Set the Engage Range when the AI will engage with airborne enemies. 
+-- @param #AI_A2A_CAP self
+-- @param #number EngageRange The Engage Range.
+-- @return #AI_A2A_CAP self
+function AI_A2A_CAP:SetEngageRange( EngageRange )
+  self:F2()
+
+  if EngageRange then  
+    self.EngageRange = EngageRange
+  else
+    self.EngageRange = nil
+  end
+end
+
+--- onafter State Transition for Event Patrol.
+-- @param #AI_A2A_CAP self
+-- @param Wrapper.Controllable#CONTROLLABLE AIGroup The AI Group managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A_CAP:onafterPatrol( AIGroup, From, Event, To )
+
+  -- Call the parent Start event handler
+  self:GetParent(self).onafterPatrol( self, AIGroup, From, Event, To )
+  self:HandleEvent( EVENTS.Dead )
+
+end
+
+-- todo: need to fix this global function
+
+--- @param Wrapper.Group#GROUP AIGroup
+function AI_A2A_CAP.AttackRoute( AIGroup )
+
+  local EngageZone = AIGroup:GetState( AIGroup, "AI_A2A_CAP" ) -- AI.AI_Cap#AI_A2A_CAP
+  EngageZone:__Engage( 0.5 )
+end
+
+--- @param #AI_A2A_CAP self
+-- @param Wrapper.Controllable#CONTROLLABLE AIGroup The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A_CAP:onbeforeEngage( AIGroup, From, Event, To )
+  
+  if self.Accomplished == true then
+    return false
+  end
+end
+
+--- @param #AI_A2A_CAP self
+-- @param Wrapper.Controllable#CONTROLLABLE AIGroup The AI Group managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A_CAP:onafterAbort( AIGroup, From, Event, To )
+  AIGroup:ClearTasks()
+  self:__Route( 0.5 )
+end
+
+
+--- @param #AI_A2A_CAP self
+-- @param Wrapper.Controllable#CONTROLLABLE AIGroup The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A_CAP:onafterEngage( AIGroup, From, Event, To, AttackSetUnit )
+
+  self:F( { AIGroup, From, Event, To, AttackSetUnit} )
+
+  self.AttackSetUnit = AttackSetUnit or self.AttackSetUnit -- Core.Set#SET_UNIT
+  
+  local FirstAttackUnit = self.AttackSetUnit:GetFirst()
+  
+  if FirstAttackUnit then
+  
+    if AIGroup:IsAlive() then
+
+      local EngageRoute = {}
+
+      --- Calculate the target route point.
+      local CurrentCoord = AIGroup:GetCoordinate()
+      local ToTargetCoord = self.AttackSetUnit:GetFirst():GetCoordinate()
+      local ToTargetSpeed = math.random( self.EngageMinSpeed, self.EngageMaxSpeed )
+      local ToInterceptAngle = CurrentCoord:GetAngleDegrees( CurrentCoord:GetDirectionVec3( ToTargetCoord ) )
+      
+      --- Create a route point of type air.
+      local ToPatrolRoutePoint = CurrentCoord:Translate( 5000, ToInterceptAngle ):RoutePointAir( 
+        self.PatrolAltType, 
+        POINT_VEC3.RoutePointType.TurningPoint, 
+        POINT_VEC3.RoutePointAction.TurningPoint, 
+        ToTargetSpeed, 
+        true 
+      )
+  
+      self:F( { Angle = ToInterceptAngle, ToTargetSpeed = ToTargetSpeed } )
+      self:T2( { self.MinSpeed, self.MaxSpeed, ToTargetSpeed } )
+      
+      EngageRoute[#EngageRoute+1] = ToPatrolRoutePoint
+
+      AIGroup:OptionROEOpenFire()
+      AIGroup:OptionROTPassiveDefense()
+  
+      local AttackTasks = {}
+  
+      for AttackUnitID, AttackUnit in pairs( self.AttackSetUnit:GetSet() ) do
+        local AttackUnit = AttackUnit -- Wrapper.Unit#UNIT
+        self:T( { "Attacking Unit:", AttackUnit:GetName(), AttackUnit:IsAlive(), AttackUnit:IsAir() } )
+        if AttackUnit:IsAlive() and AttackUnit:IsAir() then
+          AttackTasks[#AttackTasks+1] = AIGroup:TaskAttackUnit( AttackUnit )
+        end
+      end
+  
+      --- Now we're going to do something special, we're going to call a function from a waypoint action at the AIControllable...
+      self.Controllable:WayPointInitialize( EngageRoute )
+      
+      
+      if #AttackTasks == 0 then
+        self:E("No targets found -> Going back to Patrolling")
+        self:__Abort( 0.5 )
+      else
+        AttackTasks[#AttackTasks+1] = AIGroup:TaskFunction( 1, #AttackTasks, "AI_A2A_CAP.AttackRoute" )
+        AttackTasks[#AttackTasks+1] = AIGroup:TaskOrbitCircle( 4000, self.PatrolMinSpeed )
+        
+        EngageRoute[1].task = AIGroup:TaskCombo( AttackTasks )
+        
+        --- Do a trick, link the NewEngageRoute function of the object to the AIControllable in a temporary variable ...
+        AIGroup:SetState( AIGroup, "AI_A2A_CAP", self )
+      end
+      
+      --- NOW ROUTE THE GROUP!
+      AIGroup:WayPointExecute( 1, 0 )
+    end
+  else
+    self:E("No targets found -> Going back to Patrolling")
+    self:__Abort( 0.5 )
+  end
+end
+
+--- @param #AI_A2A_CAP self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A_CAP:onafterAccomplish( Controllable, From, Event, To )
+  self.Accomplished = true
+  self:SetDetectionOff()
+end
+
+--- @param #AI_A2A_CAP self
+-- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+-- @param Core.Event#EVENTDATA EventData
+function AI_A2A_CAP:onafterDestroy( Controllable, From, Event, To, EventData )
+
+  if EventData.IniUnit then
+    self.AttackUnits[EventData.IniUnit] = nil
+  end
+end
+
+--- @param #AI_A2A_CAP self
+-- @param Core.Event#EVENTDATA EventData
+function AI_A2A_CAP:OnEventDead( EventData )
+  self:F( { "EventDead", EventData } )
+
+  if EventData.IniDCSUnit then
+    if self.AttackUnits and self.AttackUnits[EventData.IniUnit] then
+      self:__Destroy( 1, EventData )
+    end
+  end  
+end
+--- **AI** -- **Execute Ground Controlled Interception (GCI).**
+--
+-- ![Banner Image](..\Presentations\AI_GCI\Dia1.JPG)
+-- 
+-- ===
+-- 
+-- AI A2A_INTEREPT class makes AI Groups execute an Intercept.
+-- 
+-- There are the following types of GCI classes defined:
+-- 
+--   * @{#AI_A2A_GCI}: Perform a GCI in a zone.
+--   
+-- ====
+-- 
+-- ### Author: **Sven Van de Velde (FlightControl)**
+-- 
+-- ### Contributions: 
+-- 
+-- ====       
+--
+-- @module AI_A2A_GCI
+
+
+--BASE:TraceClass("AI_A2A_GCI")
+
+
+--- @type AI_A2A_GCI
+-- @extends AI.AI_A2A#AI_A2A
+
+
+--- # AI_A2A_GCI class, extends @{AI_A2A#AI_A2A}
+-- 
+-- The AI_A2A_GCI class implements the core functions to intercept intruders. The Engage function will intercept intruders.
+-- 
+-- ![Process](..\Presentations\AI_GCI\Dia3.JPG)
+-- 
+-- The AI_A2A_GCI is assigned a @{Group} and this must be done before the AI_A2A_GCI process can be started using the **Start** event.
+-- 
+-- ![Process](..\Presentations\AI_GCI\Dia4.JPG)
+-- 
+-- The AI will fly towards the random 3D point within the patrol zone, using a random speed within the given altitude and speed limits.
+-- Upon arrival at the 3D point, a new random 3D point will be selected within the patrol zone using the given limits.
+-- 
+-- ![Process](..\Presentations\AI_GCI\Dia5.JPG)
+-- 
+-- This cycle will continue.
+-- 
+-- ![Process](..\Presentations\AI_GCI\Dia6.JPG)
+-- 
+-- During the patrol, the AI will detect enemy targets, which are reported through the **Detected** event.
+--
+-- ![Process](..\Presentations\AI_GCI\Dia9.JPG)
+-- 
+-- When enemies are detected, the AI will automatically engage the enemy.
+-- 
+-- ![Process](..\Presentations\AI_GCI\Dia10.JPG)
+-- 
+-- Until a fuel or damage treshold has been reached by the AI, or when the AI is commanded to RTB.
+-- When the fuel treshold has been reached, the airplane will fly towards the nearest friendly airbase and will land.
+-- 
+-- ![Process](..\Presentations\AI_GCI\Dia13.JPG)
+-- 
+-- ## 1. AI_A2A_GCI constructor
+--   
+--   * @{#AI_A2A_GCI.New}(): Creates a new AI_A2A_GCI object.
+-- 
+-- ## 2. AI_A2A_GCI is a FSM
+-- 
+-- ![Process](..\Presentations\AI_GCI\Dia2.JPG)
+-- 
+-- ### 2.1 AI_A2A_GCI States
+-- 
+--   * **None** ( Group ): The process is not started yet.
+--   * **Patrolling** ( Group ): The AI is patrolling the Patrol Zone.
+--   * **Engaging** ( Group ): The AI is engaging the bogeys.
+--   * **Returning** ( Group ): The AI is returning to Base..
+-- 
+-- ### 2.2 AI_A2A_GCI Events
+-- 
+--   * **@{AI_Patrol#AI_PATROL_ZONE.Start}**: Start the process.
+--   * **@{AI_Patrol#AI_PATROL_ZONE.Route}**: Route the AI to a new random 3D point within the Patrol Zone.
+--   * **@{#AI_A2A_GCI.Engage}**: Let the AI engage the bogeys.
+--   * **@{#AI_A2A_GCI.Abort}**: Aborts the engagement and return patrolling in the patrol zone.
+--   * **@{AI_Patrol#AI_PATROL_ZONE.RTB}**: Route the AI to the home base.
+--   * **@{AI_Patrol#AI_PATROL_ZONE.Detect}**: The AI is detecting targets.
+--   * **@{AI_Patrol#AI_PATROL_ZONE.Detected}**: The AI has detected new targets.
+--   * **@{#AI_A2A_GCI.Destroy}**: The AI has destroyed a bogey @{Unit}.
+--   * **@{#AI_A2A_GCI.Destroyed}**: The AI has destroyed all bogeys @{Unit}s assigned in the CAS task.
+--   * **Status** ( Group ): The AI is checking status (fuel and damage). When the tresholds have been reached, the AI will RTB.
+--
+-- ## 3. Set the Range of Engagement
+-- 
+-- ![Range](..\Presentations\AI_GCI\Dia11.JPG)
+-- 
+-- An optional range can be set in meters, 
+-- that will define when the AI will engage with the detected airborne enemy targets.
+-- The range can be beyond or smaller than the range of the Patrol Zone.
+-- The range is applied at the position of the AI.
+-- Use the method @{AI_GCI#AI_A2A_GCI.SetEngageRange}() to define that range.
+--
+-- ## 4. Set the Zone of Engagement
+-- 
+-- ![Zone](..\Presentations\AI_GCI\Dia12.JPG)
+-- 
+-- An optional @{Zone} can be set, 
+-- that will define when the AI will engage with the detected airborne enemy targets.
+-- Use the method @{AI_Cap#AI_A2A_GCI.SetEngageZone}() to define that Zone.
+--  
+-- ===
+-- 
+-- @field #AI_A2A_GCI
+AI_A2A_GCI = {
+  ClassName = "AI_A2A_GCI",
+}
+
+
+
+--- Creates a new AI_A2A_GCI object
+-- @param #AI_A2A_GCI self
+-- @param Wrapper.Group#GROUP AIGroup
+-- @return #AI_A2A_GCI
+function AI_A2A_GCI:New( AIGroup, EngageMinSpeed, EngageMaxSpeed )
+
+  -- Inherits from BASE
+  local self = BASE:Inherit( self, AI_A2A:New( AIGroup ) ) -- #AI_A2A_GCI
+
+  self.Accomplished = false
+  self.Engaging = false
+  
+  self.EngageMinSpeed = EngageMinSpeed
+  self.EngageMaxSpeed = EngageMaxSpeed
+  self.PatrolMinSpeed = EngageMinSpeed
+  self.PatrolMaxSpeed = EngageMaxSpeed
+  
+  self.PatrolAltType = "RADIO"
+  
+  self:AddTransition( { "Started", "Engaging", "Returning" }, "Engage", "Engaging" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_GCI.
+
+  --- OnBefore Transition Handler for Event Engage.
+  -- @function [parent=#AI_A2A_GCI] OnBeforeEngage
+  -- @param #AI_A2A_GCI self
+  -- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  -- @return #boolean Return false to cancel Transition.
+  
+  --- OnAfter Transition Handler for Event Engage.
+  -- @function [parent=#AI_A2A_GCI] OnAfterEngage
+  -- @param #AI_A2A_GCI self
+  -- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  	
+  --- Synchronous Event Trigger for Event Engage.
+  -- @function [parent=#AI_A2A_GCI] Engage
+  -- @param #AI_A2A_GCI self
+  
+  --- Asynchronous Event Trigger for Event Engage.
+  -- @function [parent=#AI_A2A_GCI] __Engage
+  -- @param #AI_A2A_GCI self
+  -- @param #number Delay The delay in seconds.
+
+--- OnLeave Transition Handler for State Engaging.
+-- @function [parent=#AI_A2A_GCI] OnLeaveEngaging
+-- @param #AI_A2A_GCI self
+-- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+-- @return #boolean Return false to cancel Transition.
+
+--- OnEnter Transition Handler for State Engaging.
+-- @function [parent=#AI_A2A_GCI] OnEnterEngaging
+-- @param #AI_A2A_GCI self
+-- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+
+  self:AddTransition( "Engaging", "Fired", "Engaging" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_GCI.
+  
+  --- OnBefore Transition Handler for Event Fired.
+  -- @function [parent=#AI_A2A_GCI] OnBeforeFired
+  -- @param #AI_A2A_GCI self
+  -- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  -- @return #boolean Return false to cancel Transition.
+  
+  --- OnAfter Transition Handler for Event Fired.
+  -- @function [parent=#AI_A2A_GCI] OnAfterFired
+  -- @param #AI_A2A_GCI self
+  -- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  	
+  --- Synchronous Event Trigger for Event Fired.
+  -- @function [parent=#AI_A2A_GCI] Fired
+  -- @param #AI_A2A_GCI self
+  
+  --- Asynchronous Event Trigger for Event Fired.
+  -- @function [parent=#AI_A2A_GCI] __Fired
+  -- @param #AI_A2A_GCI self
+  -- @param #number Delay The delay in seconds.
+
+  self:AddTransition( "*", "Destroy", "*" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_GCI.
+
+  --- OnBefore Transition Handler for Event Destroy.
+  -- @function [parent=#AI_A2A_GCI] OnBeforeDestroy
+  -- @param #AI_A2A_GCI self
+  -- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  -- @return #boolean Return false to cancel Transition.
+  
+  --- OnAfter Transition Handler for Event Destroy.
+  -- @function [parent=#AI_A2A_GCI] OnAfterDestroy
+  -- @param #AI_A2A_GCI self
+  -- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  	
+  --- Synchronous Event Trigger for Event Destroy.
+  -- @function [parent=#AI_A2A_GCI] Destroy
+  -- @param #AI_A2A_GCI self
+  
+  --- Asynchronous Event Trigger for Event Destroy.
+  -- @function [parent=#AI_A2A_GCI] __Destroy
+  -- @param #AI_A2A_GCI self
+  -- @param #number Delay The delay in seconds.
+
+
+  self:AddTransition( "Engaging", "Abort", "Patrolling" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_GCI.
+
+  --- OnBefore Transition Handler for Event Abort.
+  -- @function [parent=#AI_A2A_GCI] OnBeforeAbort
+  -- @param #AI_A2A_GCI self
+  -- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  -- @return #boolean Return false to cancel Transition.
+  
+  --- OnAfter Transition Handler for Event Abort.
+  -- @function [parent=#AI_A2A_GCI] OnAfterAbort
+  -- @param #AI_A2A_GCI self
+  -- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  	
+  --- Synchronous Event Trigger for Event Abort.
+  -- @function [parent=#AI_A2A_GCI] Abort
+  -- @param #AI_A2A_GCI self
+  
+  --- Asynchronous Event Trigger for Event Abort.
+  -- @function [parent=#AI_A2A_GCI] __Abort
+  -- @param #AI_A2A_GCI self
+  -- @param #number Delay The delay in seconds.
+
+  self:AddTransition( "Engaging", "Accomplish", "Patrolling" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_GCI.
+
+  --- OnBefore Transition Handler for Event Accomplish.
+  -- @function [parent=#AI_A2A_GCI] OnBeforeAccomplish
+  -- @param #AI_A2A_GCI self
+  -- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  -- @return #boolean Return false to cancel Transition.
+  
+  --- OnAfter Transition Handler for Event Accomplish.
+  -- @function [parent=#AI_A2A_GCI] OnAfterAccomplish
+  -- @param #AI_A2A_GCI self
+  -- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+  -- @param #string From The From State string.
+  -- @param #string Event The Event string.
+  -- @param #string To The To State string.
+  	
+  --- Synchronous Event Trigger for Event Accomplish.
+  -- @function [parent=#AI_A2A_GCI] Accomplish
+  -- @param #AI_A2A_GCI self
+  
+  --- Asynchronous Event Trigger for Event Accomplish.
+  -- @function [parent=#AI_A2A_GCI] __Accomplish
+  -- @param #AI_A2A_GCI self
+  -- @param #number Delay The delay in seconds.  
+
+  return self
+end
+
+
+--- onafter State Transition for Event Patrol.
+-- @param #AI_A2A_GCI self
+-- @param Wrapper.Group#GROUP AIGroup The AI Group managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A_GCI:onafterEngage( AIGroup, From, Event, To )
+
+  self:HandleEvent( EVENTS.Dead )
+
+end
+
+-- todo: need to fix this global function
+
+--- @param Wrapper.Group#GROUP AIControllable
+function AI_A2A_GCI.InterceptRoute( AIControllable )
+
+  AIControllable:T( "NewEngageRoute" )
+  local EngageZone = AIControllable:GetState( AIControllable, "EngageZone" ) -- AI.AI_Cap#AI_A2A_GCI
+  EngageZone:__Engage( 0.5 )
+end
+
+--- @param #AI_A2A_GCI self
+-- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A_GCI:onbeforeEngage( AIGroup, From, Event, To )
+  
+  if self.Accomplished == true then
+    return false
+  end
+end
+
+--- @param #AI_A2A_GCI self
+-- @param Wrapper.Group#GROUP AIGroup The AI Group managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A_GCI:onafterAbort( AIGroup, From, Event, To )
+  AIGroup:ClearTasks()
+  self:Return()
+  self:__RTB( 0.5 )
+end
+
+
+--- @param #AI_A2A_GCI self
+-- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A_GCI:onafterEngage( AIGroup, From, Event, To, AttackSetUnit )
+
+  self:F( { AIGroup, From, Event, To, AttackSetUnit} )
+
+  self.AttackSetUnit = AttackSetUnit or self.AttackSetUnit -- Core.Set#SET_UNIT
+  
+  local FirstAttackUnit = self.AttackSetUnit:GetFirst()
+  
+  if FirstAttackUnit then
+
+    if AIGroup:IsAlive() then
+  
+      local EngageRoute = {}
+  
+      --- Calculate the target route point.
+      
+      local CurrentCoord = AIGroup:GetCoordinate()
+      
+      local ToTargetCoord = self.AttackSetUnit:GetFirst():GetCoordinate()
+      self:SetTargetDistance( ToTargetCoord ) -- For RTB status check
+      
+      local ToTargetSpeed = math.random( self.EngageMinSpeed, self.EngageMaxSpeed )
+      local ToInterceptAngle = CurrentCoord:GetAngleDegrees( CurrentCoord:GetDirectionVec3( ToTargetCoord ) )
+      
+      --- Create a route point of type air.
+      local ToPatrolRoutePoint = CurrentCoord:Translate( 5000, ToInterceptAngle ):RoutePointAir( 
+        self.PatrolAltType, 
+        POINT_VEC3.RoutePointType.TurningPoint, 
+        POINT_VEC3.RoutePointAction.TurningPoint, 
+        ToTargetSpeed, 
+        true 
+      )
+  
+      self:F( { Angle = ToInterceptAngle, ToTargetSpeed = ToTargetSpeed } )
+      self:T2( { self.EngageMinSpeed, self.EngageMaxSpeed, ToTargetSpeed } )
+      
+      EngageRoute[#EngageRoute+1] = ToPatrolRoutePoint
+      
+      AIGroup:OptionROEOpenFire()
+      AIGroup:OptionROTPassiveDefense()
+  
+      local AttackTasks = {}
+  
+      for AttackUnitID, AttackUnit in pairs( self.AttackSetUnit:GetSet() ) do
+        local AttackUnit = AttackUnit -- Wrapper.Unit#UNIT
+        self:T( { "Intercepting Unit:", AttackUnit:GetName(), AttackUnit:IsAlive(), AttackUnit:IsAir() } )
+        if AttackUnit:IsAlive() and AttackUnit:IsAir() then
+          AttackTasks[#AttackTasks+1] = AIGroup:TaskAttackUnit( AttackUnit )
+        end
+      end
+  
+      --- Now we're going to do something special, we're going to call a function from a waypoint action at the AIControllable...
+      AIGroup:WayPointInitialize( EngageRoute )
+      
+      
+      if #AttackTasks == 0 then
+        self:E("No targets found -> Going RTB")
+        self:Return()
+        self:__RTB( 0.5 )
+      else
+        AttackTasks[#AttackTasks+1] = AIGroup:TaskFunction( 1, #AttackTasks, "AI_A2A_GCI.InterceptRoute" )
+        AttackTasks[#AttackTasks+1] = AIGroup:TaskOrbitCircle( 4000, self.EngageMinSpeed )
+        EngageRoute[1].task = AIGroup:TaskCombo( AttackTasks )
+        
+        --- Do a trick, link the NewEngageRoute function of the object to the AIControllable in a temporary variable ...
+        AIGroup:SetState( AIGroup, "EngageZone", self )
+      end
+      
+      --- NOW ROUTE THE GROUP!
+      AIGroup:WayPointExecute( 1, 0 )
+    
+    end
+  else
+    self:E("No targets found -> Going RTB")
+    self:Return()
+    self:__RTB( 0.5 )
+  end
+end
+
+--- @param #AI_A2A_GCI self
+-- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A_GCI:onafterAccomplish( AIGroup, From, Event, To )
+  self.Accomplished = true
+  self:SetDetectionOff()
+end
+
+--- @param #AI_A2A_GCI self
+-- @param Wrapper.Group#GROUP AIGroup The AIGroup Object managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+-- @param Core.Event#EVENTDATA EventData
+function AI_A2A_GCI:onafterDestroy( AIGroup, From, Event, To, EventData )
+
+  if EventData.IniUnit then
+    self.AttackUnits[EventData.IniUnit] = nil
+  end
+end
+
+--- @param #AI_A2A_GCI self
+-- @param Core.Event#EVENTDATA EventData
+function AI_A2A_GCI:OnEventDead( EventData )
+  self:F( { "EventDead", EventData } )
+
+  if EventData.IniDCSUnit then
+    if self.AttackUnits and self.AttackUnits[EventData.IniUnit] then
+      self:__Destroy( 1, EventData )
+    end
+  end  
+end
+--- **AI** - The AI_A2A_DISPATCHER creates an automatic A2A defense system based on an EWR network targets and coordinating CAP and GCI.
+-- 
+-- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia1.JPG)
+-- 
+-- ====
+-- 
+-- ### Authors: **Sven Van de Velde (FlightControl)** rework of GCICAP + introduction of new concepts (squadrons).
+-- ### Authors: **Stonehouse**, **SNAFU** in terms of the advice, documentation, and the original GCICAP script.
+-- 
+-- ### Contributions: 
+-- 
+-- ====
+-- 
+-- @module AI_A2A_Dispatcher
+
+--BASE:TraceClass("AI_A2A_DISPATCHER")
+
+do -- AI_A2A_DISPATCHER
+
+  --- AI_A2A_DISPATCHER class.
+  -- @type AI_A2A_DISPATCHER
+  -- @extends Tasking.DetectionManager#DETECTION_MANAGER
+
+  --- # AI\_A2A\_DISPATCHER class, extends @{Tasking#DETECTION_MANAGER}
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia1.JPG)
+  -- 
+  -- The @{#AI_A2A_DISPATCHER} class is designed to create an automatic air defence system for a coalition. 
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia3.JPG)
+  -- 
+  -- It includes automatic spawning of Combat Air Patrol aircraft (CAP) and Ground Controlled Intercept aircraft (GCI) in response to enemy air movements that are detected by a ground based radar network. 
+  -- CAP flights will take off and proceed to designated CAP zones where they will remain on station until the ground radars direct them to intercept detected enemy aircraft or they run short of fuel and must return to base (RTB). When a CAP flight leaves their zone to perform an interception or return to base a new CAP flight will spawn to take their place.
+  -- If all CAP flights are engaged or RTB then additional GCI interceptors will scramble to intercept unengaged enemy aircraft under ground radar control.
+  -- With a little time and with a little work it provides the mission designer with a convincing and completely automatic air defence system. 
+  -- In short it is a plug in very flexible and configurable air defence module for DCS World.
+  -- 
+  -- Note that in order to create a two way A2A defense system, two AI\_A2A\_DISPATCHER defense system may need to be created, for each coalition one.
+  -- This is a good implementation, because maybe in the future, more coalitions may become available in DCS world.
+  -- 
+  -- ## 1. AI\_A2A\_DISPATCHER constructor:
+  -- 
+  -- The @{#AI_A2A_DISPATCHER.New}() method creates a new AI\_A2A\_DISPATCHER instance.
+  -- 
+  -- ### 1.1. Define the **EWR network**:
+  -- 
+  -- As part of the AI\_A2A\_DISPATCHER constructor, an EWR network must be given as the first parameter.
+  -- An EWR network, or, Early Warning Radar network, is used to early detect potential airborne targets and to understand the position of patrolling targets of the enemy.
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia5.JPG)
+  -- 
+  -- Typically EWR networks are setup using 55G6 EWR, 1L13 EWR, Hawk sr and Patriot str ground based radar units. 
+  -- These radars have different ranges and 55G6 EWR and 1L13 EWR radars are Eastern Bloc units (eg Russia, Ukraine, Georgia) while the Hawk and Patriot radars are Western (eg US).
+  -- Additionally, ANY other radar capable unit can be part of the EWR network! Also AWACS airborne units, planes, helicopters can help to detect targets, as long as they have radar.
+  -- The position of these units is very important as they need to provide enough coverage 
+  -- to pick up enemy aircraft as they approach so that CAP and GCI flights can be tasked to intercept them.
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia7.JPG)
+  --  
+  -- Additionally in a hot war situation where the border is no longer respected the placement of radars has a big effect on how fast the war escalates. 
+  -- For example if they are a long way forward and can detect enemy planes on the ground and taking off 
+  -- they will start to vector CAP and GCI flights to attack them straight away which will immediately draw a response from the other coalition. 
+  -- Having the radars further back will mean a slower escalation because fewer targets will be detected and 
+  -- therefore less CAP and GCI flights will spawn and this will tend to make just the border area active rather than a melee over the whole map. 
+  -- It all depends on what the desired effect is. 
+  -- 
+  -- EWR networks are **dynamically constructed**, that is, they form part of the @{Functional#DETECTION_BASE} object that is given as the input parameter of the AI\_A2A\_DISPATCHER class.
+  -- By defining in a **smart way the names or name prefixes of the groups** with EWR capable units, these groups will be **automatically added or deleted** from the EWR network, 
+  -- increasing or decreasing the radar coverage of the Early Warning System.
+  -- 
+  -- See the following example to setup an EWR network containing EWR stations and AWACS.
+  -- 
+  --     -- Define a SET_GROUP object that builds a collection of groups that define the EWR network.
+  --     -- Here we build the network with all the groups that have a name starting with DF CCCP AWACS and DF CCCP EWR.
+  --     DetectionSetGroup = SET_GROUP:New()
+  --     DetectionSetGroup:FilterPrefixes( { "DF CCCP AWACS", "DF CCCP EWR" } )
+  --     DetectionSetGroup:FilterStart()
+  --     
+  --     -- Setup the detection.
+  --     Detection = DETECTION_AREAS:New( DetectionSetGroup, 30000 )
+  --
+  --     -- Setup the A2A dispatcher, and initialize it.
+  --     A2ADispatcher = AI_A2A_DISPATCHER:New( Detection )
+  -- 
+  -- The above example creates a SET_GROUP instance, and stores this in the variable (object) **DetectionSetGroup**.
+  -- **DetectionSetGroup** is then being configured to filter all active groups with a group name starting with **DF CCCP AWACS** or **DF CCCP EWR** to be included in the Set.
+  -- **DetectionSetGroup** is then being ordered to start the dynamic filtering. Note that any destroy or new spawn of a group with the above names will be removed or added to the Set.
+  -- Then a new Detection object is created from the class DETECTION_AREAS. A grouping radius of 30000 is choosen, which is 30km.
+  -- The **Detection** object is then passed to the @{#AI_A2A_DISPATCHER.New}() method to indicate the EWR network configuration and setup the A2A defense detection mechanism.
+  -- 
+  -- ### 2. Define the detected **target grouping radius**:
+  -- 
+  -- The target grouping radius is a property of the Detection object, that was passed to the AI\_A2A\_DISPATCHER object, but can be changed.
+  -- The grouping radius should not be too small, but also depends on the types of planes and the era of the simulation.
+  -- Fast planes like in the 80s, need a larger radius than WWII planes.  
+  -- Typically I suggest to use 30000 for new generation planes and 10000 for older era aircraft.
+  -- 
+  -- Note that detected targets are constantly re-grouped, that is, when certain detected aircraft are moving further than the group radius, then these aircraft will become a separate
+  -- group being detected. This may result in additional GCI being started by the dispatcher! So don't make this value too small!
+  -- 
+  -- ## 3. Set the **Engage radius**:
+  -- 
+  -- Define the radius to engage any target by airborne friendlies, which are executing cap or returning from an intercept mission.
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia10.JPG)
+  -- 
+  -- So, if there is a target area detected and reported, 
+  -- then any friendlies that are airborne near this target area, 
+  -- will be commanded to (re-)engage that target when available (if no other tasks were commanded).
+  -- For example, if 100000 is given as a value, then any friendly that is airborne within 100km from the detected target, 
+  -- will be considered to receive the command to engage that target area.
+  -- You need to evaluate the value of this parameter carefully.
+  -- If too small, more intercept missions may be triggered upon detected target areas.
+  -- If too large, any airborne cap may not be able to reach the detected target area in time, because it is too far.
+  -- 
+  -- ## 4. Set the **Intercept radius** or **Gci radius**:
+  -- 
+  -- When targets are detected that are still really far off, you don't want the AI_A2A_DISPATCHER to launch intercepts just yet.
+  -- You want it to wait until a certain intercept range is reached, which is the distance of the closest airbase to targer being smaller than the **Gci radius**.
+  -- The Gci radius is by default defined as 200km. This value can be overridden using the method @{#AI_A2A_DISPATCHER.SetGciRadius}().
+  -- Override the default Gci radius when the era of the warfare is early, or, when you don't want to let the AI_A2A_DISPATCHER react immediately when
+  -- a certain border or area is not being crossed.
+  -- 
+  -- ## 5. Set the **borders**:
+  -- 
+  -- According to the tactical and strategic design of the mission broadly decide the shape and extent of red and blue territories. 
+  -- They should be laid out such that a border area is created between the two coalitions.
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia4.JPG)
+  -- 
+  -- Define a border area to simulate a **cold war** scenario and use the method @{#AI_A2A_DISPATCHER.SetBorderZone}() to create a border zone for the dispatcher.
+  -- 
+  -- A **cold war** is one where CAP aircraft patrol their territory but will not attack enemy aircraft or launch GCI aircraft unless enemy aircraft enter their territory. In other words the EWR may detect an enemy aircraft but will only send aircraft to attack it if it crosses the border.
+  -- A **hot war** is one where CAP aircraft will intercept any detected enemy aircraft and GCI aircraft will launch against detected enemy aircraft without regard for territory. In other words if the ground radar can detect the enemy aircraft then it will send CAP and GCI aircraft to attack it.
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia9.JPG)
+  -- 
+  -- If it’s a cold war then the **borders of red and blue territory** need to be defined using a @{zone} object derived from @{Zone#ZONE_BASE}.
+  -- If a hot war is chosen then **no borders** actually need to be defined using the helicopter units other than 
+  -- it makes it easier sometimes for the mission maker to envisage where the red and blue territories roughly are. 
+  -- In a hot war the borders are effectively defined by the ground based radar coverage of a coalition.
+  -- 
+  -- ## 6. Squadrons: 
+  -- 
+  -- The AI\_A2A\_DISPATCHER works with **Squadrons**, that need to be defined using the different methods available.
+  -- 
+  -- Use the method @{#AI_A2A_DISPATCHER.SetSquadron}() to **setup a new squadron** active at an airfield, 
+  -- while defining which plane types are being used by the squadron and how many resources are available.
+  -- 
+  -- Squadrons:
+  -- 
+  --   * Have name (string) that is the identifier or key of the squadron.
+  --   * Have specific plane types.
+  --   * Are located at one airbase.
+  --   * Have a limited set of resources.
+  -- 
+  -- The name of the squadron given acts as the **squadron key** in the AI\_A2A\_DISPATCHER:Squadron...() methods.
+  -- 
+  -- Additionally, squadrons have specific configuration options to:
+  -- 
+  --   * Control how new aircraft are taking off from the airfield (in the air, cold, hot, at the runway).
+  --   * Control how returning aircraft are landing at the airfield (in the air near the airbase, after landing, after engine shutdown).
+  --   * Control the **grouping** of new aircraft spawned at the airfield. If there is more than one aircraft to be spawned, these may be grouped.
+  --   * Control the **overhead** or defensive strength of the squadron. Depending on the types of planes and amount of resources, the mission designer can choose to increase or reduce the amount of planes spawned.
+  --   
+  -- For performance and bug workaround reasons within DCS, squadrons have different methods to spawn new aircraft or land returning or damaged aircraft.
+  -- 
+  -- 
+  -- ### 6.1. Set squadron take-off methods
+  -- 
+  -- Use the various SetSquadronTakeoff... methods to control how squadrons are taking-off from the airfield:
+  -- 
+  --   * @{#AI_A2A_DISPATCHER.SetSquadronTakeoff}() is the generic configuration method to control takeoff from the air, hot, cold or from the runway. See the method for further details.
+  --   * @{#AI_A2A_DISPATCHER.SetSquadronTakeoffInAir}() will spawn new aircraft from the squadron directly in the air.
+  --   * @{#AI_A2A_DISPATCHER.SetSquadronTakeoffFromParkingCold}() will spawn new aircraft in without running engines at a parking spot at the airfield.
+  --   * @{#AI_A2A_DISPATCHER.SetSquadronTakeoffFromParkingHot}() will spawn new aircraft in with running engines at a parking spot at the airfield.
+  --   * @{#AI_A2A_DISPATCHER.SetSquadronTakeoffFromRunway}() will spawn new aircraft at the runway at the airfield.
+  -- 
+  -- Use these methods to fine-tune for specific airfields that are known to create bottlenecks, or have reduced airbase efficiency.
+  -- The more and the longer aircraft need to taxi at an airfield, the more risk there is that:
+  -- 
+  --   * aircraft will stop waiting for each other or for a landing aircraft before takeoff.
+  --   * aircraft may get into a "dead-lock" situation, where two aircraft are blocking each other.
+  --   * aircraft may collide at the airbase.
+  --   * aircraft may be awaiting the landing of a plane currently in the air, but never lands ...
+  --   
+  -- Currently within the DCS engine, the airfield traffic coordination is erroneous and contains a lot of bugs.
+  -- If you experience while testing problems with aircraft take-off or landing, please use one of the above methods as a solution to workaround these issues!
+  -- 
+  -- ### 6.2. Set squadron landing methods
+  -- 
+  -- In analogy with takeoff, the landing methods are to control how squadrons land at the airfield:
+  -- 
+  --   * @{#AI_A2A_DISPATCHER.SetSquadronLanding}() is the generic configuration method to control landing, namely despawn the aircraft near the airfield in the air, right after landing, or at engine shutdown.
+  --   * @{#AI_A2A_DISPATCHER.SetSquadronLandingNearAirbase}() will despawn the returning aircraft in the air when near the airfield.
+  --   * @{#AI_A2A_DISPATCHER.SetSquadronLandingAtRunway}() will despawn the returning aircraft directly after landing at the runway.
+  --   * @{#AI_A2A_DISPATCHER.SetSquadronLandingAtEngineShutdown}() will despawn the returning aircraft when the aircraft has returned to its parking spot and has turned off its engines.
+  -- 
+  -- You can use these methods to minimize the airbase coodination overhead and to increase the airbase efficiency.
+  -- When there are lots of aircraft returning for landing, at the same airbase, the takeoff process will be halted, which can cause a complete failure of the
+  -- A2A defense system, as no new CAP or GCI planes can takeoff.
+  -- Note that the method @{#AI_A2A_DISPATCHER.SetSquadronLandingNearAirbase}() will only work for returning aircraft, not for damaged or out of fuel aircraft.
+  -- Damaged or out-of-fuel aircraft are returning to the nearest friendly airbase and will land, and are out of control from ground control.
+  -- 
+  -- ### 6.3. Set squadron grouping
+  -- 
+  -- Use the method @{#AI_A2A_DISPATCHER.SetSquadronGrouping}() to set the amount of CAP or GCI flights that will take-off when spawned.
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia12.JPG)
+  -- 
+  -- In the case of GCI, the @{#AI_A2A_DISPATCHER.SetSquadronGrouping}() method has additional behaviour. When there aren't enough CAP flights airborne, a GCI will be initiated for the remaining
+  -- targets to be engaged. Depending on the grouping parameter, the spawned flights for GCI are grouped into this setting.   
+  -- For example with a group setting of 2, if 3 targets are detected and cannot be engaged by CAP or any airborne flight, 
+  -- a GCI needs to be started, the GCI flights will be grouped as follows: Group 1 of 2 flights and Group 2 of one flight!
+  -- 
+  -- The **grouping value is set for a Squadron**, and can be **dynamically adjusted** during mission execution, so to adjust the defense flights grouping when the tactical situation changes.
+  -- 
+  -- ### 6.4. Balance or setup effectiveness of the air defenses in case of GCI
+  -- 
+  -- The effectiveness can be set with the **overhead parameter**. This is a number that is used to calculate the amount of Units that dispatching command will allocate to GCI in surplus of detected amount of units.
+  -- The **default value** of the overhead parameter is 1.0, which means **equal balance**. 
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia11.JPG)
+  -- 
+  -- However, depending on the (type of) aircraft (strength and payload) in the squadron and the amount of resources available, this parameter can be changed.
+  -- 
+  -- The @{#AI_A2A_DISPATCHER.SetOverhead}() method can be used to tweak the defense strength,
+  -- taking into account the plane types of the squadron. 
+  -- 
+  -- For example, a MIG-31 with full long-distance A2A missiles payload, may still be less effective than a F-15C with short missiles...
+  -- So in this case, one may want to use the @{#AI_A2A_DISPATCHER.SetOverhead}() method to allocate more defending planes as the amount of detected attacking planes.
+  -- The overhead must be given as a decimal value with 1 as the neutral value, which means that overhead values: 
+  -- 
+  --   * Higher than 1.0, for example 1.5, will increase the defense unit amounts. For 4 planes detected, 6 planes will be spawned.
+  --   * Lower than 1, for example 0.75, will decrease the defense unit amounts. For 4 planes detected, only 3 planes will be spawned.
+  -- 
+  -- The amount of defending units is calculated by multiplying the amount of detected attacking planes as part of the detected group 
+  -- multiplied by the Overhead and rounded up to the smallest integer. 
+  -- 
+  -- The **overhead value is set for a Squadron**, and can be **dynamically adjusted** during mission execution, so to adjust the defense overhead when the tactical situation changes.
+  --
+  -- ## 7. Setup a squadron for CAP
+  -- 
+  -- ### 7.1. Set the CAP zones
+  -- 
+  -- CAP zones are patrol areas where Combat Air Patrol (CAP) flights loiter until they either return to base due to low fuel or are assigned an interception task by ground control.
+  --   
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia6.JPG)
+  -- 
+  --   * As the CAP flights wander around within the zone waiting to be tasked, these zones need to be large enough that the aircraft are not constantly turning 
+  --   but do not have to be big and numerous enough to completely cover a border.
+  --   
+  --   * CAP zones can be of any type, and are derived from the @{Zone#ZONE_BASE} class. Zones can be @{Zone#ZONE}, @{Zone#ZONE_POLYGON}, @{Zone#ZONE_UNIT}, @{Zone#ZONE_GROUP}, etc.
+  --   This allows to setup **static, moving and/or complex zones** wherein aircraft will perform the CAP.
+  --   
+  --   * Typically 20000-50000 metres width is used and they are spaced so that aircraft in the zone waiting for tasks don’t have to far to travel to protect their coalitions important targets. 
+  --   These targets are chosen as part of the mission design and might be an important airfield or town etc. 
+  --   Zone size is also determined somewhat by territory size, plane types 
+  --   (eg WW2 aircraft might mean smaller zones or more zones because they are slower and take longer to intercept enemy aircraft).
+  --   
+  --   * In a **cold war** it is important to make sure a CAP zone doesn’t intrude into enemy territory as otherwise CAP flights will likely cross borders 
+  --   and spark a full scale conflict which will escalate rapidly.
+  --   
+  --   * CAP flights do not need to be in the CAP zone before they are “on station” and ready for tasking. 
+  --   
+  --   * Typically if a CAP flight is tasked and therefore leaves their zone empty while they go off and intercept their target another CAP flight will spawn to take their place.
+  --  
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia7.JPG)
+  -- 
+  -- The following example illustrates how CAP zones are coded:
+  -- 
+  --      -- CAP Squadron execution.
+  --      CAPZoneEast = ZONE_POLYGON:New( "CAP Zone East", GROUP:FindByName( "CAP Zone East" ) )
+  --      A2ADispatcher:SetSquadronCap( "Mineralnye", CAPZoneEast, 4000, 10000, 500, 600, 800, 900 )
+  --      A2ADispatcher:SetSquadronCapInterval( "Mineralnye", 2, 30, 60, 1 )
+  --        
+  --      CAPZoneWest = ZONE_POLYGON:New( "CAP Zone West", GROUP:FindByName( "CAP Zone West" ) )
+  --      A2ADispatcher:SetSquadronCap( "Sochi", CAPZoneWest, 4000, 8000, 600, 800, 800, 1200, "BARO" )
+  --      A2ADispatcher:SetSquadronCapInterval( "Sochi", 2, 30, 120, 1 )
+  --        
+  --      CAPZoneMiddle = ZONE:New( "CAP Zone Middle")
+  --      A2ADispatcher:SetSquadronCap( "Maykop", CAPZoneMiddle, 4000, 8000, 600, 800, 800, 1200, "RADIO" )
+  --      A2ADispatcher:SetSquadronCapInterval( "Sochi", 2, 30, 120, 1 )
+  --  
+  -- Note the different @{Zone} MOOSE classes being used to create zones of different types. Please click the @{Zone} link for more information about the different zone types.
+  -- Zones can be circles, can be setup in the mission editor using trigger zones, but can also be setup in the mission editor as polygons and in this case GROUP objects are being used!
+  -- 
+  -- ## 7.2. Set the squadron to execute CAP:
+  --      
+  -- The method @{#AI_A2A_DISPATCHER.SetSquadronCap}() defines a CAP execution for a squadron.
+  -- 
+  -- Setting-up a CAP zone also requires specific parameters:
+  -- 
+  --   * The minimum and maximum altitude
+  --   * The minimum speed and maximum patrol speed
+  --   * The minimum and maximum engage speed
+  --   * The type of altitude measurement
+  -- 
+  -- These define how the squadron will perform the CAP while partrolling. Different terrain types requires different types of CAP. 
+  -- 
+  -- The @{#AI_A2A_DISPATCHER.SetSquadronCapInterval}() method specifies **how much** and **when** CAP flights will takeoff.
+  -- 
+  -- It is recommended not to overload the air defense with CAP flights, as these will decrease the performance of the overall system. 
+  -- 
+  -- For example, the following setup will create a CAP for squadron "Sochi":
+  -- 
+  --    A2ADispatcher:SetSquadronCap( "Sochi", CAPZoneWest, 4000, 8000, 600, 800, 800, 1200, "BARO" )
+  --    A2ADispatcher:SetSquadronCapInterval( "Sochi", 2, 30, 120, 1 )
+  -- 
+  -- ## 8. Setup a squadron for GCI:
+  -- 
+  -- The method @{#AI_A2A_DISPATCHER.SetSquadronGci}() defines a GCI execution for a squadron.
+  -- 
+  -- Setting-up a GCI readiness also requires specific parameters:
+  -- 
+  --   * The minimum speed and maximum patrol speed
+  -- 
+  -- Essentially this controls how many flights of GCI aircraft can be active at any time.
+  -- Note allowing large numbers of active GCI flights can adversely impact mission performance on low or medium specification hosts/servers.
+  -- GCI needs to be setup at strategic airbases. Too far will mean that the aircraft need to fly a long way to reach the intruders, 
+  -- too short will mean that the intruders may have alraedy passed the ideal interception point!
+  -- 
+  -- For example, the following setup will create a GCI for squadron "Sochi":
+  -- 
+  --    A2ADispatcher:SetSquadronGci( "Mozdok", 900, 1200 )
+  -- 
+  -- ## 9. Other configuration options
+  -- 
+  -- ### 9.1. Set a tactical display panel:
+  -- 
+  -- Every 30 seconds, a tactical display panel can be shown that illustrates what the status is of the different groups controlled by AI\_A2A\_DISPATCHER.
+  -- Use the method @{#AI_A2A_DISPATCHER.SetTacticalDisplay}() to switch on the tactical display panel. The default will not show this panel.
+  -- Note that there may be some performance impact if this panel is shown.
+  -- 
+  -- ## 10. Mission Editor Guide:
+  -- 
+  -- The following steps need to be followed, in order to setup the different borders, templates and groups within the mission editor:
+  -- 
+  -- ### 10.1. Define your EWR network:
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia14.JPG)
+  -- 
+  -- At strategic positions within the battlefield, position the correct groups of units that have radar detection capability in the battlefield.
+  -- Create the naming of these groups as such, that these can be easily recognized and included as a prefix within your lua MOOSE mission script.
+  -- These prefixes should be unique, so that accidentally no other groups would be incorporated within the EWR network.
+  -- 
+  -- ### 10.2. Define the border zone:
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia15.JPG)
+  -- 
+  -- For a cold war situation, define your border zone.
+  -- You can do this in many ways, as the @{Zone} capability within MOOSE outlines. However, the best practice is to create a ZONE_POLYGON class.
+  -- To do this, you need to create a zone using a helicopter group, that is late activated, and has a unique group name.
+  -- Place the helicopter where the border zone should start, and draw using the waypoints the polygon zone around the area that is considered the border.
+  -- The helicopter group name is included as the reference within your lua MOOSE mission script, so ensure that the name is unique and is easily recognizable.
+  -- 
+  -- ### 10.3. Define the plane templates:
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia16.JPG)
+  -- 
+  -- Define the templates of the planes that define the format of planes that will take part in the A2A defenses of your coalition.
+  -- These plane templates will never be activated, but are used to create a diverse airplane portfolio allocated to your squadrons.
+  -- 
+  -- IMPORTANT! **Plane templates MUST be of ONE unit, and must have the Late Activated flag switched on!**
+  -- 
+  -- Plane templates are used to diversify the defending squadrons with:
+  -- 
+  --   * different airplane types
+  --   * different airplane skins
+  --   * different skill levels
+  --   * different weapon payloads
+  --   * different fuel and other characteristics
+  --   
+  -- Place these airplane templates are good visible locations within your mission, so you can easily retrieve them back.
+  -- 
+  -- ### 10.4. Define the CAP zones:
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia17.JPG)
+  -- 
+  -- Similar as with the border zone, define the CAP zones using helicopter group templates. Its waypoints define the polygon zones. 
+  -- But you can also define other zone types instead, like moving zones.
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia18.JPG)
+  -- 
+  -- Or you can define also zones using trigger zones.
+  -- 
+  -- ### 10.5. "Script it":
+  -- 
+  -- Find the following mission script as an example:
+  -- 
+  --        -- Define a SET_GROUP object that builds a collection of groups that define the EWR network.
+  --        -- Here we build the network with all the groups that have a name starting with DF CCCP AWACS and DF CCCP EWR.
+  --        DetectionSetGroup = SET_GROUP:New()
+  --        DetectionSetGroup:FilterPrefixes( { "DF CCCP AWACS", "DF CCCP EWR" } )
+  --        DetectionSetGroup:FilterStart()
+  --        
+  --        -- Here we define detection to be done by area, with a grouping radius of 3000.
+  --        Detection = DETECTION_AREAS:New( DetectionSetGroup, 30000 )
+  --        
+  --        -- Setup the A2A dispatcher, and initialize it.
+  --        A2ADispatcher = AI_A2A_DISPATCHER:New( Detection )
+  --        
+  -- 
+  --        
+  --        -- Initialize the dispatcher, setting up a border zone. This is a polygon, 
+  --        -- which takes the waypoints of a late activated group with the name CCCP Border as the boundaries of the border area.
+  --        -- Any enemy crossing this border will be engaged.
+  --        CCCPBorderZone = ZONE_POLYGON:New( "CCCP Border", GROUP:FindByName( "CCCP Border" ) )
+  --        A2ADispatcher:SetBorderZone( { CCCPBorderZone } )
+  --        
+  --        -- Initialize the dispatcher, setting up a radius of 100km where any airborne friendly 
+  --        -- without an assignment within 100km radius from a detected target, will engage that target.
+  --        A2ADispatcher:SetEngageRadius( 300000 )
+  --        
+  --        -- Setup the squadrons.
+  --        A2ADispatcher:SetSquadron( "Mineralnye", AIRBASE.Caucasus.Mineralnye_Vody, { "SQ CCCP SU-27" }, 20 )
+  --        A2ADispatcher:SetSquadron( "Maykop", AIRBASE.Caucasus.Maykop_Khanskaya, { "SQ CCCP MIG-31" }, 20 )
+  --        A2ADispatcher:SetSquadron( "Mozdok", AIRBASE.Caucasus.Mozdok, { "SQ CCCP MIG-31" }, 20 )
+  --        A2ADispatcher:SetSquadron( "Sochi", AIRBASE.Caucasus.Sochi_Adler, { "SQ CCCP SU-27" }, 20 )
+  --        A2ADispatcher:SetSquadron( "Novo", AIRBASE.Caucasus.Novorossiysk, { "SQ CCCP SU-27" }, 20 )
+  --        
+  --        -- Setup the overhead
+  --        A2ADispatcher:SetSquadronOverhead( "Mineralnye", 1.2 )
+  --        A2ADispatcher:SetSquadronOverhead( "Maykop", 1 )
+  --        A2ADispatcher:SetSquadronOverhead( "Mozdok", 1.5 )
+  --        A2ADispatcher:SetSquadronOverhead( "Sochi", 1 )
+  --        A2ADispatcher:SetSquadronOverhead( "Novo", 1 )
+  --        
+  --        -- Setup the Grouping
+  --        A2ADispatcher:SetSquadronGrouping( "Mineralnye", 2 )
+  --        A2ADispatcher:SetSquadronGrouping( "Sochi", 2 )
+  --        A2ADispatcher:SetSquadronGrouping( "Novo", 3 )
+  --        
+  --        -- Setup the Takeoff methods
+  --        A2ADispatcher:SetSquadronTakeoff( "Mineralnye", AI_A2A_DISPATCHER.Takeoff.Air )
+  --        A2ADispatcher:SetSquadronTakeoffInAir( "Sochi" )
+  --        A2ADispatcher:SetSquadronTakeoffFromRunway( "Mozdok" )
+  --        A2ADispatcher:SetSquadronTakeoffFromParkingCold( "Maykop" )
+  --        A2ADispatcher:SetSquadronTakeoffFromParkingHot( "Novo" )
+  --        
+  --        -- Setup the Landing methods
+  --        A2ADispatcher:SetSquadronLandingAtRunway( "Mineralnye" )
+  --        A2ADispatcher:SetSquadronLandingNearAirbase( "Sochi" )
+  --        A2ADispatcher:SetSquadronLandingAtEngineShutdown( "Mozdok" )
+  --        A2ADispatcher:SetSquadronLandingNearAirbase( "Maykop" )
+  --        A2ADispatcher:SetSquadronLanding( "Novo", AI_A2A_DISPATCHER.Landing.AtRunway )
+  --        
+  --        
+  --        -- CAP Squadron execution.
+  --        CAPZoneEast = ZONE_POLYGON:New( "CAP Zone East", GROUP:FindByName( "CAP Zone East" ) )
+  --        A2ADispatcher:SetSquadronCap( "Mineralnye", CAPZoneEast, 4000, 10000, 500, 600, 800, 900 )
+  --        A2ADispatcher:SetSquadronCapInterval( "Mineralnye", 2, 30, 60, 1 )
+  --        
+  --        CAPZoneWest = ZONE_POLYGON:New( "CAP Zone West", GROUP:FindByName( "CAP Zone West" ) )
+  --        A2ADispatcher:SetSquadronCap( "Sochi", CAPZoneWest, 4000, 8000, 600, 800, 800, 1200, "BARO" )
+  --        A2ADispatcher:SetSquadronCapInterval( "Sochi", 2, 30, 120, 1 )
+  --        
+  --        CAPZoneMiddle = ZONE:New( "CAP Zone Middle")
+  --        A2ADispatcher:SetSquadronCap( "Maykop", CAPZoneMiddle, 4000, 8000, 600, 800, 800, 1200, "RADIO" )
+  --        A2ADispatcher:SetSquadronCapInterval( "Sochi", 2, 30, 120, 1 )
+  --        
+  --        -- GCI Squadron execution.
+  --        A2ADispatcher:SetSquadronGci( "Mozdok", 900, 1200 )
+  --        A2ADispatcher:SetSquadronGci( "Novo", 900, 2100 )
+  --        A2ADispatcher:SetSquadronGci( "Maykop", 900, 1200 )
+  -- 
+  -- #### 10.5.1. Script the EWR network
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia20.JPG)
+  -- 
+  -- #### 10.5.2. Script the AI\_A2A\_DISPATCHER object and configure it
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia21.JPG)
+  -- 
+  -- #### 10.5.3. Script the squadrons
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia22.JPG)
+  -- 
+  -- Create the squadrons using the @{#AI_A2A_DISPATCHER.SetSquadron)() method.
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia23.JPG)
+  -- 
+  -- Define the defense overhead of the squadrons using the @{#AI_A2A_DISPATCHER.SetSquadronOverhead)() method.
+  -- Group the squadron units using the @{#AI_A2A_DISPATCHER.SetSquadronGrouping)() method.
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia24.JPG)
+  -- 
+  -- Set the takeoff method of the squadron using the @{#AI_A2A_DISPATCHER.SetSquadronTakeoff)() methods.
+  -- Set the landing method of the squadron using the @{#AI_A2A_DISPATCHER.SetSquadronLanding)() methods.
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia25.JPG)
+  -- 
+  -- Create the @{Zone} objects using:
+  -- 
+  --   * @{Zone#ZONE} class to create a zone using a trigger zone set in the mission editor.
+  --   * @{Zone#ZONE_UNIT} class to create a zone around a unit object.
+  --   * @{Zone#ZONE_GROUP} class to create a zone around a group object.
+  --   * @{Zone#ZONE_POLYGON} class to create a polygon zone using a late activated group object.
+  -- 
+  -- Use the @{#AI_A2A_DISPATCHER.SetSquadronCap)() method to define CAP execution for the squadron, within the CAP zone defined.
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia26.JPG)
+  -- 
+  -- Use the @{#AI_A2A_DISPATCHER.SetSquadronCapInterval)() method to define how many CAP groups can be airborne at the same time, and the timing intervals.
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia27.JPG)
+  -- 
+  -- Use the @{#AI_A2A_DISPATCHER.SetSquadronGci)() method to define GCI execution for the squadron.
+  -- 
+  -- ## 11. Q & A:
+  -- 
+  -- ### 11.1. Which countries will be selected for each coalition?
+  -- 
+  -- Which countries are assigned to a coalition influences which units are available to the coalition. 
+  -- For example because the mission calls for a EWR radar on the blue side the Ukraine might be chosen as a blue country 
+  -- so that the 55G6 EWR radar unit is available to blue.  
+  -- Some countries assign different tasking to aircraft, for example Germany assigns the CAP task to F-4E Phantoms but the USA does not.  
+  -- Therefore if F4s are wanted as a coalition’s CAP or GCI aircraft Germany will need to be assigned to that coalition. 
+  -- 
+  -- ### 11.2. Country, type, load out, skill and skins for CAP and GCI aircraft?
+  -- 
+  --   * Note these can be from any countries within the coalition but must be an aircraft with one of the main tasks being “CAP”.
+  --   * Obviously skins which are selected must be available to all players that join the mission otherwise they will see a default skin.
+  --   * Load outs should be appropriate to a CAP mission eg perhaps drop tanks for CAP flights and extra missiles for GCI flights. 
+  --   * These decisions will eventually lead to template aircraft units being placed as late activation units that the script will use as templates for spawning CAP and GCI flights. Up to 4 different aircraft configurations can be chosen for each coalition. The spawned aircraft will inherit the characteristics of the template aircraft.
+  --   * The selected aircraft type must be able to perform the CAP tasking for the chosen country. 
+  -- 
+  -- 
+  -- @field #AI_A2A_DISPATCHER
+  AI_A2A_DISPATCHER = {
+    ClassName = "AI_A2A_DISPATCHER",
+    Detection = nil,
+  }
+
+
+  --- Enumerator for spawns at airbases
+  -- @type AI_A2A_DISPATCHER.Takeoff
+  -- @extends Wrapper.Group#GROUP.Takeoff
+  
+  --- @field #AI_A2A_DISPATCHER.Takeoff Takeoff
+  AI_A2A_DISPATCHER.Takeoff = GROUP.Takeoff
+  
+  --- Defnes Landing location.
+  -- @field Landing
+  AI_A2A_DISPATCHER.Landing = {
+    NearAirbase = 1,
+    AtRunway = 2,
+    AtEngineShutdown = 3,
+  }
+  
+  --- AI_A2A_DISPATCHER constructor.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param Functional.Detection#DETECTION_BASE Detection The DETECTION object that will detects targets using the the Early Warning Radar network.
+  -- @param #number GroupingRadius The radius in meters wherein detected planes are being grouped as one target area. 
+  -- For airplanes, 6000 (6km) is recommended, and is also the default value of this parameter.
+  -- @return #AI_A2A_DISPATCHER self
+  -- @usage
+  --   
+  --   -- Set a new AI A2A Dispatcher object, based on an EWR network with a 6 km grouping radius.
+  --   
+  -- 
+  function AI_A2A_DISPATCHER:New( Detection )
+
+    -- Inherits from DETECTION_MANAGER
+    local self = BASE:Inherit( self, DETECTION_MANAGER:New( nil, Detection ) ) -- #AI_A2A_DISPATCHER
+    
+    self.Detection = Detection -- Functional.Detection#DETECTION_AREAS
+    
+    -- This table models the DefenderSquadron templates.
+    self.DefenderSquadrons = {} -- The Defender Squadrons.
+    self.DefenderSpawns = {}
+    self.DefenderTasks = {} -- The Defenders Tasks.
+    
+    -- TODO: Check detection through radar.
+    self.Detection:FilterCategories( Unit.Category.AIRPLANE, Unit.Category.HELICOPTER )
+    --self.Detection:InitDetectRadar( true )
+    self.Detection:SetDetectionInterval( 30 )
+
+    self:SetEngageRadius()
+    self:SetGciRadius()
+    
+    self:AddTransition( "Started", "Assign", "Started" )
+    
+    --- OnAfter Transition Handler for Event Assign.
+    -- @function [parent=#AI_A2A_DISPATCHER] OnAfterAssign
+    -- @param #AI_A2A_DISPATCHER self
+    -- @param #string From The From State string.
+    -- @param #string Event The Event string.
+    -- @param #string To The To State string.
+    -- @param Tasking.Task_A2A#AI_A2A Task
+    -- @param Wrapper.Unit#UNIT TaskUnit
+    -- @param #string PlayerName
+    
+    self:AddTransition( "*", "CAP", "*" )
+
+    --- CAP Handler OnBefore for AI_A2A_DISPATCHER
+    -- @function [parent=#AI_A2A_DISPATCHER] OnBeforeCAP
+    -- @param #AI_A2A_DISPATCHER self
+    -- @param #string From
+    -- @param #string Event
+    -- @param #string To
+    -- @return #boolean
+    
+    --- CAP Handler OnAfter for AI_A2A_DISPATCHER
+    -- @function [parent=#AI_A2A_DISPATCHER] OnAfterCAP
+    -- @param #AI_A2A_DISPATCHER self
+    -- @param #string From
+    -- @param #string Event
+    -- @param #string To
+    
+    --- CAP Trigger for AI_A2A_DISPATCHER
+    -- @function [parent=#AI_A2A_DISPATCHER] CAP
+    -- @param #AI_A2A_DISPATCHER self
+    
+    --- CAP Asynchronous Trigger for AI_A2A_DISPATCHER
+    -- @function [parent=#AI_A2A_DISPATCHER] __CAP
+    -- @param #AI_A2A_DISPATCHER self
+    -- @param #number Delay
+    
+    self:AddTransition( "*", "GCI", "*" )
+
+    --- GCI Handler OnBefore for AI_A2A_DISPATCHER
+    -- @function [parent=#AI_A2A_DISPATCHER] OnBeforeGCI
+    -- @param #AI_A2A_DISPATCHER self
+    -- @param #string From
+    -- @param #string Event
+    -- @param #string To
+    -- @return #boolean
+    
+    --- GCI Handler OnAfter for AI_A2A_DISPATCHER
+    -- @function [parent=#AI_A2A_DISPATCHER] OnAfterGCI
+    -- @param #AI_A2A_DISPATCHER self
+    -- @param #string From
+    -- @param #string Event
+    -- @param #string To
+    
+    --- GCI Trigger for AI_A2A_DISPATCHER
+    -- @function [parent=#AI_A2A_DISPATCHER] GCI
+    -- @param #AI_A2A_DISPATCHER self
+    
+    --- GCI Asynchronous Trigger for AI_A2A_DISPATCHER
+    -- @function [parent=#AI_A2A_DISPATCHER] __GCI
+    -- @param #AI_A2A_DISPATCHER self
+    -- @param #number Delay
+    
+    self:AddTransition( "*", "ENGAGE", "*" )
+        
+    --- ENGAGE Handler OnBefore for AI_A2A_DISPATCHER
+    -- @function [parent=#AI_A2A_DISPATCHER] OnBeforeENGAGE
+    -- @param #AI_A2A_DISPATCHER self
+    -- @param #string From
+    -- @param #string Event
+    -- @param #string To
+    -- @return #boolean
+    
+    --- ENGAGE Handler OnAfter for AI_A2A_DISPATCHER
+    -- @function [parent=#AI_A2A_DISPATCHER] OnAfterENGAGE
+    -- @param #AI_A2A_DISPATCHER self
+    -- @param #string From
+    -- @param #string Event
+    -- @param #string To
+    
+    --- ENGAGE Trigger for AI_A2A_DISPATCHER
+    -- @function [parent=#AI_A2A_DISPATCHER] ENGAGE
+    -- @param #AI_A2A_DISPATCHER self
+    
+    --- ENGAGE Asynchronous Trigger for AI_A2A_DISPATCHER
+    -- @function [parent=#AI_A2A_DISPATCHER] __ENGAGE
+    -- @param #AI_A2A_DISPATCHER self
+    -- @param #number Delay
+    
+    
+    -- Subscribe to the CRASH event so that when planes are shot
+    -- by a Unit from the dispatcher, they will be removed from the detection...
+    -- This will avoid the detection to still "know" the shot unit until the next detection.
+    -- Otherwise, a new intercept or engage may happen for an already shot plane!
+    
+    self:HandleEvent( EVENTS.Crash, self.OnEventCrashOrDead )
+    self:HandleEvent( EVENTS.Dead, self.OnEventCrashOrDead )
+    
+    self:HandleEvent( EVENTS.Land )
+    self:HandleEvent( EVENTS.EngineShutdown )
+    
+    self:SetTacticalDisplay( false )
+    
+    self:__Start( 5 )
+    
+    return self
+  end
+
+  --- @param #AI_A2A_DISPATCHER self
+  -- @param Core.Event#EVENTDATA EventData
+  function AI_A2A_DISPATCHER:OnEventCrashOrDead( EventData )
+    self.Detection:ForgetDetectedUnit( EventData.IniUnitName ) 
+  end
+
+  --- @param #AI_A2A_DISPATCHER self
+  -- @param Core.Event#EVENTDATA EventData
+  function AI_A2A_DISPATCHER:OnEventLand( EventData )
+    local DefenderUnit = EventData.IniUnit
+    local Defender = EventData.IniGroup
+    local Squadron = self:GetSquadronFromDefender( Defender )
+    if Squadron then
+      self:F( { SquadronName = Squadron.Name } )
+      local LandingMethod = self:GetSquadronLanding( Squadron.Name )
+      if LandingMethod == AI_A2A_DISPATCHER.Landing.AtRunway then
+        local DefenderSize = Defender:GetSize()
+        if DefenderSize == 1 then
+          self:RemoveDefenderFromSquadron( Squadron, Defender )
+        end
+        DefenderUnit:Destroy()
+        return
+      end
+      if DefenderUnit:GetLife() ~= DefenderUnit:GetLife0() then
+        -- Damaged units cannot be repaired anymore.
+        DefenderUnit:Destroy()
+        return
+      end        
+    end 
+  end
+  
+  --- @param #AI_A2A_DISPATCHER self
+  -- @param Core.Event#EVENTDATA EventData
+  function AI_A2A_DISPATCHER:OnEventEngineShutdown( EventData )
+    local DefenderUnit = EventData.IniUnit
+    local Defender = EventData.IniGroup
+    local Squadron = self:GetSquadronFromDefender( Defender )
+    if Squadron then
+      self:F( { SquadronName = Squadron.Name } )
+      local LandingMethod = self:GetSquadronLanding( Squadron.Name )
+      if LandingMethod == AI_A2A_DISPATCHER.Landing.AtEngineShutdown then
+        local DefenderSize = Defender:GetSize()
+        if DefenderSize == 1 then
+          self:RemoveDefenderFromSquadron( Squadron, Defender )
+        end
+        DefenderUnit:Destroy()
+      end
+    end 
+  end
+  
+  --- Define the radius to engage any target by airborne friendlies, which are executing cap or returning from an intercept mission.
+  -- So, if there is a target area detected and reported, 
+  -- then any friendlies that are airborne near this target area, 
+  -- will be commanded to (re-)engage that target when available (if no other tasks were commanded).
+  -- For example, if 100000 is given as a value, then any friendly that is airborne within 100km from the detected target, 
+  -- will be considered to receive the command to engage that target area.
+  -- You need to evaluate the value of this parameter carefully.
+  -- If too small, more intercept missions may be triggered upon detected target areas.
+  -- If too large, any airborne cap may not be able to reach the detected target area in time, because it is too far.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #number EngageRadius (Optional, Default = 100000) The radius to report friendlies near the target.
+  -- @return #AI_A2A_DISPATCHER
+  -- @usage
+  -- 
+  --   -- Set 50km as the radius to engage any target by airborne friendlies.
+  --   Dispatcher:SetEngageRadius( 50000 )
+  --   
+  --   -- Set 100km as the radius to engage any target by airborne friendlies.
+  --   Dispatcher:SetEngageRadius() -- 100000 is the default value.
+  --   
+  function AI_A2A_DISPATCHER:SetEngageRadius( EngageRadius )
+
+    self.Detection:SetFriendliesRange( EngageRadius )
+  
+    return self
+  end
+  
+  --- Define the radius to check if a target can be engaged by an ground controlled intercept.
+  -- So, if there is a target area detected and reported, 
+  -- and a GCI is to be executed, 
+  -- then it will be check if the target is within the GCI from the nearest airbase.
+  -- For example, if 150000 is given as a value, then any airbase within 150km from the detected target, 
+  -- will be considered to receive the command to GCI.
+  -- You need to evaluate the value of this parameter carefully.
+  -- If too small, intercept missions may be triggered too late.
+  -- If too large, intercept missions may be triggered when the detected target is too far.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #number GciRadius (Optional, Default = 200000) The radius to ground control intercept detected targets from the nearest airbase.
+  -- @return #AI_A2A_DISPATCHER
+  -- @usage
+  -- 
+  --   -- Set 100km as the radius to ground control intercept detected targets from the nearest airbase.
+  --   Dispatcher:SetGciRadius( 100000 )
+  --   
+  --   -- Set 200km as the radius to ground control intercept.
+  --   Dispatcher:SetGciRadius() -- 200000 is the default value.
+  --   
+  function AI_A2A_DISPATCHER:SetGciRadius( GciRadius )
+
+    self.GciRadius = GciRadius or 200000 
+  
+    return self
+  end
+  
+  
+  
+  --- Define a border area to simulate a **cold war** scenario.
+  -- A **cold war** is one where CAP aircraft patrol their territory but will not attack enemy aircraft or launch GCI aircraft unless enemy aircraft enter their territory. In other words the EWR may detect an enemy aircraft but will only send aircraft to attack it if it crosses the border.
+  -- A **hot war** is one where CAP aircraft will intercept any detected enemy aircraft and GCI aircraft will launch against detected enemy aircraft without regard for territory. In other words if the ground radar can detect the enemy aircraft then it will send CAP and GCI aircraft to attack it.
+  -- If it’s a cold war then the **borders of red and blue territory** need to be defined using a @{zone} object derived from @{Zone#ZONE_BASE}. This method needs to be used for this.
+  -- If a hot war is chosen then **no borders** actually need to be defined using the helicopter units other than it makes it easier sometimes for the mission maker to envisage where the red and blue territories roughly are. In a hot war the borders are effectively defined by the ground based radar coverage of a coalition. Set the noborders parameter to 1
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param Core.Zone#ZONE_BASE BorderZone An object derived from ZONE_BASE, that defines a zone between
+  -- @return #AI_A2A_DISPATCHER
+  -- @usage
+  -- 
+  --   -- Set a polygon zone as the border for the A2A dispatcher.
+  --   local BorderZone = ZONE_POLYGON( "CCCP Border", GROUP:FindByName( "CCCP Border" ) ) -- The GROUP object is a late activate helicopter unit.
+  --   Dispatcher:SetBorderZone( BorderZone )
+  --   
+  function AI_A2A_DISPATCHER:SetBorderZone( BorderZone )
+
+    self.Detection:SetAcceptZones( BorderZone )
+
+    return self
+  end
+  
+  --- Display a tactical report every 30 seconds about which aircraft are:
+  --   * Patrolling
+  --   * Engaging
+  --   * Returning
+  --   * Damaged
+  --   * Out of Fuel
+  --   * ...
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #boolean TacticalDisplay Provide a value of **true** to display every 30 seconds a tactical overview.
+  -- @return #AI_A2A_DISPATCHER
+  function AI_A2A_DISPATCHER:SetTacticalDisplay( TacticalDisplay )
+    
+    self.TacticalDisplay = TacticalDisplay
+    
+    return self
+  end  
+
+  --- Calculates which AI friendlies are nearby the area
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param DetectedItem
+  -- @return #number, Core.CommandCenter#REPORT
+  function AI_A2A_DISPATCHER:GetAIFriendliesNearBy( DetectedItem )
+  
+    local FriendliesNearBy = self.Detection:GetFriendliesDistance( DetectedItem )
+    
+    return FriendliesNearBy
+  end
+
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:GetDefenderTasks()
+    return self.DefenderTasks or {}
+  end
+  
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:GetDefenderTask( Defender )
+    return self.DefenderTasks[Defender]
+  end
+
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:GetDefenderTaskFsm( Defender )
+    return self:GetDefenderTask( Defender ).Fsm
+  end
+  
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:GetDefenderTaskTarget( Defender )
+    return self:GetDefenderTask( Defender ).Target
+  end
+
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:ClearDefenderTask( Defender )
+    if Defender:IsAlive() and self.DefenderTasks[Defender] then
+      local Target = self.DefenderTasks[Defender].Target
+      local Message = "Clearing (" .. self.DefenderTasks[Defender].Type .. ") " 
+      Message = Message .. Defender:GetName() 
+      if Target then
+        Message = Message .. ( Target and ( " from " .. Target.Index .. " [" .. Target.Set:Count() .. "]" ) ) or ""
+      end
+      self:F( { Target = Message } )
+    end
+    self.DefenderTasks[Defender] = nil
+    return self
+  end
+
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:ClearDefenderTaskTarget( Defender )
+    
+    local DefenderTask = self:GetDefenderTask( Defender )
+    
+    if Defender:IsAlive() and DefenderTask then
+      local Target = DefenderTask.Target
+      local Message = "Clearing (" .. DefenderTask.Type .. ") " 
+      Message = Message .. Defender:GetName() 
+      if Target then
+        Message = Message .. ( Target and ( " from " .. Target.Index .. " [" .. Target.Set:Count() .. "]" ) ) or ""
+      end
+      self:F( { Target = Message } )
+    end
+    if Defender and DefenderTask and DefenderTask.Target then
+      DefenderTask.Target = nil
+    end
+--    if Defender and DefenderTask then
+--      if DefenderTask.Fsm:Is( "Fuel" ) 
+--      or DefenderTask.Fsm:Is( "LostControl") 
+--      or DefenderTask.Fsm:Is( "Damaged" ) then
+--        self:ClearDefenderTask( Defender )
+--      end
+--    end
+    return self
+  end
+
+  
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:SetDefenderTask( Defender, Type, Fsm, Target )
+  
+    self.DefenderTasks[Defender] = self.DefenderTasks[Defender] or {}
+    self.DefenderTasks[Defender].Type = Type
+    self.DefenderTasks[Defender].Fsm = Fsm
+
+    if Target then
+      self:SetDefenderTaskTarget( Defender, Target )
+    end
+    return self
+  end
+  
+  
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param Wrapper.Group#GROUP AIGroup
+  function AI_A2A_DISPATCHER:SetDefenderTaskTarget( Defender, Target )
+    
+    local Message = "(" .. self.DefenderTasks[Defender].Type .. ") " 
+    Message = Message .. Defender:GetName() 
+    Message = Message .. ( Target and ( " target " .. Target.Index .. " [" .. Target.Set:Count() .. "]" ) ) or ""
+    self:F( { Target = Message } )
+    if Target then
+      self.DefenderTasks[Defender].Target = Target
+    end
+    return self
+  end
+
+
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  -- @return #AI_A2A_DISPATCHER
+  function AI_A2A_DISPATCHER:SetSquadron( SquadronName, AirbaseName, SpawnTemplates, Resources )
+  
+    self:E( { SquadronName = SquadronName, AirbaseName = AirbaseName, SpawnTemplates = SpawnTemplates, Resources = Resources } )
+  
+    self.DefenderSquadrons[SquadronName] = self.DefenderSquadrons[SquadronName] or {} 
+
+    local DefenderSquadron = self.DefenderSquadrons[SquadronName]
+    
+    DefenderSquadron.Name = SquadronName
+    DefenderSquadron.Airbase = AIRBASE:FindByName( AirbaseName )
+    
+    DefenderSquadron.Spawn = {}
+    if type( SpawnTemplates ) == "string" then
+      local SpawnTemplate = SpawnTemplates
+      self.DefenderSpawns[SpawnTemplate] = self.DefenderSpawns[SpawnTemplate] or SPAWN:New( SpawnTemplate ) -- :InitCleanUp( 180 )
+      DefenderSquadron.Spawn[1] = self.DefenderSpawns[SpawnTemplate]
+    else
+      for TemplateID, SpawnTemplate in pairs( SpawnTemplates ) do
+        self.DefenderSpawns[SpawnTemplate] = self.DefenderSpawns[SpawnTemplate] or SPAWN:New( SpawnTemplate ) -- :InitCleanUp( 180 )
+        DefenderSquadron.Spawn[#DefenderSquadron.Spawn+1] = self.DefenderSpawns[SpawnTemplate]
+      end
+    end
+    DefenderSquadron.Resources = Resources
+    
+    self:SetSquadronOverhead( SquadronName, 1 )
+    self:SetSquadronTakeoffInAir( SquadronName )
+    self:SetSquadronLandingNearAirbase(SquadronName)
+
+    return self
+  end
+  
+  --- Get an item from the Squadron table.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @return #table
+  function AI_A2A_DISPATCHER:GetSquadron( SquadronName )
+    local DefenderSquadron = self.DefenderSquadrons[SquadronName]
+    
+    if not DefenderSquadron then
+      error( "Unknown Squadron:" .. SquadronName )
+    end
+    
+    return DefenderSquadron
+  end
+
+  
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The squadron name.
+  -- @param Core.Zone#ZONE_BASE Zone The @{Zone} object derived from @{Zone#ZONE_BASE} that defines the zone wherein the CAP will be executed.
+  -- @param #number FloorAltitude The minimum altitude at which the cap can be executed.
+  -- @param #number CeilingAltitude the maximum altitude at which the cap can be executed.
+  -- @param #number PatrolMinSpeed The minimum speed at which the cap can be executed.
+  -- @param #number PatrolMaxSpeed The maximum speed at which the cap can be executed.
+  -- @param #number EngageMinSpeed The minimum speed at which the engage can be executed.
+  -- @param #number EngageMaxSpeed The maximum speed at which the engage can be executed.
+  -- @param #number AltType The altitude type, which is a string "BARO" defining Barometric or "RADIO" defining radio controlled altitude.
+  -- @return #AI_A2A_DISPATCHER
+  -- @usage
+  -- 
+  --        -- CAP Squadron execution.
+  --        CAPZoneEast = ZONE_POLYGON:New( "CAP Zone East", GROUP:FindByName( "CAP Zone East" ) )
+  --        A2ADispatcher:SetSquadronCap( "Mineralnye", CAPZoneEast, 4000, 10000, 500, 600, 800, 900 )
+  --        A2ADispatcher:SetSquadronCapInterval( "Mineralnye", 2, 30, 60, 1 )
+  --        
+  --        CAPZoneWest = ZONE_POLYGON:New( "CAP Zone West", GROUP:FindByName( "CAP Zone West" ) )
+  --        A2ADispatcher:SetSquadronCap( "Sochi", CAPZoneWest, 4000, 8000, 600, 800, 800, 1200, "BARO" )
+  --        A2ADispatcher:SetSquadronCapInterval( "Sochi", 2, 30, 120, 1 )
+  --        
+  --        CAPZoneMiddle = ZONE:New( "CAP Zone Middle")
+  --        A2ADispatcher:SetSquadronCap( "Maykop", CAPZoneMiddle, 4000, 8000, 600, 800, 800, 1200, "RADIO" )
+  --        A2ADispatcher:SetSquadronCapInterval( "Sochi", 2, 30, 120, 1 )
+  -- 
+  function AI_A2A_DISPATCHER:SetSquadronCap( SquadronName, Zone, FloorAltitude, CeilingAltitude, PatrolMinSpeed, PatrolMaxSpeed, EngageMinSpeed, EngageMaxSpeed, AltType )
+  
+    self.DefenderSquadrons[SquadronName] = self.DefenderSquadrons[SquadronName] or {} 
+    self.DefenderSquadrons[SquadronName].Cap = self.DefenderSquadrons[SquadronName].Cap or {}
+    
+    local DefenderSquadron = self:GetSquadron( SquadronName )
+
+    local Cap = self.DefenderSquadrons[SquadronName].Cap
+    Cap.Name = SquadronName
+    Cap.Zone = Zone
+    Cap.FloorAltitude = FloorAltitude
+    Cap.CeilingAltitude = CeilingAltitude
+    Cap.PatrolMinSpeed = PatrolMinSpeed
+    Cap.PatrolMaxSpeed = PatrolMaxSpeed
+    Cap.EngageMinSpeed = EngageMinSpeed
+    Cap.EngageMaxSpeed = EngageMaxSpeed
+    Cap.AltType = AltType
+
+    self:SetSquadronCapInterval( SquadronName, 2, 180, 600, 1 )
+    
+    return self
+  end
+  
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The squadron name.
+  -- @return #AI_A2A_DISPATCHER
+  -- @usage
+  -- 
+  --        -- CAP Squadron execution.
+  --        CAPZoneEast = ZONE_POLYGON:New( "CAP Zone East", GROUP:FindByName( "CAP Zone East" ) )
+  --        A2ADispatcher:SetSquadronCap( "Mineralnye", CAPZoneEast, 4000, 10000, 500, 600, 800, 900 )
+  --        A2ADispatcher:SetSquadronCapInterval( "Mineralnye", 2, 30, 60, 1 )
+  --        
+  --        CAPZoneWest = ZONE_POLYGON:New( "CAP Zone West", GROUP:FindByName( "CAP Zone West" ) )
+  --        A2ADispatcher:SetSquadronCap( "Sochi", CAPZoneWest, 4000, 8000, 600, 800, 800, 1200, "BARO" )
+  --        A2ADispatcher:SetSquadronCapInterval( "Sochi", 2, 30, 120, 1 )
+  --        
+  --        CAPZoneMiddle = ZONE:New( "CAP Zone Middle")
+  --        A2ADispatcher:SetSquadronCap( "Maykop", CAPZoneMiddle, 4000, 8000, 600, 800, 800, 1200, "RADIO" )
+  --        A2ADispatcher:SetSquadronCapInterval( "Sochi", 2, 30, 120, 1 )
+  -- 
+  function AI_A2A_DISPATCHER:SetSquadronCapInterval( SquadronName, CapLimit, LowInterval, HighInterval, Probability )
+  
+    self.DefenderSquadrons[SquadronName] = self.DefenderSquadrons[SquadronName] or {} 
+    self.DefenderSquadrons[SquadronName].Cap = self.DefenderSquadrons[SquadronName].Cap or {}
+
+    local DefenderSquadron = self:GetSquadron( SquadronName )
+
+    local Cap = self.DefenderSquadrons[SquadronName].Cap
+    if Cap then
+      Cap.LowInterval = LowInterval or 300
+      Cap.HighInterval = HighInterval or 600
+      Cap.Probability = Probability or 1
+      Cap.CapLimit = CapLimit
+      Cap.Scheduler = Cap.Scheduler or SCHEDULER:New( self ) 
+      local Scheduler = Cap.Scheduler -- Core.Scheduler#SCHEDULER
+      local Variance = ( Cap.HighInterval - Cap.LowInterval ) / 2
+      local Median = Cap.LowInterval + Variance
+      local Randomization = Variance / Median
+      Scheduler:Schedule(self, self.SchedulerCAP, { SquadronName }, Median, Median, Randomization )
+    else
+      error( "This squadron does not exist:" .. SquadronName )
+    end
+
+  end
+  
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The squadron name.
+  -- @return #AI_A2A_DISPATCHER
+  function AI_A2A_DISPATCHER:GetCAPDelay( SquadronName )
+  
+    self.DefenderSquadrons[SquadronName] = self.DefenderSquadrons[SquadronName] or {} 
+    self.DefenderSquadrons[SquadronName].Cap = self.DefenderSquadrons[SquadronName].Cap or {}
+
+    local DefenderSquadron = self:GetSquadron( SquadronName )
+
+    local Cap = self.DefenderSquadrons[SquadronName].Cap
+    if Cap then
+      return math.random( Cap.LowInterval, Cap.HighInterval )
+    else
+      error( "This squadron does not exist:" .. SquadronName )
+    end
+  end
+
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The squadron name.
+  -- @return #table DefenderSquadron
+  function AI_A2A_DISPATCHER:CanCAP( SquadronName )
+    self:F({SquadronName = SquadronName})
+  
+    self.DefenderSquadrons[SquadronName] = self.DefenderSquadrons[SquadronName] or {} 
+    self.DefenderSquadrons[SquadronName].Cap = self.DefenderSquadrons[SquadronName].Cap or {}
+
+    local DefenderSquadron = self:GetSquadron( SquadronName )
+
+    if DefenderSquadron.Resources > 0 then
+
+      local Cap = DefenderSquadron.Cap
+      if Cap then
+        local CapCount = self:CountCapAirborne( SquadronName )
+        if CapCount < Cap.CapLimit then
+          local Probability = math.random()
+          if Probability <= Cap.Probability then
+            return DefenderSquadron
+          end
+        end
+      end
+    end
+    return nil
+  end
+
+
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The squadron name.
+  -- @return #table DefenderSquadron
+  function AI_A2A_DISPATCHER:CanGCI( SquadronName )
+    self:F({SquadronName = SquadronName})
+  
+    self.DefenderSquadrons[SquadronName] = self.DefenderSquadrons[SquadronName] or {} 
+    self.DefenderSquadrons[SquadronName].Cap = self.DefenderSquadrons[SquadronName].Cap or {}
+
+    local DefenderSquadron = self:GetSquadron( SquadronName )
+
+    if DefenderSquadron.Resources > 0 then
+      local Gci = DefenderSquadron.Gci
+      if Gci then
+        return DefenderSquadron
+      end
+    end
+    return nil
+  end
+
+  
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The squadron name.
+  -- @param #number EngageMinSpeed The minimum speed at which the gci can be executed.
+  -- @param #number EngageMaxSpeed The maximum speed at which the gci can be executed.
+  -- @usage 
+  -- 
+  --        -- GCI Squadron execution.
+  --        A2ADispatcher:SetSquadronGci( "Mozdok", 900, 1200 )
+  --        A2ADispatcher:SetSquadronGci( "Novo", 900, 2100 )
+  --        A2ADispatcher:SetSquadronGci( "Maykop", 900, 1200 )
+  -- 
+  -- @return #AI_A2A_DISPATCHER
+  function AI_A2A_DISPATCHER:SetSquadronGci( SquadronName, EngageMinSpeed, EngageMaxSpeed )
+  
+    self.DefenderSquadrons[SquadronName] = self.DefenderSquadrons[SquadronName] or {} 
+    self.DefenderSquadrons[SquadronName].Gci = self.DefenderSquadrons[SquadronName].Gci or {}
+    
+    local Intercept = self.DefenderSquadrons[SquadronName].Gci
+    Intercept.Name = SquadronName
+    Intercept.EngageMinSpeed = EngageMinSpeed
+    Intercept.EngageMaxSpeed = EngageMaxSpeed
+  end
+  
+  --- Defines the amount of extra planes that will take-off as part of the defense system.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The name of the squadron.
+  -- @param #number Overhead The %-tage of Units that dispatching command will allocate to intercept in surplus of detected amount of units.
+  -- The default overhead is 1, so equal balance. The @{#AI_A2A_DISPATCHER.SetOverhead}() method can be used to tweak the defense strength,
+  -- taking into account the plane types of the squadron. For example, a MIG-31 with full long-distance A2A missiles payload, may still be less effective than a F-15C with short missiles...
+  -- So in this case, one may want to use the Overhead method to allocate more defending planes as the amount of detected attacking planes.
+  -- The overhead must be given as a decimal value with 1 as the neutral value, which means that Overhead values: 
+  -- 
+  --   * Higher than 1, will increase the defense unit amounts.
+  --   * Lower than 1, will decrease the defense unit amounts.
+  -- 
+  -- The amount of defending units is calculated by multiplying the amount of detected attacking planes as part of the detected group 
+  -- multiplied by the Overhead and rounded up to the smallest integer. 
+  -- 
+  -- The Overhead value set for a Squadron, can be programmatically adjusted (by using this SetOverhead method), to adjust the defense overhead during mission execution.
+  -- 
+  -- See example below.
+  --  
+  -- @usage:
+  -- 
+  --   local Dispatcher = AI_A2A_DISPATCHER:New( ... )
+  --   
+  --   -- An overhead of 1,5 with 1 planes detected, will allocate 2 planes ( 1 * 1,5 ) = 1,5 => rounded up gives 2.
+  --   -- An overhead of 1,5 with 2 planes detected, will allocate 3 planes ( 2 * 1,5 ) = 3 =>  rounded up gives 3.
+  --   -- An overhead of 1,5 with 3 planes detected, will allocate 5 planes ( 3 * 1,5 ) = 4,5 => rounded up gives 5 planes.
+  --   -- An overhead of 1,5 with 4 planes detected, will allocate 6 planes ( 4 * 1,5 ) = 6  => rounded up gives 6 planes.
+  --   
+  --   Dispatcher:SetSquadronOverhead( 1,5 )
+  -- 
+  -- 
+  -- @return #AI_A2A_DISPATCHER
+  function AI_A2A_DISPATCHER:SetSquadronOverhead( SquadronName, Overhead )
+
+    local DefenderSquadron = self:GetSquadron( SquadronName )
+    DefenderSquadron.Overhead = Overhead
+    
+    return self
+  end
+
+  --- 
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The name of the squadron.
+  -- @param #number Grouping The level of grouping that will be applied of the CAP or GCI defenders. 
+  -- @usage:
+  -- 
+  --   local Dispatcher = AI_A2A_DISPATCHER:New( ... )
+  --   Dispatcher:SetSquadronGrouping( "SquadronName", 2 )
+  -- 
+  -- 
+  -- @return #AI_A2A_DISPATCHER
+  function AI_A2A_DISPATCHER:SetSquadronGrouping( SquadronName, Grouping )
+  
+    local DefenderSquadron = self:GetSquadron( SquadronName )
+    DefenderSquadron.Grouping = Grouping
+    
+    return self
+  end
+
+  --- Defines the method at which new flights will spawn and take-off as part of the defense system.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The name of the squadron.
+  -- @param #number Takeoff From the airbase hot, from the airbase cold, in the air, from the runway.
+  -- @usage:
+  -- 
+  --   local Dispatcher = AI_A2A_DISPATCHER:New( ... )
+  --   
+  --   -- Let new flights take-off in the air.
+  --   Dispatcher:SetSquadronTakeoff( "SquadronName", AI_A2A_Dispatcher.Takeoff.Air )
+  --   
+  --   -- Let new flights take-off from the runway.
+  --   Dispatcher:SetSquadronTakeoff( "SquadronName", AI_A2A_Dispatcher.Takeoff.Runway )
+  --   
+  --   -- Let new flights take-off from the airbase hot.
+  --   Dispatcher:SetSquadronTakeoff( "SquadronName", AI_A2A_Dispatcher.Takeoff.Hot )
+  -- 
+  --   -- Let new flights take-off from the airbase cold.
+  --   Dispatcher:SetSquadronTakeoff( "SquadronName", AI_A2A_Dispatcher.Takeoff.Cold )
+  -- 
+  -- 
+  -- @return #AI_A2A_DISPATCHER
+  -- 
+  function AI_A2A_DISPATCHER:SetSquadronTakeoff( SquadronName, Takeoff )
+
+    local DefenderSquadron = self:GetSquadron( SquadronName )
+    DefenderSquadron.Takeoff = Takeoff
+    
+    return self
+  end
+  
+
+  --- Gets the method at which new flights will spawn and take-off as part of the defense system.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The name of the squadron.
+  -- @return #number Takeoff From the airbase hot, from the airbase cold, in the air, from the runway.
+  -- @usage:
+  -- 
+  --   local Dispatcher = AI_A2A_DISPATCHER:New( ... )
+  --   
+  --   -- Let new flights take-off in the air.
+  --   local TakeoffMethod = Dispatcher:GetSquadronTakeoff( "SquadronName" )
+  --   if TakeOffMethod == , AI_A2A_Dispatcher.Takeoff.InAir then
+  --     ...
+  --   end
+  --   
+  function AI_A2A_DISPATCHER:GetSquadronTakeoff( SquadronName )
+
+    local DefenderSquadron = self:GetSquadron( SquadronName )
+    return DefenderSquadron.Takeoff
+  end
+  
+
+  --- Sets flights to take-off in the air, as part of the defense system.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The name of the squadron.
+  -- @usage:
+  -- 
+  --   local Dispatcher = AI_A2A_DISPATCHER:New( ... )
+  --   
+  --   -- Let new flights take-off in the air.
+  --   Dispatcher:SetSquadronTakeoffInAir( "SquadronName" )
+  --   
+  -- @return #AI_A2A_DISPATCHER
+  -- 
+  function AI_A2A_DISPATCHER:SetSquadronTakeoffInAir( SquadronName )
+
+    self:SetSquadronTakeoff( SquadronName, AI_A2A_DISPATCHER.Takeoff.Air )
+    
+    return self
+  end
+  
+
+  --- Sets flights to take-off from the runway, as part of the defense system.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The name of the squadron.
+  -- @usage:
+  -- 
+  --   local Dispatcher = AI_A2A_DISPATCHER:New( ... )
+  --   
+  --   -- Let new flights take-off in the air.
+  --   Dispatcher:SetSquadronTakeoffFromRunway( "SquadronName" )
+  --   
+  -- @return #AI_A2A_DISPATCHER
+  -- 
+  function AI_A2A_DISPATCHER:SetSquadronTakeoffFromRunway( SquadronName )
+
+    self:SetSquadronTakeoff( SquadronName, AI_A2A_DISPATCHER.Takeoff.Runway )
+    
+    return self
+  end
+  
+
+  --- Sets flights to take-off from the airbase at a hot location, as part of the defense system.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The name of the squadron.
+  -- @usage:
+  -- 
+  --   local Dispatcher = AI_A2A_DISPATCHER:New( ... )
+  --   
+  --   -- Let new flights take-off in the air.
+  --   Dispatcher:SetSquadronTakeoffFromParkingHot( "SquadronName" )
+  --   
+  -- @return #AI_A2A_DISPATCHER
+  -- 
+  function AI_A2A_DISPATCHER:SetSquadronTakeoffFromParkingHot( SquadronName )
+
+    self:SetSquadronTakeoff( SquadronName, AI_A2A_DISPATCHER.Takeoff.Hot )
+    
+    return self
+  end
+  
+  --- Sets flights to take-off from the airbase at a cold location, as part of the defense system.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The name of the squadron.
+  -- @usage:
+  -- 
+  --   local Dispatcher = AI_A2A_DISPATCHER:New( ... )
+  --   
+  --   -- Let new flights take-off in the air.
+  --   Dispatcher:SetSquadronTakeoffFromParkingCold( "SquadronName" )
+  --   
+  -- @return #AI_A2A_DISPATCHER
+  -- 
+  function AI_A2A_DISPATCHER:SetSquadronTakeoffFromParkingCold( SquadronName )
+
+    self:SetSquadronTakeoff( SquadronName, AI_A2A_DISPATCHER.Takeoff.Cold )
+    
+    return self
+  end
+  
+
+  --- Defines the method at which flights will land and despawn as part of the defense system.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The name of the squadron.
+  -- @param #number Landing The landing method which can be NearAirbase, AtRunway, AtEngineShutdown
+  -- @usage:
+  -- 
+  --   local Dispatcher = AI_A2A_DISPATCHER:New( ... )
+  --   
+  --   -- Let new flights take-off in the air.
+  --   Dispatcher:SetSquadronLanding( "SquadronName", AI_A2A_Dispatcher.Landing.NearAirbase )
+  --   
+  --   -- Let new flights take-off from the runway.
+  --   Dispatcher:SetSquadronLanding( "SquadronName", AI_A2A_Dispatcher.Landing.AtRunway )
+  --   
+  --   -- Let new flights take-off from the airbase hot.
+  --   Dispatcher:SetSquadronLanding( "SquadronName", AI_A2A_Dispatcher.Landing.AtEngineShutdown )
+  -- 
+  -- @return #AI_A2A_DISPATCHER
+  function AI_A2A_DISPATCHER:SetSquadronLanding( SquadronName, Landing )
+
+    local DefenderSquadron = self:GetSquadron( SquadronName )
+    DefenderSquadron.Landing = Landing
+    
+    return self
+  end
+  
+
+  --- Gets the method at which flights will land and despawn as part of the defense system.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The name of the squadron.
+  -- @return #number Landing The landing method which can be NearAirbase, AtRunway, AtEngineShutdown
+  -- @usage:
+  -- 
+  --   local Dispatcher = AI_A2A_DISPATCHER:New( ... )
+  --   
+  --   -- Let new flights take-off in the air.
+  --   local LandingMethod = Dispatcher:GetSquadronLanding( "SquadronName", AI_A2A_Dispatcher.Landing.NearAirbase )
+  --   if LandingMethod == AI_A2A_Dispatcher.Landing.NearAirbase then
+  --    ...
+  --   end
+  -- 
+  function AI_A2A_DISPATCHER:GetSquadronLanding( SquadronName )
+
+    local DefenderSquadron = self:GetSquadron( SquadronName )
+    return DefenderSquadron.Landing
+  end
+  
+
+  --- Sets flights to land and despawn near the airbase in the air, as part of the defense system.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The name of the squadron.
+  -- @usage:
+  -- 
+  --   local Dispatcher = AI_A2A_DISPATCHER:New( ... )
+  --   
+  --   -- Let flights land in the air and despawn.
+  --   Dispatcher:SetSquadronLandingNearAirbase( "SquadronName" )
+  --   
+  -- @return #AI_A2A_DISPATCHER
+  function AI_A2A_DISPATCHER:SetSquadronLandingNearAirbase( SquadronName )
+
+    self:SetSquadronLanding( SquadronName, AI_A2A_DISPATCHER.Landing.NearAirbase )
+    
+    return self
+  end
+  
+
+  --- Sets flights to land and despawn at the runway, as part of the defense system.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The name of the squadron.
+  -- @usage:
+  -- 
+  --   local Dispatcher = AI_A2A_DISPATCHER:New( ... )
+  --   
+  --   -- Let flights land at the runway and despawn.
+  --   Dispatcher:SetSquadronLandingAtRunway( "SquadronName" )
+  --   
+  -- @return #AI_A2A_DISPATCHER
+  function AI_A2A_DISPATCHER:SetSquadronLandingAtRunway( SquadronName )
+
+    self:SetSquadronLanding( SquadronName, AI_A2A_DISPATCHER.Landing.AtRunway )
+    
+    return self
+  end
+  
+
+  --- Sets flights to land and despawn at engine shutdown, as part of the defense system.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param #string SquadronName The name of the squadron.
+  -- @usage:
+  -- 
+  --   local Dispatcher = AI_A2A_DISPATCHER:New( ... )
+  --   
+  --   -- Let flights land and despawn at engine shutdown.
+  --   Dispatcher:SetSquadronLandingAtEngineShutdown( "SquadronName" )
+  --   
+  -- @return #AI_A2A_DISPATCHER
+  function AI_A2A_DISPATCHER:SetSquadronLandingAtEngineShutdown( SquadronName )
+
+    self:SetSquadronLanding( SquadronName, AI_A2A_DISPATCHER.Landing.AtEngineShutdown )
+    
+    return self
+  end
+  
+
+  --- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:AddDefenderToSquadron( Squadron, Defender )
+    self.Defenders = self.Defenders or {}
+    local DefenderName = Defender:GetName()
+    self.Defenders[ DefenderName ] = Squadron
+    Squadron.Resources = Squadron.Resources - Defender:GetSize()
+    self:F( { DefenderName = DefenderName, SquadronResources = Squadron.Resources } )
+  end
+
+  --- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:RemoveDefenderFromSquadron( Squadron, Defender )
+    self.Defenders = self.Defenders or {}
+    local DefenderName = Defender:GetName()
+    Squadron.Resources = Squadron.Resources + Defender:GetSize()
+    self.Defenders[ DefenderName ] = nil
+    self:F( { DefenderName = DefenderName, SquadronResources = Squadron.Resources } )
+  end
+  
+  function AI_A2A_DISPATCHER:GetSquadronFromDefender( Defender )
+    self.Defenders = self.Defenders or {}
+    local DefenderName = Defender:GetName()
+    self:F( { DefenderName = DefenderName } )
+    return self.Defenders[ DefenderName ] 
+  end
+
+  
+  --- Creates an SWEEP task when there are targets for it.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param Functional.Detection#DETECTION_BASE.DetectedItem DetectedItem
+  -- @return Set#SET_UNIT TargetSetUnit: The target set of units.
+  -- @return #nil If there are no targets to be set.
+  function AI_A2A_DISPATCHER:EvaluateSWEEP( DetectedItem )
+    self:F( { DetectedItem.ItemID } )
+  
+    local DetectedSet = DetectedItem.Set
+    local DetectedZone = DetectedItem.Zone
+
+
+    if DetectedItem.IsDetected == false then
+
+      -- Here we're doing something advanced... We're copying the DetectedSet.
+      local TargetSetUnit = SET_UNIT:New()
+      TargetSetUnit:SetDatabase( DetectedSet )
+      TargetSetUnit:FilterOnce() -- Filter but don't do any events!!! Elements are added manually upon each detection.
+    
+      return TargetSetUnit
+    end
+    
+    return nil
+  end
+
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:CountCapAirborne( SquadronName )
+
+    local CapCount = 0
+    
+    local DefenderSquadron = self.DefenderSquadrons[SquadronName]
+    if DefenderSquadron then
+      for AIGroup, DefenderTask in pairs( self:GetDefenderTasks() ) do
+        if DefenderTask.Type == "CAP" then
+          if AIGroup:IsAlive() then
+            -- Check if the CAP is patrolling or engaging. If not, this is not a valid CAP, even if it is alive!
+            -- The CAP could be damaged, lost control, or out of fuel!
+            if DefenderTask.Fsm:Is( "Patrolling" ) or DefenderTask.Fsm:Is( "Engaging" ) then
+              CapCount = CapCount + 1
+            end
+          end
+        end
+      end
+    end
+
+    return CapCount
+  end
+  
+  
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:CountDefendersEngaged( Target )
+
+    -- First, count the active AIGroups Units, targetting the DetectedSet
+    local AIUnitCount = 0
+    
+    local DefenderTasks = self:GetDefenderTasks()
+    for AIGroup, DefenderTask in pairs( DefenderTasks ) do
+      local AIGroup = AIGroup -- Wrapper.Group#GROUP
+      local DefenderTask = self:GetDefenderTaskTarget( AIGroup )
+      if DefenderTask and DefenderTask.Index == Target.Index then
+        AIUnitCount = AIUnitCount + AIGroup:GetSize()
+      end
+    end
+
+    return AIUnitCount
+  end
+  
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:CountDefendersToBeEngaged( DetectedItem, DefenderCount )
+  
+    local Friendlies = nil
+
+    local DetectedSet = DetectedItem.Set
+    local DetectedCount = DetectedSet:Count()
+
+    local AIFriendlies = self:GetAIFriendliesNearBy( DetectedItem )
+    
+    for FriendlyDistance, AIFriendly in UTILS.spairs( AIFriendlies or {} ) do
+      -- We only allow to ENGAGE targets as long as the Units on both sides are balanced.
+      if DetectedCount > DefenderCount then 
+        local Friendly = AIFriendly:GetGroup() -- Wrapper.Group#GROUP
+        if Friendly and Friendly:IsAlive() then
+          -- Ok, so we have a friendly near the potential target.
+          -- Now we need to check if the AIGroup has a Task.
+          local DefenderTask = self:GetDefenderTask( Friendly )
+          if DefenderTask then
+            -- The Task should be CAP or GCI
+            if DefenderTask.Type == "CAP" or DefenderTask.Type == "GCI" then
+              -- If there is no target, then add the AIGroup to the ResultAIGroups for Engagement to the TargetSet
+              if DefenderTask.Target == nil then
+                if DefenderTask.Fsm:Is( "Returning" )
+                or DefenderTask.Fsm:Is( "Patrolling" ) then
+                  Friendlies = Friendlies or {}
+                  Friendlies[Friendly] = Friendly
+                  DefenderCount = DefenderCount + Friendly:GetSize()
+                  self:F( { Friendly = Friendly:GetName(), FriendlyDistance = FriendlyDistance } )
+                end
+              end
+            end
+          end 
+        end
+      else
+        break
+      end
+    end
+
+    return Friendlies
+  end
+
+  
+  
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:onafterCAP( From, Event, To, SquadronName )
+  
+    self:F({SquadronName = SquadronName})
+    self.DefenderSquadrons[SquadronName] = self.DefenderSquadrons[SquadronName] or {} 
+    self.DefenderSquadrons[SquadronName].Cap = self.DefenderSquadrons[SquadronName].Cap or {}
+    
+    local DefenderSquadron = self:CanCAP( SquadronName )
+    
+    if DefenderSquadron then
+  
+      local Cap = DefenderSquadron.Cap
+    
+      if Cap then
+    
+        local Spawn = DefenderSquadron.Spawn[ math.random( 1, #DefenderSquadron.Spawn ) ]
+        Spawn:InitGrouping( DefenderSquadron.Grouping )
+
+        local TakeoffMethod = self:GetSquadronTakeoff( SquadronName )
+        local DefenderCAP = Spawn:SpawnAtAirbase( DefenderSquadron.Airbase, TakeoffMethod )
+        self:AddDefenderToSquadron( DefenderSquadron, DefenderCAP )
+  
+        if DefenderCAP then
+  
+          local Fsm = AI_A2A_CAP:New( DefenderCAP, Cap.Zone, Cap.FloorAltitude, Cap.CeilingAltitude, Cap.PatrolMinSpeed, Cap.PatrolMaxSpeed, Cap.EngageMinSpeed, Cap.EngageMaxSpeed, Cap.AltType )
+          Fsm:SetDispatcher( self )
+          Fsm:SetHomeAirbase( DefenderSquadron.Airbase )
+          Fsm:Start()
+          Fsm:__Patrol( 1 )
+  
+          self:SetDefenderTask( DefenderCAP, "CAP", Fsm )
+        end
+      end
+    end
+    
+  end
+
+
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:onafterENGAGE( From, Event, To, Target, AIGroups )
+  
+    if AIGroups then
+
+      for AIGroupID, AIGroup in pairs( AIGroups ) do
+
+        local Fsm = self:GetDefenderTaskFsm( AIGroup )
+        Fsm:__Engage( 1, Target.Set ) -- Engage on the TargetSetUnit
+        
+        self:SetDefenderTaskTarget( AIGroup, Target )
+
+        function Fsm:onafterRTB( AIGroup, From, Event, To )
+          self:F({"CAP RTB"})
+          self:GetParent(self).onafterRTB( self, AIGroup, From, Event, To )
+          local Dispatcher = self:GetDispatcher() -- #AI_A2A_DISPATCHER
+          local AIGroup = self:GetControllable()
+          Dispatcher:ClearDefenderTaskTarget( AIGroup )
+        end
+
+        --- @param #AI_A2A_DISPATCHER self
+        function Fsm:onafterHome( Defender, From, Event, To )
+          self:F({"CAP Home"})
+          self:GetParent(self).onafterHome( self, Defender, From, Event, To )
+          
+          local Dispatcher = self:GetDispatcher() -- #AI_A2A_DISPATCHER
+          local AIGroup = self:GetControllable()
+          local Squadron = Dispatcher:GetSquadronFromDefender( AIGroup )
+          if Dispatcher:GetSquadronLanding( Squadron.Name ) == AI_A2A_DISPATCHER.Landing.NearAirbase then
+            Dispatcher:RemoveDefenderFromSquadron( Squadron, AIGroup )
+            AIGroup:Destroy()
+          end
+        end
+
+      end
+    end
+  end
+
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:onafterGCI( From, Event, To, Target, DefendersMissing, AIGroups )
+
+    local AttackerCount = Target.Set:Count()
+    local DefendersCount = 0
+
+    for AIGroupID, AIGroup in pairs( AIGroups or {} ) do
+
+      local Fsm = self:GetDefenderTaskFsm( AIGroup )
+      Fsm:__Engage( 1, Target.Set ) -- Engage on the TargetSetUnit
+      
+      self:SetDefenderTaskTarget( AIGroup, Target )
+
+      DefendersCount = DefendersCount + AIGroup:GetSize()
+    end
+
+    DefendersCount = DefendersMissing
+
+    local ClosestDistance = 0
+    local ClosestDefenderSquadronName = nil
+    
+    while( DefendersCount > 0 ) do
+    
+      for SquadronName, DefenderSquadron in pairs( self.DefenderSquadrons or {} ) do
+        for InterceptID, Intercept in pairs( DefenderSquadron.Gci or {} ) do
+    
+          local SpawnCoord = DefenderSquadron.Airbase:GetCoordinate() -- Core.Point#COORDINATE
+          local TargetCoord = Target.Set:GetFirst():GetCoordinate()
+          local Distance = SpawnCoord:Get2DDistance( TargetCoord )
+          
+          if ClosestDistance == 0 or Distance < ClosestDistance then
+            
+            -- Only intercept if the distance to target is smaller or equal to the GciRadius limit.
+            if Distance <= self.GciRadius then
+              ClosestDistance = Distance
+              ClosestDefenderSquadronName = SquadronName
+            end
+          end
+        end
+      end
+      
+      if ClosestDefenderSquadronName then
+      
+        local DefenderSquadron = self:CanGCI( ClosestDefenderSquadronName )
+        
+        if DefenderSquadron then
+
+          local Gci = self.DefenderSquadrons[ClosestDefenderSquadronName].Gci
+          
+          if Gci then
+        
+            local DefenderOverhead = DefenderSquadron.Overhead
+            local DefenderGrouping = DefenderSquadron.Grouping
+            local DefendersNeeded = math.ceil( DefendersCount * DefenderOverhead )
+          
+            local Spawn = DefenderSquadron.Spawn[ math.random( 1, #DefenderSquadron.Spawn ) ]
+            if DefenderGrouping then
+              Spawn:InitGrouping( ( DefenderGrouping < DefendersNeeded ) and DefenderGrouping or DefendersNeeded )
+            else
+              Spawn:InitGrouping()
+            end
+            
+            local TakeoffMethod = self:GetSquadronTakeoff( ClosestDefenderSquadronName )
+            local DefenderGCI = Spawn:SpawnAtAirbase( DefenderSquadron.Airbase, TakeoffMethod )
+            self:F( { GCIDefender = DefenderGCI:GetName() } )
+    
+            self:AddDefenderToSquadron( DefenderSquadron, DefenderGCI )
+            
+      
+            if DefenderGCI then
+    
+              DefendersCount = DefendersCount - DefenderGCI:GetSize()
+              
+              local Fsm = AI_A2A_GCI:New( DefenderGCI, Gci.EngageMinSpeed, Gci.EngageMaxSpeed )
+              Fsm:SetDispatcher( self )
+              Fsm:SetHomeAirbase( DefenderSquadron.Airbase )
+              Fsm:Start()
+              Fsm:__Engage( 1, Target.Set ) -- Engage on the TargetSetUnit
+    
+      
+              self:SetDefenderTask( DefenderGCI, "GCI", Fsm, Target )
+              
+              
+              function Fsm:onafterRTB( Defender, From, Event, To )
+                self:F({"GCI RTB"})
+                self:GetParent(self).onafterRTB( self, Defender, From, Event, To )
+                
+                local Dispatcher = self:GetDispatcher() -- #AI_A2A_DISPATCHER
+                local AIGroup = self:GetControllable()
+                Dispatcher:ClearDefenderTaskTarget( AIGroup )
+              end
+              
+              --- @param #AI_A2A_DISPATCHER self
+              function Fsm:onafterHome( Defender, From, Event, To )
+                self:F({"GCI Home"})
+                self:GetParent(self).onafterHome( self, Defender, From, Event, To )
+                
+                local Dispatcher = self:GetDispatcher() -- #AI_A2A_DISPATCHER
+                local AIGroup = self:GetControllable()
+                local Squadron = Dispatcher:GetSquadronFromDefender( AIGroup )
+                if Dispatcher:GetSquadronLanding( Squadron.Name ) == AI_A2A_DISPATCHER.Landing.NearAirbase then
+                  Dispatcher:RemoveDefenderFromSquadron( Squadron, AIGroup )
+                  AIGroup:Destroy()
+                end
+              end
+            end
+          end
+        end
+      else
+        -- There isn't any closest airbase anymore, break the loop.
+        break
+      end
+    end
+  end
+
+
+
+  --- Creates an ENGAGE task when there are human friendlies airborne near the targets.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param Functional.Detection#DETECTION_BASE.DetectedItem DetectedItem
+  -- @return Set#SET_UNIT TargetSetUnit: The target set of units.
+  -- @return #nil If there are no targets to be set.
+  function AI_A2A_DISPATCHER:EvaluateENGAGE( DetectedItem )
+    self:F( { DetectedItem.ItemID } )
+  
+    -- First, count the active AIGroups Units, targetting the DetectedSet
+    local DefenderCount = self:CountDefendersEngaged( DetectedItem )
+    local DefenderGroups = self:CountDefendersToBeEngaged( DetectedItem, DefenderCount )
+
+    self:F( { DefenderCount = DefenderCount } )
+    
+    -- Only allow ENGAGE when:
+    -- 1. There are friendly units near the detected attackers.
+    -- 2. There is sufficient fuel
+    -- 3. There is sufficient ammo
+    -- 4. The plane is not damaged
+    if DefenderGroups and DetectedItem.IsDetected == true then
+      
+      return DefenderGroups
+    end
+    
+    return nil, nil
+  end
+  
+  --- Creates an GCI task when there are targets for it.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param Functional.Detection#DETECTION_BASE.DetectedItem DetectedItem
+  -- @return Set#SET_UNIT TargetSetUnit: The target set of units.
+  -- @return #nil If there are no targets to be set.
+  function AI_A2A_DISPATCHER:EvaluateGCI( Target )
+    self:F( { Target.ItemID } )
+  
+    local AttackerSet = Target.Set
+    local AttackerCount = AttackerSet:Count()
+
+    -- First, count the active AIGroups Units, targetting the DetectedSet
+    local DefenderCount = self:CountDefendersEngaged( Target )
+    local DefendersMissing = AttackerCount - DefenderCount
+    self:F( { AttackerCount = AttackerCount, DefenderCount = DefenderCount, DefendersMissing = DefendersMissing } )
+
+    local Friendlies = self:CountDefendersToBeEngaged( Target, DefenderCount )
+
+    if Target.IsDetected == true then
+      
+      return DefendersMissing, Friendlies
+    end
+    
+    return nil, nil
+  end
+
+
+  --- Assigns A2A AI Tasks in relation to the detected items.
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param Functional.Detection#DETECTION_BASE Detection The detection created by the @{Detection#DETECTION_BASE} derived object.
+  -- @return #boolean Return true if you want the task assigning to continue... false will cancel the loop.
+  function AI_A2A_DISPATCHER:ProcessDetected( Detection )
+  
+    local AreaMsg = {}
+    local TaskMsg = {}
+    local ChangeMsg = {}
+    
+    local TaskReport = REPORT:New()
+
+          
+    for AIGroup, DefenderTask in pairs( self:GetDefenderTasks() ) do
+      local AIGroup = AIGroup -- Wrapper.Group#GROUP
+      if not AIGroup:IsAlive() then
+        self:ClearDefenderTask( AIGroup )
+      else
+        if DefenderTask.Target then
+          local Target = Detection:GetDetectedItem( DefenderTask.Target.Index )
+          if not Target then
+            self:F( { "Removing obsolete Target:", DefenderTask.Target.Index } )
+            self:ClearDefenderTaskTarget( AIGroup )
+            
+          else
+            if DefenderTask.Target.Set then
+              if DefenderTask.Target.Set:Count() == 0 then
+                self:F( { "All Targets destroyed in Target, removing:", DefenderTask.Target.Index } )
+                self:ClearDefenderTaskTarget( AIGroup )
+              end
+            end
+          end
+        end
+      end
+    end
+
+    local Report = REPORT:New( "\nTactical Overview" )
+
+    -- Now that all obsolete tasks are removed, loop through the detected targets.
+    for DetectedItemID, DetectedItem in pairs( Detection:GetDetectedItems() ) do
+    
+      local DetectedItem = DetectedItem -- Functional.Detection#DETECTION_BASE.DetectedItem
+      local DetectedSet = DetectedItem.Set -- Core.Set#SET_UNIT
+      local DetectedCount = DetectedSet:Count()
+      local DetectedZone = DetectedItem.Zone
+
+      self:F( { "Target ID", DetectedItem.ItemID } )
+      DetectedSet:Flush()
+
+      local DetectedID = DetectedItem.ID
+      local DetectionIndex = DetectedItem.Index
+      local DetectedItemChanged = DetectedItem.Changed
+      
+      do 
+        local Friendlies = self:EvaluateENGAGE( DetectedItem ) -- Returns a SetUnit if there are targets to be GCIed...
+        if Friendlies then
+          self:F( { AIGroups = Friendlies } )
+          self:ENGAGE( DetectedItem, Friendlies )
+        end
+      end
+
+      do
+        local DefendersMissing, Friendlies = self:EvaluateGCI( DetectedItem )
+        if DefendersMissing then
+          self:F( { DefendersMissing = DefendersMissing } )
+          self:GCI( DetectedItem, DefendersMissing, Friendlies )
+        end
+      end
+
+      if self.TacticalDisplay then      
+        -- Show tactical situation
+        Report:Add( string.format( "\n - Target %s ( %s ): ( #%d ) %s" , DetectedItem.ItemID, DetectedItem.Index, DetectedItem.Set:Count(), DetectedItem.Set:GetObjectNames() ) )
+        for Defender, DefenderTask in pairs( self:GetDefenderTasks() ) do
+          local Defender = Defender -- Wrapper.Group#GROUP
+           if DefenderTask.Target and DefenderTask.Target.Index == DetectedItem.Index then
+             Report:Add( string.format( "   - %s ( %s - %s ): ( #%d ) %s", Defender:GetName(), DefenderTask.Type, DefenderTask.Fsm:GetState(), Defender:GetSize(), Defender:HasTask() == true and "Executing" or "Idle" ) )
+           end
+        end
+      end
+    end
+
+    if self.TacticalDisplay then
+      Report:Add( "\n - No Targets:")
+      local TaskCount = 0
+      for Defender, DefenderTask in pairs( self:GetDefenderTasks() ) do
+        TaskCount = TaskCount + 1
+        local Defender = Defender -- Wrapper.Group#GROUP
+        if not DefenderTask.Target then
+          local DefenderHasTask = Defender:HasTask()
+          Report:Add( string.format( "   - %s ( %s - %s ): ( #%d ) %s", Defender:GetName(), DefenderTask.Type, DefenderTask.Fsm:GetState(), Defender:GetSize(), Defender:HasTask() == true and "Executing" or "Idle" ) )
+        end
+      end
+      Report:Add( string.format( "\n - %d Tasks", TaskCount ) )
+  
+      self:T( Report:Text( "\n" ) )
+      trigger.action.outText( Report:Text( "\n" ), 25 )
+    end
+    
+    return true
+  end
+
+end
+
+do
+
+  --- Calculates which HUMAN friendlies are nearby the area
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param DetectedItem
+  -- @return #number, Core.CommandCenter#REPORT
+  function AI_A2A_DISPATCHER:GetPlayerFriendliesNearBy( DetectedItem )
+  
+    local DetectedSet = DetectedItem.Set
+    local PlayersNearBy = self.Detection:GetPlayersNearBy( DetectedItem )
+    
+    local PlayerTypes = {}
+    local PlayersCount = 0
+
+    if PlayersNearBy then
+      local DetectedTreatLevel = DetectedSet:CalculateThreatLevelA2G()
+      for PlayerUnitName, PlayerUnitData in pairs( PlayersNearBy ) do
+        local PlayerUnit = PlayerUnitData -- Wrapper.Unit#UNIT
+        local PlayerName = PlayerUnit:GetPlayerName()
+        --self:E( { PlayerName = PlayerName, PlayerUnit = PlayerUnit } )
+        if PlayerUnit:IsAirPlane() and PlayerName ~= nil then
+          local FriendlyUnitThreatLevel = PlayerUnit:GetThreatLevel()
+          PlayersCount = PlayersCount + 1
+          local PlayerType = PlayerUnit:GetTypeName()
+          PlayerTypes[PlayerName] = PlayerType
+          if DetectedTreatLevel < FriendlyUnitThreatLevel + 2 then
+          end
+        end
+      end
+      
+    end
+
+    --self:E( { PlayersCount = PlayersCount } )
+    
+    local PlayerTypesReport = REPORT:New()
+    
+    if PlayersCount > 0 then
+      for PlayerName, PlayerType in pairs( PlayerTypes ) do
+        PlayerTypesReport:Add( string.format('"%s" in %s', PlayerName, PlayerType ) )
+      end
+    else
+      PlayerTypesReport:Add( "-" )
+    end
+    
+    
+    return PlayersCount, PlayerTypesReport
+  end
+
+  --- Calculates which friendlies are nearby the area
+  -- @param #AI_A2A_DISPATCHER self
+  -- @param DetectedItem
+  -- @return #number, Core.CommandCenter#REPORT
+  function AI_A2A_DISPATCHER:GetFriendliesNearBy( Target )
+  
+    local DetectedSet = Target.Set
+    local FriendlyUnitsNearBy = self.Detection:GetFriendliesNearBy( Target )
+    
+    local FriendlyTypes = {}
+    local FriendliesCount = 0
+
+    if FriendlyUnitsNearBy then
+      local DetectedTreatLevel = DetectedSet:CalculateThreatLevelA2G()
+      for FriendlyUnitName, FriendlyUnitData in pairs( FriendlyUnitsNearBy ) do
+        local FriendlyUnit = FriendlyUnitData -- Wrapper.Unit#UNIT
+        if FriendlyUnit:IsAirPlane() then
+          local FriendlyUnitThreatLevel = FriendlyUnit:GetThreatLevel()
+          FriendliesCount = FriendliesCount + 1
+          local FriendlyType = FriendlyUnit:GetTypeName()
+          FriendlyTypes[FriendlyType] = FriendlyTypes[FriendlyType] and ( FriendlyTypes[FriendlyType] + 1 ) or 1
+          if DetectedTreatLevel < FriendlyUnitThreatLevel + 2 then
+          end
+        end
+      end
+      
+    end
+
+    --self:E( { FriendliesCount = FriendliesCount } )
+    
+    local FriendlyTypesReport = REPORT:New()
+    
+    if FriendliesCount > 0 then
+      for FriendlyType, FriendlyTypeCount in pairs( FriendlyTypes ) do
+        FriendlyTypesReport:Add( string.format("%d of %s", FriendlyTypeCount, FriendlyType ) )
+      end
+    else
+      FriendlyTypesReport:Add( "-" )
+    end
+    
+    
+    return FriendliesCount, FriendlyTypesReport
+  end
+
+  ---
+  -- @param AI_A2A_DISPATCHER
+  -- @param #string SquadronName The squadron name.
+  function AI_A2A_DISPATCHER:SchedulerCAP( SquadronName )
+    self:CAP( SquadronName )
+  end
+
+end
+
+do
+
+  --- AI_A2A_DISPATCHER_GCICAP class.
+  -- @type AI_A2A_DISPATCHER_GCICAP
+  -- @extends #AI_A2A_DISPATCHER
+
+  --- # AI\_A2A\_DISPATCHER\_GCICAP class, extends @{AI#AI_A2A_DISPATCHER}
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia1.JPG)
+  -- 
+  -- The @{#AI_A2A_DISPATCHER} class is designed to create an automatic air defence system for a coalition. 
+  -- 
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia3.JPG)
+  -- 
+  -- It includes automatic spawning of Combat Air Patrol aircraft (CAP) and Ground Controlled Intercept aircraft (GCI) in response to enemy air movements that are detected by a ground based radar network. 
+  -- CAP flights will take off and proceed to designated CAP zones where they will remain on station until the ground radars direct them to intercept detected enemy aircraft or they run short of fuel and must return to base (RTB). When a CAP flight leaves their zone to perform an interception or return to base a new CAP flight will spawn to take their place.
+  -- If all CAP flights are engaged or RTB then additional GCI interceptors will scramble to intercept unengaged enemy aircraft under ground radar control.
+  -- With a little time and with a little work it provides the mission designer with a convincing and completely automatic air defence system. 
+  -- In short it is a plug in very flexible and configurable air defence module for DCS World.
+  -- 
+  -- Note that in order to create a two way A2A defense system, two AI\_A2A\_DISPATCHER_GCICAP defense system may need to be created, for each coalition one.
+  -- This is a good implementation, because maybe in the future, more coalitions may become available in DCS world.
+  -- 
+  -- ## 1. AI\_A2A\_DISPATCHER\_GCICAP constructor:
+  -- 
+  -- The @{#AI_A2A_DISPATCHER_GCICAP.New}() method creates a new AI\_A2A\_DISPATCHER\_GCICAP instance.
+  -- There are two parameters required, a list of prefix group names that collects the groups of the EWR network, and a radius in meters, 
+  -- that will be used to group the detected targets.
+  -- 
+  -- ### 1.1. Define the **EWR network**:
+  -- 
+  -- As part of the AI\_A2A\_DISPATCHER\_GCICAP constructor, a list of prefixes must be given of the group names defined within the mission editor,
+  -- that define the EWR network.
+  -- 
+  -- An EWR network, or, Early Warning Radar network, is used to early detect potential airborne targets and to understand the position of patrolling targets of the enemy.
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia5.JPG)
+  -- 
+  -- Typically EWR networks are setup using 55G6 EWR, 1L13 EWR, Hawk sr and Patriot str ground based radar units. 
+  -- These radars have different ranges and 55G6 EWR and 1L13 EWR radars are Eastern Bloc units (eg Russia, Ukraine, Georgia) while the Hawk and Patriot radars are Western (eg US).
+  -- Additionally, ANY other radar capable unit can be part of the EWR network! Also AWACS airborne units, planes, helicopters can help to detect targets, as long as they have radar.
+  -- The position of these units is very important as they need to provide enough coverage 
+  -- to pick up enemy aircraft as they approach so that CAP and GCI flights can be tasked to intercept them.
+  -- 
+  -- ![Banner Image](..\Presentations\AI_A2A_DISPATCHER\Dia7.JPG)
+  --  
+  -- Additionally in a hot war situation where the border is no longer respected the placement of radars has a big effect on how fast the war escalates. 
+  -- For example if they are a long way forward and can detect enemy planes on the ground and taking off 
+  -- they will start to vector CAP and GCI flights to attack them straight away which will immediately draw a response from the other coalition. 
+  -- Having the radars further back will mean a slower escalation because fewer targets will be detected and 
+  -- therefore less CAP and GCI flights will spawn and this will tend to make just the border area active rather than a melee over the whole map. 
+  -- It all depends on what the desired effect is. 
+  -- 
+  -- EWR networks are **dynamically maintained**. By defining in a **smart way the names or name prefixes of the groups** with EWR capable units, these groups will be **automatically added or deleted** from the EWR network, 
+  -- increasing or decreasing the radar coverage of the Early Warning System.
+  -- 
+  -- See the following example to setup an EWR network containing EWR stations and AWACS.
+  -- 
+  --     -- Setup the A2A GCICAP dispatcher, and initialize it.
+  --     A2ADispatcher = AI_A2A_DISPATCHER_GCICAP:New( { "DF CCCP AWACS", "DF CCCP EWR" }, 30000 )
+  -- 
+  -- The above example creates a new AI_A2A_DISPATCHER_GCICAP instance, and stores this in the variable (object) **A2ADispatcher**.
+  -- The first parameter is are the prefixes of the group names that define the EWR network.
+  -- The A2A dispatcher will filter all active groups with a group name starting with **DF CCCP AWACS** or **DF CCCP EWR** to be included in the EWR network.
+  -- 
+  -- ### 1.2. Define the detected **target grouping radius**:
+  -- 
+  -- As a second parameter of the @{#AI_A2A_DISPATCHER_GCICAP.New}() method, a radius in meters must be given. The radius indicates that detected targets need to be grouped within a radius of 30km.
+  -- The grouping radius should not be too small, but also depends on the types of planes and the era of the simulation.
+  -- Fast planes like in the 80s, need a larger radius than WWII planes.  
+  -- Typically I suggest to use 30000 for new generation planes and 10000 for older era aircraft.
+  -- 
+  -- Note that detected targets are constantly re-grouped, that is, when certain detected aircraft are moving further than the group radius, then these aircraft will become a separate
+  -- group being detected. This may result in additional GCI being started by the dispatcher! So don't make this value too small!
+  -- 
+  -- ## 2. AI_A2A_DISPATCHER_DOCUMENTATION is derived from @{#AI_A2A_DISPATCHER}, 
+  -- so all further documentation needs to be consulted in this class
+  -- for documentation consistency.
+  -- 
+  -- @field #AI_A2A_DISPATCHER_GCICAP
+  AI_A2A_DISPATCHER_GCICAP = {
+    ClassName = "AI_A2A_DISPATCHER_GCICAP",
+    Detection = nil,
+  }
+
+
+  --- AI_A2A_DISPATCHER_GCICAP constructor.
+  -- @param #AI_A2A_DISPATCHER_GCICAP self
+  -- @param #list<#string> EWRPrefixes A list of prefixes that of groups that setup the Early Warning Radar network.
+  -- @param #number GroupingRadius The radius in meters wherein detected planes are being grouped as one target area. 
+  -- For airplanes, 6000 (6km) is recommended, and is also the default value of this parameter.
+  -- @return #AI_A2A_DISPATCHER_GCICAP
+  -- @usage
+  --   
+  --   -- Set a new AI A2A Dispatcher object, based on an EWR network with a 30 km grouping radius
+  --   -- This for ground and awacs installations.
+  --   
+  --   A2ADispatcher = AI_A2A_DISPATCHER_GCICAP:New( { "BlueEWRGroundRadars", "BlueEWRAwacs" }, 30000 )
+  --   
+  function AI_A2A_DISPATCHER_GCICAP:New( EWRPrefixes, GroupingRadius )
+
+    local SetGroup = SET_GROUP:New()
+    SetGroup:FilterPrefixes( EWRPrefixes )
+    SetGroup:FilterStart()
+
+    local Detection  = DETECTION_AREAS:New( SetGroup, GroupingRadius )
+
+    local self = BASE:Inherit( self, AI_A2A_DISPATCHER:New( Detection ) ) -- #AI_A2A_DISPATCHER_GCICAP
+    
+    self:__Start( 5 )
+    
+    return self
+  end
+
+end
+
 --- **AI** -- **Air Patrolling or Staging.**
 -- 
 -- ![Banner Image](..\Presentations\AI_PATROL\Dia1.JPG)
@@ -34426,6 +39027,7 @@ end
 -- ====
 -- 
 -- @module AI_Patrol
+
 
 --- AI_PATROL_ZONE class
 -- @type AI_PATROL_ZONE
@@ -38694,7 +43296,7 @@ do -- ACT_ROUTE
           RouteText = Coordinate:ToStringFromRP( ShortestReferencePoint, ShortestReferenceName, Controllable )
         end
       else
-        RouteText = self.Coordinate:ToString( Controllable )
+        RouteText = Coordinate:ToString( Controllable )
       end
     end
 
@@ -39040,19 +43642,20 @@ do -- ACT_ACCOUNT
     -- Inherits from BASE
     local self = BASE:Inherit( self, FSM_PROCESS:New() ) -- Core.Fsm#FSM_PROCESS
   
-    self:AddTransition( "Assigned", "Start", "Waiting")
-    self:AddTransition( "*", "Wait", "Waiting")
-    self:AddTransition( "*", "Report", "Report")
-    self:AddTransition( "*", "Event", "Account")
-    self:AddTransition( "Account", "More", "Wait")
-    self:AddTransition( "Account", "NoMore", "Accounted")
-    self:AddTransition( "*", "Fail", "Failed")
+    self:AddTransition( "Assigned", "Start", "Waiting" )
+    self:AddTransition( "*", "Wait", "Waiting" )
+    self:AddTransition( "*", "Report", "Report" )
+    self:AddTransition( "*", "Event", "Account" )
+    self:AddTransition( "Account", "Player", "AccountForPlayer" )
+    self:AddTransition( "Account", "Other", "AccountForOther" )
+    self:AddTransition( { "Account", "AccountForPlayer", "AccountForOther" }, "More", "Wait" )
+    self:AddTransition( { "Account", "AccountForPlayer", "AccountForOther" }, "NoMore", "Accounted" )
+    self:AddTransition( "*", "Fail", "Failed" )
     
-    self:AddEndState( "Accounted" )
     self:AddEndState( "Failed" )
     
     self:SetStartState( "Assigned" ) 
-        
+    
     return self
   end
 
@@ -39067,6 +43670,8 @@ do -- ACT_ACCOUNT
   function ACT_ACCOUNT:onafterStart( ProcessUnit, From, Event, To )
 
     self:HandleEvent( EVENTS.Dead, self.onfuncEventDead )
+    self:HandleEvent( EVENTS.Crash, self.onfuncEventCrash )
+    self:HandleEvent( EVENTS.Hit )
 
     self:__Wait( 1 )
   end
@@ -39169,47 +43774,103 @@ do -- ACT_ACCOUNT_DEADS
   
   --- StateMachine callback function
   -- @param #ACT_ACCOUNT_DEADS self
-  -- @param Wrapper.Controllable#CONTROLLABLE ProcessUnit
-  -- @param #string Event
+  -- @param Wrapper.Client#CLIENT ProcessClient
+  -- @param Tasking.Task#TASK Task
   -- @param #string From
+  -- @param #string Event
   -- @param #string To
-  function ACT_ACCOUNT_DEADS:onenterAccount( ProcessUnit, Task, From, Event, To, EventData  )
-    self:T( { ProcessUnit, EventData, From, Event, To } )
+  -- @param Core.Event#EVENTDATA EventData
+  function ACT_ACCOUNT_DEADS:onafterEvent( ProcessClient, Task, From, Event, To, EventData  )
+    self:T( { ProcessClient:GetName(), Task:GetName(), From, Event, To, EventData } )
     
-    self:T({self.Controllable})
-  
-    self.TargetSetUnit:Flush()
-    
-    self:T( { "Before sending Message", EventData.IniUnitName, self.TargetSetUnit:FindUnit( EventData.IniUnitName ) } )
     if self.TargetSetUnit:FindUnit( EventData.IniUnitName ) then
-      self:T( "Sending Message" )
-      local TaskGroup = ProcessUnit:GetGroup()
-      self.TargetSetUnit:Remove( EventData.IniUnitName )
-      self:Message( "You hit a target. Your group with assigned " .. self.TaskName .. " task has " .. self.TargetSetUnit:Count() .. " targets ( " .. self.TargetSetUnit:GetUnitTypesText() .. " ) left to be destroyed." )
+      local PlayerName = ProcessClient:GetPlayerName()
+      local PlayerHit = self.PlayerHits and self.PlayerHits[EventData.IniUnitName]
+      if PlayerHit == PlayerName then
+        self:Player( EventData )
+      else
+        self:Other( EventData )
+      end
     end
-    self:T( { "After sending Message" } )
   end
-  
+
   --- StateMachine callback function
   -- @param #ACT_ACCOUNT_DEADS self
-  -- @param Wrapper.Controllable#CONTROLLABLE ProcessUnit
-  -- @param #string Event
+  -- @param Wrapper.Client#CLIENT ProcessClient
+  -- @param Tasking.Task#TASK Task
   -- @param #string From
+  -- @param #string Event
   -- @param #string To
-  function ACT_ACCOUNT_DEADS:onafterEvent( ProcessUnit, Task, From, Event, To )
-  
+  -- @param Core.Event#EVENTDATA EventData
+  function ACT_ACCOUNT_DEADS:onenterAccountForPlayer( ProcessClient, Task, From, Event, To, EventData  )
+    self:T( { ProcessClient:GetName(), Task:GetName(), From, Event, To, EventData } )
+    
+    local TaskGroup = ProcessClient:GetGroup()
+
+    self.TargetSetUnit:Remove( EventData.IniUnitName )
+    self:Message( "You have destroyed a target. Your group assigned with task " .. self.TaskName .. " has " .. self.TargetSetUnit:Count() .. " targets ( " .. self.TargetSetUnit:GetUnitTypesText() .. " ) left to be destroyed." )
+
+    local PlayerName = ProcessClient:GetPlayerName()
+    Task:AddProgress( PlayerName, "Destroyed " .. EventData.IniTypeName, timer.getTime(), 1 )
+
     if self.TargetSetUnit:Count() > 0 then
       self:__More( 1 )
     else
       self:__NoMore( 1 )
     end
   end
+
+  --- StateMachine callback function
+  -- @param #ACT_ACCOUNT_DEADS self
+  -- @param Wrapper.Client#CLIENT ProcessClient
+  -- @param Tasking.Task#TASK Task
+  -- @param #string From
+  -- @param #string Event
+  -- @param #string To
+  -- @param Core.Event#EVENTDATA EventData
+  function ACT_ACCOUNT_DEADS:onenterAccountForOther( ProcessClient, Task, From, Event, To, EventData  )
+    self:T( { ProcessClient:GetName(), Task:GetName(), From, Event, To, EventData } )
+    
+    local TaskGroup = ProcessClient:GetGroup()
+    self.TargetSetUnit:Remove( EventData.IniUnitName )
+    self:Message( "One of the task targets has been destroyed. Your group assigned with task " .. self.TaskName .. " has " .. self.TargetSetUnit:Count() .. " targets ( " .. self.TargetSetUnit:GetUnitTypesText() .. " ) left to be destroyed." )
+
+    if self.TargetSetUnit:Count() > 0 then
+      self:__More( 1 )
+    else
+      self:__NoMore( 1 )
+    end
+  end
+
   
   --- DCS Events
   
   --- @param #ACT_ACCOUNT_DEADS self
+  -- @param Core.Event#EVENTDATA EventData
+  function ACT_ACCOUNT_DEADS:OnEventHit( EventData )
+    self:T( { "EventDead", EventData } )
+
+    if EventData.IniPlayerName and EventData.TgtDCSUnitName then
+      self.PlayerHits = self.PlayerHits or {}
+      self.PlayerHits[EventData.TgtDCSUnitName] = EventData.IniPlayerName
+    end
+  end  
+  
+  --- @param #ACT_ACCOUNT_DEADS self
   -- @param Event#EVENTDATA EventData
   function ACT_ACCOUNT_DEADS:onfuncEventDead( EventData )
+    self:T( { "EventDead", EventData } )
+
+    if EventData.IniDCSUnit then
+      self:Event( EventData )
+    end
+  end
+
+  --- DCS Events
+  
+  --- @param #ACT_ACCOUNT_DEADS self
+  -- @param Event#EVENTDATA EventData
+  function ACT_ACCOUNT_DEADS:onfuncEventCrash( EventData )
     self:T( { "EventDead", EventData } )
 
     if EventData.IniDCSUnit then
@@ -39983,6 +44644,7 @@ function MISSION:New( CommandCenter, MissionName, MissionPriority, MissionBriefi
   self.MissionCoalition = MissionCoalition
   
   self.Tasks = {}
+  self.PlayerNames = {} -- These are the players that achieved progress in the mission.
 
   self:SetStartState( "IDLE" )
   
@@ -40438,7 +45100,8 @@ function MISSION:GetMenu( TaskGroup ) -- R2.1 -- Changed Menu Structure
   Menu.ReportFailedTasksMenu = Menu.ReportFailedTasksMenu or          MENU_GROUP_COMMAND:New( TaskGroup, "Report Failed Tasks", Menu.TaskReportsMenu, self.MenuReportTasksPerStatus, self, TaskGroup, "Failed" )
   Menu.ReportHeldTasksMenu = Menu.ReportHeldTasksMenu or              MENU_GROUP_COMMAND:New( TaskGroup, "Report Held Tasks", Menu.TaskReportsMenu, self.MenuReportTasksPerStatus, self, TaskGroup, "Hold" )
   
-  Menu.PlayerReportsMenu = Menu.PlayerReportsMenu or                  MENU_GROUP:New( TaskGroup, "Player Reports", Menu.MainMenu )
+  Menu.PlayerReportsMenu = Menu.PlayerReportsMenu or                  MENU_GROUP:New( TaskGroup, "Statistics Reports", Menu.MainMenu )
+  Menu.ReportMissionHistory = Menu.ReportPlayersHistory or            MENU_GROUP_COMMAND:New( TaskGroup, "Report Mission Progress", Menu.PlayerReportsMenu, self.MenuReportPlayersProgress, self, TaskGroup )
   Menu.ReportPlayersPerTaskMenu = Menu.ReportPlayersPerTaskMenu or    MENU_GROUP_COMMAND:New( TaskGroup, "Report Players per Task", Menu.PlayerReportsMenu, self.MenuReportPlayersPerTask, self, TaskGroup )
   
   return Menu.MainMenu
@@ -40598,6 +45261,18 @@ function MISSION:GetTaskTypes()
   return TaskTypeList
 end
 
+
+function MISSION:AddPlayerName( PlayerName )
+  self.PlayerNames = self.PlayerNames or {}
+  self.PlayerNames[PlayerName] = PlayerName
+  return self
+end
+
+function MISSION:GetPlayerNames()
+  return self.PlayerNames
+end
+
+
 --- Create a briefing report of the Mission.
 -- @param #MISSION self
 -- @return #string
@@ -40609,10 +45284,9 @@ function MISSION:ReportBriefing()
   local Name = self:GetName()
   
   -- Determine the status of the mission.
-  local Status = self:GetState()
-  local TasksRemaining = self:GetTasksRemaining()
+  local Status = "<" .. self:GetState() .. ">"
   
-  Report:Add( "Mission " .. Name .. " - " .. Status .. " - Briefing Report." )
+  Report:Add( string.format( '%s - %s - Mission Briefing Report', Name, Status ) )
 
   Report:Add( self.MissionBriefing )
   
@@ -40643,8 +45317,7 @@ function MISSION:ReportStatus()
   local Name = self:GetName()
   
   -- Determine the status of the mission.
-  local Status = self:GetState()
-  local TasksRemaining = self:GetTasksRemaining()
+  local Status = "<" .. self:GetState() .. ">"
 
   Report:Add( string.format( '%s - Status "%s"', Name, Status ) )
   
@@ -40673,6 +45346,7 @@ function MISSION:ReportStatus()
   return Report:Text()
 end
 
+
 --- Create an active player report of the Mission.
 -- This reports provides a one liner of the mission status. It indicates how many players and how many Tasks.
 -- 
@@ -40691,7 +45365,7 @@ function MISSION:ReportPlayersPerTask( ReportGroup )
   local Name = self:GetName()
   
   -- Determine the status of the mission.
-  local Status = self:GetState()
+  local Status = "<" .. self:GetState() .. ">"
 
   Report:Add( string.format( '%s - %s - Players per Task Report', Name, Status ) )
   
@@ -40714,6 +45388,56 @@ function MISSION:ReportPlayersPerTask( ReportGroup )
   return Report:Text()
 end
 
+--- Create an Mission Progress report of the Mission.
+-- This reports provides a one liner per player of the mission achievements per task.
+-- 
+--     Mission "<MissionName>" - <MissionStatus> - Active Players Report
+--      - Player <PlayerName>: Task <TaskName> <TaskStatus>: <Progress>
+--      - Player <PlayerName>: Task <TaskName> <TaskStatus>: <Progress>
+--      - ..
+-- 
+-- @param #MISSION self
+-- @return #string
+function MISSION:ReportPlayersProgress( ReportGroup )
+
+  local Report = REPORT:New()
+
+  -- List the name of the mission.
+  local Name = self:GetName()
+  
+  -- Determine the status of the mission.
+  local Status = "<" .. self:GetState() .. ">"
+
+  Report:Add( string.format( '%s - %s - Players per Task Progress Report', Name, Status ) )
+  
+  local PlayerList = {}
+  
+  -- Determine how many tasks are remaining.
+  for TaskID, Task in pairs( self:GetTasks() ) do
+    local Task = Task -- Tasking.Task#TASK
+    local TaskGoalTotal = Task:GetGoalTotal() or 0
+    local TaskName = Task:GetName()
+    PlayerList[TaskName] = PlayerList[TaskName] or {}
+    if TaskGoalTotal ~= 0 then
+      local PlayerNames = self:GetPlayerNames()
+      for PlayerName, PlayerData in pairs( PlayerNames ) do
+        PlayerList[TaskName][PlayerName] = string.format( 'Player (%s): Task "%s": %d%%', PlayerName, TaskName, Task:GetPlayerProgress( PlayerName ) * 100 / TaskGoalTotal )
+      end
+    else
+      PlayerList[TaskName]["_"] = string.format( 'Player (---): Task "%s": %d%%', TaskName, 0 )
+    end
+    
+  end
+
+  for TaskName, TaskData in pairs( PlayerList ) do
+    for PlayerName, TaskText in pairs( TaskData ) do
+      Report:Add( string.format( ' - %s', TaskText ) )
+    end
+  end
+  
+  return Report:Text()
+end
+
 
 --- Create a summary report of the Mission (one line).
 -- @param #MISSION self
@@ -40726,7 +45450,7 @@ function MISSION:ReportSummary()
   local Name = self:GetName()
   
   -- Determine the status of the mission.
-  local Status = self:GetState()
+  local Status = "<" .. self:GetState() .. ">"
   
   Report:Add( string.format( '%s - %s - Task Overview Report', Name, Status ) )
 
@@ -40750,7 +45474,7 @@ function MISSION:ReportOverview( ReportGroup, TaskStatus )
   local Name = self:GetName()
   
   -- Determine the status of the mission.
-  local Status = self:GetState()
+  local Status = "<" .. self:GetState() .. ">"
 
   Report:Add( string.format( '%s - %s - %s Tasks Report', Name, Status, TaskStatus ) )
   
@@ -40777,7 +45501,7 @@ function MISSION:ReportDetails( ReportGroup )
   local Name = self:GetName()
   
   -- Determine the status of the mission.
-  local Status = self:GetState()
+  local Status = "<" .. self:GetState() .. ">"
   
   Report:Add( string.format( '%s - %s - Task Detailed Report', Name, Status ) )
   
@@ -40802,6 +45526,9 @@ function MISSION:GetTasks()
 	return self.Tasks
 end
 
+--- Reports the briefing.
+-- @param #MISSION self
+-- @param Wrapper.Group#GROUP ReportGroup The group to which the report needs to be sent.
 function MISSION:MenuReportBriefing( ReportGroup )
 
   local Report = self:ReportBriefing()
@@ -40810,7 +45537,9 @@ function MISSION:MenuReportBriefing( ReportGroup )
 end
 
 
---- @param #MISSION self
+
+--- Report the task summary.
+-- @param #MISSION self
 -- @param Wrapper.Group#GROUP ReportGroup
 function MISSION:MenuReportTasksSummary( ReportGroup )
 
@@ -40818,6 +45547,9 @@ function MISSION:MenuReportTasksSummary( ReportGroup )
   
   self:GetCommandCenter():MessageToGroup( Report, ReportGroup )
 end
+
+
+
 
 --- @param #MISSION self
 -- @param #string TaskStatus The status
@@ -40835,6 +45567,15 @@ end
 function MISSION:MenuReportPlayersPerTask( ReportGroup )
 
   local Report = self:ReportPlayersPerTask()
+  
+  self:GetCommandCenter():MessageToGroup( Report, ReportGroup )
+end
+
+--- @param #MISSION self
+-- @param Wrapper.Group#GROUP ReportGroup
+function MISSION:MenuReportPlayersProgress( ReportGroup )
+
+  local Report = self:ReportPlayersProgress()
   
   self:GetCommandCenter():MessageToGroup( Report, ReportGroup )
 end
@@ -41015,6 +45756,36 @@ function TASK:New( Mission, SetGroupAssign, TaskName, TaskType, TaskBriefing )
   self:AddTransition( "Assigned", "Fail", "Failed" )
   self:AddTransition( "Assigned", "Abort", "Aborted" )
   self:AddTransition( "Assigned", "Cancel", "Cancelled" )
+  self:AddTransition( "Assigned", "Goal", "*" )
+  
+  --- Goal Handler OnBefore for TASK
+  -- @function [parent=#TASK] OnBeforeGoal
+  -- @param #TASK self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable
+  -- @param #string From
+  -- @param #string Event
+  -- @param #string To
+  -- @return #boolean
+  
+  --- Goal Handler OnAfter for TASK
+  -- @function [parent=#TASK] OnAfterGoal
+  -- @param #TASK self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable
+  -- @param #string From
+  -- @param #string Event
+  -- @param #string To
+  
+  --- Goal Trigger for TASK
+  -- @function [parent=#TASK] Goal
+  -- @param #TASK self
+  
+  --- Goal Asynchronous Trigger for TASK
+  -- @function [parent=#TASK] __Goal
+  -- @param #TASK self
+  -- @param #number Delay
+  
+  
+  
   self:AddTransition( "*", "PlayerCrashed", "*" )
   self:AddTransition( "*", "PlayerAborted", "*" )
   self:AddTransition( "*", "PlayerDead", "*" )
@@ -41040,6 +45811,8 @@ function TASK:New( Mission, SetGroupAssign, TaskName, TaskType, TaskBriefing )
   self.FsmTemplate = self.FsmTemplate or FSM_PROCESS:New()
   
   self.TaskInfo = {}
+  
+  self.TaskProgress = {}
   
   return self
 end
@@ -41324,7 +46097,7 @@ do -- Group Assignment
       local TaskUnit = UnitData -- Wrapper.Unit#UNIT
       local PlayerName = TaskUnit:GetPlayerName()
       self:E(PlayerName)
-      if PlayerName ~= nil or PlayerName ~= "" then
+      if PlayerName ~= nil and PlayerName ~= "" then
         self:AssignToUnit( TaskUnit )
         CommandCenter:MessageToGroup( 
           string.format( 'Task "%s": Briefing for player (%s):\n%s', 
@@ -41343,8 +46116,9 @@ do -- Group Assignment
   
   --- UnAssign the @{Task} from a @{Group}.
   -- @param #TASK self
+  -- @param Wrapper.Group#GROUP TaskGroup
   function TASK:UnAssignFromGroup( TaskGroup )
-    self:F2( { TaskGroup } )
+    self:F2( { TaskGroup = TaskGroup:GetName() } )
     
     self:ClearGroupAssignment( TaskGroup )
   
@@ -41352,7 +46126,7 @@ do -- Group Assignment
     for UnitID, UnitData in pairs( TaskUnits ) do
       local TaskUnit = UnitData -- Wrapper.Unit#UNIT
       local PlayerName = TaskUnit:GetPlayerName()
-      if PlayerName ~= nil or PlayerName ~= "" then
+      if PlayerName ~= nil and PlayerName ~= "" then -- Only remove units that have players!
         self:UnAssignFromUnit( TaskUnit )
       end
     end
@@ -41515,9 +46289,11 @@ end
 -- @return #TASK
 function TASK:SetMenuForGroup( TaskGroup, MenuTime )
 
-  self:SetPlannedMenuForGroup( TaskGroup, MenuTime )
-  if self:IsGroupAssigned( TaskGroup ) then
-    self:SetAssignedMenuForGroup( TaskGroup, MenuTime )
+  if self:IsStatePlanned() or self:IsStateAssigned() then
+    self:SetPlannedMenuForGroup( TaskGroup, MenuTime )
+    if self:IsGroupAssigned( TaskGroup ) then
+      self:SetAssignedMenuForGroup( TaskGroup, MenuTime )
+    end
   end
 end
 
@@ -41758,7 +46534,7 @@ end
 -- @param Wrapper.Unit#UNIT TaskUnit
 -- @return #TASK self
 function TASK:RemoveStateMachine( TaskUnit )
-  self:F( { TaskUnit, self.Fsm[TaskUnit] ~= nil } )
+  self:F( { TaskUnit = TaskUnit:GetName(), HasFsm = ( self.Fsm[TaskUnit] ~= nil ) } )
 
   --self:E( self.Fsm )
   --for TaskUnitT, Fsm in pairs( self.Fsm ) do
@@ -41767,12 +46543,15 @@ function TASK:RemoveStateMachine( TaskUnit )
     --self.Fsm[TaskUnit] = nil
   --end
 
-  self.Fsm[TaskUnit]:Remove()
-  self.Fsm[TaskUnit] = nil
+  if self.Fsm[TaskUnit] then
+    self.Fsm[TaskUnit]:Remove()
+    self.Fsm[TaskUnit] = nil
+  end
   
   collectgarbage()
   self:E( "Garbage Collected, Processes should be finalized now ...")
 end
+
 
 --- Checks if there is a FiniteStateMachine assigned to Task@{Unit} for @{Task}
 -- @param #TASK self
@@ -41992,10 +46771,17 @@ end
 -- @param #string To
 function TASK:onenterAssigned( From, Event, To, PlayerUnit, PlayerName )
 
-  self:E( { "Task Assigned", self.Dispatcher } )
-  
+
+  --- This test is required, because the state transition will be fired also when the state does not change in case of an event.  
   if From ~= "Assigned" then
+    self:E( { From, Event, To, PlayerUnit:GetName(), PlayerName } )
+
     self:GetMission():GetCommandCenter():MessageToCoalition( "Task " .. self:GetName() .. " is assigned." )
+    
+    -- Set the total Progress to be achieved.
+    
+    self:SetGoalTotal() -- Polymorphic to set the initial goal total!
+    
     if self.Dispatcher then
       self:E( "Firing Assign event " )
       self.Dispatcher:Assign( self, PlayerUnit, PlayerName )
@@ -42003,6 +46789,9 @@ function TASK:onenterAssigned( From, Event, To, PlayerUnit, PlayerName )
     
     self:GetMission():__Start( 1 )
     
+    -- When the task is assigned, the task goal needs to be checked of the derived classes.
+    self:__Goal( -10 )  -- Polymorphic
+     
     self:SetMenu()
   end
 end
@@ -42142,9 +46931,9 @@ function TASK:ReportSummary() --R2.1 fixed report. Now nicely formatted and cont
   local Name = self:GetName()
   
   -- Determine the status of the Task.
-  local State = self:GetState()
+  local Status = "<" .. self:GetState() .. ">"
   
-  Report:Add( "Task " .. Name .. " - State '" .. State )
+  Report:Add( 'Task ' .. Name .. ' - State ' .. Status )
 
   return Report:Text()
 end
@@ -42161,7 +46950,7 @@ function TASK:ReportOverview( ReportGroup ) --R2.1 fixed report. Now nicely form
   local Report = REPORT:New( Name )
   
   -- Determine the status of the Task.
-  local State = self:GetState()
+  local Status = "<" .. self:GetState() .. ">"
   
   for TaskInfoID, TaskInfo in pairs( self.TaskInfo ) do
 
@@ -42239,7 +47028,7 @@ function TASK:ReportDetails( ReportGroup )
   local Name = self:GetName()
   
   -- Determine the status of the Task.
-  local State = self:GetState()
+  local Status = "<" .. self:GetState() .. ">"
 
   -- Loop each Unit active in the Task, and find Player Names.
   local PlayerNames = self:GetPlayerNames()
@@ -42250,7 +47039,7 @@ function TASK:ReportDetails( ReportGroup )
   end
   local Players = PlayerReport:Text()
 
-  Report:Add( "Task: " .. Name .. " - " .. State .. " - Detailed Report" )
+  Report:Add( "Task: " .. Name .. " - " .. Status .. " - Detailed Report" )
   Report:Add( " - Players:" )
   Report:AddIndent( Players )
   
@@ -42278,6 +47067,86 @@ end
 
 
 end -- Reporting
+
+
+do -- Additional Task Scoring and Task Progress
+
+  --- Add Task Progress for a Player Name
+  -- @param #TASK self
+  -- @param #string PlayerName The name of the player.
+  -- @param #string ProgressText The text that explains the Progress achieved.
+  -- @param #number ProgressTime The time the progress was achieved.
+  -- @oaram #number ProgressPoints The amount of points of magnitude granted. This will determine the shared Mission Success scoring.
+  -- @return #TASK
+  function TASK:AddProgress( PlayerName, ProgressText, ProgressTime, ProgressPoints )
+    self.TaskProgress = self.TaskProgress or {}
+    self.TaskProgress[ProgressTime] = self.TaskProgress[ProgressTime] or {}
+    self.TaskProgress[ProgressTime].PlayerName = PlayerName
+    self.TaskProgress[ProgressTime].ProgressText = ProgressText
+    self.TaskProgress[ProgressTime].ProgressPoints = ProgressPoints
+    self:GetMission():AddPlayerName( PlayerName )
+    return self
+  end
+  
+  function TASK:GetPlayerProgress( PlayerName )
+    local ProgressPlayer = 0
+    for ProgressTime, ProgressData in pairs( self.TaskProgress ) do
+      if PlayerName == ProgressData.PlayerName then
+        ProgressPlayer = ProgressPlayer + ProgressData.ProgressPoints
+      end
+    end
+    return ProgressPlayer
+  end
+
+  --- Set a score when progress has been made by the player.
+  -- @param #TASK self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Score The score in points to be granted when task process has been achieved.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK
+  function TASK:SetScoreOnProgress( PlayerName, Score, TaskUnit )
+    self:F( { PlayerName, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScoreProcess( "Engaging", "Account", "AccountPlayer", "Player " .. PlayerName .. " has achieved progress.", Score )
+    
+    return self
+  end
+
+  --- Set a score when all the targets in scope of the A2A attack, have been destroyed.
+  -- @param #TASK self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Score The score in points.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK
+  function TASK:SetScoreOnSuccess( PlayerName, Score, TaskUnit )
+    self:F( { PlayerName, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Success", "The task is a success!", Score )
+    
+    return self
+  end
+
+  --- Set a penalty when the A2A attack has failed.
+  -- @param #TASK self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Penalty The penalty in points, must be a negative value!
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK
+  function TASK:SetScoreOnFail( PlayerName, Penalty, TaskUnit )
+    self:F( { PlayerName, Penalty, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Failed", "The task is a failure!", Penalty )
+    
+    return self
+  end
+
+end
 --- This module contains the DETECTION_MANAGER class and derived classes.
 -- 
 -- ===
@@ -42350,7 +47219,60 @@ do -- DETECTION MANAGER
     
     self:SetStartState( "Stopped" )
     self:AddTransition( "Stopped", "Start", "Started" )
+    
+    --- Start Handler OnBefore for DETECTION_MANAGER
+    -- @function [parent=#DETECTION_MANAGER] OnBeforeStart
+    -- @param #DETECTION_MANAGER self
+    -- @param #string From
+    -- @param #string Event
+    -- @param #string To
+    -- @return #boolean
+    
+    --- Start Handler OnAfter for DETECTION_MANAGER
+    -- @function [parent=#DETECTION_MANAGER] OnAfterStart
+    -- @param #DETECTION_MANAGER self
+    -- @param #string From
+    -- @param #string Event
+    -- @param #string To
+    
+    --- Start Trigger for DETECTION_MANAGER
+    -- @function [parent=#DETECTION_MANAGER] Start
+    -- @param #DETECTION_MANAGER self
+    
+    --- Start Asynchronous Trigger for DETECTION_MANAGER
+    -- @function [parent=#DETECTION_MANAGER] __Start
+    -- @param #DETECTION_MANAGER self
+    -- @param #number Delay
+    
+    
+    
     self:AddTransition( "Started", "Stop", "Stopped" )
+    
+    --- Stop Handler OnBefore for DETECTION_MANAGER
+    -- @function [parent=#DETECTION_MANAGER] OnBeforeStop
+    -- @param #DETECTION_MANAGER self
+    -- @param #string From
+    -- @param #string Event
+    -- @param #string To
+    -- @return #boolean
+    
+    --- Stop Handler OnAfter for DETECTION_MANAGER
+    -- @function [parent=#DETECTION_MANAGER] OnAfterStop
+    -- @param #DETECTION_MANAGER self
+    -- @param #string From
+    -- @param #string Event
+    -- @param #string To
+    
+    --- Stop Trigger for DETECTION_MANAGER
+    -- @function [parent=#DETECTION_MANAGER] Stop
+    -- @param #DETECTION_MANAGER self
+    
+    --- Stop Asynchronous Trigger for DETECTION_MANAGER
+    -- @function [parent=#DETECTION_MANAGER] __Stop
+    -- @param #DETECTION_MANAGER self
+    -- @param #number Delay
+    
+
     self:AddTransition( "Started", "Report", "Started" )
     
     self:SetReportInterval( 30 )
@@ -42851,7 +47773,7 @@ do -- TASK_A2G
   
     self.TargetSetUnit = TargetSetUnit
     self.TaskType = TaskType
-
+    
     local Fsm = self:GetUnitProcess()
     
 
@@ -42866,14 +47788,14 @@ do -- TASK_A2G
     Fsm:AddTransition( { "ArrivedAtRendezVous", "HoldingAtRendezVous" }, "Engage", "Engaging" )
     Fsm:AddTransition( { "ArrivedAtRendezVous", "HoldingAtRendezVous" }, "HoldAtRendezVous", "HoldingAtRendezVous" )
      
-    Fsm:AddProcess   ( "Engaging", "Account", ACT_ACCOUNT_DEADS:New( self.TargetSetUnit, self.TaskType ), { Accounted = "Success" } )
+    Fsm:AddProcess   ( "Engaging", "Account", ACT_ACCOUNT_DEADS:New( self.TargetSetUnit, self.TaskType ), {} )
     Fsm:AddTransition( "Engaging", "RouteToTarget", "Engaging" )
     Fsm:AddProcess( "Engaging", "RouteToTargetZone", ACT_ROUTE_ZONE:New(), {} )
     Fsm:AddProcess( "Engaging", "RouteToTargetPoint", ACT_ROUTE_POINT:New(), {} )
     Fsm:AddTransition( "Engaging", "RouteToTargets", "Engaging" )
     
-    Fsm:AddTransition( "Accounted", "DestroyedAll", "Accounted" )
-    Fsm:AddTransition( "Accounted", "Success", "Success" )
+    --Fsm:AddTransition( "Accounted", "DestroyedAll", "Accounted" )
+    --Fsm:AddTransition( "Accounted", "Success", "Success" )
     Fsm:AddTransition( "Rejected", "Reject", "Aborted" )
     Fsm:AddTransition( "Failed", "Fail", "Failed" )
     
@@ -43058,55 +47980,16 @@ do -- TASK_A2G
     return ActRouteTarget:GetZone()
   end
 
-  --- Set a score when a target in scope of the A2G attack, has been destroyed .
-  -- @param #TASK_A2G self
-  -- @param #string Text The text to display to the player, when the target has been destroyed.
-  -- @param #number Score The score in points.
-  -- @param Wrapper.Unit#UNIT TaskUnit
-  -- @return #TASK_A2G
-  function TASK_A2G:SetScoreOnDestroy( Text, Score, TaskUnit )
-    self:F( { Text, Score, TaskUnit } )
-
-    local ProcessUnit = self:GetUnitProcess( TaskUnit )
-
-    ProcessUnit:AddScoreProcess( "Engaging", "Account", "Account", Text, Score )
-    
-    return self
-  end
-
-  --- Set a score when all the targets in scope of the A2G attack, have been destroyed.
-  -- @param #TASK_A2G self
-  -- @param #string Text The text to display to the player, when all targets hav been destroyed.
-  -- @param #number Score The score in points.
-  -- @param Wrapper.Unit#UNIT TaskUnit
-  -- @return #TASK_A2G
-  function TASK_A2G:SetScoreOnSuccess( Text, Score, TaskUnit )
-    self:F( { Text, Score, TaskUnit } )
-
-    local ProcessUnit = self:GetUnitProcess( TaskUnit )
-
-    ProcessUnit:AddScore( "Success", Text, Score )
-    
-    return self
-  end
-
-  --- Set a penalty when the A2G attack has failed.
-  -- @param #TASK_A2G self
-  -- @param #string Text The text to display to the player, when the A2G attack has failed.
-  -- @param #number Penalty The penalty in points.
-  -- @param Wrapper.Unit#UNIT TaskUnit
-  -- @return #TASK_A2G
-  function TASK_A2G:SetPenaltyOnFailed( Text, Penalty, TaskUnit )
-    self:F( { Text, Score, TaskUnit } )
-
-    local ProcessUnit = self:GetUnitProcess( TaskUnit )
-
-    ProcessUnit:AddScore( "Failed", Text, Penalty )
-    
-    return self
-  end
-
+  function TASK_A2G:SetGoalTotal()
   
+    self.GoalTotal = self.TargetSetUnit:Count()
+  end
+
+  function TASK_A2G:GetGoalTotal()
+  
+    return self.GoalTotal
+  end
+
 end 
 
 
@@ -43159,6 +48042,66 @@ do -- TASK_A2G_SEAD
 
     return self
   end 
+
+  --- @param #TASK_A2G_SEAD self
+  function TASK_A2G_SEAD:onafterGoal( TaskUnit, From, Event, To )
+    local TargetSetUnit = self.TargetSetUnit -- Core.Set#SET_UNIT
+    
+    if TargetSetUnit:Count() == 0 then
+      self:Success()
+    end
+    
+    self:__Goal( -10 )
+  end
+
+  --- Set a score when a target in scope of the A2A attack, has been destroyed .
+  -- @param #TASK_A2G_SEAD self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Score The score in points to be granted when task process has been achieved.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2G_SEAD
+  function TASK_A2G_SEAD:SetScoreOnProgress( PlayerName, Score, TaskUnit )
+    self:F( { PlayerName, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScoreProcess( "Engaging", "Account", "AccountForPlayer", "Player " .. PlayerName .. " has SEADed a target.", Score )
+    
+    return self
+  end
+
+  --- Set a score when all the targets in scope of the A2A attack, have been destroyed.
+  -- @param #TASK_A2G_SEAD self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Score The score in points.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2G_SEAD
+  function TASK_A2G_SEAD:SetScoreOnSuccess( PlayerName, Score, TaskUnit )
+    self:F( { PlayerName, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Success", "All radar emitting targets have been successfully SEADed!", Score )
+    
+    return self
+  end
+
+  --- Set a penalty when the A2A attack has failed.
+  -- @param #TASK_A2G_SEAD self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Penalty The penalty in points, must be a negative value!
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2G_SEAD
+  function TASK_A2G_SEAD:SetScoreOnFail( PlayerName, Penalty, TaskUnit )
+    self:F( { PlayerName, Penalty, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Failed", "The SEADing has failed!", Penalty )
+    
+    return self
+  end
+
 
 end
 
@@ -43213,6 +48156,66 @@ do -- TASK_A2G_BAI
     return self
   end 
 
+  --- @param #TASK_A2G_BAI self
+  function TASK_A2G_BAI:onafterGoal( TaskUnit, From, Event, To )
+    local TargetSetUnit = self.TargetSetUnit -- Core.Set#SET_UNIT
+    
+    if TargetSetUnit:Count() == 0 then
+      self:Success()
+    end
+    
+    self:__Goal( -10 )
+  end
+
+  --- Set a score when a target in scope of the A2A attack, has been destroyed .
+  -- @param #TASK_A2G_BAI self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Score The score in points to be granted when task process has been achieved.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2G_BAI
+  function TASK_A2G_BAI:SetScoreOnProgress( PlayerName, Score, TaskUnit )
+    self:F( { PlayerName, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScoreProcess( "Engaging", "Account", "AccountForPlayer", "Player " .. PlayerName .. " has destroyed a target in Battlefield Air Interdiction (BAI).", Score )
+    
+    return self
+  end
+
+  --- Set a score when all the targets in scope of the A2A attack, have been destroyed.
+  -- @param #TASK_A2G_BAI self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Score The score in points.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2G_BAI
+  function TASK_A2G_BAI:SetScoreOnSuccess( PlayerName, Score, TaskUnit )
+    self:F( { PlayerName, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Success", "All targets have been successfully destroyed! The Battlefield Air Interdiction (BAI) is a success!", Score )
+    
+    return self
+  end
+
+  --- Set a penalty when the A2A attack has failed.
+  -- @param #TASK_A2G_BAI self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Penalty The penalty in points, must be a negative value!
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2G_BAI
+  function TASK_A2G_BAI:SetScoreOnFail( PlayerName, Penalty, TaskUnit )
+    self:F( { PlayerName, Penalty, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Failed", "The Battlefield Air Interdiction (BAI) has failed!", Penalty )
+    
+    return self
+  end
+
+
 end
 
 do -- TASK_A2G_CAS
@@ -43266,8 +48269,70 @@ do -- TASK_A2G_CAS
     return self
   end 
 
+  --- @param #TASK_A2G_CAS self
+  function TASK_A2G_CAS:onafterGoal( TaskUnit, From, Event, To )
+    local TargetSetUnit = self.TargetSetUnit -- Core.Set#SET_UNIT
+    
+    if TargetSetUnit:Count() == 0 then
+      self:Success()
+    end
+    
+    self:__Goal( -10 )
+  end
+
+  --- Set a score when a target in scope of the A2A attack, has been destroyed .
+  -- @param #TASK_A2G_CAS self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Score The score in points to be granted when task process has been achieved.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2G_CAS
+  function TASK_A2G_CAS:SetScoreOnProgress( PlayerName, Score, TaskUnit )
+    self:F( { PlayerName, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScoreProcess( "Engaging", "Account", "AccountForPlayer", "Player " .. PlayerName .. " has destroyed a target in Close Air Support (CAS).", Score )
+    
+    return self
+  end
+
+  --- Set a score when all the targets in scope of the A2A attack, have been destroyed.
+  -- @param #TASK_A2G_CAS self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Score The score in points.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2G_CAS
+  function TASK_A2G_CAS:SetScoreOnSuccess( PlayerName, Score, TaskUnit )
+    self:F( { PlayerName, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Success", "All targets have been successfully destroyed! The Close Air Support (CAS) was a success!", Score )
+    
+    return self
+  end
+
+  --- Set a penalty when the A2A attack has failed.
+  -- @param #TASK_A2G_CAS self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Penalty The penalty in points, must be a negative value!
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2G_CAS
+  function TASK_A2G_CAS:SetScoreOnFail( PlayerName, Penalty, TaskUnit )
+    self:F( { PlayerName, Penalty, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Failed", "The Close Air Support (CAS) has failed!", Penalty )
+    
+    return self
+  end
+
+
 end
 --- **Tasking** - The TASK_A2A_DISPATCHER creates and manages player TASK_A2A tasks based on detected targets.
+-- 
+-- The @{#TASK_A2A_DISPATCHER} classes implement the dynamic dispatching of tasks upon groups of detected units determined a @{Set} of EWR installation groups.
 -- 
 -- ====
 -- 
@@ -43287,19 +48352,154 @@ do -- TASK_A2A_DISPATCHER
 
   --- # TASK_A2A_DISPATCHER class, extends @{Tasking#DETECTION_MANAGER}
   -- 
+  -- ![Banner Image](..\Presentations\TASK_A2A_DISPATCHER\Dia1.JPG)
+  -- 
   -- The @{#TASK_A2A_DISPATCHER} class implements the dynamic dispatching of tasks upon groups of detected units determined a @{Set} of EWR installation groups.
+  -- 
+  -- ![Banner Image](..\Presentations\TASK_A2A_DISPATCHER\Dia3.JPG)
+  -- 
   -- The EWR will detect units, will group them, and will dispatch @{Task}s to groups. Depending on the type of target detected, different tasks will be dispatched.
   -- Find a summary below describing for which situation a task type is created:
+  -- 
+  -- ![Banner Image](..\Presentations\TASK_A2A_DISPATCHER\Dia9.JPG)
   -- 
   --   * **INTERCEPT Task**: Is created when the target is known, is detected and within a danger zone, and there is no friendly airborne in range.
   --   * **SWEEP Task**: Is created when the target is unknown, was detected and the last position is only known, and within a danger zone, and there is no friendly airborne in range.
   --   * **ENGAGE Task**: Is created when the target is known, is detected and within a danger zone, and there is a friendly airborne in range, that will receive this task.
-  --   
-  -- Other task types will follow...
   -- 
-  -- # TASK_A2A_DISPATCHER constructor:
-  -- --------------------------------------
-  -- The @{#TASK_A2A_DISPATCHER.New}() method creates a new TASK_A2A_DISPATCHER instance.
+  -- ## 1. TASK\_A2A\_DISPATCHER constructor:
+  -- 
+  -- The @{#TASK_A2A_DISPATCHER.New}() method creates a new TASK\_A2A\_DISPATCHER instance.
+  -- 
+  -- ### 1.1. Define or set the **Mission**:
+  -- 
+  -- Tasking is executed to accomplish missions. Therefore, a MISSION object needs to be given as the first parameter.
+  -- 
+  --     local HQ = GROUP:FindByName( "HQ", "Bravo" )
+  --     local CommandCenter = COMMANDCENTER:New( HQ, "Lima" )
+  --     local Mission = MISSION:New( CommandCenter, "A2A Mission", "High", "Watch the air enemy units being detected.", coalition.side.RED )
+  -- 
+  -- Missions are governed by COMMANDCENTERS, so, ensure you have a COMMANDCENTER object installed and setup within your mission.
+  -- Create the MISSION object, and hook it under the command center.
+  -- 
+  -- ### 1.2. Build a set of the groups seated by human players:
+  -- 
+  -- ![Banner Image](..\Presentations\TASK_A2A_DISPATCHER\Dia6.JPG)
+  -- 
+  -- A set or collection of the groups wherein human players can be seated, these can be clients or units that can be joined as a slot or jumping into.
+  --     
+  --     local AttackGroups = SET_GROUP:New():FilterCoalitions( "red" ):FilterPrefixes( "Defender" ):FilterStart()
+  --     
+  -- The set is built using the SET_GROUP class. Apply any filter criteria to identify the correct groups for your mission.
+  -- Only these slots or units will be able to execute the mission and will receive tasks for this mission, once available.
+  -- 
+  -- ### 1.3. Define the **EWR network**:
+  -- 
+  -- As part of the TASK\_A2A\_DISPATCHER constructor, an EWR network must be given as the third parameter.
+  -- An EWR network, or, Early Warning Radar network, is used to early detect potential airborne targets and to understand the position of patrolling targets of the enemy.
+  -- 
+  -- ![Banner Image](..\Presentations\TASK_A2A_DISPATCHER\Dia5.JPG)
+  -- 
+  -- Typically EWR networks are setup using 55G6 EWR, 1L13 EWR, Hawk sr and Patriot str ground based radar units. 
+  -- These radars have different ranges and 55G6 EWR and 1L13 EWR radars are Eastern Bloc units (eg Russia, Ukraine, Georgia) while the Hawk and Patriot radars are Western (eg US).
+  -- Additionally, ANY other radar capable unit can be part of the EWR network! Also AWACS airborne units, planes, helicopters can help to detect targets, as long as they have radar.
+  -- The position of these units is very important as they need to provide enough coverage 
+  -- to pick up enemy aircraft as they approach so that CAP and GCI flights can be tasked to intercept them.
+  -- 
+  -- ![Banner Image](..\Presentations\TASK_A2A_DISPATCHER\Dia7.JPG)
+  --  
+  -- Additionally in a hot war situation where the border is no longer respected the placement of radars has a big effect on how fast the war escalates. 
+  -- For example if they are a long way forward and can detect enemy planes on the ground and taking off 
+  -- they will start to vector CAP and GCI flights to attack them straight away which will immediately draw a response from the other coalition. 
+  -- Having the radars further back will mean a slower escalation because fewer targets will be detected and 
+  -- therefore less CAP and GCI flights will spawn and this will tend to make just the border area active rather than a melee over the whole map. 
+  -- It all depends on what the desired effect is. 
+  -- 
+  -- EWR networks are **dynamically constructed**, that is, they form part of the @{Functional#DETECTION_BASE} object that is given as the input parameter of the TASK\_A2A\_DISPATCHER class.
+  -- By defining in a **smart way the names or name prefixes of the groups** with EWR capable units, these groups will be **automatically added or deleted** from the EWR network, 
+  -- increasing or decreasing the radar coverage of the Early Warning System.
+  -- 
+  -- See the following example to setup an EWR network containing EWR stations and AWACS.
+  -- 
+  --     local EWRSet = SET_GROUP:New():FilterPrefixes( "EWR" ):FilterCoalitions("red"):FilterStart()
+  --
+  --     local EWRDetection = DETECTION_AREAS:New( EWRSet, 6000 )
+  --     EWRDetection:SetFriendliesRange( 10000 )
+  --     EWRDetection:SetDetectionInterval(30)
+  --
+  --     -- Setup the A2A dispatcher, and initialize it.
+  --     A2ADispatcher = TASK_A2A_DISPATCHER:New( Mission, AttackGroups, EWRDetection )
+  -- 
+  -- The above example creates a SET_GROUP instance, and stores this in the variable (object) **EWRSet**.
+  -- **EWRSet** is then being configured to filter all active groups with a group name starting with **EWR** to be included in the Set.
+  -- **EWRSet** is then being ordered to start the dynamic filtering. Note that any destroy or new spawn of a group with the above names will be removed or added to the Set.
+  -- Then a new **EWRDetection** object is created from the class DETECTION_AREAS. A grouping radius of 6000 is choosen, which is 6km.
+  -- The **EWRDetection** object is then passed to the @{#TASK_A2A_DISPATCHER.New}() method to indicate the EWR network configuration and setup the A2A tasking and detection mechanism.
+  -- 
+  -- ### 2. Define the detected **target grouping radius**:
+  -- 
+  -- ![Banner Image](..\Presentations\TASK_A2A_DISPATCHER\Dia8.JPG)
+  -- 
+  -- The target grouping radius is a property of the Detection object, that was passed to the AI\_A2A\_DISPATCHER object, but can be changed.
+  -- The grouping radius should not be too small, but also depends on the types of planes and the era of the simulation.
+  -- Fast planes like in the 80s, need a larger radius than WWII planes.  
+  -- Typically I suggest to use 30000 for new generation planes and 10000 for older era aircraft.
+  -- 
+  -- Note that detected targets are constantly re-grouped, that is, when certain detected aircraft are moving further than the group radius, then these aircraft will become a separate
+  -- group being detected. This may result in additional GCI being started by the dispatcher! So don't make this value too small!
+  -- 
+  -- ## 3. Set the **Engage radius**:
+  -- 
+  -- Define the radius to engage any target by airborne friendlies, which are executing cap or returning from an intercept mission.
+  -- 
+  -- ![Banner Image](..\Presentations\TASK_A2A_DISPATCHER\Dia11.JPG)
+  -- 
+  -- So, if there is a target area detected and reported, 
+  -- then any friendlies that are airborne near this target area, 
+  -- will be commanded to (re-)engage that target when available (if no other tasks were commanded).
+  -- For example, if 100000 is given as a value, then any friendly that is airborne within 100km from the detected target, 
+  -- will be considered to receive the command to engage that target area.
+  -- You need to evaluate the value of this parameter carefully.
+  -- If too small, more intercept missions may be triggered upon detected target areas.
+  -- If too large, any airborne cap may not be able to reach the detected target area in time, because it is too far.
+  -- 
+  -- ## 4. Set **Scoring** and **Messages**:
+  -- 
+  -- The TASK\_A2A\_DISPATCHER is a state machine. It triggers the event Assign when a new player joins a @{Task} dispatched by the TASK\_A2A\_DISPATCHER.
+  -- An _event handler_ can be defined to catch the **Assign** event, and add **additional processing** to set _scoring_ and to _define messages_,
+  -- when the player reaches certain achievements in the task.
+  -- 
+  -- The prototype to handle the **Assign** event needs to be developed as follows:
+  -- 
+  --      TaskDispatcher = TASK_A2A_DISPATCHER:New( ... )
+  -- 
+  --      --- @param #TaskDispatcher self
+  --      -- @param #string From Contains the name of the state from where the Event was triggered.
+  --      -- @param #string Event Contains the name of the event that was triggered. In this case Assign.
+  --      -- @param #string To Contains the name of the state that will be transitioned to.
+  --      -- @param Tasking.Task_A2A#TASK_A2A Task The Task object, which is any derived object from TASK_A2A.
+  --      -- @param Wrapper.Unit#UNIT TaskUnit The Unit or Client that contains the Player.
+  --      -- @param #string PlayerName The name of the Player that joined the TaskUnit.
+  --      function TaskDispatcher:OnAfterAssign( From, Event, To, Task, TaskUnit, PlayerName )
+  --        Task:SetScoreOnProgress( PlayerName, 20, TaskUnit )
+  --        Task:SetScoreOnSuccess( PlayerName, 200, TaskUnit )
+  --        Task:SetScoreOnFail( PlayerName, -100, TaskUnit )
+  --      end
+  -- 
+  -- The **OnAfterAssign** method (function) is added to the TaskDispatcher object.
+  -- This method will be called when a new player joins a unit in the set of groups in scope of the dispatcher.
+  -- So, this method will be called only **ONCE** when a player joins a unit in scope of the task.
+  -- 
+  -- The TASK class implements various methods to additional **set scoring** for player achievements:
+  -- 
+  --   * @{Tasking.Task#TASK.SetScoreOnProgress}() will add additional scores when a player achieves **Progress** while executing the task.
+  --     Examples of **task progress** can be destroying units, arriving at zones etc.
+  --   
+  --   * @{Tasking.Task#TASK.SetScoreOnSuccess}() will add additional scores when the task goes into **Success** state. 
+  --     This means the **task has been successfully completed**.
+  --     
+  --   * @{Tasking.Task#TASK.SetScoreOnSuccess}() will add additional (negative) scores when the task goes into **Failed** state. 
+  --     This means the **task has not been successfully completed**, and the scores must be given with a negative value!
   -- 
   -- @field #TASK_A2A_DISPATCHER
   TASK_A2A_DISPATCHER = {
@@ -43328,7 +48528,7 @@ do -- TASK_A2A_DISPATCHER
     
     -- TODO: Check detection through radar.
     self.Detection:FilterCategories( Unit.Category.AIRPLANE, Unit.Category.HELICOPTER )
-    --self.Detection:InitDetectRadar( true )
+    self.Detection:InitDetectRadar( true )
     self.Detection:SetDetectionInterval( 30 )
     
     self:AddTransition( "Started", "Assign", "Started" )
@@ -43347,6 +48547,36 @@ do -- TASK_A2A_DISPATCHER
     
     return self
   end
+  
+
+  --- Define the radius to when an ENGAGE task will be generated for any nearby by airborne friendlies, which are executing cap or returning from an intercept mission.
+  -- So, if there is a target area detected and reported, 
+  -- then any friendlies that are airborne near this target area, 
+  -- will be commanded to (re-)engage that target when available (if no other tasks were commanded).
+  -- An ENGAGE task will be created for those pilots.
+  -- For example, if 100000 is given as a value, then any friendly that is airborne within 100km from the detected target, 
+  -- will be considered to receive the command to engage that target area.
+  -- You need to evaluate the value of this parameter carefully.
+  -- If too small, more intercept missions may be triggered upon detected target areas.
+  -- If too large, any airborne cap may not be able to reach the detected target area in time, because it is too far.
+  -- @param #TASK_A2A_DISPATCHER self
+  -- @param #number EngageRadius (Optional, Default = 100000) The radius to report friendlies near the target.
+  -- @return #TASK_A2A_DISPATCHER
+  -- @usage
+  -- 
+  --   -- Set 50km as the radius to engage any target by airborne friendlies.
+  --   TaskA2ADispatcher:SetEngageRadius( 50000 )
+  --   
+  --   -- Set 100km as the radius to engage any target by airborne friendlies.
+  --   TaskA2ADispatcher:SetEngageRadius() -- 100000 is the default value.
+  --   
+  function TASK_A2A_DISPATCHER:SetEngageRadius( EngageRadius )
+
+    self.Detection:SetFriendliesRange( EngageRadius or 100000 )
+  
+    return self
+  end
+  
   
   
   --- Creates an INTERCEPT task when there are targets for it.
@@ -43697,7 +48927,6 @@ end
 -- 
 -- ![Banner Image](..\Presentations\TASK_A2A\Dia1.JPG)
 -- 
--- 
 -- ====
 -- 
 -- ### Author: **Sven Van de Velde (FlightControl)**
@@ -43771,14 +49000,14 @@ do -- TASK_A2A
     Fsm:AddTransition( { "ArrivedAtRendezVous", "HoldingAtRendezVous" }, "Engage", "Engaging" )
     Fsm:AddTransition( { "ArrivedAtRendezVous", "HoldingAtRendezVous" }, "HoldAtRendezVous", "HoldingAtRendezVous" )
      
-    Fsm:AddProcess   ( "Engaging", "Account", ACT_ACCOUNT_DEADS:New( self.TargetSetUnit, self.TaskType ), { Accounted = "Success" } )
+    Fsm:AddProcess   ( "Engaging", "Account", ACT_ACCOUNT_DEADS:New( self.TargetSetUnit, self.TaskType ), {} )
     Fsm:AddTransition( "Engaging", "RouteToTarget", "Engaging" )
     Fsm:AddProcess( "Engaging", "RouteToTargetZone", ACT_ROUTE_ZONE:New(), {} )
     Fsm:AddProcess( "Engaging", "RouteToTargetPoint", ACT_ROUTE_POINT:New(), {} )
     Fsm:AddTransition( "Engaging", "RouteToTargets", "Engaging" )
     
-    Fsm:AddTransition( "Accounted", "DestroyedAll", "Accounted" )
-    Fsm:AddTransition( "Accounted", "Success", "Success" )
+--    Fsm:AddTransition( "Accounted", "DestroyedAll", "Accounted" )
+--    Fsm:AddTransition( "Accounted", "Success", "Success" )
     Fsm:AddTransition( "Rejected", "Reject", "Aborted" )
     Fsm:AddTransition( "Failed", "Fail", "Failed" )
     
@@ -43866,7 +49095,7 @@ do -- TASK_A2A
   function TASK_A2A:GetPlannedMenuText()
     return self:GetStateString() .. " - " .. self:GetTaskName() .. " ( " .. self.TargetSetUnit:GetUnitTypesText() .. " )"
   end
-
+  
   --- @param #TASK_A2A self
   -- @param Core.Point#COORDINATE RendezVousCoordinate The Coordinate object referencing to the 2D point where the RendezVous point is located on the map.
   -- @param #number RendezVousRange The RendezVousRange that defines when the player is considered to have arrived at the RendezVous point.
@@ -43963,53 +49192,16 @@ do -- TASK_A2A
     return ActRouteTarget:GetZone()
   end
 
-  --- Set a score when a target in scope of the A2A attack, has been destroyed .
-  -- @param #TASK_A2A self
-  -- @param #string Text The text to display to the player, when the target has been destroyed.
-  -- @param #number Score The score in points.
-  -- @param Wrapper.Unit#UNIT TaskUnit
-  -- @return #TASK_A2A
-  function TASK_A2A:SetScoreOnDestroy( Text, Score, TaskUnit )
-    self:F( { Text, Score, TaskUnit } )
-
-    local ProcessUnit = self:GetUnitProcess( TaskUnit )
-
-    ProcessUnit:AddScoreProcess( "Engaging", "Account", "Account", Text, Score )
-    
-    return self
+  function TASK_A2A:SetGoalTotal()
+  
+    self.GoalTotal = self.TargetSetUnit:Count()
   end
 
-  --- Set a score when all the targets in scope of the A2A attack, have been destroyed.
-  -- @param #TASK_A2A self
-  -- @param #string Text The text to display to the player, when all targets hav been destroyed.
-  -- @param #number Score The score in points.
-  -- @param Wrapper.Unit#UNIT TaskUnit
-  -- @return #TASK_A2A
-  function TASK_A2A:SetScoreOnSuccess( Text, Score, TaskUnit )
-    self:F( { Text, Score, TaskUnit } )
-
-    local ProcessUnit = self:GetUnitProcess( TaskUnit )
-
-    ProcessUnit:AddScore( "Success", Text, Score )
-    
-    return self
+  function TASK_A2A:GetGoalTotal()
+  
+    return self.GoalTotal
   end
 
-  --- Set a penalty when the A2A attack has failed.
-  -- @param #TASK_A2A self
-  -- @param #string Text The text to display to the player, when the A2A attack has failed.
-  -- @param #number Penalty The penalty in points.
-  -- @param Wrapper.Unit#UNIT TaskUnit
-  -- @return #TASK_A2A
-  function TASK_A2A:SetPenaltyOnFailed( Text, Penalty, TaskUnit )
-    self:F( { Text, Score, TaskUnit } )
-
-    local ProcessUnit = self:GetUnitProcess( TaskUnit )
-
-    ProcessUnit:AddScore( "Failed", Text, Penalty )
-    
-    return self
-  end
 
   
 end 
@@ -44047,7 +49239,7 @@ do -- TASK_A2A_INTERCEPT
   -- @param #string TaskName The name of the Task.
   -- @param Core.Set#SET_UNIT TargetSetUnit 
   -- @param #string TaskBriefing The briefing of the task.
-  -- @return #TASK_A2A_INTERCEPT self
+  -- @return #TASK_A2A_INTERCEPT
   function TASK_A2A_INTERCEPT:New( Mission, SetGroup, TaskName, TargetSetUnit, TaskBriefing )
     local self = BASE:Inherit( self, TASK_A2A:New( Mission, SetGroup, TaskName, TargetSetUnit, "INTERCEPT", TaskBriefing ) ) -- #TASK_A2A_INTERCEPT
     self:F()
@@ -44071,6 +49263,67 @@ do -- TASK_A2A_INTERCEPT
     
     return self
   end 
+
+
+  --- @param #TASK_A2A_INTERCEPT self
+  function TASK_A2A_INTERCEPT:onafterGoal( TaskUnit, From, Event, To )
+    local TargetSetUnit = self.TargetSetUnit -- Core.Set#SET_UNIT
+    
+    if TargetSetUnit:Count() == 0 then
+      self:Success()
+    end
+    
+    self:__Goal( -10 )
+  end
+  
+  --- Set a score when a target in scope of the A2A attack, has been destroyed .
+  -- @param #TASK_A2A_INTERCEPT self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Score The score in points to be granted when task process has been achieved.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2A_INTERCEPT
+  function TASK_A2A_INTERCEPT:SetScoreOnProgress( PlayerName, Score, TaskUnit )
+    self:F( { PlayerName, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScoreProcess( "Engaging", "Account", "AccountForPlayer", "Player " .. PlayerName .. " has intercepted a target.", Score )
+    
+    return self
+  end
+
+  --- Set a score when all the targets in scope of the A2A attack, have been destroyed.
+  -- @param #TASK_A2A_INTERCEPT self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Score The score in points.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2A_INTERCEPT
+  function TASK_A2A_INTERCEPT:SetScoreOnSuccess( PlayerName, Score, TaskUnit )
+    self:F( { PlayerName, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Success", "All targets have been successfully intercepted!", Score )
+    
+    return self
+  end
+
+  --- Set a penalty when the A2A attack has failed.
+  -- @param #TASK_A2A_INTERCEPT self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Penalty The penalty in points, must be a negative value!
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2A_INTERCEPT
+  function TASK_A2A_INTERCEPT:SetScoreOnFail( PlayerName, Penalty, TaskUnit )
+    self:F( { PlayerName, Penalty, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Failed", "The intercept has failed!", Penalty )
+    
+    return self
+  end
+  
 
 end
 
@@ -44134,6 +49387,65 @@ do -- TASK_A2A_SWEEP
     return self
   end 
 
+  --- @param #TASK_A2A_SWEEP self
+  function TASK_A2A_SWEEP:onafterGoal( TaskUnit, From, Event, To )
+    local TargetSetUnit = self.TargetSetUnit -- Core.Set#SET_UNIT
+    
+    if TargetSetUnit:Count() == 0 then
+      self:Success()
+    end
+    
+    self:__Goal( -10 )
+  end
+
+  --- Set a score when a target in scope of the A2A attack, has been destroyed .
+  -- @param #TASK_A2A_SWEEP self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Score The score in points to be granted when task process has been achieved.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2A_SWEEP
+  function TASK_A2A_SWEEP:SetScoreOnProgress( PlayerName, Score, TaskUnit )
+    self:F( { PlayerName, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScoreProcess( "Engaging", "Account", "AccountForPlayer", "Player " .. PlayerName .. " has sweeped a target.", Score )
+    
+    return self
+  end
+
+  --- Set a score when all the targets in scope of the A2A attack, have been destroyed.
+  -- @param #TASK_A2A_SWEEP self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Score The score in points.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2A_SWEEP
+  function TASK_A2A_SWEEP:SetScoreOnSuccess( PlayerName, Score, TaskUnit )
+    self:F( { PlayerName, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Success", "All targets have been successfully sweeped!", Score )
+    
+    return self
+  end
+
+  --- Set a penalty when the A2A attack has failed.
+  -- @param #TASK_A2A_SWEEP self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Penalty The penalty in points, must be a negative value!
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2A_SWEEP
+  function TASK_A2A_SWEEP:SetScoreOnFail( PlayerName, Penalty, TaskUnit )
+    self:F( { PlayerName, Penalty, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Failed", "The sweep has failed!", Penalty )
+    
+    return self
+  end
+
 end
 
 
@@ -44193,6 +49505,65 @@ do -- TASK_A2A_ENGAGE
     
     return self
   end 
+
+  --- @param #TASK_A2A_ENGAGE self
+  function TASK_A2A_ENGAGE:onafterGoal( TaskUnit, From, Event, To )
+    local TargetSetUnit = self.TargetSetUnit -- Core.Set#SET_UNIT
+    
+    if TargetSetUnit:Count() == 0 then
+      self:Success()
+    end
+    
+    self:__Goal( -10 )
+  end
+  
+  --- Set a score when a target in scope of the A2A attack, has been destroyed .
+  -- @param #TASK_A2A_ENGAGE self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Score The score in points to be granted when task process has been achieved.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2A_ENGAGE
+  function TASK_A2A_ENGAGE:SetScoreOnProgress( PlayerName, Score, TaskUnit )
+    self:F( { PlayerName, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScoreProcess( "Engaging", "Account", "AccountForPlayer", "Player " .. PlayerName .. " has engaged and destroyed a target.", Score )
+    
+    return self
+  end
+
+  --- Set a score when all the targets in scope of the A2A attack, have been destroyed.
+  -- @param #TASK_A2A_ENGAGE self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Score The score in points.
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2A_ENGAGE
+  function TASK_A2A_ENGAGE:SetScoreOnSuccess( PlayerName, Score, TaskUnit )
+    self:F( { PlayerName, Score, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Success", "All targets have been successfully engaged!", Score )
+    
+    return self
+  end
+
+  --- Set a penalty when the A2A attack has failed.
+  -- @param #TASK_A2A_ENGAGE self
+  -- @param #string PlayerName The name of the player.
+  -- @param #number Penalty The penalty in points, must be a negative value!
+  -- @param Wrapper.Unit#UNIT TaskUnit
+  -- @return #TASK_A2A_ENGAGE
+  function TASK_A2A_ENGAGE:SetScoreOnFail( PlayerName, Penalty, TaskUnit )
+    self:F( { PlayerName, Penalty, TaskUnit } )
+
+    local ProcessUnit = self:GetUnitProcess( TaskUnit )
+
+    ProcessUnit:AddScore( "Failed", "The target engagement has failed!", Penalty )
+    
+    return self
+  end
 
 end
 
@@ -44926,7 +50297,7 @@ do -- TASK_CARGO
   -- @param #number Score The score in points.
   -- @param Wrapper.Unit#UNIT TaskUnit
   -- @return #TASK_CARGO
-  function TASK_CARGO:SetScoreOnDestroy( Text, Score, TaskUnit )
+  function TASK_CARGO:SetScoreOnProgress( Text, Score, TaskUnit )
     self:F( { Text, Score, TaskUnit } )
 
     local ProcessUnit = self:GetUnitProcess( TaskUnit )
@@ -44958,7 +50329,7 @@ do -- TASK_CARGO
   -- @param #number Penalty The penalty in points.
   -- @param Wrapper.Unit#UNIT TaskUnit
   -- @return #TASK_CARGO
-  function TASK_CARGO:SetPenaltyOnFailed( Text, Penalty, TaskUnit )
+  function TASK_CARGO:SetScoreOnFail( Text, Penalty, TaskUnit )
     self:F( { Text, Score, TaskUnit } )
 
     local ProcessUnit = self:GetUnitProcess( TaskUnit )

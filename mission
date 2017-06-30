@@ -52220,7 +52220,7 @@ mission =
                                         ["alt"] = 88,
                                         ["alt_type"] = "BARO",
                                         ["callsign"] = 117,
-                                        ["heading"] = 0,
+                                        ["heading"] = -1.9851421590718,
                                         ["livery_id"] = "RF Air Force",
                                         ["name"] = "DictKey_UnitName_3615",
                                         ["onboard_num"] = "333",
@@ -54382,7 +54382,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3667288,
+    ["currentKey"] = 3671398,
     ["date"] =
     {
         ["Day"] = 20,
@@ -57478,7 +57478,7 @@ mission =
         ["centerY"] = 717714.28571429,
         ["zoom"] = 1000000,
     }, -- end of ["map"]
-    ["maxDictId"] = 3671,
+    ["maxDictId"] = 3672,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
@@ -57537,7 +57537,7 @@ mission =
         ["actions"] =
         {
             [1] = "a_set_flag_value(2501, 1);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3009\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3010\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3011\"), 1, false);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_group_off(1326);",
-            [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3671\")); mission.trig.func[2]=nil;",
+            [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3672\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2294\")); mission.trig.func[3]=nil;",
             [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2831\")); mission.trig.func[4]=nil;",
             [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3669\")); mission.trig.func[5]=nil;",
@@ -58925,7 +58925,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3671",
+                    ["file"] = "ResKey_Action_3672",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -60393,10 +60393,10 @@ mission =
         ["atmosphere_type"] = 0,
         ["clouds"] =
         {
-            ["base"] = 4400,
-            ["density"] = 3,
+            ["base"] = 1524,
+            ["density"] = 5,
             ["iprecptns"] = 0,
-            ["thickness"] = 630,
+            ["thickness"] = 591,
         }, -- end of ["clouds"]
         ["cyclones"] =
         {
@@ -60408,16 +60408,16 @@ mission =
             ["thickness"] = 0,
             ["visibility"] = 0,
         }, -- end of ["fog"]
-        ["groundTurbulence"] = 3.3528,
+        ["groundTurbulence"] = 2,
         ["name"] = "Downloaded weather",
         ["name_de"] = "Sommer, Wind und Wolken",
         ["name_es"] = "Verano. Nubes y viento",
         ["name_fr"] = "Eté, nuages et vent",
         ["name_ru"] = "Лето. Oблачность и ветер",
-        ["qnh"] = 767.842,
+        ["qnh"] = 760,
         ["season"] =
         {
-            ["temperature"] = 21,
+            ["temperature"] = 30,
         }, -- end of ["season"]
         ["type_weather"] = 0,
         ["visibility"] =
@@ -60428,18 +60428,18 @@ mission =
         {
             ["at2000"] =
             {
-                ["dir"] = 79,
-                ["speed"] = 7.731,
+                ["dir"] = 117,
+                ["speed"] = 6.1848,
             }, -- end of ["at2000"]
             ["at8000"] =
             {
-                ["dir"] = 51,
-                ["speed"] = 8.7618,
+                ["dir"] = 122,
+                ["speed"] = 5.154,
             }, -- end of ["at8000"]
             ["atGround"] =
             {
-                ["dir"] = 45,
-                ["speed"] = 2,
+                ["dir"] = 129.96173906526,
+                ["speed"] = 4.6386,
             }, -- end of ["atGround"]
         }, -- end of ["wind"]
     }, -- end of ["weather"]
