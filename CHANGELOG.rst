@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+3.3.0 (2017-07-03)
+------------------
+- Release 3.3. [132nd-Entropy]
+- Change starting positions of tankers and awacs to avoid collision
+  during intial taxi. [132nd-Entropy]
+
+
 3.2.0 (2017-06-30)
 ------------------
 
