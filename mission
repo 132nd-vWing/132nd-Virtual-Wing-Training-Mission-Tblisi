@@ -16225,7 +16225,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Arco11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = 2.9657123355303,
                                         ["livery_id"] = "132nd Tanker service",
                                         ["name"] = "DictKey_UnitName_1676",
                                         ["onboard_num"] = "994",
@@ -16272,7 +16272,7 @@ mission =
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
                                             ["action"] = "From Parking Area",
-                                            ["airdromeId"] = 23,
+                                            ["airdromeId"] = 20,
                                             ["alt"] = 88,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
@@ -16371,12 +16371,12 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "TakeOffParking",
-                                            ["x"] = -281538.28125,
-                                            ["y"] = 646474.4375,
+                                            ["x"] = -219773.0625,
+                                            ["y"] = 563880.4375,
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 298.84207923652,
+                                            ["ETA"] = 773.45069836758,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 7315.2,
@@ -16424,7 +16424,7 @@ mission =
                                         }, -- end of [2]
                                         [3] =
                                         {
-                                            ["ETA"] = 758.64299293938,
+                                            ["ETA"] = 1233.2516120705,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 7315.2,
@@ -16512,11 +16512,11 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Shell11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = 2.4807417339514,
                                         ["livery_id"] = "132nd Tanker service",
                                         ["name"] = "DictKey_UnitName_198",
                                         ["onboard_num"] = "964",
-                                        ["parking"] = "113",
+                                        ["parking"] = "30",
                                         ["parking_id"] = "03",
                                         ["payload"] =
                                         {
@@ -16528,17 +16528,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = -2.9674485679586,
+                                        ["psi"] = -2.4807417339514,
                                         ["skill"] = "Excellent",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "IL-78M",
                                         ["unitId"] = 1173,
-                                        ["x"] = -281538.28125,
-                                        ["y"] = 646474.4375,
+                                        ["x"] = -219773.0625,
+                                        ["y"] = 563880.4375,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -281538.28125,
-                                ["y"] = 646474.4375,
+                                ["x"] = -219773.0625,
+                                ["y"] = 563880.4375,
                             }, -- end of [23]
                             [24] =
                             {
@@ -18042,8 +18042,8 @@ mission =
                                         {
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
-                                            ["action"] = "From Parking Area",
-                                            ["airdromeId"] = 31,
+                                            ["action"] = "From Parking Area Hot",
+                                            ["airdromeId"] = 18,
                                             ["alt"] = 88,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
@@ -18141,13 +18141,13 @@ mission =
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
-                                            ["type"] = "TakeOffParking",
-                                            ["x"] = -318048.375,
-                                            ["y"] = 902475.5625,
+                                            ["type"] = "TakeOffParkingHot",
+                                            ["x"] = -164392.53125,
+                                            ["y"] = 461913.59375,
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 87.067770764008,
+                                            ["ETA"] = 2254.5727711104,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 7315.2,
@@ -18287,8 +18287,8 @@ mission =
                                         ["livery_id"] = "132nd Tanker service",
                                         ["name"] = "DictKey_UnitName_3124",
                                         ["onboard_num"] = "995",
-                                        ["parking"] = "11",
-                                        ["parking_id"] = "01",
+                                        ["parking"] = "31",
+                                        ["parking_id"] = "23",
                                         ["payload"] =
                                         {
                                             ["chaff"] = 96,
@@ -18299,17 +18299,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 2.4567168653615,
+                                        ["psi"] = -2.1638518549102,
                                         ["skill"] = "Excellent",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "IL-78M",
                                         ["unitId"] = 1837,
-                                        ["x"] = -318048.375,
-                                        ["y"] = 902475.5625,
+                                        ["x"] = -164392.53125,
+                                        ["y"] = 461913.59375,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -318048.375,
-                                ["y"] = 902475.5625,
+                                ["x"] = -164392.53125,
+                                ["y"] = 461913.59375,
                             }, -- end of [32]
                             [33] =
                             {
@@ -18570,7 +18570,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Shell11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = 2.5519228356904,
                                         ["livery_id"] = "132nd Tanker service",
                                         ["name"] = "DictKey_UnitName_3130",
                                         ["onboard_num"] = "996",
@@ -19679,7 +19679,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Texaco11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -1.1043152593203,
                                         ["livery_id"] = "Standard USAF",
                                         ["name"] = "DictKey_UnitName_292",
                                         ["onboard_num"] = "09",
@@ -19725,8 +19725,8 @@ mission =
                                         {
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
-                                            ["action"] = "From Parking Area",
-                                            ["airdromeId"] = 31,
+                                            ["action"] = "From Parking Area Hot",
+                                            ["airdromeId"] = 21,
                                             ["alt"] = 88,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
@@ -19799,9 +19799,9 @@ mission =
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
-                                            ["type"] = "TakeOffParking",
-                                            ["x"] = -319753.25,
-                                            ["y"] = 904275.1875,
+                                            ["type"] = "TakeOffParkingHot",
+                                            ["x"] = -197846.828125,
+                                            ["y"] = 516550.125,
                                         }, -- end of [1]
                                         [2] =
                                         {
@@ -19958,12 +19958,12 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Magic11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -2.3172372657119,
+                                        ["heading"] = 1.928431292754,
                                         ["livery_id"] = "nato",
                                         ["name"] = "DictKey_UnitName_294",
                                         ["onboard_num"] = "088",
-                                        ["parking"] = 26,
-                                        ["parking_id"] = "09",
+                                        ["parking"] = "8",
+                                        ["parking_id"] = "04",
                                         ["payload"] =
                                         {
                                             ["chaff"] = 120,
@@ -19974,17 +19974,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 2.3172372657119,
+                                        ["psi"] = -1.928431292754,
                                         ["skill"] = "Excellent",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "E-3A",
                                         ["unitId"] = 149,
-                                        ["x"] = -319753.25,
-                                        ["y"] = 904275.1875,
+                                        ["x"] = -197846.828125,
+                                        ["y"] = 516550.125,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -319753.25,
-                                ["y"] = 904275.1875,
+                                ["x"] = -197846.828125,
+                                ["y"] = 516550.125,
                             }, -- end of [2]
                             [3] =
                             {
@@ -21750,7 +21750,7 @@ mission =
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
                                             ["action"] = "From Parking Area",
-                                            ["airdromeId"] = 31,
+                                            ["airdromeId"] = 24,
                                             ["alt"] = 88,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
@@ -21824,12 +21824,12 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "TakeOffParking",
-                                            ["x"] = -319623.0625,
-                                            ["y"] = 904241.25,
+                                            ["x"] = -318102,
+                                            ["y"] = 635959.75,
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 464.33094639553,
+                                            ["ETA"] = 1063.6642765628,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 12192,
@@ -21896,7 +21896,7 @@ mission =
                                         }, -- end of [2]
                                         [3] =
                                         {
-                                            ["ETA"] = 738.24945646512,
+                                            ["ETA"] = 1589.0815122407,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 9144,
@@ -21924,8 +21924,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -350526.55803571,
-                                            ["y"] = 880088.03571429,
+                                            ["x"] = -357644.99107142,
+                                            ["y"] = 739346.85714288,
                                         }, -- end of [3]
                                         [4] =
                                         {
@@ -21945,7 +21945,7 @@ mission =
                                                 ["vangle"] = 0,
                                                 ["vnav"] = 1,
                                             }, -- end of ["properties"]
-                                            ["speed"] = 2,
+                                            ["speed"] = 7,
                                             ["speed_locked"] = false,
                                             ["task"] =
                                             {
@@ -21983,12 +21983,12 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Magic11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -2.4284920603949,
+                                        ["heading"] = 1.9146604711725,
                                         ["livery_id"] = "nato",
                                         ["name"] = "DictKey_UnitName_3442",
                                         ["onboard_num"] = "088",
-                                        ["parking"] = "22",
-                                        ["parking_id"] = "79",
+                                        ["parking"] = "78",
+                                        ["parking_id"] = "21",
                                         ["payload"] =
                                         {
                                             ["chaff"] = 120,
@@ -21999,17 +21999,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 2.4284920603949,
+                                        ["psi"] = -1.9146604711725,
                                         ["skill"] = "Excellent",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "E-3A",
                                         ["unitId"] = 1943,
-                                        ["x"] = -319623.0625,
-                                        ["y"] = 904241.25,
+                                        ["x"] = -318102,
+                                        ["y"] = 635959.75,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -319623.0625,
-                                ["y"] = 904241.25,
+                                ["x"] = -318102,
+                                ["y"] = 635959.75,
                             }, -- end of [13]
                             [14] =
                             {
@@ -54558,11 +54558,11 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3711831,
+    ["currentKey"] = 3725824,
     ["date"] =
     {
-        ["Day"] = 20,
-        ["Month"] = 5,
+        ["Day"] = 3,
+        ["Month"] = 7,
         ["Year"] = 2011,
     }, -- end of ["date"]
     ["descriptionBlueTask"] = "DictKey_descriptionBlueTask_651",
@@ -57650,9 +57650,9 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -321933.5625,
-        ["centerY"] = 907025.27678571,
-        ["zoom"] = 50000,
+        ["centerX"] = -279417.14285714,
+        ["centerY"] = 703280.00000001,
+        ["zoom"] = 500000,
     }, -- end of ["map"]
     ["maxDictId"] = 3684,
     ["needModules"] =
