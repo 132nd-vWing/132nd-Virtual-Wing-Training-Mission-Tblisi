@@ -790,10 +790,8 @@ do -- CLEANUP
   TRMT.CLEANUP = {}
   
   TRMT.CLEANUP.INITIALIZE = function()
-    CLEANUP:New( 'CLEAN_BATUMI', 600 ) -- this will despawn any inactive AI at the various zones, in order to prevent the airports from filling up 
-    CLEANUP:New( 'CLEAN_SENAKI', 600 )
-    CLEANUP:New( 'CLEAN_VAZIANI', 600 )
-  end
+  CLEANUP:New({AIRBASE.Caucasus.Batumi, AIRBASE.Caucasus.Vaziani, AIRBASE.Caucasus.Senaki_Kolkhi, AIRBASE.Caucasus.Soganlug})
+end
 
 end -- CLEANUP
 

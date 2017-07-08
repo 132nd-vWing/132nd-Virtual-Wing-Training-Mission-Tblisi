@@ -814,6 +814,7 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_ActionText_3539"] = "SA-6 is now ACTIVE",
     ["DictKey_ActionText_3540"] = "",
     ["DictKey_ActionText_3541"] = "SA-6 is now DEACTIVATED",
+    ["DictKey_ActionText_3686"] = "",
     ["DictKey_GroupName_132"] = "Beslan Helicopter ",
     ["DictKey_GroupName_134"] = "__RESPAWN__Beslan foot patrol",
     ["DictKey_GroupName_138"] = "__RESPAWN__Beslan BTR group",
@@ -3756,7 +3757,8 @@ RED SAM  located via nav points:\
 2xStrela groups; STRELA_SA9, STRELA_SA13\
 1xSA-8 group; SA8_EAST\
 \
-METAR by DAWS: UGTB 301430Z 10008KT 060V140 9999 TS SCT057CB 28/19 Q1014 R31L/CLRD70 NOSIG",
+\
+METAR by DAWS: UGTB 081100Z 32014KT CAVOK 26/12 Q1013 R31L/CLRD70 NOSIG",
     ["DictKey_sortie_652"] = "132nd - Training mission",
     ["DictKey_subtitle_1843"] = "",
     ["DictKey_subtitle_1845"] = "",

@@ -18283,7 +18283,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Arco11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = 2.1638518549102,
                                         ["livery_id"] = "132nd Tanker service",
                                         ["name"] = "DictKey_UnitName_3124",
                                         ["onboard_num"] = "995",
@@ -54558,10 +54558,10 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3725824,
+    ["currentKey"] = 3733932,
     ["date"] =
     {
-        ["Day"] = 3,
+        ["Day"] = 8,
         ["Month"] = 7,
         ["Year"] = 2011,
     }, -- end of ["date"]
@@ -57650,11 +57650,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -279417.14285714,
-        ["centerY"] = 703280.00000001,
-        ["zoom"] = 500000,
+        ["centerX"] = -285292.85714285,
+        ["centerY"] = 665535.71428572,
+        ["zoom"] = 100000,
     }, -- end of ["map"]
-    ["maxDictId"] = 3684,
+    ["maxDictId"] = 3690,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
@@ -57713,10 +57713,10 @@ mission =
         ["actions"] =
         {
             [1] = "a_set_flag_value(2501, 1);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3009\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3010\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3011\"), 1, false);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_group_off(1326);",
-            [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3672\")); mission.trig.func[2]=nil;",
+            [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3688\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3675\")); mission.trig.func[3]=nil;",
             [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3684\")); mission.trig.func[4]=nil;",
-            [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3669\")); mission.trig.func[5]=nil;",
+            [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3690\")); mission.trig.func[5]=nil;",
             [6] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3018\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3014\")); mission.trig.func[6]=nil;",
             [7] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3019\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3016\")); mission.trig.func[7]=nil;",
             [8] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[8]=nil;",
@@ -59101,7 +59101,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3672",
+                    ["file"] = "ResKey_Action_3688",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -59194,7 +59194,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3669",
+                    ["file"] = "ResKey_Action_3690",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [2]
             }, -- end of ["actions"]
@@ -60569,10 +60569,10 @@ mission =
         ["atmosphere_type"] = 0,
         ["clouds"] =
         {
-            ["base"] = 1737,
-            ["density"] = 4,
+            ["base"] = 5000,
+            ["density"] = 0,
             ["iprecptns"] = 0,
-            ["thickness"] = 612,
+            ["thickness"] = 300,
         }, -- end of ["clouds"]
         ["cyclones"] =
         {
@@ -60590,10 +60590,10 @@ mission =
         ["name_es"] = "Verano. Nubes y viento",
         ["name_fr"] = "Eté, nuages et vent",
         ["name_ru"] = "Лето. Oблачность и ветер",
-        ["qnh"] = 761,
+        ["qnh"] = 760,
         ["season"] =
         {
-            ["temperature"] = 28,
+            ["temperature"] = 26,
         }, -- end of ["season"]
         ["type_weather"] = 0,
         ["visibility"] =
@@ -60604,18 +60604,18 @@ mission =
         {
             ["at2000"] =
             {
-                ["dir"] = 250,
-                ["speed"] = 4,
+                ["dir"] = 126,
+                ["speed"] = 6.7002,
             }, -- end of ["at2000"]
             ["at8000"] =
             {
-                ["dir"] = 246,
-                ["speed"] = 4,
+                ["dir"] = 129,
+                ["speed"] = 7.2156,
             }, -- end of ["at8000"]
             ["atGround"] =
             {
-                ["dir"] = 240,
-                ["speed"] = 4,
+                ["dir"] = 139.96295325452,
+                ["speed"] = 8,
             }, -- end of ["atGround"]
         }, -- end of ["wind"]
     }, -- end of ["weather"]
