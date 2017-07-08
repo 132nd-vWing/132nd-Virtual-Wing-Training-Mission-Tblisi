@@ -2,6 +2,18 @@ Changelog
 =========
 
 
+3.4.0 (2017-07-08)
+------------------
+
+Fix
+~~~
+- Implement correct Airbase cleanup fix: update MOOSE. [132nd-Entropy]
+
+Other
+~~~~~
+- 3.4 realease. [132nd-Entropy]
+
+
 3.3.0 (2017-07-04)
 ------------------
 - Release 3.3. [132nd-Entropy]
