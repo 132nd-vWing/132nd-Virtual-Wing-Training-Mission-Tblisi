@@ -2,6 +2,15 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Fix
+~~~
+- CTLD fixed to allow 20 troops being transported by Mi-8. [132nd-
+  Entropy]
+
+
 3.5.0 (2017-07-08)
 ------------------
 - 3.4 realease. [132nd-Entropy]
