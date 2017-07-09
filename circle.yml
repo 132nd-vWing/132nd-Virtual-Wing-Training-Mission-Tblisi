@@ -40,3 +40,7 @@ test:
 #  webhooks:
 #    # A list of hashes representing hooks. Only the url field is supported.
 #    - url: https://circleci.com/hooks/circle
+general:
+  branches:
+    only:
+     - master # list of branches to build
