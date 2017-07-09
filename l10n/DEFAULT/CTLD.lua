@@ -43,7 +43,7 @@ ctld.maximumDistanceLogistic = 200 -- max distance from vehicle to logistics to 
 ctld.maximumSearchDistance = 2000 -- max distance for troops to search for enemy
 ctld.maximumMoveDistance = 30 -- max distance for troops to move from drop point if no enemy is nearby
 
-ctld.numberOfTroops = 20 -- default number of troops to load on a transport heli or C-130 
+ctld.numberOfTroops = 21 -- default number of troops to load on a transport heli or C-130 
               -- also works as maximum size of group that'll fit into a helicopter unless overridden
 ctld.enableFastRopeInsertion = true -- allows you to drop troops by fast rope
 ctld.fastRopeMaximumHeight = 18.28 -- in meters which is 60 ft max fast rope (not rappell) safe height
