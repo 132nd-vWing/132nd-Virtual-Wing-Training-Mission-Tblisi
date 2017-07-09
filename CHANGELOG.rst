@@ -2,6 +2,11 @@ Changelog
 =========
 
 
+3.5.0 (2017-07-08)
+------------------
+- 3.4 realease. [132nd-Entropy]
+
+
 3.4.0 (2017-07-08)
 ------------------
 
@@ -11,10 +16,10 @@ Fix
 
 Other
 ~~~~~
-- 3.4 realease. [132nd-Entropy]
+- 3.4 release. [132nd-Entropy]
 
 
-3.3.0 (2017-07-04)
+3.3.0 (2017-07-03)
 ------------------
 - Release 3.3. [132nd-Entropy]
 - Change starting positions of tankers and awacs to avoid collision
