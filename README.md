@@ -17,4 +17,4 @@ The latest stable version can be found on the [release page](https://github.com/
 
 Every change triggers an automated build of the MIZ file. Be aware that this build may be unstable; it exists only for testing and debugging purpose.
 
-Latest build artifact can be downloaded from (Appveyor)[https://ci.appveyor.com/project/132nd-etcher/132nd-virtual-wing-training-mission-tblisi]
+Latest build artifact can be downloaded from (Appveyor)[https://ci.appveyor.com/project/132nd-VirtualWing/132nd-virtual-wing-training-mission-tblisi/build/artifacts].
