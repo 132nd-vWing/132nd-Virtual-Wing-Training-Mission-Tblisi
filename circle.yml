@@ -1,0 +1,46 @@
+########################
+# Customize the test machine
+########################
+machine:
+
+  # Set the timezeone - any value from /usr/share/zoneinfo/ is valid here
+  timezone:
+    Etc/GMT
+
+  # Version of ruby to use
+  python:
+    version:
+      3.6.1
+
+########################
+# Customize dependencies
+########################
+dependencies:
+  pre:
+#    - pip install gitversion
+    - pip install gitchangelog
+
+########################
+# Customize test commands
+########################
+test:
+  override:
+    - "git config --global user.email $CIRCLE_PROJECT_USERNAME@github.com"
+    - "git config --global user.name $CIRCLE_PROJECT_USERNAME"
+    - gitchangelog > CHANGELOG.rst
+    - git add CHANGELOG.rst
+    - >
+      git diff-index --quiet HEAD || git commit -m "chg: update changelog !minor [skip ci]" && git push origin $CIRCLE_BRANCH
+
+
+########################
+# Custom notifications
+########################
+#notify:
+#  webhooks:
+#    # A list of hashes representing hooks. Only the url field is supported.
+#    - url: https://circleci.com/hooks/circle
+general:
+  branches:
+    only:
+     - master # list of branches to build

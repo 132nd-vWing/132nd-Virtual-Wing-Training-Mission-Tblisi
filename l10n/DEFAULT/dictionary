@@ -814,6 +814,7 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_ActionText_3539"] = "SA-6 is now ACTIVE",
     ["DictKey_ActionText_3540"] = "",
     ["DictKey_ActionText_3541"] = "SA-6 is now DEACTIVATED",
+    ["DictKey_ActionText_3686"] = "",
     ["DictKey_GroupName_132"] = "Beslan Helicopter ",
     ["DictKey_GroupName_134"] = "__RESPAWN__Beslan foot patrol",
     ["DictKey_GroupName_138"] = "__RESPAWN__Beslan BTR group",
@@ -1405,7 +1406,7 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_GroupName_3424"] = "TIANETI_JTAC_TRAINING2",
     ["DictKey_GroupName_3427"] = "DUSHETI_JTAC_TRAINING1 ",
     ["DictKey_GroupName_3430"] = "DUSHETI_JTAC_TRAINING3",
-    ["DictKey_GroupName_3433"] = "DUSHETI_JTAC_TRAINING2 #001",
+    ["DictKey_GroupName_3433"] = "DUSHETI_JTAC_TRAINING2",
     ["DictKey_GroupName_3436"] = "New Vehicle Group",
     ["DictKey_GroupName_3441"] = "AWACS2",
     ["DictKey_GroupName_3450"] = "$$DRAW_TMA",
@@ -2616,7 +2617,7 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_UnitName_3425"] = "TIANETI_JTAC_TRAINING2",
     ["DictKey_UnitName_3428"] = "DUSHETI_JTAC_TRAINING1",
     ["DictKey_UnitName_3431"] = "DUSHETI_JTAC_TRAINING3",
-    ["DictKey_UnitName_3434"] = "DUSHETI_JTAC_TRAINING2 #001",
+    ["DictKey_UnitName_3434"] = "DUSHETI_JTAC_TRAINING2",
     ["DictKey_UnitName_3437"] = "Unit #076",
     ["DictKey_UnitName_3442"] = "AWACS2",
     ["DictKey_UnitName_3451"] = "Pilot #007",
@@ -3755,7 +3756,9 @@ RED SAM  located via nav points:\
 5xManpad groups; SA18.1, SA18.2, SA18.3, SA18.4, SA18.5\
 2xStrela groups; STRELA_SA9, STRELA_SA13\
 1xSA-8 group; SA8_EAST\
-",
+\
+\
+METAR by DAWS: UGTB 081100Z 32014KT CAVOK 26/12 Q1013 R31L/CLRD70 NOSIG",
     ["DictKey_sortie_652"] = "132nd - Training mission",
     ["DictKey_subtitle_1843"] = "",
     ["DictKey_subtitle_1845"] = "",

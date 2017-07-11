@@ -16036,6 +16036,50 @@ mission =
                                                                 }, -- end of ["task"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [3]
+                                                        [4] =
+                                                        {
+                                                            ["auto"] = false,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 4,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "ActivateBeacon",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["AA"] = true,
+                                                                        ["bearing"] = true,
+                                                                        ["callsign"] = "TKR",
+                                                                        ["channel"] = 8,
+                                                                        ["frequency"] = 1095000000,
+                                                                        ["modeChannel"] = "Y",
+                                                                        ["system"] = 5,
+                                                                        ["type"] = 4,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [4]
+                                                        [5] =
+                                                        {
+                                                            ["auto"] = false,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 5,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "EPLRS",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["groupId"] = 0,
+                                                                        ["value"] = true,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [5]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -16228,7 +16272,7 @@ mission =
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
                                             ["action"] = "From Parking Area",
-                                            ["airdromeId"] = 23,
+                                            ["airdromeId"] = 20,
                                             ["alt"] = 88,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
@@ -16279,16 +16323,60 @@ mission =
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [2]
+                                                        [3] =
+                                                        {
+                                                            ["auto"] = false,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 3,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "ActivateBeacon",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["AA"] = true,
+                                                                        ["bearing"] = true,
+                                                                        ["callsign"] = "TKR",
+                                                                        ["channel"] = 9,
+                                                                        ["frequency"] = 1096000000,
+                                                                        ["modeChannel"] = "Y",
+                                                                        ["system"] = 5,
+                                                                        ["type"] = 4,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [3]
+                                                        [4] =
+                                                        {
+                                                            ["auto"] = false,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 4,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "EPLRS",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["groupId"] = 0,
+                                                                        ["value"] = true,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [4]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "TakeOffParking",
-                                            ["x"] = -281538.28125,
-                                            ["y"] = 646474.4375,
+                                            ["x"] = -219773.0625,
+                                            ["y"] = 563880.4375,
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 298.84207923652,
+                                            ["ETA"] = 773.45069836758,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 7315.2,
@@ -16336,7 +16424,7 @@ mission =
                                         }, -- end of [2]
                                         [3] =
                                         {
-                                            ["ETA"] = 758.64299293938,
+                                            ["ETA"] = 1233.2516120705,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 7315.2,
@@ -16424,11 +16512,11 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Shell11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 2.9674485679586,
+                                        ["heading"] = 2.4807417339514,
                                         ["livery_id"] = "132nd Tanker service",
                                         ["name"] = "DictKey_UnitName_198",
                                         ["onboard_num"] = "964",
-                                        ["parking"] = "113",
+                                        ["parking"] = "30",
                                         ["parking_id"] = "03",
                                         ["payload"] =
                                         {
@@ -16440,17 +16528,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = -2.9674485679586,
+                                        ["psi"] = -2.4807417339514,
                                         ["skill"] = "Excellent",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "IL-78M",
                                         ["unitId"] = 1173,
-                                        ["x"] = -281538.28125,
-                                        ["y"] = 646474.4375,
+                                        ["x"] = -219773.0625,
+                                        ["y"] = 563880.4375,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -281538.28125,
-                                ["y"] = 646474.4375,
+                                ["x"] = -219773.0625,
+                                ["y"] = 563880.4375,
                             }, -- end of [23]
                             [24] =
                             {
@@ -17954,8 +18042,8 @@ mission =
                                         {
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
-                                            ["action"] = "From Parking Area",
-                                            ["airdromeId"] = 31,
+                                            ["action"] = "From Parking Area Hot",
+                                            ["airdromeId"] = 18,
                                             ["alt"] = 88,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
@@ -18006,16 +18094,60 @@ mission =
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [2]
+                                                        [3] =
+                                                        {
+                                                            ["auto"] = false,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 3,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "ActivateBeacon",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["AA"] = true,
+                                                                        ["bearing"] = true,
+                                                                        ["callsign"] = "TKR",
+                                                                        ["channel"] = 10,
+                                                                        ["frequency"] = 1097000000,
+                                                                        ["modeChannel"] = "Y",
+                                                                        ["system"] = 5,
+                                                                        ["type"] = 4,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [3]
+                                                        [4] =
+                                                        {
+                                                            ["auto"] = false,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 4,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "EPLRS",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["groupId"] = 0,
+                                                                        ["value"] = true,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [4]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
-                                            ["type"] = "TakeOffParking",
-                                            ["x"] = -318048.375,
-                                            ["y"] = 902475.5625,
+                                            ["type"] = "TakeOffParkingHot",
+                                            ["x"] = -164392.53125,
+                                            ["y"] = 461913.59375,
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 87.067770764008,
+                                            ["ETA"] = 2254.5727711104,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 7315.2,
@@ -18151,12 +18283,12 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Arco11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -2.4567168653615,
+                                        ["heading"] = 2.1638518549102,
                                         ["livery_id"] = "132nd Tanker service",
                                         ["name"] = "DictKey_UnitName_3124",
                                         ["onboard_num"] = "995",
-                                        ["parking"] = "11",
-                                        ["parking_id"] = "01",
+                                        ["parking"] = "31",
+                                        ["parking_id"] = "23",
                                         ["payload"] =
                                         {
                                             ["chaff"] = 96,
@@ -18167,17 +18299,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 2.4567168653615,
+                                        ["psi"] = -2.1638518549102,
                                         ["skill"] = "Excellent",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "IL-78M",
                                         ["unitId"] = 1837,
-                                        ["x"] = -318048.375,
-                                        ["y"] = 902475.5625,
+                                        ["x"] = -164392.53125,
+                                        ["y"] = 461913.59375,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -318048.375,
-                                ["y"] = 902475.5625,
+                                ["x"] = -164392.53125,
+                                ["y"] = 461913.59375,
                             }, -- end of [32]
                             [33] =
                             {
@@ -18249,6 +18381,50 @@ mission =
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [2]
+                                                        [3] =
+                                                        {
+                                                            ["auto"] = false,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 3,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "ActivateBeacon",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["AA"] = true,
+                                                                        ["bearing"] = true,
+                                                                        ["callsign"] = "TKR",
+                                                                        ["channel"] = 11,
+                                                                        ["frequency"] = 1098000000,
+                                                                        ["modeChannel"] = "Y",
+                                                                        ["system"] = 5,
+                                                                        ["type"] = 4,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [3]
+                                                        [4] =
+                                                        {
+                                                            ["auto"] = false,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 4,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "EPLRS",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["groupId"] = 0,
+                                                                        ["value"] = true,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [4]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -19549,8 +19725,8 @@ mission =
                                         {
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
-                                            ["action"] = "From Parking Area",
-                                            ["airdromeId"] = 31,
+                                            ["action"] = "From Parking Area Hot",
+                                            ["airdromeId"] = 21,
                                             ["alt"] = 88,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
@@ -19623,9 +19799,9 @@ mission =
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
-                                            ["type"] = "TakeOffParking",
-                                            ["x"] = -319753.25,
-                                            ["y"] = 904275.1875,
+                                            ["type"] = "TakeOffParkingHot",
+                                            ["x"] = -197846.828125,
+                                            ["y"] = 516550.125,
                                         }, -- end of [1]
                                         [2] =
                                         {
@@ -19782,12 +19958,12 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Magic11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -2.3172372657119,
+                                        ["heading"] = 1.928431292754,
                                         ["livery_id"] = "nato",
                                         ["name"] = "DictKey_UnitName_294",
                                         ["onboard_num"] = "088",
-                                        ["parking"] = 26,
-                                        ["parking_id"] = "09",
+                                        ["parking"] = "8",
+                                        ["parking_id"] = "04",
                                         ["payload"] =
                                         {
                                             ["chaff"] = 120,
@@ -19798,17 +19974,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 2.3172372657119,
+                                        ["psi"] = -1.928431292754,
                                         ["skill"] = "Excellent",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "E-3A",
                                         ["unitId"] = 149,
-                                        ["x"] = -319753.25,
-                                        ["y"] = 904275.1875,
+                                        ["x"] = -197846.828125,
+                                        ["y"] = 516550.125,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -319753.25,
-                                ["y"] = 904275.1875,
+                                ["x"] = -197846.828125,
+                                ["y"] = 516550.125,
                             }, -- end of [2]
                             [3] =
                             {
@@ -21574,7 +21750,7 @@ mission =
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
                                             ["action"] = "From Parking Area",
-                                            ["airdromeId"] = 31,
+                                            ["airdromeId"] = 24,
                                             ["alt"] = 88,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
@@ -21648,12 +21824,12 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "TakeOffParking",
-                                            ["x"] = -319623.0625,
-                                            ["y"] = 904241.25,
+                                            ["x"] = -318102,
+                                            ["y"] = 635959.75,
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 464.33094639553,
+                                            ["ETA"] = 1063.6642765628,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 12192,
@@ -21720,7 +21896,7 @@ mission =
                                         }, -- end of [2]
                                         [3] =
                                         {
-                                            ["ETA"] = 738.24945646512,
+                                            ["ETA"] = 1589.0815122407,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 9144,
@@ -21748,8 +21924,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -350526.55803571,
-                                            ["y"] = 880088.03571429,
+                                            ["x"] = -357644.99107142,
+                                            ["y"] = 739346.85714288,
                                         }, -- end of [3]
                                         [4] =
                                         {
@@ -21769,7 +21945,7 @@ mission =
                                                 ["vangle"] = 0,
                                                 ["vnav"] = 1,
                                             }, -- end of ["properties"]
-                                            ["speed"] = 2,
+                                            ["speed"] = 7,
                                             ["speed_locked"] = false,
                                             ["task"] =
                                             {
@@ -21807,12 +21983,12 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Magic11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -2.4284920603949,
+                                        ["heading"] = 1.9146604711725,
                                         ["livery_id"] = "nato",
                                         ["name"] = "DictKey_UnitName_3442",
                                         ["onboard_num"] = "088",
-                                        ["parking"] = "22",
-                                        ["parking_id"] = "79",
+                                        ["parking"] = "78",
+                                        ["parking_id"] = "21",
                                         ["payload"] =
                                         {
                                             ["chaff"] = 120,
@@ -21823,17 +21999,17 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 2.4284920603949,
+                                        ["psi"] = -1.9146604711725,
                                         ["skill"] = "Excellent",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "E-3A",
                                         ["unitId"] = 1943,
-                                        ["x"] = -319623.0625,
-                                        ["y"] = 904241.25,
+                                        ["x"] = -318102,
+                                        ["y"] = 635959.75,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -319623.0625,
-                                ["y"] = 904241.25,
+                                ["x"] = -318102,
+                                ["y"] = 635959.75,
                             }, -- end of [13]
                             [14] =
                             {
@@ -52220,7 +52396,7 @@ mission =
                                         ["alt"] = 88,
                                         ["alt_type"] = "BARO",
                                         ["callsign"] = 117,
-                                        ["heading"] = 0,
+                                        ["heading"] = -1.9851421590718,
                                         ["livery_id"] = "RF Air Force",
                                         ["name"] = "DictKey_UnitName_3615",
                                         ["onboard_num"] = "333",
@@ -54382,11 +54558,11 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3667288,
+    ["currentKey"] = 3735931,
     ["date"] =
     {
-        ["Day"] = 20,
-        ["Month"] = 5,
+        ["Day"] = 8,
+        ["Month"] = 7,
         ["Year"] = 2011,
     }, -- end of ["date"]
     ["descriptionBlueTask"] = "DictKey_descriptionBlueTask_651",
@@ -57474,11 +57650,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -254428.57142857,
-        ["centerY"] = 717714.28571429,
-        ["zoom"] = 1000000,
+        ["centerX"] = -285292.85714285,
+        ["centerY"] = 665535.71428572,
+        ["zoom"] = 100000,
     }, -- end of ["map"]
-    ["maxDictId"] = 3671,
+    ["maxDictId"] = 3691,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
@@ -57537,10 +57713,10 @@ mission =
         ["actions"] =
         {
             [1] = "a_set_flag_value(2501, 1);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3009\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3010\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3011\"), 1, false);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_group_off(1326);",
-            [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3671\")); mission.trig.func[2]=nil;",
-            [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2294\")); mission.trig.func[3]=nil;",
-            [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_2831\")); mission.trig.func[4]=nil;",
-            [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3669\")); mission.trig.func[5]=nil;",
+            [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3688\")); mission.trig.func[2]=nil;",
+            [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3675\")); mission.trig.func[3]=nil;",
+            [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3691\")); mission.trig.func[4]=nil;",
+            [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3690\")); mission.trig.func[5]=nil;",
             [6] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3018\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3014\")); mission.trig.func[6]=nil;",
             [7] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3019\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3016\")); mission.trig.func[7]=nil;",
             [8] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[8]=nil;",
@@ -58925,7 +59101,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3671",
+                    ["file"] = "ResKey_Action_3688",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -58947,7 +59123,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_2294",
+                    ["file"] = "ResKey_Action_3675",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -58976,7 +59152,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_2831",
+                    ["file"] = "ResKey_Action_3691",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -59018,7 +59194,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3669",
+                    ["file"] = "ResKey_Action_3690",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [2]
             }, -- end of ["actions"]
@@ -60393,10 +60569,10 @@ mission =
         ["atmosphere_type"] = 0,
         ["clouds"] =
         {
-            ["base"] = 4400,
-            ["density"] = 3,
+            ["base"] = 5000,
+            ["density"] = 0,
             ["iprecptns"] = 0,
-            ["thickness"] = 630,
+            ["thickness"] = 300,
         }, -- end of ["clouds"]
         ["cyclones"] =
         {
@@ -60408,16 +60584,16 @@ mission =
             ["thickness"] = 0,
             ["visibility"] = 0,
         }, -- end of ["fog"]
-        ["groundTurbulence"] = 3.3528,
+        ["groundTurbulence"] = 1,
         ["name"] = "Downloaded weather",
         ["name_de"] = "Sommer, Wind und Wolken",
         ["name_es"] = "Verano. Nubes y viento",
         ["name_fr"] = "Eté, nuages et vent",
         ["name_ru"] = "Лето. Oблачность и ветер",
-        ["qnh"] = 767.842,
+        ["qnh"] = 760,
         ["season"] =
         {
-            ["temperature"] = 21,
+            ["temperature"] = 26,
         }, -- end of ["season"]
         ["type_weather"] = 0,
         ["visibility"] =
@@ -60428,18 +60604,18 @@ mission =
         {
             ["at2000"] =
             {
-                ["dir"] = 79,
-                ["speed"] = 7.731,
+                ["dir"] = 126,
+                ["speed"] = 6.7002,
             }, -- end of ["at2000"]
             ["at8000"] =
             {
-                ["dir"] = 51,
-                ["speed"] = 8.7618,
+                ["dir"] = 129,
+                ["speed"] = 7.2156,
             }, -- end of ["at8000"]
             ["atGround"] =
             {
-                ["dir"] = 45,
-                ["speed"] = 2,
+                ["dir"] = 139.96295325452,
+                ["speed"] = 8,
             }, -- end of ["atGround"]
         }, -- end of ["wind"]
     }, -- end of ["weather"]

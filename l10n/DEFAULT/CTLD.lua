@@ -1,22 +1,17 @@
 --[[
     Combat Troop and Logistics Drop
-
     Allows Huey, Mi-8 and C130 to transport troops internally and Helicopters to transport Logistic / Vehicle units to the field via sling-loads
     without requiring external mods.
-
     Supports all of the original CTTS functionality such as AI auto troop load and unload as well as group spawning and preloading of troops into units.
-
     Supports deployment of Auto Lasing JTAC to the field
-
     See https://github.com/ciribob/DCS-CTLD for a user manual and the latest version
-
-	Contributors:
-	    - Steggles - https://github.com/Bob7heBuilder
-	    - mvee - https://github.com/mvee
-	    - jmontleon - https://github.com/jmontleon
-	    - emilianomolina - https://github.com/emilianomolina
-
-    Version: 1.64 - 10/12/2016
+  Contributors:
+      - Steggles - https://github.com/Bob7heBuilder
+      - mvee - https://github.com/mvee
+      - jmontleon - https://github.com/jmontleon
+      - emilianomolina - https://github.com/emilianomolina
+    Version: 1.70 - 25/06/2017
+      - Added ability to set maximum group size that can be carried
       - Added new sling load crates
       - Fixed bug where crates and / or groups would disappear
       - Fixed bug where count in zone wouldn't work for mission crates
@@ -48,7 +43,8 @@ ctld.maximumDistanceLogistic = 200 -- max distance from vehicle to logistics to 
 ctld.maximumSearchDistance = 2000 -- max distance for troops to search for enemy
 ctld.maximumMoveDistance = 30 -- max distance for troops to move from drop point if no enemy is nearby
 
-ctld.numberOfTroops = 10 -- default number of troops to load on a transport heli or C-130
+ctld.numberOfTroops = 21 -- default number of troops to load on a transport heli or C-130 
+              -- also works as maximum size of group that'll fit into a helicopter unless overridden
 ctld.enableFastRopeInsertion = true -- allows you to drop troops by fast rope
 ctld.fastRopeMaximumHeight = 18.28 -- in meters which is 60 ft max fast rope (not rappell) safe height
 
@@ -156,7 +152,7 @@ ctld.pickupZones = {
     { "pickzone8", "none", -1, "yes", 0 },
     { "pickzone9", "none", -1, "yes", 0 },
     { "pickzone10", "none", 10, "yes", 2 },  -- limits pickup zone 10 to 10 groups of soldiers or vehicles, only blue can pick up
-	{ "pickzone11", "none", 5, "yes", 1 }, -- limits pickup zone 9 to 5 groups of soldiers or vehicles, only red can pick up
+  { "pickzone11", "none", 5, "yes", 1 }, -- limits pickup zone 9 to 5 groups of soldiers or vehicles, only red can pick up
 
     { "pickzone11", "blue", 20, "no", 2 },  -- limits pickup zone 11 to 20 groups of soldiers or vehicles, only blue can pick up. Zone starts inactive!
     { "pickzone12", "red", 20, "no", 1 },  -- limits pickup zone 11 to 20 groups of soldiers or vehicles, only blue can pick up. Zone starts inactive!
@@ -208,193 +204,48 @@ ctld.wpZones = {
 -- Use any of the predefined names or set your own ones
 ctld.transportPilotNames = {
     "TIANETI JTAC NORTH EAST",
-	"TIANETI JTAC SOUTH WEST",
-	"DUSHETI JTAC NORTH",
-	"DUSHETI JTAC WEST",
-	"TETRA  JTAC NORTH WEST",
-	"TETRA  JTAC NORTH EAST",
-	"TIANETI_Transport 1",
-	"TIANETI_Transport 2",
-	"DUSHETI_Transport 1",
-	"DUSHETI_Transport 2",
-	"TETRA_Transport 1",
-	"TETRA_Transport 2",
-	"MARNUELI_Transport 1",
-	"MARNUELI_Transport 2",
-	
-	"259th Lochini #1",
-	"259th Lochini #2",
-	"259th Lochini #3",
-	"259th Lochini #4",
-	"259th Soganlug #1",
-	"259th Soganlug #2",
-	"259th Soganlug #3",
-	
-	"Huey #1",
-	"Huey #2",
-	"Huey #3",
-	"Huey #4",
-	
-	"helicargo1",
-    "helicargo2",
-    "helicargo3",
-    "helicargo4",
-    "helicargo5",
-    "helicargo6",
-    "helicargo7",
-    "helicargo8",
-    "helicargo9",
-    "helicargo10",
-
-    "helicargo11",
-    "helicargo12",
-    "helicargo13",
-    "helicargo14",
-    "helicargo15",
-    "helicargo16",
-    "helicargo17",
-    "helicargo18",
-    "helicargo19",
-    "helicargo20",
-
-    "helicargo21",
-    "helicargo22",
-    "helicargo23",
-    "helicargo24",
-    "helicargo25",
-
-    "MEDEVAC #1",
-    "MEDEVAC #2",
-    "MEDEVAC #3",
-    "MEDEVAC #4",
-    "MEDEVAC #5",
-    "MEDEVAC #6",
-    "MEDEVAC #7",
-    "MEDEVAC #8",
-    "MEDEVAC #9",
-    "MEDEVAC #10",
-    "MEDEVAC #11",
-    "MEDEVAC #12",
-    "MEDEVAC #13",
-    "MEDEVAC #14",
-    "MEDEVAC #15",
-    "MEDEVAC #16",
-
-    "MEDEVAC RED #1",
-    "MEDEVAC RED #2",
-    "MEDEVAC RED #3",
-    "MEDEVAC RED #4",
-    "MEDEVAC RED #5",
-    "MEDEVAC RED #6",
-    "MEDEVAC RED #7",
-    "MEDEVAC RED #8",
-    "MEDEVAC RED #9",
-    "MEDEVAC RED #10",
-    "MEDEVAC RED #11",
-    "MEDEVAC RED #12",
-    "MEDEVAC RED #13",
-    "MEDEVAC RED #14",
-    "MEDEVAC RED #15",
-    "MEDEVAC RED #16",
-    "MEDEVAC RED #17",
-    "MEDEVAC RED #18",
-    "MEDEVAC RED #19",
-    "MEDEVAC RED #20",
-    "MEDEVAC RED #21",
-
-    "MEDEVAC BLUE #1",
-    "MEDEVAC BLUE #2",
-    "MEDEVAC BLUE #3",
-    "MEDEVAC BLUE #4",
-    "MEDEVAC BLUE #5",
-    "MEDEVAC BLUE #6",
-    "MEDEVAC BLUE #7",
-    "MEDEVAC BLUE #8",
-    "MEDEVAC BLUE #9",
-    "MEDEVAC BLUE #10",
-    "MEDEVAC BLUE #11",
-    "MEDEVAC BLUE #12",
-    "MEDEVAC BLUE #13",
-    "MEDEVAC BLUE #14",
-    "MEDEVAC BLUE #15",
-    "MEDEVAC BLUE #16",
-    "MEDEVAC BLUE #17",
-    "MEDEVAC BLUE #18",
-    "MEDEVAC BLUE #19",
-    "MEDEVAC BLUE #20",
-    "MEDEVAC BLUE #21",
-
-    -- *** AI transports names (different names only to ease identification in mission) ***
-
-    -- Use any of the predefined names or set your own ones
-
-    "transport1",
-    "transport2",
-    "transport3",
-    "transport4",
-    "transport5",
-    "transport6",
-    "transport7",
-    "transport8",
-    "transport9",
-    "transport10",
-
-    "transport11",
-    "transport12",
-    "transport13",
-    "transport14",
-    "transport15",
-    "transport16",
-    "transport17",
-    "transport18",
-    "transport19",
-    "transport20",
-
-    "transport21",
-    "transport22",
-    "transport23",
-    "transport24",
-    "transport25",
-}
+  "TIANETI JTAC SOUTH WEST",
+  "DUSHETI JTAC NORTH",
+  "DUSHETI JTAC WEST",
+  "TETRA  JTAC NORTH WEST",
+  "TETRA  JTAC NORTH EAST",
+  "TIANETI_Transport 1",
+  "TIANETI_Transport 2",
+  "DUSHETI_Transport 1",
+  "DUSHETI_Transport 2",
+  "TETRA_Transport 1",
+  "TETRA_Transport 2",
+  "MARNUELI_Transport 1",
+  "MARNUELI_Transport 2",
+  
+  "259th Entropy",
+  "259th Evilivan",
+  "259th Fudd",
+  "259th Looney",
+  "259th Makeshift",
+  "259th Trainee",
+  "259th Soganlug #1",
+  "259th Soganlug #2",
+  "259th Soganlug #3",
+  
+  "Huey #1",
+  "Huey #2",
+ }
 
 -- *************** Optional Extractable GROUPS *****************
 
 -- Use any of the predefined names or set your own ones
 
 ctld.extractableGroups = {
-	"TIANETI JTAC NORTH EAST",
-	"TIANETI JTAC SOUTH WEST",
-	"DUSHETI JTAC NORTH",
-	"DUSHETI JTAC WEST",
-	"TETRA  JTAC NORTH WEST",
-	"TETRA  JTAC NORTH EAST",
-    "extract1",
-    "extract2",
-    "extract3",
-    "extract4",
-    "extract5",
-    "extract6",
-    "extract7",
-    "extract8",
-    "extract9",
-    "extract10",
+  "TIANETI JTAC NORTH EAST",
+  "TIANETI JTAC SOUTH WEST",
+  "DUSHETI JTAC NORTH",
+  "DUSHETI JTAC WEST",
+  "TETRA  JTAC NORTH WEST",
+  "TETRA  JTAC NORTH EAST",
 
     "DUSHETI_Medevac1",
     "DUSHETI_Medevac2",
-    "extract13",
-    "extract14",
-    "extract15",
-    "extract16",
-    "extract17",
-    "extract18",
-    "extract19",
-    "extract20",
-
-    "extract21",
-    "extract22",
-    "extract23",
-    "extract24",
-    "extract25",
 }
 
 -- ************** Logistics UNITS FOR CRATE SPAWNING ******************
@@ -408,12 +259,7 @@ ctld.logisticUnits = {
     "logistic3",
     "logistic4",
     "logistic5",
-    "logistic6",
-    "logistic7",
-    "logistic8",
-    "logistic9",
-    "logistic10",
-}
+   }
 
 -- ************** UNITS ABLE TO TRANSPORT VEHICLES ******************
 -- Add the model name of the unit that you want to be able to transport and deploy vehicles
@@ -422,6 +268,20 @@ ctld.logisticUnits = {
 ctld.vehicleTransportEnabled = {
     "76MD", -- the il-76 mod doesnt use a normal - sign so il-76md wont match... !!!! GRR
     "C-130",
+}
+
+
+-- ************** Maximum Units SETUP for UNITS ******************
+
+-- Put the name of the Unit you want to limit group sizes too
+-- i.e
+-- ["UH-1H"] = 10,
+--
+-- Will limit UH1 to only transport groups with a size 10 or less
+-- Make sure the unit name is exactly right or it wont work
+
+ctld.unitLoadLimits = {
+  ["UH-1H"] = 8, 
 }
 
 -- ************** INFANTRY GROUPS FOR PICKUP ******************
@@ -435,11 +295,9 @@ ctld.vehicleTransportEnabled = {
 -- You can also add an optional coalition side to limit the group to one side
 -- for the side - 2 is BLUE and 1 is RED
 ctld.loadableGroups = {
-    {name = "Standard Group", inf = 6, mg = 2, at = 2 }, -- will make a loadable group with 5 infantry, 2 MGs and 2 anti-tank for both coalitions
-    {name = "Anti Air", inf = 2, aa = 3  },
-    {name = "Anti Tank", inf = 2, at = 6  },
+  {name = "Small Combat Group (8)", inf = 5, mg = 2, aa = 1 },
+    {name = "Large Combat Group (20)", inf = 11, mg = 7, aa = 2 }, 
     {name = "Mortar Squad", mortar = 6 },
-    -- {name = "Mortar Squad Red", inf = 2, mortar = 5, side =1 }, --would make a group loadable by RED only
 }
 
 -- ************** SPAWNABLE CRATES ******************
@@ -1381,48 +1239,47 @@ function ctld.spawnCrateStatic(_country, _unitId, _point, _name, _weight,_side)
         
 --[[ Placeholder for different type of cargo containers. Let's say pipes and trunks, fuel for FOB building
                         ["shape_name"] = "ab-212_cargo",
-			["type"] = "uh1h_cargo" --new type for the container previously used
-			
-			["shape_name"] = "ammo_box_cargo",
+      ["type"] = "uh1h_cargo" --new type for the container previously used
+      
+      ["shape_name"] = "ammo_box_cargo",
                         ["type"] = "ammo_cargo",
-			
-			["shape_name"] = "barrels_cargo",
+      
+      ["shape_name"] = "barrels_cargo",
                         ["type"] = "barrels_cargo",
-
                         ["shape_name"] = "bw_container_cargo",
                         ["type"] = "container_cargo",
-			
+      
                         ["shape_name"] = "f_bar_cargo",
                         ["type"] = "f_bar_cargo",
-			
-			["shape_name"] = "fueltank_cargo",
+      
+      ["shape_name"] = "fueltank_cargo",
                         ["type"] = "fueltank_cargo",
-			
-			["shape_name"] = "iso_container_cargo",
-			["type"] = "iso_container",
-			
-			["shape_name"] = "iso_container_small_cargo",
-			["type"] = "iso_container_small",
-			
-			["shape_name"] = "oiltank_cargo",
+      
+      ["shape_name"] = "iso_container_cargo",
+      ["type"] = "iso_container",
+      
+      ["shape_name"] = "iso_container_small_cargo",
+      ["type"] = "iso_container_small",
+      
+      ["shape_name"] = "oiltank_cargo",
                         ["type"] = "oiltank_cargo",
                         
-			["shape_name"] = "pipes_big_cargo",
-                        ["type"] = "pipes_big_cargo",			
-			
-			["shape_name"] = "pipes_small_cargo",
-			["type"] = "pipes_small_cargo",
-			
-			["shape_name"] = "tetrapod_cargo",
-			["type"] = "tetrapod_cargo",
-			
-			["shape_name"] = "trunks_long_cargo",
-			["type"] = "trunks_long_cargo",
-			
-			["shape_name"] = "trunks_small_cargo",
-			["type"] = "trunks_small_cargo",
+      ["shape_name"] = "pipes_big_cargo",
+                        ["type"] = "pipes_big_cargo",     
+      
+      ["shape_name"] = "pipes_small_cargo",
+      ["type"] = "pipes_small_cargo",
+      
+      ["shape_name"] = "tetrapod_cargo",
+      ["type"] = "tetrapod_cargo",
+      
+      ["shape_name"] = "trunks_long_cargo",
+      ["type"] = "trunks_long_cargo",
+      
+      ["shape_name"] = "trunks_small_cargo",
+      ["type"] = "trunks_small_cargo",
 ]]--
-	else	
+  else  
             _crate = {
                 ["shape_name"] = "GeneratorF",
                 ["type"] = "GeneratorF",
@@ -2214,7 +2071,20 @@ function ctld.extractTroops(_args)
             _extractTroops = ctld.findNearestGroup(_heli, ctld.droppedTroopsBLUE)
         end
 
+
         if _extractTroops ~= nil then
+
+            local _limit = ctld.getTransportLimit(_heli:getTypeName())
+
+            local _size =  #_extractTroops.group:getUnits()
+
+            if _limit <= #_extractTroops.group:getUnits() then
+
+                ctld.displayMessageToGroup(_heli, "Sorry - The group of ".._size.." is too large to fit. \n\nLimit is ".._limit.." for ".._heli:getTypeName(), 20)
+
+                return
+            end
+
 
             _onboard.troops = _extractTroops.details
 
@@ -4546,6 +4416,16 @@ function ctld.checkAIStatus()
 
 end
 
+function ctld.getTransportLimit(_unitType)
+
+    if ctld.unitLoadLimits[_unitType] then
+
+        return ctld.unitLoadLimits[_unitType]
+    end
+
+    return ctld.numberOfTroops
+
+end
 
 -- Adds menuitem to all heli units that are active
 function ctld.addF10MenuOptions()
@@ -4578,7 +4458,11 @@ function ctld.addF10MenuOptions()
                         -- local _loadPath = missionCommands.addSubMenuForGroup(_groupId, "Load From Zone", _troopCommandsPath)
                         for _,_loadGroup in pairs(ctld.loadableGroups) do
                             if not _loadGroup.side or _loadGroup.side == _unit:getCoalition() then
-                                missionCommands.addCommandForGroup(_groupId, "Load ".._loadGroup.name, _troopCommandsPath, ctld.loadTroopsFromZone, { _unitName, true,_loadGroup,false })
+                            
+                                -- check size & unit
+                                if ctld.getTransportLimit(_unit:getTypeName()) >= _loadGroup.total then
+                                    missionCommands.addCommandForGroup(_groupId, "Load ".._loadGroup.name, _troopCommandsPath, ctld.loadTroopsFromZone, { _unitName, true,_loadGroup,false })
+                                end
                             end
                         end
 
@@ -5821,6 +5705,34 @@ if ctld.allowRandomAiTeamPickups == true then
             table.insert(ctld.blueTeams, _)
         end
     end
+end
+
+-- add total count
+
+for _,_loadGroup in pairs(ctld.loadableGroups) do
+
+    _loadGroup.total = 0
+    if _loadGroup.aa then
+        _loadGroup.total = _loadGroup.aa + _loadGroup.total
+    end
+
+    if _loadGroup.inf then
+        _loadGroup.total = _loadGroup.inf + _loadGroup.total
+    end
+
+
+    if _loadGroup.mg then
+        _loadGroup.total = _loadGroup.mg + _loadGroup.total
+    end
+
+    if _loadGroup.at then
+        _loadGroup.total = _loadGroup.at + _loadGroup.total
+    end
+
+    if _loadGroup.mortar then
+        _loadGroup.total = _loadGroup.mortar + _loadGroup.total
+    end
+
 end
 
 
