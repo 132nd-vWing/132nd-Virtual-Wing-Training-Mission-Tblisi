@@ -2,11 +2,12 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+3.6.0 (2017-07-14)
+------------------
 
 Fix
 ~~~
+- Update MOOSE to latest chg: add Chilts A10-C. [132nd-Entropy]
 - CTLD fixed to allow 20 troops being transported by Mi-8. [132nd-
   Entropy]
 
