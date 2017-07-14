@@ -14065,7 +14065,7 @@ mission =
                                             ["name"] = "Colt41",
                                         }, -- end of ["callsign"]
                                         ["heading"] = 0,
-                                        ["livery_id"] = "132 617th Standard skin",
+                                        ["livery_id"] = "132 617th bilgatus",
                                         ["name"] = "DictKey_UnitName_224",
                                         ["onboard_num"] = "0014",
                                         ["parking"] = 71,
@@ -54558,7 +54558,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3742219,
+    ["currentKey"] = 3744226,
     ["date"] =
     {
         ["Day"] = 8,
