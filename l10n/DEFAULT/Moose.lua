@@ -1,5 +1,5 @@
 env.info( '*** MOOSE STATIC INCLUDE START *** ' )
-env.info( 'Moose Generation Timestamp: 20170708_1325' )
+env.info( 'Moose Generation Timestamp: 20170713_2214' )
 
 --- Various routines
 -- @module routines
@@ -2524,6 +2524,69 @@ FLARECOLOR = trigger.flareColor -- #FLARECOLOR
 -- @type UTILS
 UTILS = {}
 
+--- Function to infer instance of an object
+--
+-- ### Examples:
+--
+--    * UTILS.IsInstanceOf( 'some text', 'string' ) will return true
+--    * UTILS.IsInstanceOf( some_function, 'function' ) will return true
+--    * UTILS.IsInstanceOf( 10, 'number' ) will return true
+--    * UTILS.IsInstanceOf( false, 'boolean' ) will return true
+--    * UTILS.IsInstanceOf( nil, 'nil' ) will return true
+--
+--    * UTILS.IsInstanceOf( ZONE:New( 'some zone', ZONE ) will return true
+--    * UTILS.IsInstanceOf( ZONE:New( 'some zone', 'ZONE' ) will return true
+--    * UTILS.IsInstanceOf( ZONE:New( 'some zone', 'zone' ) will return true
+--    * UTILS.IsInstanceOf( ZONE:New( 'some zone', 'BASE' ) will return true
+--
+--    * UTILS.IsInstanceOf( ZONE:New( 'some zone', 'GROUP' ) will return false
+--
+--
+-- @param object is the object to be evaluated
+-- @param className is the name of the class to evaluate (can be either a string or a Moose class)
+-- @return #boolean
+UTILS.IsInstanceOf = function( object, className )
+  -- Is className NOT a string ?
+  if not type( className ) == 'string' then
+  
+    -- Is className a Moose class ?
+    if type( className ) == 'table' and className.IsInstanceOf ~= nil then
+    
+      -- Get the name of the Moose class as a string
+      className = className.ClassName
+      
+    -- className is neither a string nor a Moose class, throw an error
+    else
+    
+      -- I'm not sure if this should take advantage of MOOSE logging function, or throw an error for pcall
+      local err_str = 'className parameter should be a string; parameter received: '..type( className )
+      self:E( err_str )
+      return false
+      -- error( err_str )
+      
+    end
+  end
+  
+  -- Is the object a Moose class instance ?
+  if type( object ) == 'table' and object.IsInstanceOf ~= nil then
+  
+    -- Use the IsInstanceOf method of the BASE class
+    return object:IsInstanceOf( className )
+  else
+  
+    -- If the object is not an instance of a Moose class, evaluate against lua basic data types
+    local basicDataTypes = { 'string', 'number', 'function', 'boolean', 'nil', 'table' }
+    for _, basicDataType in ipairs( basicDataTypes ) do
+      if className == basicDataType then
+        return type( object ) == basicDataType
+      end
+    end
+  end
+  
+  -- Check failed
+  return false
+end
+
 
 --from http://lua-users.org/wiki/CopyTable
 UTILS.DeepCopy = function(object)
@@ -2672,6 +2735,10 @@ end
 
 UTILS.KnotsToMps = function(knots)
   return knots*1852/3600
+end
+
+UTILS.KnotsToKmph = function(knots)
+  return knots* 1.852
 end
 
 UTILS.KmphToMps = function(kmph)
@@ -3096,7 +3163,10 @@ end
 -- @return #BASE
 function BASE:GetParent( Child )
   local Parent
-  if rawget( Child, "__" ) then
+  -- BASE class has no parent
+  if Child.ClassName == 'BASE' then
+    Parent = nil
+  elseif rawget( Child, "__" ) then
 	  Parent = getmetatable( Child.__ ).__index
 	else
 	  Parent = getmetatable( Child ).__index
@@ -3104,6 +3174,64 @@ function BASE:GetParent( Child )
 	return Parent
 end
 
+--- This is the worker method to check if an object is an (sub)instance of a class.
+--
+-- ### Examples:
+--
+--    * ZONE:New( 'some zone' ):IsInstanceOf( ZONE ) will return true
+--    * ZONE:New( 'some zone' ):IsInstanceOf( 'ZONE' ) will return true
+--    * ZONE:New( 'some zone' ):IsInstanceOf( 'zone' ) will return true
+--    * ZONE:New( 'some zone' ):IsInstanceOf( 'BASE' ) will return true
+--
+--    * ZONE:New( 'some zone' ):IsInstanceOf( 'GROUP' ) will return false
+-- 
+-- @param #BASE self
+-- @param ClassName is the name of the class or the class itself to run the check against
+-- @return #boolean
+function BASE:IsInstanceOf( ClassName )
+
+  -- Is className NOT a string ?
+  if type( ClassName ) ~= 'string' then
+  
+    -- Is className a Moose class ?
+    if type( ClassName ) == 'table' and ClassName.ClassName ~= nil then
+    
+      -- Get the name of the Moose class as a string
+      ClassName = ClassName.ClassName
+      
+    -- className is neither a string nor a Moose class, throw an error
+    else
+    
+      -- I'm not sure if this should take advantage of MOOSE logging function, or throw an error for pcall
+      local err_str = 'className parameter should be a string; parameter received: '..type( ClassName )
+      self:E( err_str )
+      -- error( err_str )
+      return false
+      
+    end
+  end
+  
+  ClassName = string.upper( ClassName )
+
+  if string.upper( self.ClassName ) == ClassName then
+    return true
+  end
+
+  local Parent = self:GetParent(self)
+
+  while Parent do
+
+    if string.upper( Parent.ClassName ) == ClassName then
+      return true
+    end
+
+    Parent = Parent:GetParent(Parent)
+
+  end
+
+  return false
+
+end
 --- Get the ClassName + ClassID of the class instance.
 -- The ClassName + ClassID is formatted as '%s#%09d'. 
 -- @param #BASE self
@@ -3184,7 +3312,7 @@ do -- Event Handling
   -- @return #BASE
   function BASE:UnHandleEvent( Event )
   
-    self:EventDispatcher():Remove( self, Event )
+    self:EventDispatcher():RemoveEvent( self, Event )
     
     return self
   end
@@ -4724,16 +4852,16 @@ end
 -- @param Core.Base#BASE EventClass The self instance of the class for which the event is.
 -- @param Dcs.DCSWorld#world.event EventID
 -- @return #EVENT.Events
-function EVENT:Remove( EventClass, EventID  )
+function EVENT:RemoveEvent( EventClass, EventID  )
 
-  self:E( { "Removing subscription for class: ", EventClass:GetClassNameAndID() } )
+  self:F2( { "Removing subscription for class: ", EventClass:GetClassNameAndID() } )
 
   local EventPriority = EventClass:GetEventPriority()
 
-  self.EventsDead = self.EventsDead or {}
-  self.EventsDead[EventID] = self.EventsDead[EventID] or {}
-  self.EventsDead[EventID][EventPriority] = self.EventsDead[EventID][EventPriority] or {}  
-  self.EventsDead[EventID][EventPriority][EventClass] = self.Events[EventID][EventPriority][EventClass]
+  self.Events = self.Events or {}
+  self.Events[EventID] = self.Events[EventID] or {}
+  self.Events[EventID][EventPriority] = self.Events[EventID][EventPriority] or {}  
+  self.Events[EventID][EventPriority][EventClass] = self.Events[EventID][EventPriority][EventClass]
     
   self.Events[EventID][EventPriority][EventClass] = nil
   
@@ -5197,7 +5325,7 @@ function EVENT:onEvent( Event )
               end
             else
               -- The EventClass is not alive anymore, we remove it from the EventHandlers...
-              self:Remove( EventClass, Event.id )
+              self:RemoveEvent( EventClass, Event.id )
             end                      
           else
 
@@ -5247,7 +5375,7 @@ function EVENT:onEvent( Event )
                 end
               else
                 -- The EventClass is not alive anymore, we remove it from the EventHandlers...
-                self:Remove( EventClass, Event.id )  
+                self:RemoveEvent( EventClass, Event.id )  
               end
             else
           
@@ -5535,6 +5663,34 @@ do -- SETTINGS
     return ( self.A2ASystem and self.A2ASystem == "BULLS" ) or ( not self.A2ASystem and _SETTINGS:IsA2A_BULLS() )
   end
 
+  --- Sets A2A LL
+  -- @param #SETTINGS self
+  -- @return #SETTINGS
+  function SETTINGS:SetA2A_LL()
+    self.A2ASystem = "LL"
+  end
+
+  --- Is LL
+  -- @param #SETTINGS self
+  -- @return #boolean true if LL
+  function SETTINGS:IsA2A_LL()
+    return ( self.A2ASystem and self.A2ASystem == "LL" ) or ( not self.A2ASystem and _SETTINGS:IsA2A_LL() )
+  end
+
+  --- Sets A2A MGRS
+  -- @param #SETTINGS self
+  -- @return #SETTINGS
+  function SETTINGS:SetA2A_MGRS()
+    self.A2ASystem = "MGRS"
+  end
+
+  --- Is MGRS
+  -- @param #SETTINGS self
+  -- @return #boolean true if MGRS
+  function SETTINGS:IsA2A_MGRS()
+    return ( self.A2ASystem and self.A2ASystem == "MGRS" ) or ( not self.A2ASystem and _SETTINGS:IsA2A_MGRS() )
+  end
+
   --- @param #SETTINGS self
   -- @return #SETTINGS
   function SETTINGS:SetSystemMenu( MenuGroup, RootMenu )
@@ -5576,11 +5732,38 @@ do -- SETTINGS
 
     if self:IsA2A_BULLS() then
       MENU_GROUP_COMMAND:New( MenuGroup, "Bearing Range Altitude Aspect (BRAA)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "BRAA" ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "MGRS" ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "LL" ):SetTime( MenuTime )
     end
   
     if self:IsA2A_BRAA() then
       MENU_GROUP_COMMAND:New( MenuGroup, "Bullseye (BULLS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "BULLS" ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "MGRS" ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "LL" ):SetTime( MenuTime )
     end
+
+    if self:IsA2A_LL() then
+      MENU_GROUP_COMMAND:New( MenuGroup, "Bearing Range Altitude Aspect (BRAA)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "BRAA" ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Bullseye (BULLS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "BULLS" ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "MGRS" ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Accuracy 1", A2ACoordinateMenu, self.MenuLL_Accuracy, self, MenuGroup, RootMenu, 1 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Accuracy 2", A2ACoordinateMenu, self.MenuLL_Accuracy, self, MenuGroup, RootMenu, 2 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Accuracy 3", A2ACoordinateMenu, self.MenuLL_Accuracy, self, MenuGroup, RootMenu, 3 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Decimal On", A2ACoordinateMenu, self.MenuLL_DMS, self, MenuGroup, RootMenu, true ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Decimal Off", A2ACoordinateMenu, self.MenuLL_DMS, self, MenuGroup, RootMenu, false ):SetTime( MenuTime )
+    end
+  
+    if self:IsA2A_MGRS() then
+      MENU_GROUP_COMMAND:New( MenuGroup, "Bearing Range Altitude Aspect (BRAA)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "BRAA" ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Bullseye (BULLS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "BULLS" ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "LL" ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 1", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 1 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 2", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 2 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 3", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 3 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 4", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 4 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 5", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 5 ):SetTime( MenuTime )
+    end
+
     
     local MetricsMenu = MENU_GROUP:New( MenuGroup, "Measures and Weights System", SettingsMenu ):SetTime( MenuTime )
     
@@ -5643,10 +5826,36 @@ do -- SETTINGS
 
     if self:IsA2A_BULLS() then
       MENU_GROUP_COMMAND:New( PlayerGroup, "Bearing Range Altitude Aspect (BRAA)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "BRAA" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "MGRS" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "LL" )
     end
   
     if self:IsA2A_BRAA() then
       MENU_GROUP_COMMAND:New( PlayerGroup, "Bullseye (BULLS)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "BULLS" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "MGRS" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "LL" )
+    end
+
+    if self:IsA2A_LL() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Bearing Range Altitude Aspect (BRAA)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "BRAA" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Bullseye (BULLS)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "BULLS" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "MGRS" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Accuracy 1", A2ACoordinateMenu, self.MenuGroupLL_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 1 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Accuracy 2", A2ACoordinateMenu, self.MenuGroupLL_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 2 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Accuracy 3", A2ACoordinateMenu, self.MenuGroupLL_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 3 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Decimal On", A2ACoordinateMenu, self.MenuGroupLL_DMSSystem, self, PlayerUnit, PlayerGroup, PlayerName, true )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Decimal Off", A2ACoordinateMenu, self.MenuGroupLL_DMSSystem, self, PlayerUnit, PlayerGroup, PlayerName, false )
+    end
+  
+    if self:IsA2A_MGRS() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Bearing Range Altitude Aspect (BRAA)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "BRAA" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Bullseye (BULLS)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "BULLS" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "LL" )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 1", A2ACoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 1 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 2", A2ACoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 2 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 3", A2ACoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 3 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 4", A2ACoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 4 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 5", A2ACoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 5 )
     end
 
     local MetricsMenu = MENU_GROUP:New( PlayerGroup, "Measures and Weights System", PlayerMenu )
@@ -9790,6 +9999,23 @@ function SET_GROUP:FilterStart()
   return self
 end
 
+--- Handles the OnDead or OnCrash event for alive groups set.
+-- Note: The GROUP object in the SET_GROUP collection will only be removed if the last unit is destroyed of the GROUP.
+-- @param #SET_GROUP self
+-- @param Core.Event#EVENTDATA Event
+function SET_GROUP:_EventOnDeadOrCrash( Event )
+  self:F3( { Event } )
+
+  if Event.IniDCSUnit then
+    local ObjectName, Object = self:FindInDatabase( Event )
+    if ObjectName then
+      if Event.IniDCSGroup:getSize() == 1 then -- Only remove if the last unit of the group was destroyed.
+        self:Remove( ObjectName )
+      end
+    end
+  end
+end
+
 --- Handles the Database to check on an event (birth) that the Object was added in the Database.
 -- This is required, because sometimes the _DATABASE birth event gets called later than the SET_BASE birth event!
 -- @param #SET_GROUP self
@@ -12725,24 +12951,52 @@ do -- COORDINATE
   -- @param #COORDINATE self
   -- @param Wrapper.Controllable#CONTROLLABLE Controllable
   -- @param Core.Settings#SETTINGS Settings
+  -- @param Tasking.Task#TASK Task The task for which coordinates need to be calculated.
   -- @return #string The coordinate Text in the configured coordinate system.
-  function COORDINATE:ToString( Controllable, Settings ) -- R2.2
+  function COORDINATE:ToString( Controllable, Settings, Task ) -- R2.2
   
     self:E( { Controllable = Controllable } )
 
     local Settings = Settings or ( Controllable and _DATABASE:GetPlayerSettings( Controllable:GetPlayerName() ) ) or _SETTINGS
-    
-    local IsAir = Controllable and Controllable:IsAirPlane() or false
 
-    if IsAir then
+    local ModeA2A = true
+    
+    if Task then
+      if Task:IsInstanceOf( TASK_A2A ) then
+        ModeA2A = true
+      else
+        if Task:IsInstanceOf( TASK_A2G ) then
+          ModeA2A = false
+        else
+          if Task:IsInstanceOf( TASK_CARGO ) then
+            ModeA2A = false
+          end
+        end
+      end
+    else
+      local IsAir = Controllable and Controllable:IsAirPlane() or false
+      if IsAir  then
+        ModeA2A = true
+      else
+        ModeA2A = false
+      end
+    end
+    
+
+    if ModeA2A then
       if Settings:IsA2A_BRAA()  then
         local Coordinate = Controllable:GetCoordinate()
         return self:ToStringBRA( Coordinate, Settings ) 
       end
-  
       if Settings:IsA2A_BULLS() then
         local Coalition = Controllable:GetCoalition()
         return self:ToStringBULLS( Coalition, Settings )
+      end
+      if Settings:IsA2A_LL()  then
+        return self:ToStringLL( Settings )
+      end
+      if Settings:IsA2A_MGRS() then
+        return self:ToStringMGRS( Settings )
       end
     else
       if Settings:IsA2G_BR()  then
@@ -21971,7 +22225,7 @@ do -- Event Handling
   -- @return #GROUP
   function GROUP:UnHandleEvent( Event )
   
-    self:EventDispatcher():Remove( self, Event )
+    self:EventDispatcher():RemoveEvent( self, Event )
     
     return self
   end
@@ -25826,7 +26080,7 @@ end
 -- @return #CLEANUP_AIRBASE
 function CLEANUP_AIRBASE:SetCleanMissiles( CleanMissiles )
 
-  if CleanMissiles or true then
+  if CleanMissiles then
     self:HandleEvent( EVENTS.Shot, self.__.OnEventShot )
   else
     self:UnHandleEvent( EVENTS.Shot )
@@ -26040,7 +26294,7 @@ function CLEANUP_AIRBASE.__:CleanUpSchedule()
 							local CleanUpLandHeight = CleanUpCoordinate:GetLandHeight()
 							local CleanUpUnitHeight = CleanUpCoordinate.y - CleanUpLandHeight
 							
-							if CleanUpUnitHeight < 30 then
+							if CleanUpUnitHeight < 100 then
 								self:T( { "CleanUp Scheduler", "Destroy " .. CleanUpUnitName .. " because below safe height and damaged." } )
 								self:DestroyUnit( CleanUpUnit )
 							end
@@ -32488,15 +32742,20 @@ do -- DETECTION_BASE
     
     --- Accept detections if within the specified zone(s).
     -- @param #DETECTION_BASE self
-    -- @param AcceptZones Can be a list or ZONE_BASE objects, or a single ZONE_BASE object.
+    -- @param Core.Zone#ZONE_BASE AcceptZones Can be a list or ZONE_BASE objects, or a single ZONE_BASE object.
     -- @return #DETECTION_BASE self
     function DETECTION_BASE:SetAcceptZones( AcceptZones )
       self:F2()
     
       if type( AcceptZones ) == "table" then
-        self.AcceptZones = AcceptZones
+        if AcceptZones.ClassName and AcceptZones:IsInstanceOf( ZONE_BASE ) then
+          self.AcceptZones = { AcceptZones }
+        else
+          self.AcceptZones = AcceptZones
+        end
       else
-        self.AcceptZones = { AcceptZones }
+        self:E( { "AcceptZones must be a list of ZONE_BASE derived objects or one ZONE_BASE derived object", AcceptZones } )
+        error()
       end
       
       return self
@@ -32504,15 +32763,20 @@ do -- DETECTION_BASE
     
     --- Reject detections if within the specified zone(s).
     -- @param #DETECTION_BASE self
-    -- @param RejectZones Can be a list or ZONE_BASE objects, or a single ZONE_BASE object.
+    -- @param Core.Zone#ZONE_BASE RejectZones Can be a list or ZONE_BASE objects, or a single ZONE_BASE object.
     -- @return #DETECTION_BASE self
     function DETECTION_BASE:SetRejectZones( RejectZones )
       self:F2()
     
       if type( RejectZones ) == "table" then
-        self.RejectZones = RejectZones
+        if RejectZones.ClassName and RejectZones:IsInstanceOf( ZONE_BASE ) then
+          self.RejectZones = { RejectZones }
+        else
+          self.RejectZones = RejectZones
+        end
       else
-        self.RejectZones = { RejectZones }
+        self:E( { "RejectZones must be a list of ZONE_BASE derived objects or one ZONE_BASE derived object", RejectZones } )
+        error()
       end
       
       return self
@@ -32772,19 +33036,23 @@ do -- DETECTION_BASE
   -- @param #DETECTION_BASE.DetectedObject DetectedObject
   -- @return #boolean true if already identified.
   function DETECTION_BASE:IsDetectedObjectIdentified( DetectedObject )
-    self:F3( DetectedObject.Name )
+    --self:F3( DetectedObject.Name )
   
     local DetectedObjectName = DetectedObject.Name
-    local DetectedObjectIdentified = self.DetectedObjectsIdentified[DetectedObjectName] == true
-    self:T3( DetectedObjectIdentified )
-    return DetectedObjectIdentified
+    if DetectedObjectName then
+      local DetectedObjectIdentified = self.DetectedObjectsIdentified[DetectedObjectName] == true
+      self:T3( DetectedObjectIdentified )
+      return DetectedObjectIdentified
+    else
+      return nil
+    end
   end
   
   --- Identifies a detected object during detection processing.
   -- @param #DETECTION_BASE self
   -- @param #DETECTION_BASE.DetectedObject DetectedObject
   function DETECTION_BASE:IdentifyDetectedObject( DetectedObject )
-    self:F( { "Identified:", DetectedObject.Name } )
+    --self:F( { "Identified:", DetectedObject.Name } )
   
     local DetectedObjectName = DetectedObject.Name
     self.DetectedObjectsIdentified[DetectedObjectName] = true
@@ -32811,16 +33079,18 @@ do -- DETECTION_BASE
   -- @param #string ObjectName
   -- @return #DETECTION_BASE.DetectedObject
   function DETECTION_BASE:GetDetectedObject( ObjectName )
-  	self:F2( ObjectName )
+  	--self:F2( ObjectName )
     
     if ObjectName then
       local DetectedObject = self.DetectedObjects[ObjectName]
-  
-      -- Only return detected objects that are alive!
-      local DetectedUnit = UNIT:FindByName( ObjectName )
-      if DetectedUnit and DetectedUnit:IsAlive() then
-        if self:IsDetectedObjectIdentified( DetectedObject ) == false then
-          return DetectedObject
+      
+      if DetectedObject then
+        -- Only return detected objects that are alive!
+        local DetectedUnit = UNIT:FindByName( ObjectName )
+        if DetectedUnit and DetectedUnit:IsAlive() then
+          if self:IsDetectedObjectIdentified( DetectedObject ) == false then
+            return DetectedObject
+          end
         end
       end
     end
@@ -37672,7 +37942,7 @@ do -- AI_A2A_DISPATCHER
   --        -- which takes the waypoints of a late activated group with the name CCCP Border as the boundaries of the border area.
   --        -- Any enemy crossing this border will be engaged.
   --        CCCPBorderZone = ZONE_POLYGON:New( "CCCP Border", GROUP:FindByName( "CCCP Border" ) )
-  --        A2ADispatcher:SetBorderZone( { CCCPBorderZone } )
+  --        A2ADispatcher:SetBorderZone( CCCPBorderZone )
   --        
   --        -- Initialize the dispatcher, setting up a radius of 100km where any airborne friendly 
   --        -- without an assignment within 100km radius from a detected target, will engage that target.
@@ -38064,13 +38334,21 @@ do -- AI_A2A_DISPATCHER
   -- If it’s a cold war then the **borders of red and blue territory** need to be defined using a @{zone} object derived from @{Zone#ZONE_BASE}. This method needs to be used for this.
   -- If a hot war is chosen then **no borders** actually need to be defined using the helicopter units other than it makes it easier sometimes for the mission maker to envisage where the red and blue territories roughly are. In a hot war the borders are effectively defined by the ground based radar coverage of a coalition. Set the noborders parameter to 1
   -- @param #AI_A2A_DISPATCHER self
-  -- @param Core.Zone#ZONE_BASE BorderZone An object derived from ZONE_BASE, that defines a zone between
+  -- @param Core.Zone#ZONE_BASE BorderZone An object derived from ZONE_BASE, or a list of objects derived from ZONE_BASE.
   -- @return #AI_A2A_DISPATCHER
   -- @usage
   -- 
-  --   -- Set a polygon zone as the border for the A2A dispatcher.
+  --   -- Set one ZONE_POLYGON object as the border for the A2A dispatcher.
   --   local BorderZone = ZONE_POLYGON( "CCCP Border", GROUP:FindByName( "CCCP Border" ) ) -- The GROUP object is a late activate helicopter unit.
   --   Dispatcher:SetBorderZone( BorderZone )
+  --   
+  --   or
+  --   
+  --   -- Set two ZONE_POLYGON objects as the border for the A2A dispatcher.
+  --   local BorderZone1 = ZONE_POLYGON( "CCCP Border1", GROUP:FindByName( "CCCP Border1" ) ) -- The GROUP object is a late activate helicopter unit.
+  --   local BorderZone2 = ZONE_POLYGON( "CCCP Border2", GROUP:FindByName( "CCCP Border2" ) ) -- The GROUP object is a late activate helicopter unit.
+  --   Dispatcher:SetBorderZone( { BorderZone1, BorderZone2 } )
+  --   
   --   
   function AI_A2A_DISPATCHER:SetBorderZone( BorderZone )
 
@@ -43930,6 +44208,7 @@ do -- ACT_ROUTE
     end
     
 
+    local Task = self:GetTask() -- This is to dermine that the coordinates are for a specific task mode (A2A or A2G).
     local CC = self:GetTask():GetMission():GetCommandCenter()
     if CC then
       if CC:IsModeWWII() then
@@ -43954,7 +44233,7 @@ do -- ACT_ROUTE
           RouteText = Coordinate:ToStringFromRP( ShortestReferencePoint, ShortestReferenceName, Controllable )
         end
       else
-        RouteText = Coordinate:ToString( Controllable )
+        RouteText = Coordinate:ToString( Controllable, nil, Task )
       end
     end
 
@@ -47642,7 +47921,7 @@ function TASK:ReportOverview( ReportGroup ) --R2.1 fixed report. Now nicely form
         local FromCoordinate = ReportGroup:GetUnit(1):GetCoordinate()
         local ToCoordinate = TaskInfo.TaskInfoText -- Core.Point#COORDINATE
         --Report:Add( TaskInfoIDText )
-        LineReport:Add( ToCoordinate:ToString( ReportGroup ) )
+        LineReport:Add( ToCoordinate:ToString( ReportGroup, nil, self ) )
         --Report:AddIndent( ToCoordinate:ToStringBULLS( ReportGroup:GetCoalition() ) )
       else
       end

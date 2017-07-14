@@ -896,7 +896,7 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_GroupName_309"] = "3rd Spat",
     ["DictKey_GroupName_311"] = "476th 76th Vanguards",
     ["DictKey_GroupName_313"] = "476th-Dojo",
-    ["DictKey_GroupName_315"] = "Fudd AC",
+    ["DictKey_GroupName_315"] = "Chilts AC",
     ["DictKey_GroupName_317"] = "476th-Hiccup",
     ["DictKey_GroupName_319"] = "476th-PFunk",
     ["DictKey_GroupName_321"] = "476th-Odin",
@@ -1551,7 +1551,7 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_UnitName_310"] = "3rd Spat",
     ["DictKey_UnitName_312"] = "476th 76th Vanguards",
     ["DictKey_UnitName_314"] = "476th-Dojo",
-    ["DictKey_UnitName_316"] = "Fudd",
+    ["DictKey_UnitName_316"] = "Chilts",
     ["DictKey_UnitName_318"] = "476th-",
     ["DictKey_UnitName_320"] = "476th-PFunk",
     ["DictKey_UnitName_322"] = "476th-Odin",
@@ -3758,7 +3758,7 @@ RED SAM  located via nav points:\
 1xSA-8 group; SA8_EAST\
 \
 \
-METAR by DAWS: UGTB 081100Z 32014KT CAVOK 26/12 Q1013 R31L/CLRD70 NOSIG",
+METAR by DAWS: UGTB 140630Z 19004KT 140V260 CAVOK 23/12 Q1015 R31L/CLRD70 NOSIG",
     ["DictKey_sortie_652"] = "132nd - Training mission",
     ["DictKey_subtitle_1843"] = "",
     ["DictKey_subtitle_1845"] = "",
