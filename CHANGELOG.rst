@@ -2,6 +2,23 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+New
+~~~
+- Add A10C for bilgatus. [132nd-etcher]
+
+Changes
+~~~~~~~
+- Renamed a bunch of client units for consistency. [132nd-etcher]
+
+  All client units now have the relevant squadron as prefix.
+- Renamed a bunch of client units for consistency. [132nd-etcher]
+
+  All client units now have the relevant squadron as prefix.
+
+
 3.6.0 (2017-07-14)
 ------------------
 
