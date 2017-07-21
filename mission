@@ -1955,7 +1955,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Enfield11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 0,
+                                        ["heading"] = -1.0099128460128,
                                         ["livery_id"] = "Serbia - 101 FS",
                                         ["name"] = "DictKey_UnitName_1197",
                                         ["onboard_num"] = "110",
@@ -14869,7 +14869,7 @@ mission =
                                             ["name"] = "Colt51",
                                         }, -- end of ["callsign"]
                                         ["heading"] = 0,
-                                        ["livery_id"] = "132 617th Level",
+                                        ["livery_id"] = "132 617th Mechanic",
                                         ["name"] = "DictKey_UnitName_240",
                                         ["onboard_num"] = "020",
                                         ["parking"] = 51,
@@ -54546,7 +54546,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3746281,
+    ["currentKey"] = 3748308,
     ["date"] =
     {
         ["Day"] = 8,
@@ -57638,9 +57638,9 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -315229.79464285,
-        ["centerY"] = 897601.90178572,
-        ["zoom"] = 5000,
+        ["centerX"] = -315343.40625,
+        ["centerY"] = 897336.83035714,
+        ["zoom"] = 10000,
     }, -- end of ["map"]
     ["maxDictId"] = 3695,
     ["needModules"] =
@@ -60581,7 +60581,6 @@ mission =
         ["qnh"] = 761,
         ["season"] =
         {
-            ["iseason"] = 3,
             ["temperature"] = 23,
         }, -- end of ["season"]
         ["type_weather"] = 0,
