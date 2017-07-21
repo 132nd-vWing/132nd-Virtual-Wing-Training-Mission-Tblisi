@@ -9,6 +9,10 @@ New
 ~~~
 - Add Evilivan A-10C. [132nd-etcher]
 
+Changes
+~~~~~~~
+- Added Mechanics A-10C. [entropySG]
+
 
 3.6.1 (2017-07-14)
 ------------------
