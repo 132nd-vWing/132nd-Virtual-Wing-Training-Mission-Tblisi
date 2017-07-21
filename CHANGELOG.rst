@@ -13,6 +13,10 @@ Changes
 ~~~~~~~
 - Added Mechanics A-10C. [entropySG]
 
+Other
+~~~~~
+- Release. [entropySG]
+
 
 3.6.1 (2017-07-14)
 ------------------
