@@ -4,6 +4,11 @@ Changelog
 
 (unreleased)
 ------------
+- Adds link to ZenHub page to README. [132nd-etcher]
+
+
+3.6.3 (2017-07-21)
+------------------
 
 New
 ~~~
