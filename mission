@@ -16225,7 +16225,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Arco11",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = 2.9657123355303,
+                                        ["heading"] = 0,
                                         ["livery_id"] = "132nd Tanker service",
                                         ["name"] = "DictKey_UnitName_1676",
                                         ["onboard_num"] = "994",
@@ -31882,7 +31882,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Springfield71",
                                         }, -- end of ["callsign"]
-                                        ["heading"] = -0.98354171707733,
+                                        ["heading"] = 0,
                                         ["livery_id"] = "AdA Chasse 2-5",
                                         ["name"] = "DictKey_UnitName_3551",
                                         ["onboard_num"] = "332",
@@ -54546,7 +54546,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3750307,
+    ["currentKey"] = 3756326,
     ["date"] =
     {
         ["Day"] = 8,
@@ -57642,7 +57642,7 @@ mission =
         ["centerY"] = 897336.83035714,
         ["zoom"] = 10000,
     }, -- end of ["map"]
-    ["maxDictId"] = 3696,
+    ["maxDictId"] = 3698,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
@@ -57705,28 +57705,29 @@ mission =
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3675\")); mission.trig.func[3]=nil;",
             [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3691\")); mission.trig.func[4]=nil;",
             [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3690\")); mission.trig.func[5]=nil;",
-            [6] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3018\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3014\")); mission.trig.func[6]=nil;",
-            [7] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3019\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3016\")); mission.trig.func[7]=nil;",
-            [8] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[8]=nil;",
-            [9] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2492\"), 1737, true, true, 114167, 1000, \"Dusheti Beacon Preset 1\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2510\"), 10, false);",
-            [10] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2493\"), 1736, true, true, 114333, 1000, \"TIANETI Beacon Preset 2\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2511\"), 10, false);",
-            [11] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2494\"), 4623, true, true, 114584, 1000, \"TETRA Beacon Preset 3\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2512\"), 10, false);",
-            [12] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2495\"), 1738, true, true, 121500, 1000, \"MARNUELI Beacon Preset 4\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2513\"), 10, false);",
-            [13] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2496\"), 4011, true, true, 123100, 1000, \"LOCHINI Beacon Preset 5\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2514\"), 10, false);",
-            [14] = "a_stop_radio_transmission(\"Dusheti Beacon Preset 1\");a_stop_radio_transmission(\"TIANETI Beacon Preset 2\");a_stop_radio_transmission(\"TETRA Beacon Preset 3\");a_stop_radio_transmission(\"MARNUELI Beacon Preset 4\");a_stop_radio_transmission(\"LOCHINI Beacon Preset 5\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2515\"), 10, false);a_clear_flag(11);a_clear_flag(12);a_clear_flag(13);a_clear_flag(14);a_clear_flag(15);a_clear_flag(16);",
-            [15] = "a_add_radio_item(getValueDictByKey(\"DictKey_ActionRadioText_2501\"), 10, 1); mission.trig.func[15]=nil;",
-            [16] = "a_do_script(getValueDictByKey(\"DictKey_ActionText_2350\"));a_remove_radio_item(getValueDictByKey(\"DictKey_ActionRadioText_2349\")); mission.trig.func[16]=nil;",
-            [17] = "a_clear_flag(20);a_clear_flag(30);a_clear_flag(40);",
-            [18] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2287\"), 10, false);",
-            [19] = "a_group_off(1124);a_group_off(1123);a_group_off(1130);a_group_off(1119);a_group_off(1126);a_group_off(1127);a_group_off(1128);a_group_off(1129);a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2288\"), 10, false);",
-            [20] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2289\"), 10, false);",
-            [21] = "a_group_on(1124);a_group_on(1123);a_group_on(1130);a_group_on(1119);a_group_on(1126);a_group_on(1127);a_group_on(1128);a_group_on(1129);a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2290\"), 10, false);",
-            [22] = "a_clear_flag(20);",
-            [23] = "a_clear_flag(30);",
-            [24] = "a_clear_flag(40);",
-            [25] = "a_clear_flag(50);",
-            [26] = "a_group_on(1326);a_out_text_delay_c(15, getValueDictByKey(\"DictKey_ActionText_3399\"), 20, false);a_out_text_delay_c(3, getValueDictByKey(\"DictKey_ActionText_3407\"), 20, false);a_out_text_delay_g(689, getValueDictByKey(\"DictKey_ActionText_3539\"), 20, false);a_clear_flag(60);",
-            [27] = "a_group_off(1326);a_out_text_delay_c(15, getValueDictByKey(\"DictKey_ActionText_3405\"), 20, false);a_out_text_delay_c(3, getValueDictByKey(\"DictKey_ActionText_3406\"), 20, false);a_out_text_delay_g(689, getValueDictByKey(\"DictKey_ActionText_3541\"), 20, false);a_clear_flag(61);",
+            [6] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3697\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3698\")); mission.trig.func[6]=nil;",
+            [7] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3018\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3014\")); mission.trig.func[7]=nil;",
+            [8] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3019\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3016\")); mission.trig.func[8]=nil;",
+            [9] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[9]=nil;",
+            [10] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2492\"), 1737, true, true, 114167, 1000, \"Dusheti Beacon Preset 1\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2510\"), 10, false);",
+            [11] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2493\"), 1736, true, true, 114333, 1000, \"TIANETI Beacon Preset 2\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2511\"), 10, false);",
+            [12] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2494\"), 4623, true, true, 114584, 1000, \"TETRA Beacon Preset 3\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2512\"), 10, false);",
+            [13] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2495\"), 1738, true, true, 121500, 1000, \"MARNUELI Beacon Preset 4\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2513\"), 10, false);",
+            [14] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2496\"), 4011, true, true, 123100, 1000, \"LOCHINI Beacon Preset 5\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2514\"), 10, false);",
+            [15] = "a_stop_radio_transmission(\"Dusheti Beacon Preset 1\");a_stop_radio_transmission(\"TIANETI Beacon Preset 2\");a_stop_radio_transmission(\"TETRA Beacon Preset 3\");a_stop_radio_transmission(\"MARNUELI Beacon Preset 4\");a_stop_radio_transmission(\"LOCHINI Beacon Preset 5\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2515\"), 10, false);a_clear_flag(11);a_clear_flag(12);a_clear_flag(13);a_clear_flag(14);a_clear_flag(15);a_clear_flag(16);",
+            [16] = "a_add_radio_item(getValueDictByKey(\"DictKey_ActionRadioText_2501\"), 10, 1); mission.trig.func[16]=nil;",
+            [17] = "a_do_script(getValueDictByKey(\"DictKey_ActionText_2350\"));a_remove_radio_item(getValueDictByKey(\"DictKey_ActionRadioText_2349\")); mission.trig.func[17]=nil;",
+            [18] = "a_clear_flag(20);a_clear_flag(30);a_clear_flag(40);",
+            [19] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2287\"), 10, false);",
+            [20] = "a_group_off(1124);a_group_off(1123);a_group_off(1130);a_group_off(1119);a_group_off(1126);a_group_off(1127);a_group_off(1128);a_group_off(1129);a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2288\"), 10, false);",
+            [21] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2289\"), 10, false);",
+            [22] = "a_group_on(1124);a_group_on(1123);a_group_on(1130);a_group_on(1119);a_group_on(1126);a_group_on(1127);a_group_on(1128);a_group_on(1129);a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2290\"), 10, false);",
+            [23] = "a_clear_flag(20);",
+            [24] = "a_clear_flag(30);",
+            [25] = "a_clear_flag(40);",
+            [26] = "a_clear_flag(50);",
+            [27] = "a_group_on(1326);a_out_text_delay_c(15, getValueDictByKey(\"DictKey_ActionText_3399\"), 20, false);a_out_text_delay_c(3, getValueDictByKey(\"DictKey_ActionText_3407\"), 20, false);a_out_text_delay_g(689, getValueDictByKey(\"DictKey_ActionText_3539\"), 20, false);a_clear_flag(60);",
+            [28] = "a_group_off(1326);a_out_text_delay_c(15, getValueDictByKey(\"DictKey_ActionText_3405\"), 20, false);a_out_text_delay_c(3, getValueDictByKey(\"DictKey_ActionText_3406\"), 20, false);a_out_text_delay_g(689, getValueDictByKey(\"DictKey_ActionText_3541\"), 20, false);a_clear_flag(61);",
         }, -- end of ["actions"]
         ["conditions"] =
         {
@@ -57734,29 +57735,30 @@ mission =
             [2] = "return(true)",
             [3] = "return(c_time_after(1) )",
             [4] = "return(c_time_after(2) )",
-            [5] = "return(c_time_after(3) and c_flag_equals(2501, 1) )",
-            [6] = "return(c_time_after(3) and c_flag_equals(2501, 2) )",
-            [7] = "return(c_time_after(3) and c_flag_equals(2501, 3) )",
-            [8] = "return(c_time_after(4) )",
-            [9] = "return(c_time_after(5) and c_flag_is_true(11) )",
-            [10] = "return(c_time_after(6) and c_flag_is_true(12) )",
-            [11] = "return(c_time_after(7) and c_flag_is_true(13) )",
-            [12] = "return(c_time_after(8) and c_flag_is_true(14) )",
-            [13] = "return(c_time_after(9) and c_flag_is_true(15) )",
-            [14] = "return(c_time_after(5) and c_flag_is_true(16) )",
-            [15] = "return(c_time_after(5) )",
-            [16] = "return(c_flag_is_true(10) )",
-            [17] = "return(c_time_since_flag(20, 5) or c_time_since_flag(30, 5) or c_time_since_flag(40, 5) )",
-            [18] = "return(true)",
-            [19] = "return(c_all_of_coalition_out_zone(\"blue\", 1892) )",
-            [20] = "return(true)",
-            [21] = "return(c_part_of_coalition_in_zone(\"blue\", 1892) )",
-            [22] = "return(c_flag_is_true(20) )",
-            [23] = "return(c_flag_is_true(30) )",
-            [24] = "return(c_flag_is_true(40) )",
-            [25] = "return(c_flag_is_true(50) )",
-            [26] = "return(c_flag_is_true(60) )",
-            [27] = "return(c_flag_is_true(61) )",
+            [5] = "return(c_time_after(3) )",
+            [6] = "return(c_time_after(3) and c_flag_equals(2501, 1) )",
+            [7] = "return(c_time_after(3) and c_flag_equals(2501, 2) )",
+            [8] = "return(c_time_after(3) and c_flag_equals(2501, 3) )",
+            [9] = "return(c_time_after(4) )",
+            [10] = "return(c_time_after(5) and c_flag_is_true(11) )",
+            [11] = "return(c_time_after(6) and c_flag_is_true(12) )",
+            [12] = "return(c_time_after(7) and c_flag_is_true(13) )",
+            [13] = "return(c_time_after(8) and c_flag_is_true(14) )",
+            [14] = "return(c_time_after(9) and c_flag_is_true(15) )",
+            [15] = "return(c_time_after(5) and c_flag_is_true(16) )",
+            [16] = "return(c_time_after(5) )",
+            [17] = "return(c_flag_is_true(10) )",
+            [18] = "return(c_time_since_flag(20, 5) or c_time_since_flag(30, 5) or c_time_since_flag(40, 5) )",
+            [19] = "return(true)",
+            [20] = "return(c_all_of_coalition_out_zone(\"blue\", 1892) )",
+            [21] = "return(true)",
+            [22] = "return(c_part_of_coalition_in_zone(\"blue\", 1892) )",
+            [23] = "return(c_flag_is_true(20) )",
+            [24] = "return(c_flag_is_true(30) )",
+            [25] = "return(c_flag_is_true(40) )",
+            [26] = "return(c_flag_is_true(50) )",
+            [27] = "return(c_flag_is_true(60) )",
+            [28] = "return(c_flag_is_true(61) )",
         }, -- end of ["conditions"]
         ["custom"] =
         {
@@ -57796,6 +57798,7 @@ mission =
             [25] = true,
             [26] = true,
             [27] = true,
+            [28] = true,
         }, -- end of ["flag"]
         ["func"] =
         {
@@ -57806,15 +57809,15 @@ mission =
             [6] = "if mission.trig.conditions[6]() then mission.trig.actions[6]() end",
             [7] = "if mission.trig.conditions[7]() then mission.trig.actions[7]() end",
             [8] = "if mission.trig.conditions[8]() then mission.trig.actions[8]() end",
-            [9] = "if mission.trig.conditions[9]() then if not mission.trig.flag[9] then mission.trig.actions[9](); mission.trig.flag[9] = true;end; else mission.trig.flag[9] = false; end;",
+            [9] = "if mission.trig.conditions[9]() then mission.trig.actions[9]() end",
             [10] = "if mission.trig.conditions[10]() then if not mission.trig.flag[10] then mission.trig.actions[10](); mission.trig.flag[10] = true;end; else mission.trig.flag[10] = false; end;",
             [11] = "if mission.trig.conditions[11]() then if not mission.trig.flag[11] then mission.trig.actions[11](); mission.trig.flag[11] = true;end; else mission.trig.flag[11] = false; end;",
             [12] = "if mission.trig.conditions[12]() then if not mission.trig.flag[12] then mission.trig.actions[12](); mission.trig.flag[12] = true;end; else mission.trig.flag[12] = false; end;",
             [13] = "if mission.trig.conditions[13]() then if not mission.trig.flag[13] then mission.trig.actions[13](); mission.trig.flag[13] = true;end; else mission.trig.flag[13] = false; end;",
             [14] = "if mission.trig.conditions[14]() then if not mission.trig.flag[14] then mission.trig.actions[14](); mission.trig.flag[14] = true;end; else mission.trig.flag[14] = false; end;",
-            [15] = "if mission.trig.conditions[15]() then mission.trig.actions[15]() end",
+            [15] = "if mission.trig.conditions[15]() then if not mission.trig.flag[15] then mission.trig.actions[15](); mission.trig.flag[15] = true;end; else mission.trig.flag[15] = false; end;",
             [16] = "if mission.trig.conditions[16]() then mission.trig.actions[16]() end",
-            [17] = "if mission.trig.conditions[17]() then if not mission.trig.flag[17] then mission.trig.actions[17](); mission.trig.flag[17] = true;end; else mission.trig.flag[17] = false; end;",
+            [17] = "if mission.trig.conditions[17]() then mission.trig.actions[17]() end",
             [18] = "if mission.trig.conditions[18]() then if not mission.trig.flag[18] then mission.trig.actions[18](); mission.trig.flag[18] = true;end; else mission.trig.flag[18] = false; end;",
             [19] = "if mission.trig.conditions[19]() then if not mission.trig.flag[19] then mission.trig.actions[19](); mission.trig.flag[19] = true;end; else mission.trig.flag[19] = false; end;",
             [20] = "if mission.trig.conditions[20]() then if not mission.trig.flag[20] then mission.trig.actions[20](); mission.trig.flag[20] = true;end; else mission.trig.flag[20] = false; end;",
@@ -57823,8 +57826,9 @@ mission =
             [23] = "if mission.trig.conditions[23]() then if not mission.trig.flag[23] then mission.trig.actions[23](); mission.trig.flag[23] = true;end; else mission.trig.flag[23] = false; end;",
             [24] = "if mission.trig.conditions[24]() then if not mission.trig.flag[24] then mission.trig.actions[24](); mission.trig.flag[24] = true;end; else mission.trig.flag[24] = false; end;",
             [25] = "if mission.trig.conditions[25]() then if not mission.trig.flag[25] then mission.trig.actions[25](); mission.trig.flag[25] = true;end; else mission.trig.flag[25] = false; end;",
-            [26] = "if mission.trig.conditions[26]() then mission.trig.actions[26]() end",
+            [26] = "if mission.trig.conditions[26]() then if not mission.trig.flag[26] then mission.trig.actions[26](); mission.trig.flag[26] = true;end; else mission.trig.flag[26] = false; end;",
             [27] = "if mission.trig.conditions[27]() then mission.trig.actions[27]() end",
+            [28] = "if mission.trig.conditions[28]() then mission.trig.actions[28]() end",
         }, -- end of ["func"]
         ["funcStartup"] =
         {
@@ -59186,6 +59190,48 @@ mission =
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [2]
             }, -- end of ["actions"]
+            ["comment"] = "LOAD TANKERS",
+            ["eventlist"] = "",
+            ["predicate"] = "triggerOnce",
+            ["rules"] =
+            {
+                [1] =
+                {
+                    ["coalitionlist"] = "red",
+                    ["predicate"] = "c_time_after",
+                    ["seconds"] = 3,
+                    ["zone"] = 808,
+                }, -- end of [1]
+            }, -- end of ["rules"]
+        }, -- end of [5]
+        [6] =
+        {
+            ["actions"] =
+            {
+                [1] =
+                {
+                    ["KeyDict_text"] = "DictKey_ActionText_3697",
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["clearview"] = true,
+                    ["predicate"] = "a_out_text_delay",
+                    ["seconds"] = 30,
+                    ["text"] = "DictKey_ActionText_3697",
+                }, -- end of [1]
+                [2] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["file"] = "ResKey_Action_3698",
+                    ["predicate"] = "a_do_script_file",
+                }, -- end of [2]
+            }, -- end of ["actions"]
             ["comment"] = "LOAD TRMT - STATIC",
             ["eventlist"] = "",
             ["predicate"] = "triggerOnce",
@@ -59207,8 +59253,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [2]
             }, -- end of ["rules"]
-        }, -- end of [5]
-        [6] =
+        }, -- end of [6]
+        [7] =
         {
             ["actions"] =
             {
@@ -59259,8 +59305,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [2]
             }, -- end of ["rules"]
-        }, -- end of [6]
-        [7] =
+        }, -- end of [7]
+        [8] =
         {
             ["actions"] =
             {
@@ -59311,8 +59357,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [2]
             }, -- end of ["rules"]
-        }, -- end of [7]
-        [8] =
+        }, -- end of [8]
+        [9] =
         {
             ["actions"] =
             {
@@ -59352,8 +59398,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [1]
             }, -- end of ["rules"]
-        }, -- end of [8]
-        [9] =
+        }, -- end of [9]
+        [10] =
         {
             ["actions"] =
             {
@@ -59407,8 +59453,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [2]
             }, -- end of ["rules"]
-        }, -- end of [9]
-        [10] =
+        }, -- end of [10]
+        [11] =
         {
             ["actions"] =
             {
@@ -59462,8 +59508,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [2]
             }, -- end of ["rules"]
-        }, -- end of [10]
-        [11] =
+        }, -- end of [11]
+        [12] =
         {
             ["actions"] =
             {
@@ -59517,8 +59563,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [2]
             }, -- end of ["rules"]
-        }, -- end of [11]
-        [12] =
+        }, -- end of [12]
+        [13] =
         {
             ["actions"] =
             {
@@ -59572,8 +59618,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [2]
             }, -- end of ["rules"]
-        }, -- end of [12]
-        [13] =
+        }, -- end of [13]
+        [14] =
         {
             ["actions"] =
             {
@@ -59627,8 +59673,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [2]
             }, -- end of ["rules"]
-        }, -- end of [13]
-        [14] =
+        }, -- end of [14]
+        [15] =
         {
             ["actions"] =
             {
@@ -59831,8 +59877,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [2]
             }, -- end of ["rules"]
-        }, -- end of [14]
-        [15] =
+        }, -- end of [15]
+        [16] =
         {
             ["actions"] =
             {
@@ -59865,8 +59911,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [1]
             }, -- end of ["rules"]
-        }, -- end of [15]
-        [16] =
+        }, -- end of [16]
+        [17] =
         {
             ["actions"] =
             {
@@ -59910,8 +59956,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [1]
             }, -- end of ["rules"]
-        }, -- end of [16]
-        [17] =
+        }, -- end of [17]
+        [18] =
         {
             ["actions"] =
             {
@@ -59984,8 +60030,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [5]
             }, -- end of ["rules"]
-        }, -- end of [17]
-        [18] =
+        }, -- end of [18]
+        [19] =
         {
             ["actions"] =
             {
@@ -60010,8 +60056,8 @@ mission =
             ["rules"] =
             {
             }, -- end of ["rules"]
-        }, -- end of [18]
-        [19] =
+        }, -- end of [19]
+        [20] =
         {
             ["actions"] =
             {
@@ -60122,8 +60168,8 @@ mission =
                     ["zone"] = 1892,
                 }, -- end of [1]
             }, -- end of ["rules"]
-        }, -- end of [19]
-        [20] =
+        }, -- end of [20]
+        [21] =
         {
             ["actions"] =
             {
@@ -60148,8 +60194,8 @@ mission =
             ["rules"] =
             {
             }, -- end of ["rules"]
-        }, -- end of [20]
-        [21] =
+        }, -- end of [21]
+        [22] =
         {
             ["actions"] =
             {
@@ -60261,8 +60307,8 @@ mission =
                     ["zone"] = 1892,
                 }, -- end of [1]
             }, -- end of ["rules"]
-        }, -- end of [21]
-        [22] =
+        }, -- end of [22]
+        [23] =
         {
             ["actions"] =
             {
@@ -60290,8 +60336,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [1]
             }, -- end of ["rules"]
-        }, -- end of [22]
-        [23] =
+        }, -- end of [23]
+        [24] =
         {
             ["actions"] =
             {
@@ -60319,8 +60365,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [1]
             }, -- end of ["rules"]
-        }, -- end of [23]
-        [24] =
+        }, -- end of [24]
+        [25] =
         {
             ["actions"] =
             {
@@ -60348,8 +60394,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [1]
             }, -- end of ["rules"]
-        }, -- end of [24]
-        [25] =
+        }, -- end of [25]
+        [26] =
         {
             ["actions"] =
             {
@@ -60377,8 +60423,8 @@ mission =
                     ["zone"] = 808,
                 }, -- end of [1]
             }, -- end of ["rules"]
-        }, -- end of [25]
-        [26] =
+        }, -- end of [26]
+        [27] =
         {
             ["actions"] =
             {
@@ -60463,8 +60509,8 @@ mission =
                     ["zone"] = 6017,
                 }, -- end of [1]
             }, -- end of ["rules"]
-        }, -- end of [26]
-        [27] =
+        }, -- end of [27]
+        [28] =
         {
             ["actions"] =
             {
@@ -60549,7 +60595,7 @@ mission =
                     ["zone"] = 6017,
                 }, -- end of [1]
             }, -- end of ["rules"]
-        }, -- end of [27]
+        }, -- end of [28]
     }, -- end of ["trigrules"]
     ["version"] = 13,
     ["weather"] =
