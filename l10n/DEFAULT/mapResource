@@ -12,7 +12,7 @@ mapResource =
     ["ResKey_Action_3675"] = "mist.lua",
     ["ResKey_Action_3690"] = "tankers.lua",
     ["ResKey_Action_3691"] = "CTLD.lua",
-    ["ResKey_Action_3696"] = "Moose.lua",
     ["ResKey_Action_3698"] = "TRMT.lua",
+    ["ResKey_Action_3699"] = "Moose.lua",
     ["ResKey_ImageBriefing_1821"] = "132nd_Logo_Main.png",
 } -- end of mapResource

@@ -3761,8 +3761,7 @@ RED SAM  located via nav points:\
 2xStrela groups; STRELA_SA9, STRELA_SA13\
 1xSA-8 group; SA8_EAST\
 \
-\
-METAR by DAWS: UGTB 140630Z 19004KT 140V260 CAVOK 23/12 Q1015 R31L/CLRD70 NOSIG",
+METAR by DAWS: UGTB 140800Z 18006KT 100V240 CAVOK 31/14 Q1012 R13R/CLRD70 NOSIG",
     ["DictKey_sortie_652"] = "132nd - Training mission",
     ["DictKey_subtitle_1843"] = "",
     ["DictKey_subtitle_1845"] = "",
