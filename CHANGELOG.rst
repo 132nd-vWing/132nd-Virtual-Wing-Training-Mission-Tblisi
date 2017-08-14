@@ -2,8 +2,17 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+3.6.4 (2017-08-14)
+------------------
+
+Changes
+~~~~~~~
+- New tanker management system. [132nd-etcher]
+
+Other
+~~~~~
+- Update MOOSE to latest update weather. [132nd-Entropy]
+- Update moose. [entropySG]
 - Adds link to ZenHub page to README. [132nd-etcher]
 
 
@@ -46,13 +55,15 @@ Changes
 Fix
 ~~~
 - Update MOOSE to latest chg: add Chilts A10-C. [132nd-Entropy]
+
+
+3.5.0 (2017-07-09)
+------------------
+
+Fix
+~~~
 - CTLD fixed to allow 20 troops being transported by Mi-8. [132nd-
   Entropy]
-
-
-3.5.0 (2017-07-08)
-------------------
-- 3.4 realease. [132nd-Entropy]
 
 
 3.4.0 (2017-07-08)
@@ -64,10 +75,10 @@ Fix
 
 Other
 ~~~~~
-- 3.4 release. [132nd-Entropy]
+- 3.4 realease. [132nd-Entropy]
 
 
-3.3.0 (2017-07-03)
+3.3.0 (2017-07-04)
 ------------------
 - Release 3.3. [132nd-Entropy]
 - Change starting positions of tankers and awacs to avoid collision
