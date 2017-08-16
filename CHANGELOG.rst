@@ -2,6 +2,11 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+- Added Transport Tasking for Mi-8. [132nd-Entropy]
+
+
 3.6.4 (2017-08-14)
 ------------------
 
