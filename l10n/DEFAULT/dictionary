@@ -816,6 +816,67 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_ActionText_3541"] = "SA-6 is now DEACTIVATED",
     ["DictKey_ActionText_3686"] = "",
     ["DictKey_ActionText_3697"] = "TRMT - Loading from MIZ file",
+    ["DictKey_ActionText_3749"] = "-- Logistics Missions---\
+\
+Logistics_cargotable = { \"Logistics_cargo 1\", \"Logistics_cargo 2\", \"Logistics_cargo 3\",\"Logistics_cargo 3\",\"Logistics_cargo 4\" } -- table for the cargo\
+Logistics_Cargo_Pickup_Zonetable = { ZONE_POLYGON:New(\"Logistics_Cargo_Pickup_Hospital\", GROUP:FindByName( \"Logistics_Cargo_Pickup_LochiniSouth\" )),\
+ZONE_POLYGON:New(\"Logistics_Cargo_Pickup_LochiniSouth\", GROUP:FindByName( \"Logistics_Cargo_Pickup_Kutaisi\" )),\
+ZONE_POLYGON:New(\"Logistics_Cargo_Pickup_TblisiArea\", GROUP:FindByName( \"Logistics_Cargo_Pickup_TblisiArea\" )) } -- table for the 3 zones in which the cargo will spawn\
+\
+Logistics_cargo = SPAWN:New( \"Personell\" ):InitRandomizeTemplate( Logistics_cargotable ):InitRandomizeZones( Logistics_Cargo_Pickup_Zonetable ):Spawn()\
+\
+HQ = GROUP:FindByName( \"HQ\")\
+\
+CommandCenter = COMMANDCENTER:New( HQ, \"Logistics\" )\
+Scoring = SCORING:New( \"Cargo Group Transport\" )\
+\
+Mission = MISSION\
+    :New( CommandCenter, \"Pickup\", \"High\", \"Pickup Personell and drop them at Lochini Airport, Apron 4\", coalition.side.BLUE )\
+    :AddScoring( Scoring )\
+    \
+helicopter = SET_GROUP:New():FilterPrefixes( \"259th\" ):FilterStart()\
+SetCargo = SET_CARGO:New():FilterTypes( { \"Personell\" } ):FilterStart()\
+\
+CARGO_GROUP:New( Logistics_cargo, \"Personell\", \"Personell\", 500 ):RespawnOnDestroyed( true )\
+CargoTransportTask = TASK_CARGO_TRANSPORT:New( Mission, helicopter, \"Pickup Personell\", SetCargo )\
+\
+CargoTransportTask:AddDeployZone( ZONE:New(\"Lochini_Apron_4\") )\
+CargoTransportTask:SetCargoLimit( 2 )",
+    ["DictKey_ActionText_3757"] = "--- Logistics Missions---\
+\
+Logistics_cargotable = { \"Logistics_cargo 1\", \"Logistics_cargo 2\", \"Logistics_cargo 3\",\"Logistics_cargo 3\",\"Logistics_cargo 4\" } -- table for the cargo\
+Logistics_Cargo_Pickup_Zonetable = { ZONE_POLYGON:New(\"Logistics_Cargo_Pickup_Hospital\", GROUP:FindByName( \"Logistics_Cargo_Pickup_LochiniSouth\" )),\
+ZONE_POLYGON:New(\"Logistics_Cargo_Pickup_LochiniSouth\", GROUP:FindByName( \"Logistics_Cargo_Pickup_Kutaisi\" )),\
+ZONE_POLYGON:New(\"Logistics_Cargo_Pickup_TblisiArea\", GROUP:FindByName( \"Logistics_Cargo_Pickup_TblisiArea\" )) } -- table for the 3 zones in which the cargo will spawn\
+\
+Logistics_cargo = SPAWN:New( \"Vip\" ):InitRandomizeTemplate( Logistics_cargotable ):InitRandomizeZones( Logistics_Cargo_Pickup_Zonetable ):Spawn()\
+\
+\
+do\
+\
+  local HQ = GROUP:FindByName( \"HQ\", \"Bravo HQ\" )\
+\
+  local CommandCenter = COMMANDCENTER:New( HQ, \"Bravo\" )\
+\
+  local Scoring = SCORING:New( \"Cargo Group Transport Demonstration\" )\
+\
+  local Mission = MISSION\
+    :New( CommandCenter, \"Transport\", \"High\", \"Transport VIP to Lochini\", coalition.side.BLUE )\
+    :AddScoring( Scoring )\
+\
+  local Helicopter = SET_GROUP:New():FilterPrefixes( \"259th\" ):FilterStart()\
+\
+  local SetCargo = SET_CARGO:New():FilterTypes( { \"Engineers\" } ):FilterStart()\
+\
+  local EngineersCargoAlpha = CARGO_GROUP:New( Logistics_cargo, \"Engineers\", \"Team Alpha\", 500 ):RespawnOnDestroyed( true )\
+  \
+  CargoTransportTask = TASK_CARGO_TRANSPORT:New( Mission, Helicopter, \"Transport VIP\", SetCargo )\
+  \
+  CargoTransportTask:AddDeployZone( ZONE_POLYGON:New( \"Lochini\", GROUP:FindByName(\"Lochini\") ) )\
+\
+  CargoTransportTask:SetCargoLimit( 2 )\
+\
+end ",
     ["DictKey_GroupName_132"] = "Beslan Helicopter ",
     ["DictKey_GroupName_134"] = "__RESPAWN__Beslan foot patrol",
     ["DictKey_GroupName_138"] = "__RESPAWN__Beslan BTR group",
@@ -1110,8 +1171,8 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_GroupName_1333"] = "New Helicopter Group",
     ["DictKey_GroupName_1336"] = "259th Makeshift",
     ["DictKey_GroupName_1339"] = "259th Soganlug #1",
-    ["DictKey_GroupName_1342"] = "259th Soganlug #2",
-    ["DictKey_GroupName_1345"] = "259th Soganlug #3",
+    ["DictKey_GroupName_1342"] = "259th Soganlug 2",
+    ["DictKey_GroupName_1345"] = "259th Soganlug 3",
     ["DictKey_GroupName_1348"] = "259th Soganlug #002",
     ["DictKey_GroupName_1351"] = "259th Soganlug #003",
     ["DictKey_GroupName_1354"] = "Slingload Cargo 1",
@@ -1183,7 +1244,7 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_GroupName_1724"] = "Huey #4",
     ["DictKey_GroupName_1727"] = "Huey #3",
     ["DictKey_GroupName_1730"] = "logistic5",
-    ["DictKey_GroupName_1733"] = "259th Soganlug #1",
+    ["DictKey_GroupName_1733"] = "259th Soganlug 1",
     ["DictKey_GroupName_1736"] = "Marneuli Range - basic range",
     ["DictKey_GroupName_1752"] = "Dusheti Range -  Basic targets",
     ["DictKey_GroupName_1768"] = "Marneuli Range - basic range",
@@ -1451,6 +1512,21 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_GroupName_3660"] = "TKIBULI_Range vehicles #021",
     ["DictKey_GroupName_3663"] = "TKIBULI_Range vehicles #022",
     ["DictKey_GroupName_3693"] = "617th Evilivan AC",
+    ["DictKey_GroupName_3700"] = "HQ",
+    ["DictKey_GroupName_3705"] = "Logistics_cargo",
+    ["DictKey_GroupName_3709"] = "Logistics_cargo 1",
+    ["DictKey_GroupName_3714"] = "Logistics_cargo 2",
+    ["DictKey_GroupName_3717"] = "Logistics_cargo 3",
+    ["DictKey_GroupName_3720"] = "Logistics_cargo 5",
+    ["DictKey_GroupName_3723"] = "Logistics_cargo 4",
+    ["DictKey_GroupName_3726"] = "Escort",
+    ["DictKey_GroupName_3729"] = "Logistics_Cargo_Pickup_LochiniSouth",
+    ["DictKey_GroupName_3735"] = "Logistics_Cargo_Pickup_Kutaisi",
+    ["DictKey_GroupName_3741"] = "Logistics_Cargo_Pickup_TblisiArea",
+    ["DictKey_GroupName_3758"] = "DeployZone1",
+    ["DictKey_GroupName_3764"] = "DeployZone1 #001",
+    ["DictKey_GroupName_3781"] = "Lochini",
+    ["DictKey_GroupName_3803"] = "",
     ["DictKey_UnitName_133"] = "Pilot #005",
     ["DictKey_UnitName_135"] = "Unit #018",
     ["DictKey_UnitName_136"] = "Unit #017",
@@ -1902,8 +1978,8 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_UnitName_1334"] = "Pilot #003",
     ["DictKey_UnitName_1337"] = "259th Makeshift",
     ["DictKey_UnitName_1340"] = "helicargo2",
-    ["DictKey_UnitName_1343"] = "259th Soganlug #2",
-    ["DictKey_UnitName_1346"] = "259th Soganlug #3",
+    ["DictKey_UnitName_1343"] = "259th Soganlug 2",
+    ["DictKey_UnitName_1346"] = "259th Soganlug 3",
     ["DictKey_UnitName_1349"] = "Soganlug #002",
     ["DictKey_UnitName_1352"] = "Soganlug #003",
     ["DictKey_UnitName_1355"] = "",
@@ -2009,7 +2085,7 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_UnitName_1725"] = "Huey #4",
     ["DictKey_UnitName_1728"] = "helicargo12",
     ["DictKey_UnitName_1731"] = "logistic3",
-    ["DictKey_UnitName_1734"] = "259th Soganlug #1",
+    ["DictKey_UnitName_1734"] = "259th Soganlug 1",
     ["DictKey_UnitName_1737"] = "MR: Forward range tower",
     ["DictKey_UnitName_1738"] = "MR: Foul line EAST",
     ["DictKey_UnitName_1739"] = "MR: Foul line WEST",
@@ -2665,6 +2741,38 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_UnitName_3661"] = "TKIBULI_Range vehicles #021",
     ["DictKey_UnitName_3664"] = "TKIBULI_Range vehicles #022",
     ["DictKey_UnitName_3694"] = "617th Evilivan AC",
+    ["DictKey_UnitName_3701"] = "HQ",
+    ["DictKey_UnitName_3706"] = "Logistics_cargo",
+    ["DictKey_UnitName_3710"] = "Logistics_cargo 1",
+    ["DictKey_UnitName_3715"] = "Logistics_cargo 2",
+    ["DictKey_UnitName_3718"] = "Logistics_cargo 3",
+    ["DictKey_UnitName_3721"] = "Logistics_cargo 5",
+    ["DictKey_UnitName_3724"] = "Logistics_cargo 4",
+    ["DictKey_UnitName_3727"] = "Escort",
+    ["DictKey_UnitName_3730"] = "Logistics_Cargo_Pickup_LochiniSouth",
+    ["DictKey_UnitName_3736"] = "Logistics_Cargo_Pickup_Kutaisi",
+    ["DictKey_UnitName_3742"] = "Logistics_Cargo_Pickup_TblisiArea",
+    ["DictKey_UnitName_3759"] = "Logistics_Cargo_Pickup_LochiniSouth #001",
+    ["DictKey_UnitName_3765"] = "Logistics_Cargo_Pickup_LochiniSouth #002",
+    ["DictKey_UnitName_3770"] = "",
+    ["DictKey_UnitName_3771"] = "Unit #078",
+    ["DictKey_UnitName_3772"] = "Unit #077",
+    ["DictKey_UnitName_3773"] = "Unit #079",
+    ["DictKey_UnitName_3774"] = "Unit #080",
+    ["DictKey_UnitName_3775"] = "Unit #081",
+    ["DictKey_UnitName_3776"] = "Unit #082",
+    ["DictKey_UnitName_3777"] = "Unit #084",
+    ["DictKey_UnitName_3778"] = "Unit #085",
+    ["DictKey_UnitName_3779"] = "Unit #125",
+    ["DictKey_UnitName_3780"] = "Unit #126",
+    ["DictKey_UnitName_3782"] = "Lochini",
+    ["DictKey_UnitName_3794"] = "Unit #127",
+    ["DictKey_UnitName_3795"] = "Unit #144",
+    ["DictKey_UnitName_3796"] = "Unit #145",
+    ["DictKey_UnitName_3797"] = "Unit #146",
+    ["DictKey_UnitName_3798"] = "Unit #147",
+    ["DictKey_UnitName_3799"] = "Unit #148",
+    ["DictKey_UnitName_3804"] = "",
     ["DictKey_WptName_653"] = "",
     ["DictKey_WptName_654"] = "",
     ["DictKey_WptName_655"] = "",
@@ -3727,6 +3835,45 @@ TET_Sa19 = SPAWN:New( \"TETRA_Sa19\" ):InitLimit( 1, 99 ):InitRandomizeRoute(1,0
     ["DictKey_WptName_3667"] = "",
     ["DictKey_WptName_3668"] = "",
     ["DictKey_WptName_3695"] = "",
+    ["DictKey_WptName_3702"] = "",
+    ["DictKey_WptName_3703"] = "",
+    ["DictKey_WptName_3704"] = "",
+    ["DictKey_WptName_3707"] = "",
+    ["DictKey_WptName_3708"] = "",
+    ["DictKey_WptName_3711"] = "",
+    ["DictKey_WptName_3712"] = "",
+    ["DictKey_WptName_3713"] = "",
+    ["DictKey_WptName_3716"] = "",
+    ["DictKey_WptName_3719"] = "",
+    ["DictKey_WptName_3722"] = "",
+    ["DictKey_WptName_3725"] = "",
+    ["DictKey_WptName_3728"] = "",
+    ["DictKey_WptName_3731"] = "",
+    ["DictKey_WptName_3732"] = "",
+    ["DictKey_WptName_3733"] = "",
+    ["DictKey_WptName_3734"] = "",
+    ["DictKey_WptName_3737"] = "",
+    ["DictKey_WptName_3738"] = "",
+    ["DictKey_WptName_3739"] = "",
+    ["DictKey_WptName_3740"] = "",
+    ["DictKey_WptName_3743"] = "",
+    ["DictKey_WptName_3744"] = "",
+    ["DictKey_WptName_3745"] = "",
+    ["DictKey_WptName_3746"] = "",
+    ["DictKey_WptName_3760"] = "",
+    ["DictKey_WptName_3761"] = "",
+    ["DictKey_WptName_3762"] = "",
+    ["DictKey_WptName_3763"] = "",
+    ["DictKey_WptName_3766"] = "",
+    ["DictKey_WptName_3767"] = "",
+    ["DictKey_WptName_3768"] = "",
+    ["DictKey_WptName_3769"] = "",
+    ["DictKey_WptName_3783"] = "",
+    ["DictKey_WptName_3784"] = "",
+    ["DictKey_WptName_3785"] = "",
+    ["DictKey_WptName_3786"] = "",
+    ["DictKey_WptName_3787"] = "",
+    ["DictKey_WptName_3805"] = "",
     ["DictKey_descriptionBlueTask_651"] = "\
 ",
     ["DictKey_descriptionRedTask_650"] = "",
@@ -3761,7 +3908,8 @@ RED SAM  located via nav points:\
 2xStrela groups; STRELA_SA9, STRELA_SA13\
 1xSA-8 group; SA8_EAST\
 \
-METAR by DAWS: UGTB 140800Z 18006KT 100V240 CAVOK 31/14 Q1012 R13R/CLRD70 NOSIG",
+\
+METAR by DAWS: UGTB 161430Z 16011KT CAVOK 29/12 Q1014 R13R/CLRD70 NOSIG",
     ["DictKey_sortie_652"] = "132nd - Training mission",
     ["DictKey_subtitle_1843"] = "",
     ["DictKey_subtitle_1845"] = "",
