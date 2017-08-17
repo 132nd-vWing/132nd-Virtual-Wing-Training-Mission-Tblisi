@@ -4,6 +4,14 @@ Changelog
 
 (unreleased)
 ------------
+
+Changes
+~~~~~~~
+- Tasking for VIP transport option will now disappear after tasking has
+  been activated. [132nd-Entropy]
+
+Other
+~~~~~
 - Dev: chg: minor re-format. [132nd-etcher]
 
 
