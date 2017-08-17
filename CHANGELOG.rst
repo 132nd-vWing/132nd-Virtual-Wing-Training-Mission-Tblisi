@@ -4,6 +4,11 @@ Changelog
 
 (unreleased)
 ------------
+- Dev: chg: minor re-format. [132nd-etcher]
+
+
+3.6.5 (2017-08-16)
+------------------
 - Added Transport Tasking for Mi-8. [132nd-Entropy]
 
 
