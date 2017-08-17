@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+3.6.6 (2017-08-17)
+------------------
 
 Changes
 ~~~~~~~
@@ -12,6 +12,7 @@ Changes
 
 Other
 ~~~~~
+- New release. [132nd-Entropy]
 - Dev: chg: minor re-format. [132nd-etcher]
 
 
