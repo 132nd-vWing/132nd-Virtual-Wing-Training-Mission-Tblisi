@@ -56508,7 +56508,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3853960,
+    ["currentKey"] = 3864395,
     ["date"] =
     {
         ["Day"] = 8,
@@ -59766,7 +59766,7 @@ mission =
         ["centerY"] = 895713.71428571,
         ["zoom"] = 25000,
     }, -- end of ["map"]
-    ["maxDictId"] = 3810,
+    ["maxDictId"] = 3815,
     ["needModules"] =
     {
     }, -- end of ["needModules"]
@@ -59833,7 +59833,7 @@ mission =
             [7] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3018\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3014\")); mission.trig.func[7]=nil;",
             [8] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3019\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3016\")); mission.trig.func[8]=nil;",
             [9] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[9]=nil;",
-            [10] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3810\")); mission.trig.func[10]=nil;",
+            [10] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3815\")); mission.trig.func[10]=nil;",
             [11] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2492\"), 1737, true, true, 114167, 1000, \"Dusheti Beacon Preset 1\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2510\"), 10, false);",
             [12] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2493\"), 1736, true, true, 114333, 1000, \"TIANETI Beacon Preset 2\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2511\"), 10, false);",
             [13] = "a_radio_transmission(getValueResourceByKey(\"ResKey_Action_2494\"), 4623, true, true, 114584, 1000, \"TETRA Beacon Preset 3\");a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_2512\"), 10, false);",
@@ -61554,7 +61554,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3810",
+                    ["file"] = "ResKey_Action_3815",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -62800,7 +62800,6 @@ mission =
         ["qnh"] = 761,
         ["season"] =
         {
-            ["iseason"] = 3,
             ["temperature"] = 29,
         }, -- end of ["season"]
         ["type_weather"] = 0,
