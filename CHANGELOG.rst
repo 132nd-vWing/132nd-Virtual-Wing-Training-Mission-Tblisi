@@ -2,6 +2,15 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+New
+~~~
+- Additional Transport Tasking for Mi-8 fix: fixed Soganlug-based Mi-8s
+  not having access to CTLD. [132nd-Entropy]
+
+
 3.6.6 (2017-08-17)
 ------------------
 
