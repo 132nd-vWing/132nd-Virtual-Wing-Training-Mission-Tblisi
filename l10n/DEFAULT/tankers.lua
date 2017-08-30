@@ -168,8 +168,8 @@ function _TANKER.Tanker:New( group )
     function self:ZoneFromOrbitWaypoint()
         
         -- "x" & "y" are the waypoint's location
-        local x = nil
-        local y = nil
+        local x
+        local y
         
         -- Iterate over all waypoints
         for _, wp_ in ipairs(self.route) do
@@ -212,7 +212,7 @@ function _TANKER.Tanker:New( group )
     --- Returns the fuel onboard, as a percentage
     function self:GetFuel()
         local fuel_left = self:GetUnit(1):GetFuel()
-        self:Debug('I got '..fuel_left..' left.')
+        self:Debug('I got '..fuel_left..' fuel left.')
         return fuel_left
     end
     
