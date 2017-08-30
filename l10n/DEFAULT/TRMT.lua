@@ -235,16 +235,18 @@ do -- SMOKES
 TRMT.SMOKE = {
   ZONES = {
     LIST = {
-      {
-        MENU_TEXT='Smoke on Bomb Circle at MARNUELI',
-        MENU_PARENT=TRMT.RANGES.MARNUELI,
-        COLOR=SMOKECOLOR.Green,
-        ZONE=ZONE:New('MARNUELI ConvCircleWest'),
-        COUNT=30,
+     {
+        MENU_TEXT = 'Mi-8 Pilots, drop Smoke at 1nm and 2nms around the bomb circle',
+        MENU_PARENT = TRMT.RANGES.MARNUELI,
+        COLOR = SMOKECOLOR.Green,
+        ZONE_LIST = { ZONE:New('MARNUELI ConvCircleWest2'), ZONE:New('MARNUELI ConvCircleWest1'), },
+        COUNT = 30,
       },
     },
-    SPAWN = function( zone, color, count )
-      zone:SmokeZone( color, count )
+    SPAWN = function( zone_list, color, count )
+      for _, zone in ipairs(zone_list) do
+        zone:SmokeZone( color, count )
+      end
     end
   },
 }
@@ -252,7 +254,7 @@ TRMT.SMOKE = {
 TRMT.SMOKE.INITIALIZE = function()
   TRMT.INFO('SMOKE: INIT: START')
   for _, smoke in ipairs( TRMT.SMOKE.ZONES.LIST ) do
-    MENU_COALITION_COMMAND:New( coalition.side.BLUE, smoke.MENU_TEXT, smoke.MENU_PARENT.MENU, TRMT.SMOKE.ZONES.SPAWN, smoke.ZONE, smoke.COLOR, smoke.COUNT )
+    MENU_COALITION_COMMAND:New( coalition.side.BLUE, smoke.MENU_TEXT, smoke.MENU_PARENT.MENU, TRMT.SMOKE.ZONES.SPAWN, smoke.ZONE_LIST, smoke.COLOR, smoke.COUNT )
   end
   TRMT.INFO('SMOKE: INIT: DONE')
 end

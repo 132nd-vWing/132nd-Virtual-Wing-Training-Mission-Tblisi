@@ -32153,8 +32153,8 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Conventional_Circle_A",
                                         ["unitId"] = 1758,
-                                        ["x"] = -354487.14285715,
-                                        ["y"] = 891297.7142857,
+                                        ["x"] = -354492.87971429,
+                                        ["y"] = 891306.80257143,
                                     }, -- end of [14]
                                     [15] =
                                     {
@@ -50646,7 +50646,7 @@ mission =
                         ["vnav"] = 1,
                     }, -- end of ["properties"]
                     ["x"] = -354492.85714286,
-                    ["y"] = 891307.14285713,
+                    ["y"] = 891307.42857142,
                 }, -- end of [775]
                 [776] =
                 {
@@ -59355,7 +59355,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3910822,
+    ["currentKey"] = 3919810,
     ["date"] =
     {
         ["Day"] = 8,
@@ -62609,11 +62609,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -340963.724,
-        ["centerY"] = 665581.25285714,
-        ["zoom"] = 531668,
+        ["centerX"] = -354536.14285714,
+        ["centerY"] = 891362.85714283,
+        ["zoom"] = 1000,
     }, -- end of ["map"]
-    ["maxDictId"] = 3974,
+    ["maxDictId"] = 3979,
     ["pictureFileNameB"] =
     {
         [1] = "ResKey_ImageBriefing_1821",
@@ -62677,8 +62677,8 @@ mission =
             [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3973\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3675\")); mission.trig.func[3]=nil;",
             [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3968\")); mission.trig.func[4]=nil;",
-            [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3690\")); mission.trig.func[5]=nil;",
-            [6] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3697\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3974\")); mission.trig.func[6]=nil;",
+            [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3976\")); mission.trig.func[5]=nil;",
+            [6] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3697\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3979\")); mission.trig.func[6]=nil;",
             [7] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3018\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3014\")); mission.trig.func[7]=nil;",
             [8] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3019\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3016\")); mission.trig.func[8]=nil;",
             [9] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[9]=nil;",
@@ -63274,8 +63274,8 @@ mission =
                     [4] = 0.14901960784314,
                 }, -- end of ["color"]
                 ["hidden"] = false,
-                ["name"] = "MARNUELI ConvCircleWest",
-                ["radius"] = 100,
+                ["name"] = "MARNUELI ConvCircleWest2",
+                ["radius"] = 2000.0976,
                 ["x"] = -354493.14285714,
                 ["y"] = 891307.14285712,
                 ["zoneId"] = 5083,
@@ -63888,6 +63888,22 @@ mission =
                 ["y"] = 894597.42857143,
                 ["zoneId"] = 6970,
             }, -- end of [67]
+            [68] =
+            {
+                ["color"] =
+                {
+                    [1] = 1,
+                    [2] = 1,
+                    [3] = 1,
+                    [4] = 0.15,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "MARNUELI ConvCircleWest1",
+                ["radius"] = 999.744,
+                ["x"] = -354493.45114286,
+                ["y"] = 891307.374,
+                ["zoneId"] = 7123,
+            }, -- end of [68]
         }, -- end of ["zones"]
     }, -- end of ["triggers"]
     ["trigrules"] =
@@ -64179,7 +64195,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3690",
+                    ["file"] = "ResKey_Action_3976",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [2]
             }, -- end of ["actions"]
@@ -64221,7 +64237,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3974",
+                    ["file"] = "ResKey_Action_3979",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [2]
             }, -- end of ["actions"]
