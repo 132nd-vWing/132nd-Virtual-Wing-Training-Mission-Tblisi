@@ -15,6 +15,11 @@ Changes
   latest fix: fix tankers and AWACS too low speed after takeoff
   (reported by @Hansolo) [132nd-Entropy]
 
+Fix
+~~~
+- Bomb circles at Marnueli as per Fudd's request fix: tankers despawning
+  when landed (Etcher) [132nd-Entropy]
+
 
 3.6.7 (2017-08-27)
 ------------------
