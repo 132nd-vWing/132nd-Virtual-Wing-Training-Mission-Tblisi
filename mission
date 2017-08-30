@@ -1406,7 +1406,7 @@ mission =
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
                                         ["heading"] = 0,
-                                        ["livery_id"] = "`scorpion` demo scheme (native)",
+                                        ["livery_id"] = "af standard",
                                         ["name"] = "DictKey_UnitName_1114",
                                         ["onboard_num"] = "501",
                                         ["parking"] = 82,
@@ -1415,7 +1415,7 @@ mission =
                                         {
                                             ["chaff"] = 128,
                                             ["flare"] = 128,
-                                            ["fuel"] = "2835",
+                                            ["fuel"] = "3790",
                                             ["gun"] = 100,
                                             ["pylons"] =
                                             {
@@ -1424,7 +1424,7 @@ mission =
                                         ["psi"] = 0,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
-                                        ["type"] = "Su-25",
+                                        ["type"] = "Su-25T",
                                         ["unitId"] = 1228,
                                         ["x"] = -318466.4375,
                                         ["y"] = 902994.5625,
@@ -1520,7 +1520,7 @@ mission =
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
                                         ["heading"] = 0,
-                                        ["livery_id"] = "`scorpion` demo scheme (native)",
+                                        ["livery_id"] = "af standard",
                                         ["name"] = "DictKey_UnitName_1118",
                                         ["onboard_num"] = "502",
                                         ["parking"] = 80,
@@ -1529,7 +1529,7 @@ mission =
                                         {
                                             ["chaff"] = 128,
                                             ["flare"] = 128,
-                                            ["fuel"] = "2835",
+                                            ["fuel"] = "3790",
                                             ["gun"] = 100,
                                             ["pylons"] =
                                             {
@@ -1538,7 +1538,7 @@ mission =
                                         ["psi"] = 0,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
-                                        ["type"] = "Su-25",
+                                        ["type"] = "Su-25T",
                                         ["unitId"] = 1229,
                                         ["x"] = -318388.15625,
                                         ["y"] = 903087.9375,
@@ -1634,7 +1634,7 @@ mission =
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
                                         ["heading"] = 0,
-                                        ["livery_id"] = "`scorpion` demo scheme (native)",
+                                        ["livery_id"] = "af standard",
                                         ["name"] = "DictKey_UnitName_1121",
                                         ["onboard_num"] = "503",
                                         ["parking"] = 85,
@@ -1643,7 +1643,7 @@ mission =
                                         {
                                             ["chaff"] = 128,
                                             ["flare"] = 128,
-                                            ["fuel"] = "2835",
+                                            ["fuel"] = "3790",
                                             ["gun"] = 100,
                                             ["pylons"] =
                                             {
@@ -1652,7 +1652,7 @@ mission =
                                         ["psi"] = 0,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
-                                        ["type"] = "Su-25",
+                                        ["type"] = "Su-25T",
                                         ["unitId"] = 1230,
                                         ["x"] = -318515.96875,
                                         ["y"] = 903105.5,
@@ -1748,7 +1748,7 @@ mission =
                                             ["name"] = "Uzi11",
                                         }, -- end of ["callsign"]
                                         ["heading"] = 0,
-                                        ["livery_id"] = "`scorpion` demo scheme (native)",
+                                        ["livery_id"] = "af standard",
                                         ["name"] = "DictKey_UnitName_1124",
                                         ["onboard_num"] = "504",
                                         ["parking"] = 83,
@@ -1757,7 +1757,7 @@ mission =
                                         {
                                             ["chaff"] = 128,
                                             ["flare"] = 128,
-                                            ["fuel"] = "2835",
+                                            ["fuel"] = "3790",
                                             ["gun"] = 100,
                                             ["pylons"] =
                                             {
@@ -1766,7 +1766,7 @@ mission =
                                         ["psi"] = 0,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
-                                        ["type"] = "Su-25",
+                                        ["type"] = "Su-25T",
                                         ["unitId"] = 1231,
                                         ["x"] = -318379.34375,
                                         ["y"] = 903159.625,
@@ -18890,7 +18890,7 @@ mission =
                                         }, -- end of [2]
                                         [3] =
                                         {
-                                            ["ETA"] = 569.8970183298,
+                                            ["ETA"] = 2737.4020186762,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 7315.2,
@@ -18923,7 +18923,7 @@ mission =
                                         }, -- end of [3]
                                         [4] =
                                         {
-                                            ["ETA"] = 1117.5504806448,
+                                            ["ETA"] = 3285.0554809912,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Landing",
                                             ["airdromeId"] = 31,
@@ -20967,7 +20967,7 @@ mission =
                                                 ["vangle"] = 0,
                                                 ["vnav"] = 1,
                                             }, -- end of ["properties"]
-                                            ["speed"] = 205.55555555556,
+                                            ["speed"] = 138.75,
                                             ["speed_locked"] = true,
                                             ["task"] =
                                             {
@@ -21033,7 +21033,7 @@ mission =
                                                 ["vangle"] = 0,
                                                 ["vnav"] = 1,
                                             }, -- end of ["properties"]
-                                            ["speed"] = 205.55555555556,
+                                            ["speed"] = 69.375,
                                             ["speed_locked"] = true,
                                             ["task"] =
                                             {
@@ -21052,7 +21052,7 @@ mission =
                                         [4] =
                                         {
                                             ["ETA"] = 25568,
-                                            ["ETA_locked"] = true,
+                                            ["ETA_locked"] = false,
                                             ["action"] = "Landing",
                                             ["airdromeId"] = 30,
                                             ["alt"] = 449,
@@ -21067,8 +21067,8 @@ mission =
                                                 ["vangle"] = 0,
                                                 ["vnav"] = 1,
                                             }, -- end of ["properties"]
-                                            ["speed"] = 2,
-                                            ["speed_locked"] = false,
+                                            ["speed"] = 138.75,
+                                            ["speed_locked"] = true,
                                             ["task"] =
                                             {
                                                 ["id"] = "ComboTask",
@@ -22976,7 +22976,7 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 1063.6642765628,
+                                            ["ETA"] = 11461.97521354,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 12192,
@@ -22991,7 +22991,7 @@ mission =
                                                 ["vangle"] = 0,
                                                 ["vnav"] = 1,
                                             }, -- end of ["properties"]
-                                            ["speed"] = 205.55555555556,
+                                            ["speed"] = 138.75,
                                             ["speed_locked"] = true,
                                             ["task"] =
                                             {
@@ -23043,7 +23043,7 @@ mission =
                                         }, -- end of [2]
                                         [3] =
                                         {
-                                            ["ETA"] = 1589.0815122407,
+                                            ["ETA"] = 17123.836258236,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 9144,
@@ -23058,7 +23058,7 @@ mission =
                                                 ["vangle"] = 0,
                                                 ["vnav"] = 1,
                                             }, -- end of ["properties"]
-                                            ["speed"] = 205.55555555556,
+                                            ["speed"] = 138.75,
                                             ["speed_locked"] = true,
                                             ["task"] =
                                             {
@@ -23077,7 +23077,7 @@ mission =
                                         [4] =
                                         {
                                             ["ETA"] = 25568,
-                                            ["ETA_locked"] = true,
+                                            ["ETA_locked"] = false,
                                             ["action"] = "Landing",
                                             ["airdromeId"] = 30,
                                             ["alt"] = 449,
@@ -23092,8 +23092,8 @@ mission =
                                                 ["vangle"] = 0,
                                                 ["vnav"] = 1,
                                             }, -- end of ["properties"]
-                                            ["speed"] = 7,
-                                            ["speed_locked"] = false,
+                                            ["speed"] = 138.75,
+                                            ["speed_locked"] = true,
                                             ["task"] =
                                             {
                                                 ["id"] = "ComboTask",
@@ -51008,7 +51008,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 251,
                                 ["groupId"] = 1251,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_2745",
@@ -51300,7 +51300,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 251,
                                 ["groupId"] = 1252,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_2754",
@@ -51559,7 +51559,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 251,
                                 ["groupId"] = 1253,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_2763",
@@ -51917,7 +51917,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 251,
                                 ["groupId"] = 1254,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_2775",
@@ -52242,7 +52242,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 124,
                                 ["groupId"] = 1317,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_3242",
@@ -52512,7 +52512,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 124,
                                 ["groupId"] = 1318,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_3254",
@@ -52800,7 +52800,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 124,
                                 ["groupId"] = 1319,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_3263",
@@ -53037,7 +53037,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 124,
                                 ["groupId"] = 1320,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_3270",
@@ -53340,7 +53340,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 251,
                                 ["groupId"] = 1358,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_3450",
@@ -53731,7 +53731,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 251,
                                 ["groupId"] = 1359,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_3462",
@@ -54254,7 +54254,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 251,
                                 ["groupId"] = 1360,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_3470",
@@ -54381,7 +54381,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 251,
                                 ["groupId"] = 1361,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_3481",
@@ -54640,7 +54640,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 251,
                                 ["groupId"] = 1362,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_3489",
@@ -54899,7 +54899,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 251,
                                 ["groupId"] = 1363,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_3496",
@@ -55488,7 +55488,7 @@ mission =
                                 ["communication"] = true,
                                 ["frequency"] = 251,
                                 ["groupId"] = 1364,
-                                ["hidden"] = false,
+                                ["hidden"] = true,
                                 ["lateActivation"] = true,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_3513",
@@ -56104,7 +56104,7 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 116.28061995261,
+                                            ["ETA"] = 1788.4289361181,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 530,
@@ -56137,7 +56137,7 @@ mission =
                                         }, -- end of [2]
                                         [3] =
                                         {
-                                            ["ETA"] = 234.47484378018,
+                                            ["ETA"] = 1906.6231599457,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Landing",
                                             ["airdromeId"] = 29,
@@ -57011,7 +57011,7 @@ mission =
                                     {
                                         [1] =
                                         {
-                                            ["ETA"] = 0,
+                                            ["ETA"] = -46800,
                                             ["ETA_locked"] = true,
                                             ["action"] = "From Parking Area Hot",
                                             ["airdromeId"] = 27,
@@ -57055,7 +57055,7 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 1223.7852335171,
+                                            ["ETA"] = -45576.214766483,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 11999.976,
@@ -57088,7 +57088,7 @@ mission =
                                         }, -- end of [2]
                                         [3] =
                                         {
-                                            ["ETA"] = 1856.9732924394,
+                                            ["ETA"] = -44943.026707561,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 11999.976,
@@ -57134,7 +57134,7 @@ mission =
                                         }, -- end of [3]
                                         [4] =
                                         {
-                                            ["ETA"] = 2211.121242505,
+                                            ["ETA"] = -44588.878757495,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 2000,
@@ -57168,7 +57168,7 @@ mission =
                                     }, -- end of ["points"]
                                     ["routeRelativeTOT"] = true,
                                 }, -- end of ["route"]
-                                ["start_time"] = 0,
+                                ["start_time"] = -46800,
                                 ["task"] = "AWACS",
                                 ["taskSelected"] = true,
                                 ["tasks"] =
@@ -59355,7 +59355,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3901062,
+    ["currentKey"] = 3910822,
     ["date"] =
     {
         ["Day"] = 8,
@@ -62609,11 +62609,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -316883.905,
-        ["centerY"] = 898794.36964286,
-        ["zoom"] = 58460,
+        ["centerX"] = -340963.724,
+        ["centerY"] = 665581.25285714,
+        ["zoom"] = 531668,
     }, -- end of ["map"]
-    ["maxDictId"] = 3969,
+    ["maxDictId"] = 3974,
     ["pictureFileNameB"] =
     {
         [1] = "ResKey_ImageBriefing_1821",
@@ -62667,18 +62667,18 @@ mission =
         ["total"] = 0,
     }, -- end of ["result"]
     ["sortie"] = "DictKey_sortie_652",
-    ["start_time"] = 53100,
+    ["start_time"] = 54000,
     ["theatre"] = "Caucasus",
     ["trig"] =
     {
         ["actions"] =
         {
             [1] = "a_set_flag_value(2501, 1);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3009\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3010\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3011\"), 1, false);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_group_off(1326);",
-            [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3699\")); mission.trig.func[2]=nil;",
+            [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3973\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3675\")); mission.trig.func[3]=nil;",
             [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3968\")); mission.trig.func[4]=nil;",
             [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3690\")); mission.trig.func[5]=nil;",
-            [6] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3697\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3698\")); mission.trig.func[6]=nil;",
+            [6] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3697\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3974\")); mission.trig.func[6]=nil;",
             [7] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3018\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3014\")); mission.trig.func[7]=nil;",
             [8] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3019\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3016\")); mission.trig.func[8]=nil;",
             [9] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[9]=nil;",
@@ -64086,7 +64086,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3699",
+                    ["file"] = "ResKey_Action_3973",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -64221,7 +64221,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3698",
+                    ["file"] = "ResKey_Action_3974",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [2]
             }, -- end of ["actions"]

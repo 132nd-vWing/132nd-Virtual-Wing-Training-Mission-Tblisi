@@ -1,5 +1,5 @@
 env.info( '*** MOOSE STATIC INCLUDE START *** ' )
-env.info( 'Moose Generation Timestamp: 20170814_1036' )
+env.info( 'Moose Generation Timestamp: 20170830_0932' )
 
 --- Various routines
 -- @module routines
@@ -2796,12 +2796,13 @@ UTILS.tostringLL = function( lat, lon, acc, DMS)
     end
 
     local secFrmtStr -- create the formatting string for the seconds place
-    if acc <= 0 then  -- no decimal place.
-      secFrmtStr = '%02d'
-    else
-      local width = 3 + acc  -- 01.310 - that's a width of 6, for example.
-      secFrmtStr = '%0' .. width .. '.' .. acc .. 'f'
-    end
+    secFrmtStr = '%02d'
+--    if acc <= 0 then  -- no decimal place.
+--      secFrmtStr = '%02d'
+--    else
+--      local width = 3 + acc  -- 01.310 - that's a width of 6, for example.
+--      secFrmtStr = '%0' .. width .. '.' .. acc .. 'f'
+--    end
 
     return string.format('%02d', latDeg) .. ' ' .. string.format('%02d', latMin) .. '\' ' .. string.format(secFrmtStr, latSec) .. '"' .. latHemi .. '   '
            .. string.format('%02d', lonDeg) .. ' ' .. string.format('%02d', lonMin) .. '\' ' .. string.format(secFrmtStr, lonSec) .. '"' .. lonHemi
@@ -5364,9 +5365,9 @@ function EVENT:onEvent( Event )
         -- Okay, we got the event from DCS. Now loop the SORTED self.EventSorted[] table for the received Event.id, and for each EventData registered, check if a function needs to be called.
         for EventClass, EventData in pairs( self.Events[Event.id][EventPriority] ) do
 
-          if Event.IniObjectCategory ~= Object.Category.STATIC then
-            self:E( { "Evaluating: ", EventClass:GetClassNameAndID() } )
-          end
+          --if Event.IniObjectCategory ~= Object.Category.STATIC then
+          --  self:E( { "Evaluating: ", EventClass:GetClassNameAndID() } )
+          --end
           
           Event.IniGroup = GROUP:FindByName( Event.IniDCSGroupName )
           Event.TgtGroup = GROUP:FindByName( Event.TgtDCSGroupName )
@@ -5591,8 +5592,7 @@ do -- SETTINGS
       self:SetMetric() -- Defaults
       self:SetA2G_BR() -- Defaults
       self:SetA2A_BRAA() -- Defaults
-      self:SetLL_Accuracy( 2 ) -- Defaults
-      self:SetLL_DMS( true ) -- Defaults
+      self:SetLL_Accuracy( 3 ) -- Defaults
       self:SetMGRS_Accuracy( 5 ) -- Defaults
       return self
     else
@@ -5643,25 +5643,10 @@ do -- SETTINGS
   --- Gets the SETTINGS LL accuracy.
   -- @param #SETTINGS self
   -- @return #number
-  function SETTINGS:GetLL_Accuracy()
-    return self.LL_Accuracy or _SETTINGS:GetLL_Accuracy()
+  function SETTINGS:GetLL_DDM_Accuracy()
+    return self.LL_DDM_Accuracy or _SETTINGS:GetLL_DDM_Accuracy()
   end
 
-  --- Sets the SETTINGS LL DMS.
-  -- @param #SETTINGS self
-  -- @param #number LL_DMS
-  -- @return #SETTINGS
-  function SETTINGS:SetLL_DMS( LL_DMS )
-    self.LL_DMS = LL_DMS
-  end
-
-  --- Gets the SETTINGS LL DMS.
-  -- @param #SETTINGS self
-  -- @return #number
-  function SETTINGS:GetLL_DMS()
-    return self.LL_DMS or _SETTINGS:GetLL_DMS()
-  end
-  
   --- Sets the SETTINGS MGRS accuracy.
   -- @param #SETTINGS self
   -- @param #number MGRS_Accuracy
@@ -5680,18 +5665,32 @@ do -- SETTINGS
   
 
 
-  --- Sets A2G LL
+  --- Sets A2G LL DMS
   -- @param #SETTINGS self
   -- @return #SETTINGS
-  function SETTINGS:SetA2G_LL()
-    self.A2GSystem = "LL"
+  function SETTINGS:SetA2G_LL_DMS()
+    self.A2GSystem = "LL DMS"
   end
 
-  --- Is LL
+  --- Sets A2G LL DDM
   -- @param #SETTINGS self
-  -- @return #boolean true if LL
-  function SETTINGS:IsA2G_LL()
-    return ( self.A2GSystem and self.A2GSystem == "LL" ) or ( not self.A2GSystem and _SETTINGS:IsA2G_LL() )
+  -- @return #SETTINGS
+  function SETTINGS:SetA2G_LL_DDM()
+    self.A2GSystem = "LL DDM"
+  end
+
+  --- Is LL DMS
+  -- @param #SETTINGS self
+  -- @return #boolean true if LL DMS
+  function SETTINGS:IsA2G_LL_DMS()
+    return ( self.A2GSystem and self.A2GSystem == "LL DMS" ) or ( not self.A2GSystem and _SETTINGS:IsA2G_LL_DMS() )
+  end
+
+  --- Is LL DDM
+  -- @param #SETTINGS self
+  -- @return #boolean true if LL DDM
+  function SETTINGS:IsA2G_LL_DDM()
+    return ( self.A2GSystem and self.A2GSystem == "LL DDM" ) or ( not self.A2GSystem and _SETTINGS:IsA2G_LL_DDM() )
   end
 
   --- Sets A2G MGRS
@@ -5751,18 +5750,32 @@ do -- SETTINGS
     return ( self.A2ASystem and self.A2ASystem == "BULLS" ) or ( not self.A2ASystem and _SETTINGS:IsA2A_BULLS() )
   end
 
-  --- Sets A2A LL
+  --- Sets A2A LL DMS
   -- @param #SETTINGS self
   -- @return #SETTINGS
-  function SETTINGS:SetA2A_LL()
-    self.A2ASystem = "LL"
+  function SETTINGS:SetA2A_LL_DMS()
+    self.A2ASystem = "LL DMS"
   end
 
-  --- Is LL
+  --- Sets A2A LL DDM
   -- @param #SETTINGS self
-  -- @return #boolean true if LL
-  function SETTINGS:IsA2A_LL()
-    return ( self.A2ASystem and self.A2ASystem == "LL" ) or ( not self.A2ASystem and _SETTINGS:IsA2A_LL() )
+  -- @return #SETTINGS
+  function SETTINGS:SetA2A_LL_DDM()
+    self.A2ASystem = "LL DDM"
+  end
+
+  --- Is LL DMS
+  -- @param #SETTINGS self
+  -- @return #boolean true if LL DMS
+  function SETTINGS:IsA2A_LL_DMS()
+    return ( self.A2ASystem and self.A2ASystem == "LL DMS" ) or ( not self.A2ASystem and _SETTINGS:IsA2A_LL_DMS() )
+  end
+
+  --- Is LL DDM
+  -- @param #SETTINGS self
+  -- @return #boolean true if LL DDM
+  function SETTINGS:IsA2A_LL_DDM()
+    return ( self.A2ASystem and self.A2ASystem == "LL DDM" ) or ( not self.A2ASystem and _SETTINGS:IsA2A_LL_DDM() )
   end
 
   --- Sets A2A MGRS
@@ -5791,68 +5804,73 @@ do -- SETTINGS
 
     local A2GCoordinateMenu = MENU_GROUP:New( MenuGroup, "A2G Coordinate System", SettingsMenu ):SetTime( MenuTime )
   
-    if self:IsA2G_LL() then
-      MENU_GROUP_COMMAND:New( MenuGroup, "Bearing, Range (BR)", A2GCoordinateMenu, self.A2GMenuSystem, self, MenuGroup, RootMenu, "BR" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS)", A2GCoordinateMenu, self.A2GMenuSystem, self, MenuGroup, RootMenu, "MGRS" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Accuracy 1", A2GCoordinateMenu, self.MenuLL_Accuracy, self, MenuGroup, RootMenu, 1 ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Accuracy 2", A2GCoordinateMenu, self.MenuLL_Accuracy, self, MenuGroup, RootMenu, 2 ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Accuracy 3", A2GCoordinateMenu, self.MenuLL_Accuracy, self, MenuGroup, RootMenu, 3 ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Decimal On", A2GCoordinateMenu, self.MenuLL_DMS, self, MenuGroup, RootMenu, true ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Decimal Off", A2GCoordinateMenu, self.MenuLL_DMS, self, MenuGroup, RootMenu, false ):SetTime( MenuTime )
+    
+    if not self:IsA2G_LL_DMS() then
+      MENU_GROUP_COMMAND:New( MenuGroup, "Lat/Lon Degree Min Sec (LL DMS)", A2GCoordinateMenu, self.A2GMenuSystem, self, MenuGroup, RootMenu, "LL DMS" ):SetTime( MenuTime )
     end
-  
+    
+    if not self:IsA2G_LL_DDM() then
+      MENU_GROUP_COMMAND:New( MenuGroup, "Lat/Lon Degree Dec Min (LL DDM)", A2GCoordinateMenu, self.A2GMenuSystem, self, MenuGroup, RootMenu, "LL DDM" ):SetTime( MenuTime )
+    end
+    
+    if self:IsA2G_LL_DDM() then
+      MENU_GROUP_COMMAND:New( MenuGroup, "LL DDM Accuracy 1", A2GCoordinateMenu, self.MenuLL_DDM_Accuracy, self, MenuGroup, RootMenu, 1 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "LL DDM Accuracy 2", A2GCoordinateMenu, self.MenuLL_DDM_Accuracy, self, MenuGroup, RootMenu, 2 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "LL DDM Accuracy 3", A2GCoordinateMenu, self.MenuLL_DDM_Accuracy, self, MenuGroup, RootMenu, 3 ):SetTime( MenuTime )
+    end
+    
+    if not self:IsA2G_BR() then
+      MENU_GROUP_COMMAND:New( MenuGroup, "Bearing, Range (BR)", A2GCoordinateMenu, self.A2GMenuSystem, self, MenuGroup, RootMenu, "BR" ):SetTime( MenuTime )
+    end
+    
+    if not self:IsA2G_MGRS() then
+      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS)", A2GCoordinateMenu, self.A2GMenuSystem, self, MenuGroup, RootMenu, "MGRS" ):SetTime( MenuTime )
+    end
+    
     if self:IsA2G_MGRS() then
-      MENU_GROUP_COMMAND:New( MenuGroup, "Bearing, Range (BR)", A2GCoordinateMenu, self.A2GMenuSystem, self, MenuGroup, RootMenu, "BR" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL)", A2GCoordinateMenu, self.A2GMenuSystem, self, MenuGroup, RootMenu, "LL" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 1", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 1 ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 2", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 2 ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 3", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 3 ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 4", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 4 ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 5", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 5 ):SetTime( MenuTime )
-    end
-
-    if self:IsA2G_BR() then
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS)", A2GCoordinateMenu, self.A2GMenuSystem, self, MenuGroup, RootMenu, "MGRS" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL)", A2GCoordinateMenu, self.A2GMenuSystem, self, MenuGroup, RootMenu, "LL" ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "MGRS Accuracy 1", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 1 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "MGRS Accuracy 2", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 2 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "MGRS Accuracy 3", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 3 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "MGRS Accuracy 4", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 4 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "MGRS Accuracy 5", A2GCoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 5 ):SetTime( MenuTime )
     end
 
     local A2ACoordinateMenu = MENU_GROUP:New( MenuGroup, "A2A Coordinate System", SettingsMenu ):SetTime( MenuTime )
 
-    if self:IsA2A_BULLS() then
-      MENU_GROUP_COMMAND:New( MenuGroup, "Bearing Range Altitude Aspect (BRAA)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "BRAA" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "MGRS" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "LL" ):SetTime( MenuTime )
-    end
-  
-    if self:IsA2A_BRAA() then
-      MENU_GROUP_COMMAND:New( MenuGroup, "Bullseye (BULLS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "BULLS" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "MGRS" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "LL" ):SetTime( MenuTime )
+    if not self:IsA2A_LL_DMS() then
+      MENU_GROUP_COMMAND:New( MenuGroup, "Lat/Lon Degree Min Sec (LL DMS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "LL DMS" ):SetTime( MenuTime )
     end
 
-    if self:IsA2A_LL() then
-      MENU_GROUP_COMMAND:New( MenuGroup, "Bearing Range Altitude Aspect (BRAA)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "BRAA" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Bullseye (BULLS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "BULLS" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "MGRS" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Accuracy 1", A2ACoordinateMenu, self.MenuLL_Accuracy, self, MenuGroup, RootMenu, 1 ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Accuracy 2", A2ACoordinateMenu, self.MenuLL_Accuracy, self, MenuGroup, RootMenu, 2 ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Accuracy 3", A2ACoordinateMenu, self.MenuLL_Accuracy, self, MenuGroup, RootMenu, 3 ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Decimal On", A2ACoordinateMenu, self.MenuLL_DMS, self, MenuGroup, RootMenu, true ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL) Decimal Off", A2ACoordinateMenu, self.MenuLL_DMS, self, MenuGroup, RootMenu, false ):SetTime( MenuTime )
-    end
-  
-    if self:IsA2A_MGRS() then
-      MENU_GROUP_COMMAND:New( MenuGroup, "Bearing Range Altitude Aspect (BRAA)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "BRAA" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Bullseye (BULLS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "BULLS" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Lattitude Longitude (LL)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "LL" ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 1", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 1 ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 2", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 2 ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 3", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 3 ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 4", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 4 ):SetTime( MenuTime )
-      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS) Accuracy 5", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 5 ):SetTime( MenuTime )
+    if not self:IsA2A_LL_DDM() then
+      MENU_GROUP_COMMAND:New( MenuGroup, "Lat/Lon Degree Dec Min (LL DDM)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "LL DDM" ):SetTime( MenuTime )
     end
 
+    if self:IsA2A_LL_DDM() then
+      MENU_GROUP_COMMAND:New( MenuGroup, "LL DDM Accuracy 1", A2ACoordinateMenu, self.MenuLL_DDM_Accuracy, self, MenuGroup, RootMenu, 1 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "LL DDM Accuracy 2", A2ACoordinateMenu, self.MenuLL_DDM_Accuracy, self, MenuGroup, RootMenu, 2 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "LL DDM Accuracy 3", A2ACoordinateMenu, self.MenuLL_DDM_Accuracy, self, MenuGroup, RootMenu, 3 ):SetTime( MenuTime )
+    end    
+
+    if not self:IsA2A_BULLS() then
+      MENU_GROUP_COMMAND:New( MenuGroup, "Bullseye (BULLS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "BULLS" ):SetTime( MenuTime )
+    end
     
+    if not self:IsA2A_BRAA() then
+      MENU_GROUP_COMMAND:New( MenuGroup, "Bearing Range Altitude Aspect (BRAA)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "BRAA" ):SetTime( MenuTime )
+    end
+    
+    if not self:IsA2A_MGRS() then
+      MENU_GROUP_COMMAND:New( MenuGroup, "Military Grid (MGRS)", A2ACoordinateMenu, self.A2AMenuSystem, self, MenuGroup, RootMenu, "MGRS" ):SetTime( MenuTime )
+    end
+
+    if self:IsA2A_MGRS() then
+      MENU_GROUP_COMMAND:New( MenuGroup, "MGRS Accuracy 1", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 1 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "MGRS Accuracy 2", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 2 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "MGRS Accuracy 3", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 3 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "MGRS Accuracy 4", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 4 ):SetTime( MenuTime )
+      MENU_GROUP_COMMAND:New( MenuGroup, "MGRS Accuracy 5", A2ACoordinateMenu, self.MenuMGRS_Accuracy, self, MenuGroup, RootMenu, 5 ):SetTime( MenuTime )
+    end        
+  
     local MetricsMenu = MENU_GROUP:New( MenuGroup, "Measures and Weights System", SettingsMenu ):SetTime( MenuTime )
     
     if self:IsMetric() then
@@ -5885,66 +5903,72 @@ do -- SETTINGS
 
     local A2GCoordinateMenu = MENU_GROUP:New( PlayerGroup, "A2G Coordinate System", PlayerMenu )
   
-    if self:IsA2G_LL() then
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Bearing, Range (BR)", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "BR" )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS)", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "MGRS" )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Accuracy 1", A2GCoordinateMenu, self.MenuGroupLL_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 1 )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Accuracy 2", A2GCoordinateMenu, self.MenuGroupLL_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 2 )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Accuracy 3", A2GCoordinateMenu, self.MenuGroupLL_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 3 )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Decimal On", A2GCoordinateMenu, self.MenuGroupLL_DMSSystem, self, PlayerUnit, PlayerGroup, PlayerName, true )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Decimal Off", A2GCoordinateMenu, self.MenuGroupLL_DMSSystem, self, PlayerUnit, PlayerGroup, PlayerName, false )
+    if not self:IsA2G_LL_DMS() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Lat/Lon Degree Min Sec (LL DMS)", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "LL DMS" )
     end
   
-    if self:IsA2G_MGRS() then
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Bearing Range (BR)", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "BR" )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL)", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "LL" )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 1", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 1 )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 2", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 2 )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 3", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 3 )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 4", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 4 )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 5", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 5 )
+    if not self:IsA2G_LL_DDM() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Lat/Lon Degree Dec Min (LL DDM)", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "LL DDM" )
     end
-
-    if self:IsA2G_BR() then
+  
+    if self:IsA2G_LL_DDM() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "LL DDM Accuracy 1", A2GCoordinateMenu, self.MenuGroupLL_DDM_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 1 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "LL DDM Accuracy 2", A2GCoordinateMenu, self.MenuGroupLL_DDM_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 2 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "LL DDM Accuracy 3", A2GCoordinateMenu, self.MenuGroupLL_DDM_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 3 )
+    end
+    
+    if not self:IsA2G_BR() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Bearing, Range (BR)", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "BR" )
+    end
+    
+    if not self:IsA2G_MGRS() then
       MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS)", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "MGRS" )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL)", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "LL" )
+    end    
+
+    if self:IsA2G_MGRS() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "MGRS Accuracy 1", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 1 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "MGRS Accuracy 2", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 2 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "MGRS Accuracy 3", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 3 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "MGRS Accuracy 4", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 4 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "MGRS Accuracy 5", A2GCoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 5 )
     end
 
     local A2ACoordinateMenu = MENU_GROUP:New( PlayerGroup, "A2A Coordinate System", PlayerMenu )
 
-    if self:IsA2A_BULLS() then
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Bearing Range Altitude Aspect (BRAA)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "BRAA" )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "MGRS" )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "LL" )
+
+    if not self:IsA2A_LL_DMS() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Lat/Lon Degree Min Sec (LL DMS)", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "LL DMS" )
     end
   
-    if self:IsA2A_BRAA() then
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Bullseye (BULLS)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "BULLS" )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "MGRS" )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "LL" )
+    if not self:IsA2A_LL_DDM() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Lat/Lon Degree Dec Min (LL DDM)", A2GCoordinateMenu, self.MenuGroupA2GSystem, self, PlayerUnit, PlayerGroup, PlayerName, "LL DDM" )
+    end
+  
+    if self:IsA2A_LL_DDM() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "LL DDM Accuracy 1", A2GCoordinateMenu, self.MenuGroupLL_DDM_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 1 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "LL DDM Accuracy 2", A2GCoordinateMenu, self.MenuGroupLL_DDM_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 2 )
+      MENU_GROUP_COMMAND:New( PlayerGroup, "LL DDM Accuracy 3", A2GCoordinateMenu, self.MenuGroupLL_DDM_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 3 )
     end
 
-    if self:IsA2A_LL() then
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Bearing Range Altitude Aspect (BRAA)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "BRAA" )
+    if not self:IsA2A_BULLS() then
       MENU_GROUP_COMMAND:New( PlayerGroup, "Bullseye (BULLS)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "BULLS" )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "MGRS" )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Accuracy 1", A2ACoordinateMenu, self.MenuGroupLL_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 1 )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Accuracy 2", A2ACoordinateMenu, self.MenuGroupLL_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 2 )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Accuracy 3", A2ACoordinateMenu, self.MenuGroupLL_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 3 )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Decimal On", A2ACoordinateMenu, self.MenuGroupLL_DMSSystem, self, PlayerUnit, PlayerGroup, PlayerName, true )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL) Decimal Off", A2ACoordinateMenu, self.MenuGroupLL_DMSSystem, self, PlayerUnit, PlayerGroup, PlayerName, false )
     end
-  
-    if self:IsA2A_MGRS() then
+    
+    if not self:IsA2A_BRAA() then
       MENU_GROUP_COMMAND:New( PlayerGroup, "Bearing Range Altitude Aspect (BRAA)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "BRAA" )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Bullseye (BULLS)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "BULLS" )
-      MENU_GROUP_COMMAND:New( PlayerGroup, "Lattitude Longitude (LL)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "LL" )
+    end
+    
+    if not self:IsA2A_MGRS() then
+      MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS)", A2ACoordinateMenu, self.MenuGroupA2ASystem, self, PlayerUnit, PlayerGroup, PlayerName, "MGRS" )
+    end
+    
+    if self:IsA2A_MGRS() then
       MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 1", A2ACoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 1 )
       MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 2", A2ACoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 2 )
       MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 3", A2ACoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 3 )
       MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 4", A2ACoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 4 )
       MENU_GROUP_COMMAND:New( PlayerGroup, "Military Grid (MGRS) Accuracy 5", A2ACoordinateMenu, self.MenuGroupMGRS_AccuracySystem, self, PlayerUnit, PlayerGroup, PlayerName, 5 )
-    end
+    end    
 
     local MetricsMenu = MENU_GROUP:New( PlayerGroup, "Measures and Weights System", PlayerMenu )
     
@@ -5988,16 +6012,9 @@ do -- SETTINGS
   end
 
   --- @param #SETTINGS self
-  function SETTINGS:MenuLL_Accuracy( MenuGroup, RootMenu, LL_Accuracy )
+  function SETTINGS:MenuLL_DDM_Accuracy( MenuGroup, RootMenu, LL_Accuracy )
     self.LL_Accuracy = LL_Accuracy
     MESSAGE:New( string.format("Settings: Default LL accuracy set to %s for all players!.", LL_Accuracy ), 5 ):ToAll()
-    self:SetSystemMenu( MenuGroup, RootMenu )
-  end
-
-  --- @param #SETTINGS self
-  function SETTINGS:MenuLL_DMS( MenuGroup, RootMenu, LL_DMS )
-    self.LL_DMS = LL_DMS
-    MESSAGE:New( string.format("Settings: Default LL format set to %s for all players!.", LL_DMS or "Decimal" or "HMS" ), 5 ):ToAll()
     self:SetSystemMenu( MenuGroup, RootMenu )
   end
 
@@ -6034,21 +6051,13 @@ do -- SETTINGS
     end
   
     --- @param #SETTINGS self
-    function SETTINGS:MenuGroupLL_AccuracySystem( PlayerUnit, PlayerGroup, PlayerName, LL_Accuracy )
+    function SETTINGS:MenuGroupLL_DDM_AccuracySystem( PlayerUnit, PlayerGroup, PlayerName, LL_Accuracy )
       self.LL_Accuracy = LL_Accuracy
       MESSAGE:New( string.format("Settings: A2G LL format accuracy set to %d for player %s.", LL_Accuracy, PlayerName ), 5 ):ToGroup( PlayerGroup )
       self:RemovePlayerMenu(PlayerUnit)
       self:SetPlayerMenu(PlayerUnit)
     end
   
-    --- @param #SETTINGS self
-    function SETTINGS:MenuGroupLL_DMSSystem( PlayerUnit, PlayerGroup, PlayerName, LL_DMS )
-      self.LL_DMS = LL_DMS
-      MESSAGE:New( string.format("Settings: A2G LL format mode set to %s for player %s.", LL_DMS and "Decimal" or "HMS", PlayerName ), 5 ):ToGroup( PlayerGroup )
-      self:RemovePlayerMenu(PlayerUnit)
-      self:SetPlayerMenu(PlayerUnit)
-    end
-
     --- @param #SETTINGS self
     function SETTINGS:MenuGroupMGRS_AccuracySystem( PlayerUnit, PlayerGroup, PlayerName, MGRS_Accuracy )
       self.MGRS_Accuracy = MGRS_Accuracy
@@ -7893,6 +7902,20 @@ function ZONE_GROUP:GetRandomVec2()
   return Point
 end
 
+--- Returns a @{Point#POINT_VEC2} object reflecting a random 2D location within the zone.
+-- @param #ZONE_GROUP self
+-- @param #number inner (optional) Minimal distance from the center of the zone. Default is 0.
+-- @param #number outer (optional) Maximal distance from the outer edge of the zone. Default is the radius of the zone.
+-- @return Core.Point#POINT_VEC2 The @{Point#POINT_VEC2} object reflecting the random 3D location within the zone.
+function ZONE_GROUP:GetRandomPointVec2( inner, outer )
+  self:F( self.ZoneName, inner, outer )
+
+  local PointVec2 = POINT_VEC2:NewFromVec2( self:GetRandomVec2() )
+
+  self:T3( { PointVec2 } )
+  
+  return PointVec2
+end
 
 
 --- @type ZONE_POLYGON_BASE
@@ -11033,6 +11056,7 @@ end
 
 --- Calculate the maxium A2G threat level of the SET_UNIT.
 -- @param #SET_UNIT self
+-- @return #number The maximum threatlevel
 function SET_UNIT:CalculateThreatLevelA2G()
   
   local MaxThreatLevelA2G = 0
@@ -13024,16 +13048,26 @@ do -- COORDINATE
     return ""
   end
 
-  --- Provides a Lat Lon string
+  --- Provides a Lat Lon string in Degree Minute Second format.
   -- @param #COORDINATE self
   -- @param Core.Settings#SETTINGS Settings (optional) Settings
-  -- @return #string The LL Text
-  function COORDINATE:ToStringLL( Settings ) --R2.1 Fixes issue #424.
+  -- @return #string The LL DMS Text
+  function COORDINATE:ToStringLLDMS( Settings ) 
 
     local LL_Accuracy = Settings and Settings.LL_Accuracy or _SETTINGS.LL_Accuracy
-    local LL_DMS = Settings and Settings.LL_DMS or _SETTINGS.LL_DMS
     local lat, lon = coord.LOtoLL( self:GetVec3() )
-    return "LL, " .. UTILS.tostringLL( lat, lon, LL_Accuracy, LL_DMS )
+    return "LL DMS, " .. UTILS.tostringLL( lat, lon, LL_Accuracy, true )
+  end
+
+  --- Provides a Lat Lon string in Degree Decimal Minute format.
+  -- @param #COORDINATE self
+  -- @param Core.Settings#SETTINGS Settings (optional) Settings
+  -- @return #string The LL DDM Text
+  function COORDINATE:ToStringLLDDM( Settings )
+
+    local LL_Accuracy = Settings and Settings.LL_Accuracy or _SETTINGS.LL_Accuracy
+    local lat, lon = coord.LOtoLL( self:GetVec3() )
+    return "LL DDM, " .. UTILS.tostringLL( lat, lon, LL_Accuracy, false )
   end
 
   --- Provides a MGRS string
@@ -13119,26 +13153,41 @@ do -- COORDINATE
 
     if ModeA2A then
       if Settings:IsA2A_BRAA()  then
-        local Coordinate = Controllable:GetCoordinate()
-        return self:ToStringBRA( Coordinate, Settings ) 
+        if Controllable then
+          local Coordinate = Controllable:GetCoordinate()
+          return self:ToStringBRA( Coordinate, Settings ) 
+        else
+          return self:ToStringMGRS( Settings )
+        end
       end
       if Settings:IsA2A_BULLS() then
         local Coalition = Controllable:GetCoalition()
         return self:ToStringBULLS( Coalition, Settings )
       end
-      if Settings:IsA2A_LL()  then
-        return self:ToStringLL( Settings )
+      if Settings:IsA2A_LL_DMS()  then
+        return self:ToStringLLDMS( Settings )
+      end
+      if Settings:IsA2A_LL_DDM()  then
+        return self:ToStringLLDDM( Settings )
       end
       if Settings:IsA2A_MGRS() then
         return self:ToStringMGRS( Settings )
       end
     else
       if Settings:IsA2G_BR()  then
-        local Coordinate = Controllable:GetCoordinate()
-        return Controllable and self:ToStringBR( Coordinate, Settings ) or self:ToStringMGRS( Settings )
+        -- If no Controllable is given to calculate the BR from, then MGRS will be used!!!
+        if Controllable then
+          local Coordinate = Controllable:GetCoordinate()
+          return Controllable and self:ToStringBR( Coordinate, Settings ) or self:ToStringMGRS( Settings )
+        else
+          return self:ToStringMGRS( Settings )
+        end
       end
-      if Settings:IsA2G_LL()  then
-        return self:ToStringLL( Settings )
+      if Settings:IsA2G_LL_DMS()  then
+        return self:ToStringLLDMS( Settings )
+      end
+      if Settings:IsA2G_LL_DDM()  then
+        return self:ToStringLLDDM( Settings )
       end
       if Settings:IsA2G_MGRS() then
         return self:ToStringMGRS( Settings )
@@ -17859,15 +17908,8 @@ end
 function IDENTIFIABLE:GetName()
   self:F2( self.IdentifiableName )
 
-  local DCSIdentifiable = self:GetDCSObject()
-  
-  if DCSIdentifiable then
-    local IdentifiableName = self.IdentifiableName
-    return IdentifiableName
-  end 
-  
-  self:E( self.ClassName .. " " .. self.IdentifiableName .. " not found!" )
-  return nil
+  local IdentifiableName = self.IdentifiableName
+  return IdentifiableName
 end
 
 
@@ -19195,7 +19237,7 @@ function CONTROLLABLE:SetTask( DCSTask, WaitTime )
     end
 
     if not WaitTime or WaitTime == 0 then
-      self:SetTask( DCSTask )
+      SetTask( DCSTask )
     else
       self.TaskScheduler:Schedule( self, SetTask, { DCSTask }, WaitTime )
     end
@@ -29985,7 +30027,7 @@ function ESCORT:_ReportTargetsScheduler()
         local ClientEscortTargets = EscortGroupData.Detection
         --local EscortUnit = EscortGroupData:GetUnit( 1 )
 
-        for DetectedItemID, DetectedItem in ipairs( DetectedItems ) do
+        for DetectedItemID, DetectedItem in pairs( DetectedItems ) do
           self:E( { DetectedItemID, DetectedItem } )
           -- Remove the sub menus of the Attack menu of the Escort for the EscortGroup.
   
@@ -29993,10 +30035,13 @@ function ESCORT:_ReportTargetsScheduler()
 
           if ClientEscortGroupName == EscortGroupName then
           
-            DetectedMsgs[#DetectedMsgs+1] = DetectedItemReportSummary:Text("\n")
+            local DetectedMsg = DetectedItemReportSummary:Text("\n")
+            DetectedMsgs[#DetectedMsgs+1] = DetectedMsg
+
+            self:T( DetectedMsg )
   
             MENU_CLIENT_COMMAND:New( self.EscortClient,
-              DetectedItemReportSummary,
+              DetectedMsg,
               self.EscortMenuAttackNearbyTargets,
               ESCORT._AttackTarget,
               self,
@@ -30005,10 +30050,12 @@ function ESCORT:_ReportTargetsScheduler()
           else
             if self.EscortMenuTargetAssistance then
             
-              self:T( DetectedItemReportSummary )
+              local DetectedMsg = DetectedItemReportSummary:Text("\n")
+              self:T( DetectedMsg )
+
               local MenuTargetAssistance = MENU_CLIENT:New( self.EscortClient, EscortGroupData.EscortName, self.EscortMenuTargetAssistance )
               MENU_CLIENT_COMMAND:New( self.EscortClient,
-                DetectedItemReportSummary,
+                DetectedMsg,
                 MenuTargetAssistance,
                 ESCORT._AssistTarget,
                 self,
@@ -32418,7 +32465,7 @@ do -- DETECTION_BASE
   -- @field #number ID -- The identifier of the detected area.
   -- @field #boolean FriendliesNearBy Indicates if there are friendlies within the detected area.
   -- @field Wrapper.Unit#UNIT NearestFAC The nearest FAC near the Area.
-
+  -- @field Core.Point#COORDINATE Coordinate The last known coordinate of the DetectedItem.
   
   --- DETECTION constructor.
   -- @param #DETECTION_BASE self
@@ -32716,6 +32763,14 @@ do -- DETECTION_BASE
             -- Calculate Acceptance
             
             DetectionAccepted = self._.FilterCategories[DetectedUnitCategory] ~= nil and DetectionAccepted or false
+    
+--            if Distance > 15000 then
+--              if DetectedUnitCategory == Unit.Category.GROUND_UNIT or DetectedUnitCategory == Unit.Category.SHIP then
+--                if DetectedObject:hasSensors( Unit.SensorType.RADAR, Unit.RadarType.AS ) == false then
+--                  DetectionAccepted = false
+--                end
+--              end
+--            end
     
             if self.AcceptRange and Distance > self.AcceptRange then
               DetectionAccepted = false
@@ -33214,8 +33269,8 @@ do -- DETECTION_BASE
       DetectedItem.Changes[ChangeCode].ID = ID
       DetectedItem.Changes[ChangeCode].ItemUnitType = ItemUnitType
     
-      self:T( { "Change on Detection Item:", DetectedItem.ID, ChangeCode, ItemUnitType } )
-    
+      self:E( { "Change on Detection Item:", DetectedItem.ID, ChangeCode, ItemUnitType } )
+     
       return self
     end
     
@@ -33237,7 +33292,7 @@ do -- DETECTION_BASE
       DetectedItem.Changes[ChangeCode][ChangeUnitType] = DetectedItem.Changes[ChangeCode][ChangeUnitType] + 1
       DetectedItem.Changes[ChangeCode].ID = ID
       
-      self:T( { "Change on Detection Item:", DetectedItem.ID, ChangeCode, ChangeUnitType } )
+      self:E( { "Change on Detection Item:", DetectedItem.ID, ChangeCode, ChangeUnitType } )
     
       return self
     end
@@ -33245,7 +33300,7 @@ do -- DETECTION_BASE
   
   end
   
-  do -- Threat
+  do -- NearBy calculations
   
     --- Returns if there are friendlies nearby the FAC units ...
     -- @param #DETECTION_BASE self
@@ -33261,6 +33316,15 @@ do -- DETECTION_BASE
     function DETECTION_BASE:GetFriendliesNearBy( DetectedItem )
       
       return DetectedItem.FriendliesNearBy
+    end
+    
+    --- Filters friendly units by unit category.
+    -- @param #DETECTION_BASE self
+    -- @param FriendliesCategory
+    -- @return #DETECTION_BASE
+    function DETECTION_BASE:FilterFriendliesCategory( FriendliesCategory )
+      self.FriendliesCategory = FriendliesCategory
+      return self
     end
   
     --- Returns if there are friendlies nearby the intercept ...
@@ -33350,15 +33414,18 @@ do -- DETECTION_BASE
           --self:F( { "Friendlies search:", FoundUnitName, FoundUnitCoalition, EnemyUnitName, EnemyCoalition, FoundUnitInReportSetGroup } )
           
           if FoundUnitCoalition ~= EnemyCoalition and FoundUnitInReportSetGroup == false then
-            DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
             local FriendlyUnit = UNIT:Find( FoundDCSUnit )
             local FriendlyUnitName = FriendlyUnit:GetName()
-
-            DetectedItem.FriendliesNearBy[FriendlyUnitName] = FriendlyUnit
+            local FriendlyUnitCategory = FriendlyUnit:GetDesc().category
+            self:T( { FriendlyUnitCategory = FriendlyUnitCategory, FriendliesCategory = self.FriendliesCategory } )
             
-            local Distance = DetectedUnitCoord:Get2DDistance( FriendlyUnit:GetCoordinate() )
-            DetectedItem.FriendliesDistance = DetectedItem.FriendliesDistance or {}
-            DetectedItem.FriendliesDistance[Distance] = FriendlyUnit
+            if ( not self.FriendliesCategory ) or ( self.FriendliesCategory and ( self.FriendliesCategory == FriendlyUnitCategory ) ) then
+              DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
+              DetectedItem.FriendliesNearBy[FriendlyUnitName] = FriendlyUnit
+              local Distance = DetectedUnitCoord:Get2DDistance( FriendlyUnit:GetCoordinate() )
+              DetectedItem.FriendliesDistance = DetectedItem.FriendliesDistance or {}
+              DetectedItem.FriendliesDistance[Distance] = FriendlyUnit
+            end
             return true
           end
           
@@ -33374,23 +33441,28 @@ do -- DETECTION_BASE
           --- @param Wrapper.Unit#UNIT PlayerUnit
           function( PlayerUnitName )
             local PlayerUnit = UNIT:FindByName( PlayerUnitName )
-    
+            local PlayerUnitCategory = PlayerUnit:GetDesc().category
+
             if PlayerUnit and PlayerUnit:IsInZone(DetectionZone) then
     
-              DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
-              local PlayerUnitName = PlayerUnit:GetName()
-    
-              DetectedItem.PlayersNearBy = DetectedItem.PlayersNearBy or {}
-              DetectedItem.PlayersNearBy[PlayerUnitName] = PlayerUnit
-    
-              DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
-              DetectedItem.FriendliesNearBy[PlayerUnitName] = PlayerUnit
-    
-              local CenterCoord = DetectedUnit:GetCoordinate()
+              if ( not self.FriendliesCategory ) or ( self.FriendliesCategory and ( self.FriendliesCategory == PlayerUnitCategory ) ) then
 
-              local Distance = CenterCoord:Get2DDistance( PlayerUnit:GetCoordinate() )
-              DetectedItem.FriendliesDistance = DetectedItem.FriendliesDistance or {}
-              DetectedItem.FriendliesDistance[Distance] = PlayerUnit
+                DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
+                local PlayerUnitName = PlayerUnit:GetName()
+      
+                DetectedItem.PlayersNearBy = DetectedItem.PlayersNearBy or {}
+                DetectedItem.PlayersNearBy[PlayerUnitName] = PlayerUnit
+      
+                DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
+                DetectedItem.FriendliesNearBy[PlayerUnitName] = PlayerUnit
+      
+                local CenterCoord = DetectedUnit:GetCoordinate()
+  
+                local Distance = CenterCoord:Get2DDistance( PlayerUnit:GetCoordinate() )
+                DetectedItem.FriendliesDistance = DetectedItem.FriendliesDistance or {}
+                DetectedItem.FriendliesDistance[Distance] = PlayerUnit
+
+              end
             end
           end
         )
@@ -33466,6 +33538,32 @@ do -- DETECTION_BASE
     return nil
   end
   
+
+  --- Gets a detected unit type name, taking into account the detection results.
+  -- @param #DETECTION_BASE self
+  -- @param Wrapper.Unit#UNIT DetectedUnit
+  -- @return #string The type name
+  function DETECTION_BASE:GetDetectedUnitTypeName( DetectedUnit )
+    --self:F2( ObjectName )
+    
+    if DetectedUnit and DetectedUnit:IsAlive() then
+      local DetectedUnitName = DetectedUnit:GetName()
+      local DetectedObject = self.DetectedObjects[DetectedUnitName]
+      
+      if DetectedObject then
+        if DetectedObject.KnowType then
+          return DetectedUnit:GetTypeName()
+        else
+          return "Unknown"
+        end
+      end
+    else
+      return "Dead:" .. DetectedUnit:GetName()
+    end
+    
+    return "Undetected:" .. DetectedUnit:GetName()
+  end
+
   
   --- Adds a new DetectedItem to the DetectedItems list.
   -- The DetectedItem is a table and contains a SET_UNIT in the field Set.
@@ -33651,14 +33749,77 @@ do -- DETECTION_BASE
 
   end  
 
+
+  --- Set the detected item coordinate.
+  -- @param #DETECTION_BASE self
+  -- @param #DETECTION_BASE.DetectedItem The DetectedItem to set the coordinate at.
+  -- @param Core.Point#COORDINATE Coordinate The coordinate to set the last know detected position at.
+  -- @param Wrapper.Unit#UNIT DetectedItemUnit The unit to set the heading and altitude from.
+  -- @return #DETECTION_BASE
+  function DETECTION_BASE:SetDetectedItemCoordinate( DetectedItem, Coordinate, DetectedItemUnit )
+    self:F( { Coordinate = Coordinate } )
+  
+    if DetectedItem then
+      if DetectedItemUnit then
+        DetectedItem.Coordinate = Coordinate
+        DetectedItem.Coordinate:SetHeading( DetectedItemUnit:GetHeading() )
+        DetectedItem.Coordinate.y = DetectedItemUnit:GetAltitude()
+        DetectedItem.Coordinate.Speed = DetectedItemUnit:GetVelocityMPS()
+      end
+    end
+  end
+
+
   --- Get the detected item coordinate.
   -- @param #DETECTION_BASE self
-  -- @param Index
+  -- @param #number Index
   -- @return Core.Point#COORDINATE
   function DETECTION_BASE:GetDetectedItemCoordinate( Index )
     self:F( { Index = Index } )
+  
+    local DetectedItem = self:GetDetectedItem( Index )
+    
+    if DetectedItem then
+      return DetectedItem.Coordinate
+    end
+    
     return nil
   end
+
+  --- Set the detected item threatlevel.
+  -- @param #DETECTION_BASE self
+  -- @param #DETECTION_BASE.DetectedItem The DetectedItem to calculate the threatlevel for.
+  -- @return #DETECTION_BASE
+  function DETECTION_BASE:SetDetectedItemThreatLevel( DetectedItem )
+  
+    local DetectedSet = DetectedItem.Set
+  
+    if DetectedItem then
+      DetectedItem.ThreatLevel = DetectedSet:CalculateThreatLevelA2G()
+    end
+  end
+  
+
+
+  --- Get the detected item coordinate.
+  -- @param #DETECTION_BASE self
+  -- @param #number Index
+  -- @return #number ThreatLevel
+  function DETECTION_BASE:GetDetectedItemThreatLevel( Index )
+    self:F( { Index = Index } )
+  
+    local DetectedItem = self:GetDetectedItem( Index )
+    
+    if DetectedItem then
+      return DetectedItem.ThreatLevel or 0
+    end
+    
+    return nil
+  end
+  
+  
+
+
 
 
   --- Menu of a detected item using a given numeric index.
@@ -33752,27 +33913,6 @@ do -- DETECTION_UNITS
     return self
   end
 
-  --- Get the detected item coordinate.
-  -- @param #DETECTION_UNITS self
-  -- @param Index
-  -- @return Core.Point#COORDINATE
-  function DETECTION_UNITS:GetDetectedItemCoordinate( Index )
-    self:F( { Index = Index } )
-  
-    local DetectedItem = self:GetDetectedItem( Index )
-    local DetectedSet = self:GetDetectedSet( Index )
-    
-    if DetectedSet then
-      local DetectedItemUnit = DetectedSet:GetFirst() -- Wrapper.Unit#UNIT
-      if DetectedItemUnit and DetectedItemUnit:IsAlive() then
-        local DetectedItemCoordinate = DetectedItemUnit:GetCoordinate()
-        DetectedItemCoordinate:SetHeading( DetectedItemUnit:GetHeading() )
-        return DetectedItemCoordinate
-      end
-    end
-  end
-
-
   --- Make text documenting the changes of the detected zone.
   -- @param #DETECTION_UNITS self
   -- @param #DETECTION_UNITS.DetectedItem DetectedItem
@@ -33840,6 +33980,7 @@ do -- DETECTION_UNITS
           
           -- Update the detection with the new data provided.
           DetectedItem.TypeName = DetectedUnit:GetTypeName()            
+          DetectedItem.CategoryName = DetectedUnit:GetCategoryName()            
           DetectedItem.Name = DetectedObject.Name
           DetectedItem.IsVisible = DetectedObject.IsVisible 
           DetectedItem.LastTime = DetectedObject.LastTime
@@ -33894,8 +34035,14 @@ do -- DETECTION_UNITS
       local DetectedItem = DetectedItemData -- #DETECTION_BASE.DetectedItem
       local DetectedSet = DetectedItem.Set
   
+      -- Set the last known coordinate.
+      local DetectedFirstUnit = DetectedSet:GetFirst()
+      local DetectedFirstUnitCoord = DetectedFirstUnit:GetCoordinate()
+      self:SetDetectedItemCoordinate( DetectedItem, DetectedFirstUnitCoord, DetectedFirstUnit )
+
       self:ReportFriendliesNearBy( { DetectedItem = DetectedItem, ReportSetGroup = self.DetectionSetGroup } ) -- Fill the Friendlies table
       --self:NearestFAC( DetectedItem )
+      
     end
     
   end
@@ -33917,21 +34064,14 @@ do -- DETECTION_UNITS
       local UnitDistanceText = ""
       local UnitCategoryText = ""
   
-      local DetectedItemUnit = DetectedSet:GetFirst() -- Wrapper.Unit#UNIT
-      
-      if DetectedItemUnit and DetectedItemUnit:IsAlive() then
-        self:T(DetectedItemUnit)
-  
-        local DetectedItemCoordinate = DetectedItemUnit:GetCoordinate()
-        local DetectedItemCoordText = DetectedItemCoordinate:ToString( AttackGroup )
- 
-        ReportSummary = string.format( 
-          "%s - %s",
-          DetectedItemID,
-          DetectedItemCoordText
-        )
-      end
-      
+      local DetectedItemCoordinate = self:GetDetectedItemCoordinate( Index )
+      local DetectedItemCoordText = DetectedItemCoordinate:ToString( AttackGroup )
+     
+      ReportSummary = string.format( 
+        "%s - %s",
+        DetectedItemID,
+        DetectedItemCoordText
+      )
       self:T( ReportSummary )
     
       return ReportSummary
@@ -33948,54 +34088,46 @@ do -- DETECTION_UNITS
     self:F( { Index, self.DetectedItems } )
   
     local DetectedItem = self:GetDetectedItem( Index )
-    local DetectedSet = self:GetDetectedSet( Index )
     local DetectedItemID = self:GetDetectedItemID( Index )
     
-    self:T( DetectedSet )
-    if DetectedSet then
+    if DetectedItem then
       local ReportSummary = ""
       local UnitDistanceText = ""
       local UnitCategoryText = ""
   
-      local DetectedItemUnit = DetectedSet:GetFirst() -- Wrapper.Unit#UNIT
-      
-      if DetectedItemUnit and DetectedItemUnit:IsAlive() then
-        self:T(DetectedItemUnit)
-  
-  
-        if DetectedItem.KnowType then
-          local UnitCategoryName = DetectedItemUnit:GetCategoryName()
-          if UnitCategoryName then
-            UnitCategoryText = UnitCategoryName
-          end
-          if DetectedItem.TypeName then
-            UnitCategoryText = UnitCategoryText .. " (" .. DetectedItem.TypeName .. ")"
-          end
-        else
-          UnitCategoryText = "Unknown"
+      if DetectedItem.KnowType then
+        local UnitCategoryName = DetectedItem.CategoryName
+        if UnitCategoryName then
+          UnitCategoryText = UnitCategoryName
         end
-        
-        if DetectedItem.KnowDistance then
-          if DetectedItem.IsVisible then
-            UnitDistanceText = " at " .. string.format( "%.2f", DetectedItem.Distance ) .. " km"
-          end
-        else
-          if DetectedItem.IsVisible then
-            UnitDistanceText = " at +/- " .. string.format( "%.0f", DetectedItem.Distance ) .. " km"
-          end
+        if DetectedItem.TypeName then
+          UnitCategoryText = UnitCategoryText .. " (" .. DetectedItem.TypeName .. ")"
         end
-        
-        local DetectedItemCoordinate = DetectedItemUnit:GetCoordinate()
-        local DetectedItemCoordText = DetectedItemCoordinate:ToString( AttackGroup, Settings )
- 
-        local ThreatLevelA2G = DetectedItemUnit:GetThreatLevel( DetectedItem )
-        
-        local Report = REPORT:New()
-        Report:Add(DetectedItemID .. ", " .. DetectedItemCoordText)
-        Report:Add( string.format( "Threat: [%s]", string.rep(  "■", ThreatLevelA2G ) ) )
-        Report:Add( string.format("Type: %s%s", UnitCategoryText, UnitDistanceText ) )
-        return Report
+      else
+        UnitCategoryText = "Unknown"
       end
+      
+      if DetectedItem.KnowDistance then
+        if DetectedItem.IsVisible then
+          UnitDistanceText = " at " .. string.format( "%.2f", DetectedItem.Distance ) .. " km"
+        end
+      else
+        if DetectedItem.IsVisible then
+          UnitDistanceText = " at +/- " .. string.format( "%.0f", DetectedItem.Distance ) .. " km"
+        end
+      end
+        
+      --TODO: solve Index reference
+      local DetectedItemCoordinate = self:GetDetectedItemCoordinate( Index )
+      local DetectedItemCoordText = DetectedItemCoordinate:ToString( AttackGroup, Settings )
+ 
+      local ThreatLevelA2G = self:GetDetectedItemThreatLevel( Index )
+        
+      local Report = REPORT:New()
+      Report:Add(DetectedItemID .. ", " .. DetectedItemCoordText)
+      Report:Add( string.format( "Threat: [%s]", string.rep(  "■", ThreatLevelA2G ) ) )
+      Report:Add( string.format("Type: %s%s", UnitCategoryText, UnitDistanceText ) )
+      return Report
     end
     return nil
   end
@@ -34013,7 +34145,7 @@ do -- DETECTION_UNITS
       local DetectedItem = DetectedItem -- #DETECTION_BASE.DetectedItem
       local ReportSummary = self:DetectedItemReportSummary( DetectedItemID, AttackGroup )
       Report:SetTitle( "Detected units:" )
-      Report:Add( ReportSummary )
+      Report:Add( ReportSummary:Text() )
     end
     
     local ReportText = Report:Text()
@@ -34057,25 +34189,6 @@ do -- DETECTION_TYPES
     return self
   end
 
-  --- Get the detected item coordinate.
-  -- @param #DETECTION_TYPES self
-  -- @param DetectedTypeName
-  -- @return #Core.Point#COORDINATE
-  function DETECTION_TYPES:GetDetectedItemCoordinate( DetectedTypeName )
-    self:F( { DetectedTypeName = DetectedTypeName } )
-  
-    local DetectedItem = self:GetDetectedItem( DetectedTypeName )
-    local DetectedSet = self:GetDetectedSet( DetectedTypeName )
-    
-    if DetectedItem then
-      local DetectedItemUnit = DetectedSet:GetFirst()
-      local DetectedItemCoordinate = DetectedItemUnit:GetCoordinate()
-      DetectedItemCoordinate:SetHeading( DetectedItemUnit:GetHeading() )
-      return DetectedItemCoordinate
-    end
-  end
-  
-  
   --- Make text documenting the changes of the detected zone.
   -- @param #DETECTION_TYPES self
   -- @param #DETECTION_TYPES.DetectedItem DetectedItem
@@ -34180,9 +34293,15 @@ do -- DETECTION_TYPES
       local DetectedItem = DetectedItemData -- #DETECTION_BASE.DetectedItem
       local DetectedSet = DetectedItem.Set
   
+      -- Set the last known coordinate.
+      local DetectedFirstUnit = DetectedSet:GetFirst()
+      local DetectedUnitCoord = DetectedFirstUnit:GetCoordinate()
+      self:SetDetectedItemCoordinate( DetectedItem, DetectedUnitCoord, DetectedFirstUnit )
+
       self:ReportFriendliesNearBy( { DetectedItem = DetectedItem, ReportSetGroup = self.DetectionSetGroup } ) -- Fill the Friendlies table
       --self:NearestFAC( DetectedItem )
     end
+    
     
 
   end
@@ -34195,20 +34314,13 @@ do -- DETECTION_TYPES
     self:F( DetectedTypeName )
   
     local DetectedItem = self:GetDetectedItem( DetectedTypeName )
-    local DetectedSet = self:GetDetectedSet( DetectedTypeName )
     local DetectedItemID = self:GetDetectedItemID( DetectedTypeName )
     
-    self:T( DetectedItem )
     if DetectedItem then
 
-      local DetectedItemUnit = DetectedSet:GetFirst()
-
-      local DetectedItemCoordinate = DetectedItemUnit:GetCoordinate()
+      local DetectedItemCoordinate = self:GetDetectedItemCoordinate( DetectedTypeName )
       local DetectedItemCoordText = DetectedItemCoordinate:ToString( AttackGroup )
       
-      --self:E( { DetectedItemID,
-      --  DetectedItemCoordText } )
-
       local ReportSummary = string.format( 
         "%s - %s", 
         DetectedItemID,
@@ -34236,13 +34348,11 @@ do -- DETECTION_TYPES
     self:T( DetectedItem )
     if DetectedItem then
 
-      local ThreatLevelA2G = DetectedSet:CalculateThreatLevelA2G()
+      local ThreatLevelA2G = self:GetDetectedItemThreatLevel( DetectedTypeName )
       local DetectedItemsCount = DetectedSet:Count()
       local DetectedItemType = DetectedItem.TypeName
       
-      local DetectedItemUnit = DetectedSet:GetFirst()
-
-      local DetectedItemCoordinate = DetectedItemUnit:GetCoordinate()
+      local DetectedItemCoordinate = self:GetDetectedItemCoordinate( DetectedTypeName )
       local DetectedItemCoordText = DetectedItemCoordinate:ToString( AttackGroup, Settings )
 
       local Report = REPORT:New()
@@ -34265,7 +34375,7 @@ do -- DETECTION_TYPES
       local DetectedItem = DetectedItem -- #DETECTION_BASE.DetectedItem
       local ReportSummary = self:DetectedItemReportSummary( DetectedItemTypeName, AttackGroup )
       Report:SetTitle( "Detected types:" )
-      Report:Add( ReportSummary )
+      Report:Add( ReportSummary:Text() )
     end
     
     local ReportText = Report:Text()
@@ -34341,32 +34451,6 @@ do -- DETECTION_AREAS
     return self
   end
 
-  --- Get the detected item coordinate.
-  -- In this case, the coordinate is the center of the zone of the area, not the center unit!
-  -- So if units move, the retrieved coordinate can be different from the units positions.
-  -- @param #DETECTION_AREAS self
-  -- @param Index
-  -- @return Core.Point#COORDINATE The coordinate.
-  function DETECTION_AREAS:GetDetectedItemCoordinate( Index )
-    self:F( { Index = Index } )
-  
-    local DetectedItem = self:GetDetectedItem( Index )
-    local DetectedItemSet = self:GetDetectedSet( Index )
-    local FirstUnit = DetectedItemSet:GetFirst()
-    
-    if DetectedItem then
-      local DetectedZone = self:GetDetectedItemZone( Index )
-      -- TODO: Rework to COORDINATE. Problem with SetAlt.
-      local DetectedItemCoordinate = DetectedZone:GetPointVec2()
-      -- These need to be done to understand the heading and altitude of the first unit in the zone.
-      DetectedItemCoordinate:SetHeading( FirstUnit:GetHeading() )
-      DetectedItemCoordinate:SetAlt( FirstUnit:GetAltitude() )
-      
-      return DetectedItemCoordinate
-    end
-    
-    return nil
-  end
 
   --- Menu of a detected item using a given numeric index.
   -- @param #DETECTION_AREAS self
@@ -34418,7 +34502,7 @@ do -- DETECTION_AREAS
       local DetectedItemCoordinate = DetectedZone:GetCoordinate()
       local DetectedItemCoordText = DetectedItemCoordinate:ToString( AttackGroup, Settings )
 
-      local ThreatLevelA2G = self:GetTreatLevelA2G( DetectedItem )
+      local ThreatLevelA2G = self:GetDetectedItemThreatLevel( Index )
       local DetectedItemsCount = DetectedSet:Count()
       local DetectedItemsTypes = DetectedSet:GetTypeNames()
       
@@ -34445,7 +34529,7 @@ do -- DETECTION_AREAS
       local DetectedItem = DetectedItem -- #DETECTION_BASE.DetectedItem
       local ReportSummary = self:DetectedItemReportSummary( DetectedItemIndex, AttackGroup )
       Report:SetTitle( "Detected areas:" )
-      Report:Add( ReportSummary )
+      Report:Add( ReportSummary:Text() )
     end
     
     local ReportText = Report:Text()
@@ -34454,48 +34538,26 @@ do -- DETECTION_AREAS
   end
 
   
-  --- Calculate the maxium A2G threat level of the DetectedItem.
-  -- @param #DETECTION_AREAS self
-  -- @param #DETECTION_BASE.DetectedItem DetectedItem
-  function DETECTION_AREAS:CalculateThreatLevelA2G( DetectedItem )
-    
-    local MaxThreatLevelA2G = 0
-    for UnitName, UnitData in pairs( DetectedItem.Set:GetSet() ) do
-      local ThreatUnit = UnitData -- Wrapper.Unit#UNIT
-      local ThreatLevelA2G = ThreatUnit:GetThreatLevel()
-      if ThreatLevelA2G > MaxThreatLevelA2G then
-        MaxThreatLevelA2G = ThreatLevelA2G
-      end
-    end
-  
-    self:T3( MaxThreatLevelA2G )
-    DetectedItem.MaxThreatLevelA2G = MaxThreatLevelA2G
-    
-  end
-  
   --- Calculate the optimal intercept point of the DetectedItem.
   -- @param #DETECTION_AREAS self
   -- @param #DETECTION_BASE.DetectedItem DetectedItem
   function DETECTION_AREAS:CalculateIntercept( DetectedItem )
 
+    local DetectedSpeed = DetectedItem.Coordinate.Speed
+    local DetectedHeading = DetectedItem.Coordinate.Heading
+    local DetectedCoord = DetectedItem.Coordinate
+
     if self.Intercept then
       local DetectedSet = DetectedItem.Set
-      local DetectedUnit = DetectedSet:GetFirst() -- Wrapper.Unit#UNIT
-      if DetectedUnit then
-        local UnitSpeed = DetectedUnit:GetVelocityMPS()
-        local UnitHeading = DetectedUnit:GetHeading()
-        local UnitCoord = DetectedUnit:GetCoordinate()
-    
-        local TranslateDistance = UnitSpeed * self.InterceptDelay
-        
-        local InterceptCoord = UnitCoord:Translate( TranslateDistance, UnitHeading )
-        
-        DetectedItem.InterceptCoord = InterceptCoord
-      else
-        DetectedItem.InterceptCoord = nil
-      end
+      -- todo: speed
+  
+      local TranslateDistance = DetectedSpeed * self.InterceptDelay
+      
+      local InterceptCoord = DetectedCoord:Translate( TranslateDistance, DetectedHeading )
+      
+      DetectedItem.InterceptCoord = InterceptCoord
     else
-      DetectedItem.InterceptCoord = nil
+      DetectedItem.InterceptCoord = DetectedCoord
     end
     
   end
@@ -34528,18 +34590,6 @@ do -- DETECTION_AREAS
     
   end
 
-  --- Returns the A2G threat level of the units in the DetectedItem
-  -- @param #DETECTION_AREAS self
-  -- @param #DETECTION_BASE.DetectedItem DetectedItem
-  -- @return #number a scale from 0 to 10. 
-  function DETECTION_AREAS:GetTreatLevelA2G( DetectedItem )
-    
-    self:T3( DetectedItem.MaxThreatLevelA2G )
-    return DetectedItem.MaxThreatLevelA2G
-  end
-  
-  
-  
   --- Smoke the detected units
   -- @param #DETECTION_AREAS self
   -- @return #DETECTION_AREAS self
@@ -34684,13 +34734,14 @@ do -- DETECTION_AREAS
           -- First remove the center unit from the set.
           DetectedSet:RemoveUnitsByName( DetectedItem.Zone.ZoneUNIT.UnitName )
   
-          self:AddChangeItem( DetectedItem, 'RAU', "Dummy" )
+          self:AddChangeItem( DetectedItem, 'RAU', self:GetDetectedUnitTypeName( DetectedItem.Zone.ZoneUNIT ) )
           
           -- Then search for a new center area unit within the set. Note that the new area unit candidate must be within the area range.
           for DetectedUnitName, DetectedUnitData in pairs( DetectedSet:GetSet() ) do
    
             local DetectedUnit = DetectedUnitData -- Wrapper.Unit#UNIT
             local DetectedObject = self:GetDetectedObject( DetectedUnit.UnitName ) 
+            local DetectedUnitTypeName = self:GetDetectedUnitTypeName( DetectedUnit )
   
             -- The DetectedObject can be nil when the DetectedUnit is not alive anymore or it is not in the DetectedObjects map.
             -- If the DetectedUnit was already identified, DetectedObject will be nil.
@@ -34703,13 +34754,13 @@ do -- DETECTION_AREAS
               -- Assign the Unit as the new center unit of the detected area.
               DetectedItem.Zone = ZONE_UNIT:New( DetectedUnit:GetName(), DetectedUnit, self.DetectionZoneRange )
   
-              self:AddChangeItem( DetectedItem, "AAU", DetectedItem.Zone.ZoneUNIT:GetTypeName() )
+              self:AddChangeItem( DetectedItem, "AAU", DetectedUnitTypeName )
   
               -- We don't need to add the DetectedObject to the area set, because it is already there ...
               break
             else
               DetectedSet:Remove( DetectedUnitName )
-              self:AddChangeUnit( DetectedItem, "RU", DetectedUnit:GetTypeName() )
+              self:AddChangeUnit( DetectedItem, "RU", DetectedUnitTypeName )
             end
           end
         end
@@ -34725,13 +34776,15 @@ do -- DETECTION_AREAS
           for DetectedUnitName, DetectedUnitData in pairs( DetectedSet:GetSet() ) do
   
             local DetectedUnit = DetectedUnitData -- Wrapper.Unit#UNIT
+            local DetectedUnitTypeName = self:GetDetectedUnitTypeName( DetectedUnit )
+
             local DetectedObject = nil
             if DetectedUnit:IsAlive() then
             --self:E(DetectedUnit:GetName())
               DetectedObject = self:GetDetectedObject( DetectedUnit:GetName() )
             end
             if DetectedObject then
-            
+
               -- Check if the DetectedUnit is within the DetectedItem.Zone
               if DetectedUnit:IsInZone( DetectedItem.Zone ) then
                 
@@ -34741,7 +34794,7 @@ do -- DETECTION_AREAS
               else
                 -- No, the DetectedUnit is not within the DetectedItem.Zone, remove DetectedUnit from the Set.
                 DetectedSet:Remove( DetectedUnitName )
-                self:AddChangeUnit( DetectedItem, "RU", DetectedUnit:GetTypeName() )
+                self:AddChangeUnit( DetectedItem, "RU", DetectedUnitTypeName )
               end
             
             else
@@ -34778,6 +34831,7 @@ do -- DETECTION_AREAS
   
         -- We found an unidentified unit outside of any existing detection area.
         local DetectedUnit = UNIT:FindByName( DetectedUnitName ) -- Wrapper.Unit#UNIT
+        local DetectedUnitTypeName = self:GetDetectedUnitTypeName( DetectedUnit )
         
         local AddedToDetectionArea = false
       
@@ -34791,7 +34845,7 @@ do -- DETECTION_AREAS
               self:IdentifyDetectedObject( DetectedObject )
               DetectedSet:AddUnit( DetectedUnit )
               AddedToDetectionArea = true
-              self:AddChangeUnit( DetectedItem, "AU", DetectedUnit:GetTypeName() )
+              self:AddChangeUnit( DetectedItem, "AU", DetectedUnitTypeName )
             end
           end
         end
@@ -34805,7 +34859,7 @@ do -- DETECTION_AREAS
           )
           --self:E( DetectedItem.Zone.ZoneUNIT.UnitName )
           DetectedItem.Set:AddUnit( DetectedUnit )
-          self:AddChangeItem( DetectedItem, "AA", DetectedUnit:GetTypeName() )
+          self:AddChangeItem( DetectedItem, "AA", DetectedUnitTypeName )
         end  
       end
     end
@@ -34817,13 +34871,19 @@ do -- DETECTION_AREAS
   
       local DetectedItem = DetectedItemData -- #DETECTION_BASE.DetectedItem
       local DetectedSet = DetectedItem.Set
+      local DetectedFirstUnit = DetectedSet:GetFirst()
       local DetectedZone = DetectedItem.Zone
+ 
+      -- Set the last known coordinate to the detection item.
+      local DetectedZoneCoord = DetectedZone:GetCoordinate()
+      self:SetDetectedItemCoordinate( DetectedItem, DetectedZoneCoord, DetectedFirstUnit )
       
       self:CalculateIntercept( DetectedItem )
   
       self:ReportFriendliesNearBy( { DetectedItem = DetectedItem, ReportSetGroup = self.DetectionSetGroup } ) -- Fill the Friendlies table
-      self:CalculateThreatLevelA2G( DetectedItem )  -- Calculate A2G threat level
+      self:SetDetectedItemThreatLevel( DetectedItem )  -- Calculate A2G threat level
       self:NearestFAC( DetectedItem )
+
       
       if DETECTION_AREAS._SmokeDetectedUnits or self._SmokeDetectedUnits then
         DetectedZone.ZoneUNIT:SmokeRed()
@@ -34996,7 +35056,7 @@ do -- DESIGNATE
   -- 
   -- ## 4. Laser codes
   -- 
-  -- ### 4.1 Set possible laser codes
+  -- ### 4.1. Set possible laser codes
   -- 
   -- An array of laser codes can be provided, that will be used by the DESIGNATE when lasing.
   -- The laser code is communicated by the Recce when it is lasing a larget.
@@ -35014,9 +35074,18 @@ do -- DESIGNATE
   --     
   -- The above sets a collection of possible laser codes that can be assigned. **Note the { } notation!**
   -- 
-  -- ### 4.2 Auto generate laser codes
+  -- ### 4.2. Auto generate laser codes
   -- 
   -- Use the method @{#DESIGNATE.GenerateLaserCodes}() to generate all possible laser codes. Logic implemented and advised by Ciribob!
+  -- 
+  -- ### 4.3. Add specific lase codes to the lase menu
+  -- 
+  -- Certain plane types can only drop laser guided ordonnance when targets are lased with specific laser codes.
+  -- The SU-25T needs targets to be lased using laser code 1113.
+  -- The A-10A needs targets to be lased using laser code 1680.
+  -- 
+  -- The method @{#DESIGNATE.AddMenuLaserCode}() to allow a player to lase a target using a specific laser code.
+  -- Remove such a lase menu option using @{#DESIGNATE.RemoveMenuLaserCode}().
   -- 
   -- ## 5. Autolase to automatically lase detected targets.
   -- 
@@ -35259,6 +35328,8 @@ do -- DESIGNATE
     
     self.LaserCodesUsed = {}
     
+    self.MenuLaserCodes = {} -- This map contains the laser codes that will be shown in the designate menu to lase with specific laser codes.
+        
     self.Detection:__Start( 2 )
     
     self:__Detect( -15 )
@@ -35352,6 +35423,43 @@ do -- DESIGNATE
 
     return self
   end
+  
+
+  --- Add a specific lase code to the designate lase menu to lase targets with a specific laser code.
+  -- The MenuText will appear in the lase menu.
+  -- @param #DESIGNATE self
+  -- @param #number LaserCode The specific laser code to be added to the lase menu.
+  -- @param #string MenuText The text to be shown to the player. If you specify a %d in the MenuText, the %d will be replaced with the LaserCode specified.
+  -- @return #DESIGNATE
+  -- @usage
+  --   RecceDesignation:AddMenuLaserCode( 1113, "Lase with %d for Su-25T" )
+  --   RecceDesignation:AddMenuLaserCode( 1680, "Lase with %d for A-10A" )
+  -- 
+  function DESIGNATE:AddMenuLaserCode( LaserCode, MenuText )
+
+    self.MenuLaserCodes[LaserCode] = MenuText
+    self:SetDesignateMenu()
+    
+    return self
+  end
+  
+  
+  --- Removes a specific lase code from the designate lase menu.
+  -- @param #DESIGNATE self
+  -- @param #number LaserCode The specific laser code that was set to be added to the lase menu.
+  -- @return #DESIGNATE
+  -- @usage
+  --   RecceDesignation:RemoveMenuLaserCode( 1113 )
+  --   
+  function DESIGNATE:RemoveMenuLaserCode( LaserCode )
+
+    self.MenuLaserCodes[LaserCode] = nil
+    self:SetDesignateMenu()
+
+    return self
+  end
+  
+  
   
 
   --- Set the name of the designation. The name will appear in the menu.
@@ -35660,11 +35768,9 @@ do -- DESIGNATE
            MENU_GROUP_COMMAND:New( AttackGroup, "Flash Status Report On", StatusMenu, self.MenuFlashStatus, self, AttackGroup, true ):SetTime( MenuTime ):SetTag( self.DesignateName )
         end        
       
-        local DetectedItems = self.Detection:GetDetectedItems()
-        
         for DesignateIndex, Designating in pairs( self.Designating ) do
 
-          local DetectedItem = DetectedItems[DesignateIndex]
+          local DetectedItem = self.Detection:GetDetectedItem( DesignateIndex )
 
           if DetectedItem then
           
@@ -35676,8 +35782,10 @@ do -- DESIGNATE
               MenuText = "(-) " .. MenuText
               local DetectedMenu = MENU_GROUP:New( AttackGroup, MenuText, MenuDesignate ):SetTime( MenuTime ):SetTag( self.DesignateName )
               MENU_GROUP_COMMAND:New( AttackGroup, "Search other target", DetectedMenu, self.MenuForget, self, DesignateIndex ):SetTime( MenuTime ):SetTag( self.DesignateName )
-              MENU_GROUP_COMMAND:New( AttackGroup, "Lase target 60 secs", DetectedMenu, self.MenuLaseOn, self, DesignateIndex, 60 ):SetTime( MenuTime ):SetTag( self.DesignateName )
-              MENU_GROUP_COMMAND:New( AttackGroup, "Lase target 120 secs", DetectedMenu, self.MenuLaseOn, self, DesignateIndex, 120 ):SetTime( MenuTime ):SetTag( self.DesignateName )
+              for LaserCode, MenuText in pairs( self.MenuLaserCodes ) do
+                MENU_GROUP_COMMAND:New( AttackGroup, string.format( MenuText, LaserCode ), DetectedMenu, self.MenuLaseCode, self, DesignateIndex, 60, LaserCode ):SetTime( MenuTime ):SetTag( self.DesignateName )
+              end
+              MENU_GROUP_COMMAND:New( AttackGroup, "Lase targets", DetectedMenu, self.MenuLaseOn, self, DesignateIndex, 60 ):SetTime( MenuTime ):SetTag( self.DesignateName )
               MENU_GROUP_COMMAND:New( AttackGroup, "Smoke red", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.Red ):SetTime( MenuTime ):SetTag( self.DesignateName )
               MENU_GROUP_COMMAND:New( AttackGroup, "Smoke blue", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.Blue ):SetTime( MenuTime ):SetTag( self.DesignateName )
               MENU_GROUP_COMMAND:New( AttackGroup, "Smoke green", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.Green ):SetTime( MenuTime ):SetTag( self.DesignateName )
@@ -35777,6 +35885,18 @@ do -- DESIGNATE
     self:SetDesignateMenu()
   end
 
+
+  --- 
+  -- @param #DESIGNATE self
+  function DESIGNATE:MenuLaseCode( Index, Duration, LaserCode )
+
+    self:E( "Designate through Lase using " .. LaserCode )
+    
+    self:__LaseOn( 1, Index, Duration, LaserCode ) 
+    self:SetDesignateMenu()
+  end
+
+
   --- 
   -- @param #DESIGNATE self
   function DESIGNATE:MenuLaseOff( Index, Duration )
@@ -35790,21 +35910,22 @@ do -- DESIGNATE
 
   --- 
   -- @param #DESIGNATE self
-  function DESIGNATE:onafterLaseOn( From, Event, To, Index, Duration )
+  function DESIGNATE:onafterLaseOn( From, Event, To, Index, Duration, LaserCode )
   
     self.Designating[Index] = "Laser"
-    self:__Lasing( -1, Index, Duration )
+    self:__Lasing( -1, Index, Duration, LaserCode )
   end
   
 
   --- 
   -- @param #DESIGNATE self
   -- @return #DESIGNATE
-  function DESIGNATE:onafterLasing( From, Event, To, Index, Duration )
+  function DESIGNATE:onafterLasing( From, Event, To, Index, Duration, LaserCodeRequested )
+  
   
     local TargetSetUnit = self.Detection:GetDetectedSet( Index )
 
-    local MarkedCount = 0
+    local MarkingCount = 0
     local MarkedTypes = {}
     local ReportTypes = REPORT:New()
     local ReportLaserCodes = REPORT:New()
@@ -35816,12 +35937,30 @@ do -- DESIGNATE
       local Recce = RecceData -- Wrapper.Unit#UNIT
       self:F( { TargetUnit = TargetUnit, Recce = Recce:GetName() } )
       if not Recce:IsLasing() then
-        local LaserCode = Recce:GetLaserCode() --(Not deleted when stopping with lasing).
+        local LaserCode = Recce:GetLaserCode() -- (Not deleted when stopping with lasing).
         self:F( { ClearingLaserCode = LaserCode } )
         self.LaserCodesUsed[LaserCode] = nil
         self.Recces[TargetUnit] = nil
       end
     end
+    
+    -- If a specific lasercode is requested, we disable one active lase!
+    if LaserCodeRequested then
+      for TargetUnit, RecceData in pairs( self.Recces ) do -- We break after the first has been processed.
+        local Recce = RecceData -- Wrapper.Unit#UNIT
+        self:F( { TargetUnit = TargetUnit, Recce = Recce:GetName() } )
+        if Recce:IsLasing() then
+          -- When a Recce is lasing, we switch the lasing off, and clear the references to the lasing in the DESIGNATE class.
+          Recce:LaseOff() -- Switch off the lasing.
+          local LaserCode = Recce:GetLaserCode() -- (Not deleted when stopping with lasing).
+          self:F( { ClearingLaserCode = LaserCode } )
+          self.LaserCodesUsed[LaserCode] = nil
+          self.Recces[TargetUnit] = nil
+          break
+        end
+      end
+    end    
+    
 
     TargetSetUnit:ForEachUnitPerThreatLevel( 10, 0,
       --- @param Wrapper.Unit#UNIT SmokeUnit
@@ -35829,7 +35968,7 @@ do -- DESIGNATE
       
         self:F( { TargetUnit = TargetUnit:GetName() } )
 
-        if MarkedCount < self.MaximumMarkings then
+        if MarkingCount < self.MaximumMarkings then
 
           if TargetUnit:IsAlive() then
   
@@ -35856,6 +35995,11 @@ do -- DESIGNATE
                       local LaserCode = self.LaserCodes[LaserCodeIndex]
                       --self:F( { LaserCode = LaserCode, LaserCodeUsed = self.LaserCodesUsed[LaserCode] } )
   
+                      if LaserCodeRequested and LaserCodeRequested ~= LaserCode then
+                        LaserCode = LaserCodeRequested
+                        LaserCodeRequested = nil
+                      end
+  
                       if not self.LaserCodesUsed[LaserCode] then
   
                         self.LaserCodesUsed[LaserCode] = LaserCodeIndex
@@ -35870,7 +36014,7 @@ do -- DESIGNATE
                         self.Recces[TargetUnit] = RecceUnit
                         RecceUnit:MessageToSetGroup( "Marking " .. TargetUnit:GetTypeName() .. " with laser " .. RecceUnit:GetSpot().LaserCode .. " for " .. Duration .. "s.", 5, self.AttackSet, self.DesignateName )
                         -- OK. We have assigned for the Recce a TargetUnit. We can exit the function.
-                        MarkedCount = MarkedCount + 1
+                        MarkingCount = MarkingCount + 1
                         local TargetUnitType = TargetUnit:GetTypeName()
                         if not MarkedTypes[TargetUnitType] then
                           MarkedTypes[TargetUnitType] = true
@@ -35894,7 +36038,7 @@ do -- DESIGNATE
                         Recce:MessageToSetGroup( "Target " .. TargetUnit:GetTypeName() "out of LOS. Cancelling lase!", 5, self.AttackSet, self.DesignateName )
                       end
                     else
-                      MarkedCount = MarkedCount + 1
+                      MarkingCount = MarkingCount + 1
                       local TargetUnitType = TargetUnit:GetTypeName()
                       if not MarkedTypes[TargetUnitType] then
                         MarkedTypes[TargetUnitType] = true
@@ -35906,7 +36050,7 @@ do -- DESIGNATE
                 end
               end
             else
-              MarkedCount = MarkedCount + 1
+              MarkingCount = MarkingCount + 1
               local TargetUnitType = TargetUnit:GetTypeName()
               if not MarkedTypes[TargetUnitType] then
                 MarkedTypes[TargetUnitType] = true
@@ -35923,7 +36067,7 @@ do -- DESIGNATE
     local MarkedTypesText = ReportTypes:Text(', ')
     local MarkedLaserCodesText = ReportLaserCodes:Text(', ')
     for MarkedType, MarketCount in pairs( MarkedTypes ) do
-      self.CC:GetPositionable():MessageToSetGroup( "Marking " .. MarkedCount .. " x " .. MarkedTypesText .. " with lasers " .. MarkedLaserCodesText .. ".", 5, self.AttackSet, self.DesignateName )
+      self.CC:GetPositionable():MessageToSetGroup( "Marking " .. MarkingCount .. " x " .. MarkedTypesText .. " with lasers " .. MarkedLaserCodesText .. ".", 5, self.AttackSet, self.DesignateName )
     end
 
     self:__Lasing( -30, Index, Duration )
@@ -36787,7 +36931,7 @@ function AI_A2A:onafterStatus()
       end
     end
     
-    if self:Is( "Damaged" ) or self:Is( "LostControl" ) then
+    if self:Is( "Fuel" ) or self:Is( "Damaged" ) or self:Is( "LostControl" ) then
       if DistanceFromHomeBase < 5000 then
         self:E( self.Controllable:GetName() .. " is too far from home base, RTB!" )
         self:Home( "Destroy" )
@@ -36795,25 +36939,27 @@ function AI_A2A:onafterStatus()
     end
     
 
-    local Fuel = self.Controllable:GetFuel()
-    self:F({Fuel=Fuel})
-    if Fuel < self.PatrolFuelThresholdPercentage then
-      if self.TankerName then
-        self:E( self.Controllable:GetName() .. " is out of fuel: " .. Fuel .. " ... Refuelling at Tanker!" )
-        self:Refuel()
+    if not self:Is( "Fuel" ) and not self:Is( "Home" ) then
+      local Fuel = self.Controllable:GetFuel()
+      self:F({Fuel=Fuel})
+      if Fuel < self.PatrolFuelThresholdPercentage then
+        if self.TankerName then
+          self:E( self.Controllable:GetName() .. " is out of fuel: " .. Fuel .. " ... Refuelling at Tanker!" )
+          self:Refuel()
+        else
+          self:E( self.Controllable:GetName() .. " is out of fuel: " .. Fuel .. " ... RTB!" )
+          local OldAIControllable = self.Controllable
+          local AIControllableTemplate = self.Controllable:GetTemplate()
+          
+          local OrbitTask = OldAIControllable:TaskOrbitCircle( math.random( self.PatrolFloorAltitude, self.PatrolCeilingAltitude ), self.PatrolMinSpeed )
+          local TimedOrbitTask = OldAIControllable:TaskControlled( OrbitTask, OldAIControllable:TaskCondition(nil,nil,nil,nil,self.PatrolOutOfFuelOrbitTime,nil ) )
+          OldAIControllable:SetTask( TimedOrbitTask, 10 )
+    
+          self:Fuel()
+          RTB = true
+        end
       else
-        self:E( self.Controllable:GetName() .. " is out of fuel: " .. Fuel .. " ... RTB!" )
-        local OldAIControllable = self.Controllable
-        local AIControllableTemplate = self.Controllable:GetTemplate()
-        
-        local OrbitTask = OldAIControllable:TaskOrbitCircle( math.random( self.PatrolFloorAltitude, self.PatrolCeilingAltitude ), self.PatrolMinSpeed )
-        local TimedOrbitTask = OldAIControllable:TaskControlled( OrbitTask, OldAIControllable:TaskCondition(nil,nil,nil,nil,self.PatrolOutOfFuelOrbitTime,nil ) )
-        OldAIControllable:SetTask( TimedOrbitTask, 10 )
-  
-        self:Fuel()
-        RTB = true
       end
-    else
     end
     
     -- TODO: Check GROUP damage function.
@@ -36824,6 +36970,7 @@ function AI_A2A:onafterStatus()
       self:E( self.Controllable:GetName() .. " is damaged: " .. Damage .. " ... RTB!" )
       self:Damaged()
       RTB = true
+      self:SetStatusOff()
     end
 
     -- Check if planes went RTB and are out of control.
@@ -39430,7 +39577,7 @@ do -- AI_A2A_DISPATCHER
   --- @param #AI_A2A_DISPATCHER self
   -- @param Core.Event#EVENTDATA EventData
   function AI_A2A_DISPATCHER:OnEventLand( EventData )
-    self:F( "Landed" )
+    self:E( "Landed" )
     local DefenderUnit = EventData.IniUnit
     local Defender = EventData.IniGroup
     local Squadron = self:GetSquadronFromDefender( Defender )
@@ -39449,7 +39596,11 @@ do -- AI_A2A_DISPATCHER
         -- Damaged units cannot be repaired anymore.
         DefenderUnit:Destroy()
         return
-      end        
+      end
+      if DefenderUnit:GetFuel() <= self.DefenderDefault.FuelThreshold then
+        DefenderUnit:Destroy()
+        return
+      end
     end 
   end
   
@@ -39665,7 +39816,7 @@ do -- AI_A2A_DISPATCHER
 
 
   --- Set the default CAP limit for squadrons, which will be used to determine how many CAP can be airborne at the same time for the squadron.
-  -- The default CAP time interval is 1 CAP.
+  -- The default CAP limit is 1 CAP, which means one CAP group being spawned.
   -- @param #AI_A2A_DISPATCHER self
   -- @param #number CapLimit The maximum amount of CAP that can be airborne at the same time for the squadron.
   -- @return #AI_A2A_DISPATCHER
@@ -39778,11 +39929,12 @@ do -- AI_A2A_DISPATCHER
   
   ---
   -- @param #AI_A2A_DISPATCHER self
-  function AI_A2A_DISPATCHER:SetDefenderTask( Defender, Type, Fsm, Target )
+  function AI_A2A_DISPATCHER:SetDefenderTask( SquadronName, Defender, Type, Fsm, Target )
   
     self.DefenderTasks[Defender] = self.DefenderTasks[Defender] or {}
     self.DefenderTasks[Defender].Type = Type
     self.DefenderTasks[Defender].Fsm = Fsm
+    self.DefenderTasks[Defender].SquadronName = SquadronName
 
     if Target then
       self:SetDefenderTaskTarget( Defender, Target )
@@ -39879,7 +40031,6 @@ do -- AI_A2A_DISPATCHER
   -- @return #AI_A2A_DISPATCHER
   function AI_A2A_DISPATCHER:SetSquadron( SquadronName, AirbaseName, SpawnTemplates, Resources )
   
-    self:E( { SquadronName = SquadronName, AirbaseName = AirbaseName, SpawnTemplates = SpawnTemplates, Resources = Resources } )
   
     self.DefenderSquadrons[SquadronName] = self.DefenderSquadrons[SquadronName] or {} 
 
@@ -39903,6 +40054,8 @@ do -- AI_A2A_DISPATCHER
       end
     end
     DefenderSquadron.Resources = Resources
+
+    self:E( { Squadron = {SquadronName, AirbaseName, SpawnTemplates, Resources } } )
     
     return self
   end
@@ -39921,7 +40074,7 @@ do -- AI_A2A_DISPATCHER
   end
 
   
-  ---
+  --- Set a CAP for a Squadron.
   -- @param #AI_A2A_DISPATCHER self
   -- @param #string SquadronName The squadron name.
   -- @param Core.Zone#ZONE_BASE Zone The @{Zone} object derived from @{Zone#ZONE_BASE} that defines the zone wherein the CAP will be executed.
@@ -39967,13 +40120,19 @@ do -- AI_A2A_DISPATCHER
     Cap.AltType = AltType
 
     self:SetSquadronCapInterval( SquadronName, self.DefenderDefault.CapLimit, self.DefenderDefault.CapMinSeconds, self.DefenderDefault.CapMaxSeconds, 1 )
+
+    self:E( { CAP = { SquadronName, Zone, FloorAltitude, CeilingAltitude, PatrolMinSpeed, PatrolMaxSpeed, EngageMinSpeed, EngageMaxSpeed, AltType } } )
     
     return self
   end
   
-  ---
+  --- Set the squadron CAP parameters.  
   -- @param #AI_A2A_DISPATCHER self
   -- @param #string SquadronName The squadron name.
+  -- @param #number CapLimit (optional) The maximum amount of CAP groups to be spawned. Note that a CAP is a group, so can consist out of 1 to 4 airplanes. The default is 1 CAP group.
+  -- @param #number LowInterval (optional) The minimum time boundary in seconds when a new CAP will be spawned. The default is 180 seconds.
+  -- @param #number HighInterval (optional) The maximum time boundary in seconds when a new CAP will be spawned. The default is 600 seconds.
+  -- @param #number Probability Is not in use, you can skip this parameter.
   -- @return #AI_A2A_DISPATCHER
   -- @usage
   -- 
@@ -39999,22 +40158,23 @@ do -- AI_A2A_DISPATCHER
 
     local Cap = self.DefenderSquadrons[SquadronName].Cap
     if Cap then
-      Cap.LowInterval = LowInterval or 300
+      Cap.LowInterval = LowInterval or 180
       Cap.HighInterval = HighInterval or 600
       Cap.Probability = Probability or 1
-      Cap.CapLimit = CapLimit
+      Cap.CapLimit = CapLimit or 1
       Cap.Scheduler = Cap.Scheduler or SCHEDULER:New( self ) 
       local Scheduler = Cap.Scheduler -- Core.Scheduler#SCHEDULER
       local ScheduleID = Cap.ScheduleID
       local Variance = ( Cap.HighInterval - Cap.LowInterval ) / 2
-      local Median = Cap.LowInterval + Variance
-      local Randomization = Variance / Median
+      local Repeat = Cap.LowInterval + Variance
+      local Randomization = Variance / Repeat
+      local Start = math.random( 1, Cap.HighInterval )
       
       if ScheduleID then
         Scheduler:Stop( ScheduleID )
       end
       
-      Cap.ScheduleID = Scheduler:Schedule( self, self.SchedulerCAP, { SquadronName }, Median, Median, Randomization )
+      Cap.ScheduleID = Scheduler:Schedule( self, self.SchedulerCAP, { SquadronName }, Start, Repeat, Randomization )
     else
       error( "This squadron does not exist:" .. SquadronName )
     end
@@ -40057,6 +40217,7 @@ do -- AI_A2A_DISPATCHER
       local Cap = DefenderSquadron.Cap
       if Cap then
         local CapCount = self:CountCapAirborne( SquadronName )
+        self:E( { CapCount = CapCount } )
         if CapCount < Cap.CapLimit then
           local Probability = math.random()
           if Probability <= Cap.Probability then
@@ -40113,6 +40274,8 @@ do -- AI_A2A_DISPATCHER
     Intercept.Name = SquadronName
     Intercept.EngageMinSpeed = EngageMinSpeed
     Intercept.EngageMaxSpeed = EngageMaxSpeed
+    
+    self:E( { GCI = { SquadronName, EngageMinSpeed, EngageMaxSpeed } } )
   end
   
   --- Defines the default amount of extra planes that will take-off as part of the defense system.
@@ -40895,12 +41058,14 @@ do -- AI_A2A_DISPATCHER
     local DefenderSquadron = self.DefenderSquadrons[SquadronName]
     if DefenderSquadron then
       for AIGroup, DefenderTask in pairs( self:GetDefenderTasks() ) do
-        if DefenderTask.Type == "CAP" then
-          if AIGroup:IsAlive() then
-            -- Check if the CAP is patrolling or engaging. If not, this is not a valid CAP, even if it is alive!
-            -- The CAP could be damaged, lost control, or out of fuel!
-            if DefenderTask.Fsm:Is( "Patrolling" ) or DefenderTask.Fsm:Is( "Engaging" ) or DefenderTask.Fsm:Is( "Refuelling" )then
-              CapCount = CapCount + 1
+        if DefenderTask.SquadronName == SquadronName then
+          if DefenderTask.Type == "CAP" then
+            if AIGroup:IsAlive() then
+              -- Check if the CAP is patrolling or engaging. If not, this is not a valid CAP, even if it is alive!
+              -- The CAP could be damaged, lost control, or out of fuel!
+              if DefenderTask.Fsm:Is( "Patrolling" ) or DefenderTask.Fsm:Is( "Engaging" ) or DefenderTask.Fsm:Is( "Refuelling" )then
+                CapCount = CapCount + 1
+              end
             end
           end
         end
@@ -40918,12 +41083,17 @@ do -- AI_A2A_DISPATCHER
     -- First, count the active AIGroups Units, targetting the DetectedSet
     local AIUnitCount = 0
     
+    self:E( "Counting Defenders Engaged for Attacker:" )
+    local DetectedSet = Target.Set
+    DetectedSet:Flush()
+    
     local DefenderTasks = self:GetDefenderTasks()
     for AIGroup, DefenderTask in pairs( DefenderTasks ) do
       local AIGroup = AIGroup -- Wrapper.Group#GROUP
       local DefenderTask = self:GetDefenderTaskTarget( AIGroup )
       if DefenderTask and DefenderTask.Index == Target.Index then
         AIUnitCount = AIUnitCount + AIGroup:GetSize()
+        self:E( "Defender Group Name: " .. AIGroup:GetName() .. ", Size: " .. AIGroup:GetSize() )
       end
     end
 
@@ -41011,7 +41181,34 @@ do -- AI_A2A_DISPATCHER
           Fsm:Start()
           Fsm:__Patrol( 2 )
   
-          self:SetDefenderTask( DefenderCAP, "CAP", Fsm )
+          self:SetDefenderTask( SquadronName, DefenderCAP, "CAP", Fsm )
+
+          function Fsm:onafterRTB( Defender, From, Event, To )
+            self:F({"CAP RTB", Defender:GetName()})
+            self:GetParent(self).onafterRTB( self, Defender, From, Event, To )
+            local Dispatcher = self:GetDispatcher() -- #AI_A2A_DISPATCHER
+            Dispatcher:ClearDefenderTaskTarget( Defender )
+          end
+  
+          --- @param #AI_A2A_DISPATCHER self
+          function Fsm:onafterHome( Defender, From, Event, To, Action )
+            self:E({"CAP Home", Defender:GetName()})
+            self:GetParent(self).onafterHome( self, Defender, From, Event, To )
+            
+            local Dispatcher = self:GetDispatcher() -- #AI_A2A_DISPATCHER
+            local Squadron = Dispatcher:GetSquadronFromDefender( Defender )
+  
+            if Action and Action == "Destroy" then
+              Dispatcher:RemoveDefenderFromSquadron( Squadron, Defender )
+              Defender:Destroy()
+            end
+            
+            if Dispatcher:GetSquadronLanding( Squadron.Name ) == AI_A2A_DISPATCHER.Landing.NearAirbase then
+              Dispatcher:RemoveDefenderFromSquadron( Squadron, Defender )
+              Defender:Destroy()
+            end
+          end
+
         end
       end
     end
@@ -41032,32 +41229,6 @@ do -- AI_A2A_DISPATCHER
         
         self:SetDefenderTaskTarget( Defender, Target )
 
-        function Fsm:onafterRTB( Defender, From, Event, To )
-          self:F({"CAP RTB", Defender:GetName()})
-          self:GetParent(self).onafterRTB( self, Defender, From, Event, To )
-          local Dispatcher = self:GetDispatcher() -- #AI_A2A_DISPATCHER
-          Dispatcher:ClearDefenderTaskTarget( Defender )
-        end
-
-        --- @param #AI_A2A_DISPATCHER self
-        function Fsm:onafterHome( Defender, From, Event, To, Action )
-          self:F({"CAP Home", Defender:GetName()})
-          self:GetParent(self).onafterHome( self, Defender, From, Event, To )
-          
-          local Dispatcher = self:GetDispatcher() -- #AI_A2A_DISPATCHER
-          local Squadron = Dispatcher:GetSquadronFromDefender( Defender )
-
-          if Action and Action == "Destroy" then
-            Dispatcher:RemoveDefenderFromSquadron( Squadron, Defender )
-            Defender:Destroy()
-          end
-          
-          if Dispatcher:GetSquadronLanding( Squadron.Name ) == AI_A2A_DISPATCHER.Landing.NearAirbase then
-            Dispatcher:RemoveDefenderFromSquadron( Squadron, Defender )
-            Defender:Destroy()
-          end
-        end
-
       end
     end
   end
@@ -41065,6 +41236,8 @@ do -- AI_A2A_DISPATCHER
   ---
   -- @param #AI_A2A_DISPATCHER self
   function AI_A2A_DISPATCHER:onafterGCI( From, Event, To, DetectedItem, DefendersMissing, Friendlies )
+
+    self:F( { From, Event, To, DetectedItem.Index, DefendersMissing, Friendlies } )
 
     local AttackerSet = DetectedItem.Set
     local AttackerCount = AttackerSet:Count()
@@ -41088,17 +41261,19 @@ do -- AI_A2A_DISPATCHER
     local BreakLoop = false
     
     while( DefendersCount > 0 and not BreakLoop ) do
-    
+      self:F( { DefenderSquadrons = self.DefenderSquadrons } )
       for SquadronName, DefenderSquadron in pairs( self.DefenderSquadrons or {} ) do
+        self:F( { GCI = DefenderSquadron.Gci } )
         for InterceptID, Intercept in pairs( DefenderSquadron.Gci or {} ) do
     
-          --self:E( { DefenderSquadron } )
+          self:F( { DefenderSquadron } )
           local SpawnCoord = DefenderSquadron.Airbase:GetCoordinate() -- Core.Point#COORDINATE
           --local TargetCoord = AttackerSet:GetFirst():GetCoordinate()
-          local TargetCoord = DetectedItem.InterceptCoord
-          if TargetCoord then
-            local Distance = SpawnCoord:Get2DDistance( TargetCoord )
-              self:F( { Distance = Distance, TargetCoord = TargetCoord } )
+          local InterceptCoord = DetectedItem.InterceptCoord
+          self:F({InterceptCoord = InterceptCoord})
+          if InterceptCoord then
+            local Distance = SpawnCoord:Get2DDistance( InterceptCoord )
+              self:F( { Distance = Distance, InterceptCoord = InterceptCoord } )
             
             if ClosestDistance == 0 or Distance < ClosestDistance then
               
@@ -41162,7 +41337,7 @@ do -- AI_A2A_DISPATCHER
                 Fsm:__Engage( 2, DetectedItem.Set ) -- Engage on the TargetSetUnit
       
         
-                self:SetDefenderTask( DefenderGCI, "GCI", Fsm, DetectedItem )
+                self:SetDefenderTask( ClosestDefenderSquadronName, DefenderGCI, "GCI", Fsm, DetectedItem )
                 
                 
                 function Fsm:onafterRTB( Defender, From, Event, To )
@@ -41295,14 +41470,14 @@ do -- AI_A2A_DISPATCHER
         self:ClearDefenderTask( AIGroup )
       else
         if DefenderTask.Target then
-          local Target = Detection:GetDetectedItem( DefenderTask.Target.Index )
-          if not Target then
+          local AttackerItem = Detection:GetDetectedItem( DefenderTask.Target.Index )
+          if not AttackerItem then
             self:F( { "Removing obsolete Target:", DefenderTask.Target.Index } )
             self:ClearDefenderTaskTarget( AIGroup )
-            
           else
             if DefenderTask.Target.Set then
-              if DefenderTask.Target.Set:Count() == 0 then
+              local AttackerCount = DefenderTask.Target.Set:Count()
+              if AttackerCount == 0 then
                 self:F( { "All Targets destroyed in Target, removing:", DefenderTask.Target.Index } )
                 self:ClearDefenderTaskTarget( AIGroup )
               end
@@ -41388,7 +41563,7 @@ do -- AI_A2A_DISPATCHER
       end
       Report:Add( string.format( "\n - %d Tasks", TaskCount ) )
   
-      self:T( Report:Text( "\n" ) )
+      self:E( Report:Text( "\n" ) )
       trigger.action.outText( Report:Text( "\n" ), 25 )
     end
     
@@ -41884,6 +42059,7 @@ do
     -- Setup squadrons
     
     self:F( { Airbases = AirbaseNames  } )
+    self.Templates:Flush()
     
     for AirbaseID, AirbaseName in pairs( AirbaseNames ) do
       local Airbase = _DATABASE:FindAirbase( AirbaseName ) -- Wrapper.Airbase#AIRBASE
@@ -48465,8 +48641,9 @@ end
 
 --- Create a summary report of the Mission (one line).
 -- @param #MISSION self
+-- @param Wrapper.Group#GROUP ReportGroup
 -- @return #string
-function MISSION:ReportSummary()
+function MISSION:ReportSummary( ReportGroup )
 
   local Report = REPORT:New()
 
@@ -48479,9 +48656,9 @@ function MISSION:ReportSummary()
   Report:Add( string.format( '%s - %s - Task Overview Report', Name, Status ) )
 
   -- Determine how many tasks are remaining.
-  for TaskID, Task in pairs( self:GetTasks() ) do
+  for TaskID, Task in UTILS.spairs( self:GetTasks(), function( t, a, b ) return t[a]:ReportOrder( ReportGroup ) <  t[b]:ReportOrder( ReportGroup ) end  ) do
     local Task = Task -- Tasking.Task#TASK
-    Report:Add( "- " .. Task:ReportSummary() )
+    Report:Add( "- " .. Task:ReportSummary( ReportGroup ) )
   end
   
   return Report:Text()
@@ -48503,12 +48680,16 @@ function MISSION:ReportOverview( ReportGroup, TaskStatus )
   Report:Add( string.format( '%s - %s - %s Tasks Report', Name, Status, TaskStatus ) )
   
   -- Determine how many tasks are remaining.
-  local TasksRemaining = 0
+  local Tasks = 0
   for TaskID, Task in UTILS.spairs( self:GetTasks(), function( t, a, b ) return t[a]:ReportOrder( ReportGroup ) <  t[b]:ReportOrder( ReportGroup ) end  ) do
     local Task = Task -- Tasking.Task#TASK
     if Task:Is( TaskStatus ) then
       Report:Add( string.rep( "-", 140 ) )
       Report:Add( " - " .. Task:ReportOverview( ReportGroup ) )
+    end
+    Tasks = Tasks + 1
+    if Tasks >= 8 then
+      break
     end
   end
 
@@ -48568,7 +48749,7 @@ end
 -- @param Wrapper.Group#GROUP ReportGroup
 function MISSION:MenuReportTasksSummary( ReportGroup )
 
-  local Report = self:ReportSummary()
+  local Report = self:ReportSummary( ReportGroup )
   
   self:GetCommandCenter():MessageToGroup( Report, ReportGroup )
 end
@@ -49954,7 +50135,7 @@ function TASK:onbeforeTimeOut( From, Event, To )
   return false
 end
 
-do -- Dispatcher
+do -- Links
 
   --- Set dispatcher of a task
   -- @param #TASK self
@@ -49964,6 +50145,19 @@ do -- Dispatcher
     self.Dispatcher = Dispatcher
   end
 
+  --- Set detection of a task
+  -- @param #TASK self
+  -- @param Function.Detection#DETECTION_BASE Detection
+  -- @param #number DetectedItemIndex
+  -- @return #TASK
+  function TASK:SetDetection( Detection, DetectedItemIndex )
+    
+    self:E({DetectedItemIndex,Detection})
+    
+    self.Detection = Detection
+    self.DetectedItemIndex = DetectedItemIndex
+  end
+
 end
 
 do -- Reporting
@@ -49971,36 +50165,38 @@ do -- Reporting
 --- Create a summary report of the Task.
 -- List the Task Name and Status
 -- @param #TASK self
+-- @param Wrapper.Group#GROUP ReportGroup
 -- @return #string
-function TASK:ReportSummary() --R2.1 fixed report. Now nicely formatted and contains the info required.
+function TASK:ReportSummary( ReportGroup ) 
 
   local Report = REPORT:New()
   
   -- List the name of the Task.
-  local Name = self:GetName()
+  Report:Add( self:GetName() )
   
   -- Determine the status of the Task.
-  local Status = "<" .. self:GetState() .. ">"
+  Report:Add( "State: <" .. self:GetState() .. ">" )
   
-  Report:Add( 'Task ' .. Name .. ' - State ' .. Status )
-
-  return Report:Text()
+  if self.TaskInfo["Coordinates"] then
+    local TaskInfoIDText = string.format( "%s: ", "Coordinate" )
+    local TaskCoord = self.TaskInfo["Coordinates"].TaskInfoText -- Core.Point#COORDINATE
+    Report:Add( TaskInfoIDText .. TaskCoord:ToString( ReportGroup, nil, self ) )
+  end
+  
+  return Report:Text( ', ' )
 end
 
 --- Create an overiew report of the Task.
 -- List the Task Name and Status
 -- @param #TASK self
 -- @return #string
-function TASK:ReportOverview( ReportGroup ) --R2.1 fixed report. Now nicely formatted and contains the info required.
+function TASK:ReportOverview( ReportGroup )
 
   self:UpdateTaskInfo()
   
   -- List the name of the Task.
   local TaskName = self:GetName()
   local Report = REPORT:New()
-  
-  -- Determine the status of the Task.
-  local Status = "<" .. self:GetState() .. ">"
 
   local Line = 0
   local LineReport = REPORT:New()
@@ -50013,7 +50209,7 @@ function TASK:ReportOverview( ReportGroup ) --R2.1 fixed report. Now nicely form
       if Line ~= 0 then
         Report:AddIndent( LineReport:Text( ", " ) )
       else
-        Report:Add( TaskName .. " - " .. LineReport:Text( ", " ) )
+        Report:Add( TaskName .. ", " .. LineReport:Text( ", " ) )
       end
       LineReport = REPORT:New()
       Line = math.floor( TaskInfo.TaskInfoOrder / 10 )
@@ -50025,7 +50221,6 @@ function TASK:ReportOverview( ReportGroup ) --R2.1 fixed report. Now nicely form
       LineReport:Add( TaskInfoIDText .. TaskInfo.TaskInfoText )
     elseif type(TaskInfo) == "table" then
       if TaskInfoID == "Coordinates" then
-        local FromCoordinate = ReportGroup:GetUnit(1):GetCoordinate()
         local ToCoordinate = TaskInfo.TaskInfoText -- Core.Point#COORDINATE
         --Report:Add( TaskInfoIDText )
         LineReport:Add( TaskInfoIDText .. ToCoordinate:ToString( ReportGroup, nil, self ) )
@@ -50033,8 +50228,6 @@ function TASK:ReportOverview( ReportGroup ) --R2.1 fixed report. Now nicely form
       else
       end
     end
-    
-    
   end
 
   Report:AddIndent( LineReport:Text( ", " ) )
@@ -50551,6 +50744,7 @@ do -- TASK_A2G_DISPATCHER
     self.Mission = Mission
     
     self.Detection:FilterCategories( Unit.Category.GROUND_UNIT, Unit.Category.SHIP )
+    self.Detection:FilterFriendliesCategory( Unit.Category.GROUND_UNIT )
     
     self:AddTransition( "Started", "Assign", "Started" )
     
@@ -50613,8 +50807,9 @@ do -- TASK_A2G_DISPATCHER
     -- Determine if the set has radar targets. If it does, construct a SEAD task.
     local GroundUnitCount = DetectedSet:HasGroundUnits()
     local FriendliesNearBy = self.Detection:IsFriendliesNearBy( DetectedItem )
+    local RadarCount = DetectedSet:HasSEAD()
 
-    if GroundUnitCount > 0 and FriendliesNearBy == true then
+    if RadarCount == 0 and GroundUnitCount > 0 and FriendliesNearBy == true then
 
       -- Copy the Set
       local TargetSetUnit = SET_UNIT:New()
@@ -50642,8 +50837,9 @@ do -- TASK_A2G_DISPATCHER
     -- Determine if the set has radar targets. If it does, construct a SEAD task.
     local GroundUnitCount = DetectedSet:HasGroundUnits()
     local FriendliesNearBy = self.Detection:IsFriendliesNearBy( DetectedItem )
+    local RadarCount = DetectedSet:HasSEAD()
 
-    if GroundUnitCount > 0 and FriendliesNearBy == false then
+    if RadarCount == 0 and GroundUnitCount > 0 and FriendliesNearBy == false then
 
       -- Copy the Set
       local TargetSetUnit = SET_UNIT:New()
@@ -50654,6 +50850,12 @@ do -- TASK_A2G_DISPATCHER
     end
   
     return nil
+  end
+  
+  
+  function TASK_A2G_DISPATCHER:RemoveTask( TaskIndex )
+    self.Mission:RemoveTask( self.Tasks[TaskIndex] )
+    self.Tasks[TaskIndex] = nil
   end
   
   --- Evaluates the removal of the Task from the Mission.
@@ -50669,8 +50871,7 @@ do -- TASK_A2G_DISPATCHER
     if Task then
       if ( Task:IsStatePlanned() and DetectedItemChanged == true ) or Task:IsStateCancelled() then
         --self:E( "Removing Tasking: " .. Task:GetTaskName() )
-        Mission:RemoveTask( Task )
-        self.Tasks[TaskIndex] = nil
+        self:RemoveTask( TaskIndex )
       end
     end
     
@@ -50705,6 +50906,7 @@ do -- TASK_A2G_DISPATCHER
             for TaskGroupID, TaskGroup in pairs( self.SetGroup:GetSet() ) do
               Mission:GetCommandCenter():MessageToGroup( string.format( "Obsolete A2G task %s for %s removed.", TaskText, Mission:GetName() ), TaskGroup )
             end
+            Task = self:RemoveTask( TaskIndex )
             Mission:RemoveTask( Task )
             self.Tasks[TaskIndex] = nil
           end
@@ -50724,10 +50926,11 @@ do -- TASK_A2G_DISPATCHER
         local TaskIndex = DetectedItem.Index
         local DetectedItemChanged = DetectedItem.Changed
         
+        self:E( { DetectedItemChanged = DetectedItemChanged, DetectedItemID = DetectedItemID, TaskIndex = TaskIndex } )
+        
         local Task = self.Tasks[TaskIndex] -- Tasking.Task_A2G#TASK_A2G
         
         if Task then
-        
           -- If there is a Task and the task was assigned, then we check if the task was changed ... If it was, we need to reevaluate the targets.
           if Task:IsStateAssigned() then
             if DetectedItemChanged == true then -- The detection has changed, thus a new TargetSet is to be evaluated and set
@@ -50746,24 +50949,24 @@ do -- TASK_A2G_DISPATCHER
                 if TargetSetUnit then
                   if Task:IsInstanceOf( TASK_A2G_CAS ) then
                     Task:SetTargetSetUnit( TargetSetUnit )
+                    Task:SetDetection( Detection, TaskIndex )
                     Task:UpdateTaskInfo()
                     TargetsReport:Add( Detection:GetChangeText( DetectedItem ) )
                   else
                     Task:Cancel()
-                    Task = nil
-                    self.Tasks[TaskIndex] = nil
+                    Task = self:RemoveTask( TaskIndex )
                   end
                 else
                   local TargetSetUnit = self:EvaluateBAI( DetectedItem ) -- Returns a SetUnit if there are targets to be BAIed...
                   if TargetSetUnit then
                     if Task:IsInstanceOf( TASK_A2G_BAI ) then
                       Task:SetTargetSetUnit( TargetSetUnit )
+                      Task:SetDetection( Detection, TaskIndex )
                       Task:UpdateTaskInfo()
                       TargetsReport:Add( Detection:GetChangeText( DetectedItem ) )
                     else
                       Task:Cancel()
-                      Task = nil
-                      self.Tasks[TaskIndex] = nil
+                      Task = self:RemoveTask( TaskIndex )
                     end
                   end
                 end
@@ -50780,14 +50983,56 @@ do -- TASK_A2G_DISPATCHER
           end
         end
           
-        
-        Task = self:EvaluateRemoveTask( Mission, Task, TaskIndex, DetectedItemChanged ) -- Task will be removed if it is planned and changed.
+        if Task then
+          if Task:IsStatePlanned() then
+            if DetectedItemChanged == true then -- The detection has changed, thus a new TargetSet is to be evaluated and set
+              if Task:IsInstanceOf( TASK_A2G_SEAD ) then
+                local TargetSetUnit = self:EvaluateSEAD( DetectedItem ) -- Returns a SetUnit if there are targets to be SEADed...
+                if TargetSetUnit then
+                  Task:SetTargetSetUnit( TargetSetUnit )
+                  Task:UpdateTaskInfo()
+                else
+                  Task:Cancel()
+                  Task = self:RemoveTask( TaskIndex )
+                end
+              else
+                if Task:IsInstanceOf( TASK_A2G_CAS ) then
+                  local TargetSetUnit = self:EvaluateCAS( DetectedItem ) -- Returns a SetUnit if there are targets to be CASed...
+                  if TargetSetUnit then
+                    Task:SetTargetSetUnit( TargetSetUnit )
+                    Task:SetDetection( Detection, TaskIndex )
+                    Task:UpdateTaskInfo()
+                  else
+                    Task:Cancel()
+                    Task = self:RemoveTask( TaskIndex )
+                  end
+                else
+                  if Task:IsInstanceOf( TASK_A2G_BAI ) then
+                    local TargetSetUnit = self:EvaluateBAI( DetectedItem ) -- Returns a SetUnit if there are targets to be BAIed...
+                    if TargetSetUnit then
+                      Task:SetTargetSetUnit( TargetSetUnit )
+                      Task:SetDetection( Detection, TaskIndex )
+                      Task:UpdateTaskInfo()
+                    else
+                      Task:Cancel()
+                      Task = self:RemoveTask( TaskIndex )
+                    end
+                  else
+                    Task:Cancel()
+                    Task = self:RemoveTask( TaskIndex )
+                  end
+                end
+              end
+            end
+          end
+        end
 
         -- Evaluate SEAD
         if not Task then
           local TargetSetUnit = self:EvaluateSEAD( DetectedItem ) -- Returns a SetUnit if there are targets to be SEADed...
           if TargetSetUnit then
             Task = TASK_A2G_SEAD:New( Mission, self.SetGroup, string.format( "SEAD.%03d", DetectedItemID ), TargetSetUnit )
+            Task:SetDetection( Detection, TaskIndex )
           end
 
           -- Evaluate CAS
@@ -50795,6 +51040,7 @@ do -- TASK_A2G_DISPATCHER
             local TargetSetUnit = self:EvaluateCAS( DetectedItem ) -- Returns a SetUnit if there are targets to be CASed...
             if TargetSetUnit then
               Task = TASK_A2G_CAS:New( Mission, self.SetGroup, string.format( "CAS.%03d", DetectedItemID ), TargetSetUnit )
+              Task:SetDetection( Detection, TaskIndex )
             end
 
             -- Evaluate BAI
@@ -50802,6 +51048,7 @@ do -- TASK_A2G_DISPATCHER
               local TargetSetUnit = self:EvaluateBAI( DetectedItem, self.Mission:GetCommandCenter():GetPositionable():GetCoalition() ) -- Returns a SetUnit if there are targets to be BAIed...
               if TargetSetUnit then
                 Task = TASK_A2G_BAI:New( Mission, self.SetGroup, string.format( "BAI.%03d", DetectedItemID ), TargetSetUnit )
+                Task:SetDetection( Detection, TaskIndex )
               end
             end
           end
@@ -51157,7 +51404,7 @@ do -- TASK_A2G_SEAD
   -- @param Core.Set#SET_UNIT TargetSetUnit 
   -- @param #string TaskBriefing The briefing of the task.
   -- @return #TASK_A2G_SEAD self
-  function TASK_A2G_SEAD:New( Mission, SetGroup, TaskName, TargetSetUnit, TaskBriefing )
+  function TASK_A2G_SEAD:New( Mission, SetGroup, TaskName, TargetSetUnit, TaskBriefing)
     local self = BASE:Inherit( self, TASK_A2G:New( Mission, SetGroup, TaskName, TargetSetUnit, "SEAD", TaskBriefing ) ) -- #TASK_A2G_SEAD
     self:F()
     
@@ -51175,13 +51422,29 @@ do -- TASK_A2G_SEAD
 
   function TASK_A2G_SEAD:UpdateTaskInfo() 
 
-    local TargetCoordinate = self.TargetSetUnit:GetFirst():GetCoordinate()
+
+    local TargetCoordinate = self.Detection and self.Detection:GetDetectedItemCoordinate( self.DetectedItemIndex ) or self.TargetSetUnit:GetFirst():GetCoordinate() 
     self:SetInfo( "Coordinates", TargetCoordinate, 0 )
 
-    self:SetInfo( "Threat", "[" .. string.rep(  "■", self.TargetSetUnit:CalculateThreatLevelA2G() ) .. "]", 11 )
-    local DetectedItemsCount = self.TargetSetUnit:Count()
-    local DetectedItemsTypes = self.TargetSetUnit:GetTypeNames()
-    self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ), 10 ) 
+    self:SetInfo( "Threat", "[" .. string.rep(  "■", self.Detection and self.Detection:GetDetectedItemThreatLevel( self.DetectedItemIndex ) or self.TargetSetUnit:CalculateThreatLevelA2G() ) .. "]", 11 )
+
+    if self.Detection then
+      local DetectedItemsCount = self.TargetSetUnit:Count()
+      local ReportTypes = REPORT:New()
+      local TargetTypes = {}
+      for TargetUnitName, TargetUnit in pairs( self.TargetSetUnit:GetSet() ) do
+        local TargetType = self.Detection:GetDetectedUnitTypeName( TargetUnit )
+        if not TargetTypes[TargetType] then
+          TargetTypes[TargetType] = TargetType
+          ReportTypes:Add( TargetType )
+        end
+      end
+      self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, ReportTypes:Text( ", " ) ), 10 ) 
+    else
+      local DetectedItemsCount = self.TargetSetUnit:Count()
+      local DetectedItemsTypes = self.TargetSetUnit:GetTypeNames()
+      self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ), 10 ) 
+    end
 
   end
     
@@ -51302,13 +51565,30 @@ do -- TASK_A2G_BAI
   
   function TASK_A2G_BAI:UpdateTaskInfo() 
 
-    local TargetCoordinate = self.TargetSetUnit:GetFirst():GetCoordinate()
+    self:E({self.Detection, self.DetectedItemIndex})
+
+    local TargetCoordinate = self.Detection and self.Detection:GetDetectedItemCoordinate( self.DetectedItemIndex ) or self.TargetSetUnit:GetFirst():GetCoordinate() 
     self:SetInfo( "Coordinates", TargetCoordinate, 0 )
 
-    self:SetInfo( "Threat", "[" .. string.rep(  "■", self.TargetSetUnit:CalculateThreatLevelA2G() ) .. "]", 11 )
-    local DetectedItemsCount = self.TargetSetUnit:Count()
-    local DetectedItemsTypes = self.TargetSetUnit:GetTypeNames()
-    self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ), 10 ) 
+    self:SetInfo( "Threat", "[" .. string.rep(  "■", self.Detection and self.Detection:GetDetectedItemThreatLevel( self.DetectedItemIndex ) or self.TargetSetUnit:CalculateThreatLevelA2G() ) .. "]", 11 )
+
+    if self.Detection then
+      local DetectedItemsCount = self.TargetSetUnit:Count()
+      local ReportTypes = REPORT:New()
+      local TargetTypes = {}
+      for TargetUnitName, TargetUnit in pairs( self.TargetSetUnit:GetSet() ) do
+        local TargetType = self.Detection:GetDetectedUnitTypeName( TargetUnit )
+        if not TargetTypes[TargetType] then
+          TargetTypes[TargetType] = TargetType
+          ReportTypes:Add( TargetType )
+        end
+      end
+      self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, ReportTypes:Text( ", " ) ), 10 ) 
+    else
+      local DetectedItemsCount = self.TargetSetUnit:Count()
+      local DetectedItemsTypes = self.TargetSetUnit:GetTypeNames()
+      self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ), 10 ) 
+    end
 
   end
 
@@ -51430,13 +51710,28 @@ do -- TASK_A2G_CAS
   
   function TASK_A2G_CAS:UpdateTaskInfo()
   
-    local TargetCoordinate = self.TargetSetUnit:GetFirst():GetCoordinate()
+    local TargetCoordinate = self.Detection and self.Detection:GetDetectedItemCoordinate( self.DetectedItemIndex ) or self.TargetSetUnit:GetFirst():GetCoordinate() 
     self:SetInfo( "Coordinates", TargetCoordinate, 0 )
 
-    self:SetInfo( "Threat", "[" .. string.rep(  "■", self.TargetSetUnit:CalculateThreatLevelA2G() ) .. "]", 11 )
-    local DetectedItemsCount = self.TargetSetUnit:Count()
-    local DetectedItemsTypes = self.TargetSetUnit:GetTypeNames()
-    self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ), 10 ) 
+    self:SetInfo( "Threat", "[" .. string.rep(  "■", self.Detection and self.Detection:GetDetectedItemThreatLevel( self.DetectedItemIndex ) or self.TargetSetUnit:CalculateThreatLevelA2G() ) .. "]", 11 )
+
+    if self.Detection then
+      local DetectedItemsCount = self.TargetSetUnit:Count()
+      local ReportTypes = REPORT:New()
+      local TargetTypes = {}
+      for TargetUnitName, TargetUnit in pairs( self.TargetSetUnit:GetSet() ) do
+        local TargetType = self.Detection:GetDetectedUnitTypeName( TargetUnit )
+        if not TargetTypes[TargetType] then
+          TargetTypes[TargetType] = TargetType
+          ReportTypes:Add( TargetType )
+        end
+      end
+      self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, ReportTypes:Text( ", " ) ), 10 ) 
+    else
+      local DetectedItemsCount = self.TargetSetUnit:Count()
+      local DetectedItemsTypes = self.TargetSetUnit:GetTypeNames()
+      self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ), 10 ) 
+    end
 
   end
 
@@ -51893,9 +52188,7 @@ do -- TASK_A2A_DISPATCHER
         end
          
         if DetectedItemChanged == true or Remove then
-          --self:E( "Removing Tasking: " .. Task:GetTaskName() )
-          Mission:RemoveTask( Task )
-          self.Tasks[DetectedItemIndex] = nil
+          Task = self:RemoveTask( DetectedItemIndex )
         end
       end
     end
@@ -51993,6 +52286,11 @@ do -- TASK_A2A_DISPATCHER
     return PlayersCount, PlayerTypesReport
   end
 
+  function TASK_A2A_DISPATCHER:RemoveTask( TaskIndex )
+    self.Mission:RemoveTask( self.Tasks[TaskIndex] )
+    self.Tasks[TaskIndex] = nil
+  end
+
 
   --- Assigns tasks in relation to the detected items to the @{Set#SET_GROUP}.
   -- @param #TASK_A2A_DISPATCHER self
@@ -52021,8 +52319,7 @@ do -- TASK_A2A_DISPATCHER
             for TaskGroupID, TaskGroup in pairs( self.SetGroup:GetSet() ) do
               Mission:GetCommandCenter():MessageToGroup( string.format( "Obsolete A2A task %s for %s removed.", TaskText, Mission:GetName() ), TaskGroup )
             end
-            Mission:RemoveTask( Task )
-            self.Tasks[TaskIndex] = nil
+            Task = self:RemoveTask( TaskIndex )
           end
         end
       end
@@ -52049,21 +52346,24 @@ do -- TASK_A2A_DISPATCHER
           local TargetSetUnit = self:EvaluateENGAGE( DetectedItem ) -- Returns a SetUnit if there are targets to be INTERCEPTed...
           if TargetSetUnit then
             Task = TASK_A2A_ENGAGE:New( Mission, self.SetGroup, string.format( "ENGAGE.%03d", DetectedID ), TargetSetUnit )
+            Task:SetDetection( Detection, TaskIndex )
           else
             local TargetSetUnit = self:EvaluateINTERCEPT( DetectedItem ) -- Returns a SetUnit if there are targets to be INTERCEPTed...
             if TargetSetUnit then
               Task = TASK_A2A_INTERCEPT:New( Mission, self.SetGroup, string.format( "INTERCEPT.%03d", DetectedID ), TargetSetUnit )
+              Task:SetDetection( Detection, TaskIndex )
             else
               local TargetSetUnit = self:EvaluateSWEEP( DetectedItem ) -- Returns a SetUnit 
               if TargetSetUnit then
                 Task = TASK_A2A_SWEEP:New( Mission, self.SetGroup, string.format( "SWEEP.%03d", DetectedID ), TargetSetUnit )
+                Task:SetDetection( Detection, TaskIndex )
               end  
             end
           end
 
           if Task then
             self.Tasks[TaskIndex] = Task
-            Task:SetTargetZone( DetectedZone, DetectedSet:GetFirst():GetAltitude(), DetectedSet:GetFirst():GetHeading() )
+            Task:SetTargetZone( DetectedZone, DetectedItem.Coordinate.y, DetectedItem.Coordinate.Heading )
             Task:SetDispatcher( self )
             Mission:AddTask( Task )
             
@@ -52432,16 +52732,38 @@ do -- TASK_A2A_INTERCEPT
       "Intercept incoming intruders.\n"
     )
 
-    local TargetCoordinate = TargetSetUnit:GetFirst():GetCoordinate()
-    self:SetInfo( "Coordinates", TargetCoordinate, 10 )
-    
-    self:SetInfo( "Threat", "[" .. string.rep(  "■", TargetSetUnit:CalculateThreatLevelA2G() ) .. "]", 11 )
-    local DetectedItemsCount = TargetSetUnit:Count()
-    local DetectedItemsTypes = TargetSetUnit:GetTypeNames()
-    self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ), 0 ) 
+    self:UpdateTaskInfo()
     
     return self
   end
+  
+  function TASK_A2A_INTERCEPT:UpdateTaskInfo()
+  
+    local TargetCoordinate = self.Detection and self.Detection:GetDetectedItemCoordinate( self.DetectedItemIndex ) or self.TargetSetUnit:GetFirst():GetCoordinate() 
+    self:SetInfo( "Coordinates", TargetCoordinate, 0 )
+
+    self:SetInfo( "Threat", "[" .. string.rep(  "■", self.Detection and self.Detection:GetDetectedItemThreatLevel( self.DetectedItemIndex ) or self.TargetSetUnit:CalculateThreatLevelA2G() ) .. "]", 11 )
+
+    if self.Detection then
+      local DetectedItemsCount = self.TargetSetUnit:Count()
+      local ReportTypes = REPORT:New()
+      local TargetTypes = {}
+      for TargetUnitName, TargetUnit in pairs( self.TargetSetUnit:GetSet() ) do
+        local TargetType = self.Detection:GetDetectedUnitTypeName( TargetUnit )
+        if not TargetTypes[TargetType] then
+          TargetTypes[TargetType] = TargetType
+          ReportTypes:Add( TargetType )
+        end
+      end
+      self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, ReportTypes:Text( ", " ) ), 10 ) 
+    else
+      local DetectedItemsCount = self.TargetSetUnit:Count()
+      local DetectedItemsTypes = self.TargetSetUnit:GetTypeNames()
+      self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ), 10 ) 
+    end
+
+  end
+
   
   --- @param #TASK_A2A_INTERCEPT self
   -- @param Wrapper.Group#GROUP ReportGroup
@@ -52565,16 +52887,39 @@ do -- TASK_A2A_SWEEP
       "Perform a fighter sweep. Incoming intruders were detected and could be hiding at the location.\n"
     )
 
-    local TargetCoordinate = TargetSetUnit:GetFirst():GetCoordinate()
-    self:SetInfo( "Coordinates", TargetCoordinate, 10 )
-
-    self:SetInfo( "Assumed Threat", "[" .. string.rep(  "■", TargetSetUnit:CalculateThreatLevelA2G() ) .. "]", 11 )
-    local DetectedItemsCount = TargetSetUnit:Count()
-    local DetectedItemsTypes = TargetSetUnit:GetTypeNames()
-    self:SetInfo( "Lost Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ), 0 ) 
-    
+    self:UpdateTaskInfo()
+   
     return self
   end 
+
+
+  function TASK_A2A_SWEEP:UpdateTaskInfo()
+  
+    local TargetCoordinate = self.Detection and self.Detection:GetDetectedItemCoordinate( self.DetectedItemIndex ) or self.TargetSetUnit:GetFirst():GetCoordinate() 
+    self:SetInfo( "Coordinates", TargetCoordinate, 0 )
+
+    self:SetInfo( "Assumed Threat", "[" .. string.rep(  "■", self.Detection and self.Detection:GetDetectedItemThreatLevel( self.DetectedItemIndex ) or self.TargetSetUnit:CalculateThreatLevelA2G() ) .. "]", 11 )
+
+    if self.Detection then
+      local DetectedItemsCount = self.TargetSetUnit:Count()
+      local ReportTypes = REPORT:New()
+      local TargetTypes = {}
+      for TargetUnitName, TargetUnit in pairs( self.TargetSetUnit:GetSet() ) do
+        local TargetType = self.Detection:GetDetectedUnitTypeName( TargetUnit )
+        if not TargetTypes[TargetType] then
+          TargetTypes[TargetType] = TargetType
+          ReportTypes:Add( TargetType )
+        end
+      end
+      self:SetInfo( "Lost Targets", string.format( "%d of %s", DetectedItemsCount, ReportTypes:Text( ", " ) ), 10 ) 
+    else
+      local DetectedItemsCount = self.TargetSetUnit:Count()
+      local DetectedItemsTypes = self.TargetSetUnit:GetTypeNames()
+      self:SetInfo( "Lost Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ), 10 ) 
+    end
+
+  end
+
 
   function TASK_A2A_SWEEP:ReportOrder( ReportGroup ) 
     local Coordinate = self.TaskInfo.Coordinates.TaskInfoText
@@ -52691,16 +53036,38 @@ do -- TASK_A2A_ENGAGE
       "Bogeys are nearby! Players close by are ordered to ENGAGE the intruders!\n"
     )
 
-    local TargetCoordinate = TargetSetUnit:GetFirst():GetCoordinate()
-    self:SetInfo( "Coordinates", TargetCoordinate, 10 )
-
-    self:SetInfo( "Threat", "[" .. string.rep(  "■", TargetSetUnit:CalculateThreatLevelA2G() ) .. "]", 11 )
-    local DetectedItemsCount = TargetSetUnit:Count()
-    local DetectedItemsTypes = TargetSetUnit:GetTypeNames()
-    self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ), 0 ) 
+    self:UpdateTaskInfo()
     
     return self
   end 
+
+
+  function TASK_A2A_ENGAGE:UpdateTaskInfo()
+  
+    local TargetCoordinate = self.Detection and self.Detection:GetDetectedItemCoordinate( self.DetectedItemIndex ) or self.TargetSetUnit:GetFirst():GetCoordinate() 
+    self:SetInfo( "Coordinates", TargetCoordinate, 0 )
+
+    self:SetInfo( "Threat", "[" .. string.rep(  "■", self.Detection and self.Detection:GetDetectedItemThreatLevel( self.DetectedItemIndex ) or self.TargetSetUnit:CalculateThreatLevelA2G() ) .. "]", 11 )
+
+    if self.Detection then
+      local DetectedItemsCount = self.TargetSetUnit:Count()
+      local ReportTypes = REPORT:New()
+      local TargetTypes = {}
+      for TargetUnitName, TargetUnit in pairs( self.TargetSetUnit:GetSet() ) do
+        local TargetType = self.Detection:GetDetectedUnitTypeName( TargetUnit )
+        if not TargetTypes[TargetType] then
+          TargetTypes[TargetType] = TargetType
+          ReportTypes:Add( TargetType )
+        end
+      end
+      self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, ReportTypes:Text( ", " ) ), 10 ) 
+    else
+      local DetectedItemsCount = self.TargetSetUnit:Count()
+      local DetectedItemsTypes = self.TargetSetUnit:GetTypeNames()
+      self:SetInfo( "Targets", string.format( "%d of %s", DetectedItemsCount, DetectedItemsTypes ), 10 ) 
+    end
+
+  end
 
   function TASK_A2A_ENGAGE:ReportOrder( ReportGroup ) 
     local Coordinate = self.TaskInfo.Coordinates.TaskInfoText
