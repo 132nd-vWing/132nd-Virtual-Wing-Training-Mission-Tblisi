@@ -5,6 +5,10 @@ Changelog
 (unreleased)
 ------------
 
+New
+~~~
+- Add auto-despawn for tankers after RTB taxi. [132nd-etcher]
+
 Changes
 ~~~~~~~
 - Chg: swap Su25s for Su25Ts (request @Looney) fix: update MOOSE to
