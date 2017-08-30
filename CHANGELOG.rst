@@ -20,6 +20,11 @@ Fix
 - Bomb circles at Marnueli as per Fudd's request fix: tankers despawning
   when landed (Etcher) [132nd-Entropy]
 
+Other
+~~~~~
+- . [132nd-Entropy]
+- , [132nd-Entropy]
+
 
 3.6.7 (2017-08-27)
 ------------------
