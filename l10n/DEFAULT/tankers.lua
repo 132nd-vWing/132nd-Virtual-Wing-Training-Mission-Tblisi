@@ -132,15 +132,15 @@ function _TANKER.Tanker:New( group )
             self:Debug('screw you guys, I\' going home') -- let the world know
         
             -- Send the tanker to its last waypoint
-            local command = self:CommandSwitchWayPoint( 1, #self.route )
+            local command = self:CommandSwitchWayPoint( 2, 1 )
             self:SetCommand( command )
             
-            -- Create a 5km radius zone around the last waypoint
-            local last_wp = self.route[#self.route]
+            -- Create a 5km radius zone around the home plate
+            local last_wp = self.route[1]
             self.rtb_zone = ZONE_RADIUS:New(
                 'rtb_'..self:GetName(),
                 {x=last_wp.x, y=last_wp.y},
-                5000
+                20000
             )
             
             -- Wait for the tanker to enter the zone; when it's in, remove all tasks, and force it to land
