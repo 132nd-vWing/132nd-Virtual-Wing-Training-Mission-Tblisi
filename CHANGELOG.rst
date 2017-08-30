@@ -5,6 +5,16 @@ Changelog
 (unreleased)
 ------------
 
+Changes
+~~~~~~~
+- Chg: swap Su25s for Su25Ts (request @Looney) fix: update MOOSE to
+  latest fix: fix tankers and AWACS too low speed after takeoff
+  (reported by @Hansolo) [132nd-Entropy]
+
+
+3.6.7 (2017-08-27)
+------------------
+
 New
 ~~~
 - Additional Transport Tasking for Mi-8 fix: fixed Soganlug-based Mi-8s
