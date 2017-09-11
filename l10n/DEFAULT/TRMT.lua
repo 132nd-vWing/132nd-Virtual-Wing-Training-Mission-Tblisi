@@ -462,15 +462,15 @@ do -- MOOSE CONFIG
   end
 end -- MOOSE CONFIG
 
-do -- CLEANUP
-
-  TRMT.CLEANUP = {}
-  
-  TRMT.CLEANUP.INITIALIZE = function()
-  CLEANUP:New({AIRBASE.Caucasus.Batumi, AIRBASE.Caucasus.Vaziani, AIRBASE.Caucasus.Senaki_Kolkhi, AIRBASE.Caucasus.Soganlug})
-end
-
-end -- CLEANUP
+--do -- CLEANUP
+--
+--  TRMT.CLEANUP = {}
+--  
+--  TRMT.CLEANUP.INITIALIZE = function()
+--  CLEANUP:New({AIRBASE.Caucasus.Batumi, AIRBASE.Caucasus.Vaziani, AIRBASE.Caucasus.Senaki_Kolkhi, AIRBASE.Caucasus.Soganlug})
+--end
+--
+--end -- CLEANUP
 
 --- Start TRMT
 do
@@ -492,6 +492,23 @@ do
     module.INITIALIZE()
   end
 end
+
+--- respawn red Infantry at TETRA
+
+SPAWN:New("TETRA_INF_SOUTH_respawn"):Spawn() -- original spawn
+
+function respawn_red_infantry_TETRA()    -- respawn via menu
+MESSAGE:New( "Red Infantry respawned at TETRA", 7):ToBlue()
+SPAWN:New("TETRA_INF_SOUTH_respawn"):InitRandomizeRoute(0,2,200,500):Spawn()
+end
+
+menu_respawn_red_infantry_TETRA = MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Respawn Red Infantry at TETRA", TRMT.RANGES.TETRA.MENU, respawn_red_infantry_TETRA ) 
+
+
+
+
+
+
 
 --- No error during script loading, let the log know
 TRMT.INFO('LOADED')

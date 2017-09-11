@@ -21469,14 +21469,6 @@ mission =
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_715",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 138.88888888889,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -30500,7 +30492,7 @@ mission =
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
                                             ["action"] = "Off Road",
-                                            ["alt"] = 772,
+                                            ["alt"] = 853,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_815",
@@ -30536,8 +30528,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -332878.39285714,
-                                            ["y"] = 870624.90178572,
+                                            ["x"] = -333144.55142857,
+                                            ["y"] = 869086.48828571,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                     ["spans"] =
@@ -30577,8 +30569,8 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "M1043 HMMWV Armament",
                                         ["unitId"] = 1018,
-                                        ["x"] = -332878.39285714,
-                                        ["y"] = 870624.90178572,
+                                        ["x"] = -333144.55142857,
+                                        ["y"] = 869086.48828571,
                                     }, -- end of [1]
                                     [2] =
                                     {
@@ -30592,8 +30584,8 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Soldier M249",
                                         ["unitId"] = 1019,
-                                        ["x"] = -332872.21428572,
-                                        ["y"] = 870645.51785715,
+                                        ["x"] = -333138.37285715,
+                                        ["y"] = 869107.10435714,
                                     }, -- end of [2]
                                     [3] =
                                     {
@@ -30607,8 +30599,8 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Soldier M249",
                                         ["unitId"] = 1525,
-                                        ["x"] = -332843.42857145,
-                                        ["y"] = 870691.14285715,
+                                        ["x"] = -333109.58714288,
+                                        ["y"] = 869152.72935714,
                                     }, -- end of [3]
                                     [4] =
                                     {
@@ -30622,8 +30614,8 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Soldier M249",
                                         ["unitId"] = 1526,
-                                        ["x"] = -332914.85714288,
-                                        ["y"] = 870579.71428572,
+                                        ["x"] = -333181.01571431,
+                                        ["y"] = 869041.30078571,
                                     }, -- end of [4]
                                     [5] =
                                     {
@@ -30637,8 +30629,8 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Soldier M249",
                                         ["unitId"] = 1527,
-                                        ["x"] = -332843.42857145,
-                                        ["y"] = 870545.42857143,
+                                        ["x"] = -333109.58714288,
+                                        ["y"] = 869007.01507142,
                                     }, -- end of [5]
                                     [6] =
                                     {
@@ -30652,8 +30644,8 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Soldier M249",
                                         ["unitId"] = 1528,
-                                        ["x"] = -332802.00000002,
-                                        ["y"] = 870598.28571429,
+                                        ["x"] = -333068.15857145,
+                                        ["y"] = 869059.87221428,
                                     }, -- end of [6]
                                     [7] =
                                     {
@@ -30667,8 +30659,8 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Soldier M249",
                                         ["unitId"] = 1529,
-                                        ["x"] = -332807.71428574,
-                                        ["y"] = 870711.14285715,
+                                        ["x"] = -333073.87285717,
+                                        ["y"] = 869172.72935714,
                                     }, -- end of [7]
                                     [8] =
                                     {
@@ -30682,13 +30674,13 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Soldier M249",
                                         ["unitId"] = 1530,
-                                        ["x"] = -332882.00000002,
-                                        ["y"] = 870519.71428572,
+                                        ["x"] = -333148.15857145,
+                                        ["y"] = 868981.30078571,
                                     }, -- end of [8]
                                 }, -- end of ["units"]
                                 ["visible"] = false,
-                                ["x"] = -332878.39285714,
-                                ["y"] = 870624.90178572,
+                                ["x"] = -333144.55142857,
+                                ["y"] = 869086.48828571,
                             }, -- end of [15]
                             [16] =
                             {
@@ -57965,274 +57957,6 @@ mission =
                             }, -- end of [8]
                             [9] =
                             {
-                                ["groupId"] = 925,
-                                ["hidden"] = false,
-                                ["name"] = "DictKey_GroupName_560",
-                                ["route"] =
-                                {
-                                    ["points"] =
-                                    {
-                                        [1] =
-                                        {
-                                            ["ETA"] = 0,
-                                            ["ETA_locked"] = true,
-                                            ["action"] = "Off Road",
-                                            ["alt"] = 700,
-                                            ["alt_type"] = "BARO",
-                                            ["formation_template"] = "",
-                                            ["name"] = "DictKey_WptName_823",
-                                            ["speed"] = 5.5555555555556,
-                                            ["speed_locked"] = true,
-                                            ["task"] =
-                                            {
-                                                ["id"] = "ComboTask",
-                                                ["params"] =
-                                                {
-                                                    ["tasks"] =
-                                                    {
-                                                        [1] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 1,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "Option",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["name"] = 0,
-                                                                        ["value"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [1]
-                                                        [2] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 2,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "Option",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["name"] = 9,
-                                                                        ["value"] = 1,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [2]
-                                                    }, -- end of ["tasks"]
-                                                }, -- end of ["params"]
-                                            }, -- end of ["task"]
-                                            ["type"] = "Turning Point",
-                                            ["x"] = -334067.53571429,
-                                            ["y"] = 871507.1875,
-                                        }, -- end of [1]
-                                    }, -- end of ["points"]
-                                    ["spans"] =
-                                    {
-                                        [1] =
-                                        {
-                                            [1] =
-                                            {
-                                                ["x"] = -334053.14285714,
-                                                ["y"] = 871519.14285715,
-                                            }, -- end of [1]
-                                            [2] =
-                                            {
-                                                ["x"] = -334007.71428571,
-                                                ["y"] = 871398.28571429,
-                                            }, -- end of [2]
-                                        }, -- end of [1]
-                                    }, -- end of ["spans"]
-                                }, -- end of ["route"]
-                                ["start_time"] = 0,
-                                ["task"] = "Ground Nothing",
-                                ["taskSelected"] = true,
-                                ["tasks"] =
-                                {
-                                }, -- end of ["tasks"]
-                                ["units"] =
-                                {
-                                    [1] =
-                                    {
-                                        ["heading"] = 5.9690260418206,
-                                        ["name"] = "DictKey_UnitName_569",
-                                        ["playerCanDrive"] = true,
-                                        ["skill"] = "Average",
-                                        ["transportable"] =
-                                        {
-                                            ["randomTransportable"] = false,
-                                        }, -- end of ["transportable"]
-                                        ["type"] = "BTR-80",
-                                        ["unitId"] = 1022,
-                                        ["x"] = -334067.53571429,
-                                        ["y"] = 871507.1875,
-                                    }, -- end of [1]
-                                    [2] =
-                                    {
-                                        ["heading"] = 5.9690260418206,
-                                        ["name"] = "DictKey_UnitName_2126",
-                                        ["playerCanDrive"] = true,
-                                        ["skill"] = "Average",
-                                        ["transportable"] =
-                                        {
-                                            ["randomTransportable"] = false,
-                                        }, -- end of ["transportable"]
-                                        ["type"] = "Infantry AK",
-                                        ["unitId"] = 1515,
-                                        ["x"] = -333989.14285716,
-                                        ["y"] = 871564,
-                                    }, -- end of [2]
-                                    [3] =
-                                    {
-                                        ["heading"] = 5.9690260418206,
-                                        ["name"] = "DictKey_UnitName_2127",
-                                        ["playerCanDrive"] = true,
-                                        ["skill"] = "Average",
-                                        ["transportable"] =
-                                        {
-                                            ["randomTransportable"] = false,
-                                        }, -- end of ["transportable"]
-                                        ["type"] = "Infantry AK",
-                                        ["unitId"] = 1516,
-                                        ["x"] = -334042.00000002,
-                                        ["y"] = 871454,
-                                    }, -- end of [3]
-                                    [4] =
-                                    {
-                                        ["heading"] = 5.9690260418206,
-                                        ["name"] = "DictKey_UnitName_2128",
-                                        ["playerCanDrive"] = true,
-                                        ["skill"] = "Average",
-                                        ["transportable"] =
-                                        {
-                                            ["randomTransportable"] = false,
-                                        }, -- end of ["transportable"]
-                                        ["type"] = "Infantry AK",
-                                        ["unitId"] = 1517,
-                                        ["x"] = -334127.71428574,
-                                        ["y"] = 871448.28571429,
-                                    }, -- end of [4]
-                                    [5] =
-                                    {
-                                        ["heading"] = 5.9690260418206,
-                                        ["name"] = "DictKey_UnitName_2129",
-                                        ["playerCanDrive"] = true,
-                                        ["skill"] = "Average",
-                                        ["transportable"] =
-                                        {
-                                            ["randomTransportable"] = false,
-                                        }, -- end of ["transportable"]
-                                        ["type"] = "Infantry AK",
-                                        ["unitId"] = 1518,
-                                        ["x"] = -334074.85714288,
-                                        ["y"] = 871569.71428572,
-                                    }, -- end of [5]
-                                    [6] =
-                                    {
-                                        ["heading"] = 5.9690260418206,
-                                        ["name"] = "DictKey_UnitName_2130",
-                                        ["playerCanDrive"] = true,
-                                        ["skill"] = "Average",
-                                        ["transportable"] =
-                                        {
-                                            ["randomTransportable"] = false,
-                                        }, -- end of ["transportable"]
-                                        ["type"] = "Infantry AK",
-                                        ["unitId"] = 1519,
-                                        ["x"] = -334162.00000002,
-                                        ["y"] = 871431.14285715,
-                                    }, -- end of [6]
-                                    [7] =
-                                    {
-                                        ["heading"] = 5.9690260418206,
-                                        ["name"] = "DictKey_UnitName_2131",
-                                        ["playerCanDrive"] = true,
-                                        ["skill"] = "Average",
-                                        ["transportable"] =
-                                        {
-                                            ["randomTransportable"] = false,
-                                        }, -- end of ["transportable"]
-                                        ["type"] = "Infantry AK",
-                                        ["unitId"] = 1520,
-                                        ["x"] = -334107.71428574,
-                                        ["y"] = 871388.28571429,
-                                    }, -- end of [7]
-                                    [8] =
-                                    {
-                                        ["heading"] = 5.9690260418206,
-                                        ["name"] = "DictKey_UnitName_2132",
-                                        ["playerCanDrive"] = true,
-                                        ["skill"] = "Average",
-                                        ["transportable"] =
-                                        {
-                                            ["randomTransportable"] = false,
-                                        }, -- end of ["transportable"]
-                                        ["type"] = "Infantry AK",
-                                        ["unitId"] = 1521,
-                                        ["x"] = -334030.57142859,
-                                        ["y"] = 871416.85714286,
-                                    }, -- end of [8]
-                                    [9] =
-                                    {
-                                        ["heading"] = 5.9690260418206,
-                                        ["name"] = "DictKey_UnitName_2133",
-                                        ["playerCanDrive"] = true,
-                                        ["skill"] = "Average",
-                                        ["transportable"] =
-                                        {
-                                            ["randomTransportable"] = false,
-                                        }, -- end of ["transportable"]
-                                        ["type"] = "Infantry AK",
-                                        ["unitId"] = 1522,
-                                        ["x"] = -334116.28571431,
-                                        ["y"] = 871514,
-                                    }, -- end of [9]
-                                    [10] =
-                                    {
-                                        ["heading"] = 5.9690260418206,
-                                        ["name"] = "DictKey_UnitName_2134",
-                                        ["playerCanDrive"] = true,
-                                        ["skill"] = "Average",
-                                        ["transportable"] =
-                                        {
-                                            ["randomTransportable"] = false,
-                                        }, -- end of ["transportable"]
-                                        ["type"] = "Infantry AK",
-                                        ["unitId"] = 1523,
-                                        ["x"] = -333983.42857145,
-                                        ["y"] = 871479.71428572,
-                                    }, -- end of [10]
-                                    [11] =
-                                    {
-                                        ["heading"] = 5.9690260418206,
-                                        ["name"] = "DictKey_UnitName_2135",
-                                        ["playerCanDrive"] = true,
-                                        ["skill"] = "Average",
-                                        ["transportable"] =
-                                        {
-                                            ["randomTransportable"] = false,
-                                        }, -- end of ["transportable"]
-                                        ["type"] = "Infantry AK",
-                                        ["unitId"] = 1524,
-                                        ["x"] = -334102.00000002,
-                                        ["y"] = 871629.71428572,
-                                    }, -- end of [11]
-                                }, -- end of ["units"]
-                                ["visible"] = false,
-                                ["x"] = -334067.53571429,
-                                ["y"] = 871507.1875,
-                            }, -- end of [9]
-                            [10] =
-                            {
                                 ["groupId"] = 1274,
                                 ["hidden"] = false,
                                 ["lateActivation"] = true,
@@ -58434,8 +58158,8 @@ mission =
                                 ["visible"] = false,
                                 ["x"] = 12299.999999999,
                                 ["y"] = -20657.142857143,
-                            }, -- end of [10]
-                            [11] =
+                            }, -- end of [9]
+                            [10] =
                             {
                                 ["groupId"] = 1275,
                                 ["hidden"] = false,
@@ -58531,8 +58255,8 @@ mission =
                                 ["visible"] = false,
                                 ["x"] = 9957.1428571421,
                                 ["y"] = -20542.857142857,
-                            }, -- end of [11]
-                            [12] =
+                            }, -- end of [10]
+                            [11] =
                             {
                                 ["groupId"] = 1276,
                                 ["hidden"] = false,
@@ -58645,8 +58369,8 @@ mission =
                                 ["visible"] = false,
                                 ["x"] = 7899.9999999992,
                                 ["y"] = -20257.142857142,
-                            }, -- end of [12]
-                            [13] =
+                            }, -- end of [11]
+                            [12] =
                             {
                                 ["groupId"] = 1277,
                                 ["hidden"] = false,
@@ -58787,8 +58511,8 @@ mission =
                                 ["visible"] = false,
                                 ["x"] = 6042.8571428564,
                                 ["y"] = -20285.714285714,
-                            }, -- end of [13]
-                            [14] =
+                            }, -- end of [12]
+                            [13] =
                             {
                                 ["groupId"] = 1278,
                                 ["hidden"] = false,
@@ -59051,8 +58775,8 @@ mission =
                                 ["visible"] = false,
                                 ["x"] = 4357.1428571421,
                                 ["y"] = -20285.714285714,
-                            }, -- end of [14]
-                            [15] =
+                            }, -- end of [13]
+                            [14] =
                             {
                                 ["groupId"] = 1326,
                                 ["hidden"] = false,
@@ -59266,6 +58990,352 @@ mission =
                                 ["visible"] = false,
                                 ["x"] = -263863.14285714,
                                 ["y"] = 712330.2857143,
+                            }, -- end of [14]
+                            [15] =
+                            {
+                                ["groupId"] = 1420,
+                                ["hidden"] = false,
+                                ["lateActivation"] = true,
+                                ["name"] = "DictKey_GroupName_4007",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "Custom",
+                                            ["alt"] = 701,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_4019",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                        [1] =
+                                                        {
+                                                            ["auto"] = false,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 1,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "Option",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["name"] = 0,
+                                                                        ["value"] = 4,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [1]
+                                                        [2] =
+                                                        {
+                                                            ["auto"] = false,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 2,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "Option",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["name"] = 9,
+                                                                        ["value"] = 1,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [2]
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = -333799.3,
+                                            ["y"] = 871264.51171429,
+                                        }, -- end of [1]
+                                        [2] =
+                                        {
+                                            ["ETA"] = 27.255695861755,
+                                            ["ETA_locked"] = false,
+                                            ["action"] = "Custom",
+                                            ["alt"] = 701,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_4020",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = -333762.37771429,
+                                            ["y"] = 871117.66171429,
+                                        }, -- end of [2]
+                                        [3] =
+                                        {
+                                            ["ETA"] = 52.064465886299,
+                                            ["ETA_locked"] = false,
+                                            ["action"] = "Custom",
+                                            ["alt"] = 705,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_4021",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = -333754.82542858,
+                                            ["y"] = 871255.28114286,
+                                        }, -- end of [3]
+                                    }, -- end of ["points"]
+                                    ["routeRelativeTOT"] = true,
+                                    ["spans"] =
+                                    {
+                                        [1] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["x"] = -333799.3,
+                                                ["y"] = 871264.51171429,
+                                            }, -- end of [1]
+                                            [2] =
+                                            {
+                                                ["x"] = -333762.37771429,
+                                                ["y"] = 871117.66171429,
+                                            }, -- end of [2]
+                                        }, -- end of [1]
+                                        [2] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["x"] = -333762.37771429,
+                                                ["y"] = 871117.66171429,
+                                            }, -- end of [1]
+                                            [2] =
+                                            {
+                                                ["x"] = -333754.82542858,
+                                                ["y"] = 871255.28114286,
+                                            }, -- end of [2]
+                                        }, -- end of [2]
+                                        [3] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["x"] = -334137.47457143,
+                                                ["y"] = 871073.18714285,
+                                            }, -- end of [1]
+                                            [2] =
+                                            {
+                                                ["x"] = -334137.47457143,
+                                                ["y"] = 871073.18714285,
+                                            }, -- end of [2]
+                                        }, -- end of [3]
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 4.9587117287238,
+                                        ["name"] = "DictKey_UnitName_4008",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "BTR-80",
+                                        ["unitId"] = 2036,
+                                        ["x"] = -333799.3,
+                                        ["y"] = 871264.51171429,
+                                    }, -- end of [1]
+                                    [2] =
+                                    {
+                                        ["heading"] = 4.9587117287238,
+                                        ["name"] = "DictKey_UnitName_4009",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 2037,
+                                        ["x"] = -333720.90714287,
+                                        ["y"] = 871321.32421429,
+                                    }, -- end of [2]
+                                    [3] =
+                                    {
+                                        ["heading"] = 4.9587117287238,
+                                        ["name"] = "DictKey_UnitName_4010",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 2038,
+                                        ["x"] = -333773.76428573,
+                                        ["y"] = 871211.32421429,
+                                    }, -- end of [3]
+                                    [4] =
+                                    {
+                                        ["heading"] = 4.9587117287238,
+                                        ["name"] = "DictKey_UnitName_4011",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 2039,
+                                        ["x"] = -333859.47857145,
+                                        ["y"] = 871205.60992858,
+                                    }, -- end of [4]
+                                    [5] =
+                                    {
+                                        ["heading"] = 4.9587117287238,
+                                        ["name"] = "DictKey_UnitName_4012",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 2040,
+                                        ["x"] = -333806.62142859,
+                                        ["y"] = 871327.03850001,
+                                    }, -- end of [5]
+                                    [6] =
+                                    {
+                                        ["heading"] = 4.9587117287238,
+                                        ["name"] = "DictKey_UnitName_4013",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 2041,
+                                        ["x"] = -333893.76428573,
+                                        ["y"] = 871188.46707144,
+                                    }, -- end of [6]
+                                    [7] =
+                                    {
+                                        ["heading"] = 4.9587117287238,
+                                        ["name"] = "DictKey_UnitName_4014",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 2042,
+                                        ["x"] = -333839.47857145,
+                                        ["y"] = 871145.60992858,
+                                    }, -- end of [7]
+                                    [8] =
+                                    {
+                                        ["heading"] = 4.9587117287238,
+                                        ["name"] = "DictKey_UnitName_4015",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 2043,
+                                        ["x"] = -333762.3357143,
+                                        ["y"] = 871174.18135715,
+                                    }, -- end of [8]
+                                    [9] =
+                                    {
+                                        ["heading"] = 4.9587117287238,
+                                        ["name"] = "DictKey_UnitName_4016",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 2044,
+                                        ["x"] = -333848.05000002,
+                                        ["y"] = 871271.32421429,
+                                    }, -- end of [9]
+                                    [10] =
+                                    {
+                                        ["heading"] = 4.9587117287238,
+                                        ["name"] = "DictKey_UnitName_4017",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 2045,
+                                        ["x"] = -333715.19285716,
+                                        ["y"] = 871237.03850001,
+                                    }, -- end of [10]
+                                    [11] =
+                                    {
+                                        ["heading"] = 4.9587117287238,
+                                        ["name"] = "DictKey_UnitName_4018",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Infantry AK",
+                                        ["unitId"] = 2046,
+                                        ["x"] = -333833.76428573,
+                                        ["y"] = 871387.03850001,
+                                    }, -- end of [11]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = -333799.3,
+                                ["y"] = 871264.51171429,
                             }, -- end of [15]
                         }, -- end of ["group"]
                     }, -- end of ["vehicle"]
@@ -59315,7 +59385,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3924452,
+    ["currentKey"] = 3940513,
     ["date"] =
     {
         ["Day"] = 11,
@@ -62569,11 +62639,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -354032.41542857,
-        ["centerY"] = 794508.10857143,
-        ["zoom"] = 1255852,
+        ["centerX"] = -333912.16471429,
+        ["centerY"] = 871246.05057143,
+        ["zoom"] = 2937,
     }, -- end of ["map"]
-    ["maxDictId"] = 3980,
+    ["maxDictId"] = 4021,
     ["pictureFileNameB"] =
     {
         [1] = "ResKey_ImageBriefing_1821",
@@ -62638,7 +62708,7 @@ mission =
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3675\")); mission.trig.func[3]=nil;",
             [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3968\")); mission.trig.func[4]=nil;",
             [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3976\")); mission.trig.func[5]=nil;",
-            [6] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3697\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3979\")); mission.trig.func[6]=nil;",
+            [6] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3697\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_4005\")); mission.trig.func[6]=nil;",
             [7] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3018\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3014\")); mission.trig.func[7]=nil;",
             [8] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3019\"), 30, false);a_do_script(getValueDictByKey(\"DictKey_ActionText_3016\")); mission.trig.func[8]=nil;",
             [9] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2342\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_2343\")); mission.trig.func[9]=nil;",
@@ -64197,7 +64267,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3979",
+                    ["file"] = "ResKey_Action_4005",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [2]
             }, -- end of ["actions"]
