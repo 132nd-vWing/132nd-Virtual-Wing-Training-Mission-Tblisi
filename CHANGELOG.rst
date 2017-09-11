@@ -5,6 +5,15 @@ Changelog
 (unreleased)
 ------------
 
+Changes
+~~~~~~~
+- Chg: update MOOSE to latest chg: reconfigure Soganlug-based Mi-8s to
+  slick (@Looney) [132nd-Entropy]
+
+
+3.5.8 (2017-08-30)
+------------------
+
 New
 ~~~
 - Add auto-despawn for tankers after RTB taxi. [132nd-etcher]
