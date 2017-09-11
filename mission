@@ -11880,14 +11880,6 @@ mission =
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_1344",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 41.666666666667,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -11918,9 +11910,9 @@ mission =
                                     {
                                         ["AddPropAircraft"] =
                                         {
-                                            ["AdditionalArmor"] = true,
+                                            ["AdditionalArmor"] = false,
                                             ["CargoHalfdoor"] = true,
-                                            ["ExhaustScreen"] = true,
+                                            ["ExhaustScreen"] = false,
                                             ["GunnersAISkill"] = 90,
                                             ["LeftEngineResource"] = 90,
                                             ["RightEngineResource"] = 90,
@@ -11979,7 +11971,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Ford11",
                                         }, -- end of ["callsign"]
-                                        ["hardpoint_racks"] = true,
+                                        ["hardpoint_racks"] = false,
                                         ["heading"] = 0,
                                         ["livery_id"] = "132 Mi-8 Standard",
                                         ["name"] = "DictKey_UnitName_1343",
@@ -12032,14 +12024,6 @@ mission =
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_1347",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 41.666666666667,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -12070,9 +12054,9 @@ mission =
                                     {
                                         ["AddPropAircraft"] =
                                         {
-                                            ["AdditionalArmor"] = true,
+                                            ["AdditionalArmor"] = false,
                                             ["CargoHalfdoor"] = true,
-                                            ["ExhaustScreen"] = true,
+                                            ["ExhaustScreen"] = false,
                                             ["GunnersAISkill"] = 90,
                                             ["LeftEngineResource"] = 90,
                                             ["RightEngineResource"] = 90,
@@ -12131,7 +12115,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Ford11",
                                         }, -- end of ["callsign"]
-                                        ["hardpoint_racks"] = true,
+                                        ["hardpoint_racks"] = false,
                                         ["heading"] = 0,
                                         ["livery_id"] = "132 Mi-8 Standard",
                                         ["name"] = "DictKey_UnitName_1346",
@@ -12606,14 +12590,6 @@ mission =
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_1735",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 41.666666666667,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -12644,9 +12620,9 @@ mission =
                                     {
                                         ["AddPropAircraft"] =
                                         {
-                                            ["AdditionalArmor"] = true,
+                                            ["AdditionalArmor"] = false,
                                             ["CargoHalfdoor"] = true,
-                                            ["ExhaustScreen"] = true,
+                                            ["ExhaustScreen"] = false,
                                             ["GunnersAISkill"] = 90,
                                             ["LeftEngineResource"] = 90,
                                             ["RightEngineResource"] = 90,
@@ -12705,7 +12681,7 @@ mission =
                                             [3] = 1,
                                             ["name"] = "Ford11",
                                         }, -- end of ["callsign"]
-                                        ["hardpoint_racks"] = true,
+                                        ["hardpoint_racks"] = false,
                                         ["heading"] = 0,
                                         ["livery_id"] = "132 Mi-8 Standard",
                                         ["name"] = "DictKey_UnitName_1734",
@@ -19030,14 +19006,6 @@ mission =
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_3131",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 138.88888888889,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -24966,14 +24934,6 @@ mission =
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_3832",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 138.88888888889,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -59355,11 +59315,11 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3919810,
+    ["currentKey"] = 3924452,
     ["date"] =
     {
-        ["Day"] = 8,
-        ["Month"] = 7,
+        ["Day"] = 11,
+        ["Month"] = 9,
         ["Year"] = 2011,
     }, -- end of ["date"]
     ["descriptionBlueTask"] = "DictKey_descriptionBlueTask_651",
@@ -62609,11 +62569,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -354536.14285714,
-        ["centerY"] = 891362.85714283,
-        ["zoom"] = 1000,
+        ["centerX"] = -354032.41542857,
+        ["centerY"] = 794508.10857143,
+        ["zoom"] = 1255852,
     }, -- end of ["map"]
-    ["maxDictId"] = 3979,
+    ["maxDictId"] = 3980,
     ["pictureFileNameB"] =
     {
         [1] = "ResKey_ImageBriefing_1821",
@@ -62674,7 +62634,7 @@ mission =
         ["actions"] =
         {
             [1] = "a_set_flag_value(2501, 1);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3009\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3010\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3011\"), 1, false);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_group_off(1326);",
-            [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3973\")); mission.trig.func[2]=nil;",
+            [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3980\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3675\")); mission.trig.func[3]=nil;",
             [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3968\")); mission.trig.func[4]=nil;",
             [5] = "a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_3017\"), 30, true);a_do_script_file(getValueResourceByKey(\"ResKey_Action_3976\")); mission.trig.func[5]=nil;",
@@ -64102,7 +64062,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_3973",
+                    ["file"] = "ResKey_Action_3980",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -65641,10 +65601,10 @@ mission =
         ["atmosphere_type"] = 0,
         ["clouds"] =
         {
-            ["base"] = 5000,
-            ["density"] = 0,
+            ["base"] = 1524,
+            ["density"] = 3,
             ["iprecptns"] = 0,
-            ["thickness"] = 300,
+            ["thickness"] = 862,
         }, -- end of ["clouds"]
         ["cyclones"] =
         {
@@ -65656,7 +65616,7 @@ mission =
             ["thickness"] = 0,
             ["visibility"] = 0,
         }, -- end of ["fog"]
-        ["groundTurbulence"] = 1,
+        ["groundTurbulence"] = 4,
         ["name"] = "Downloaded weather",
         ["name_de"] = "Sommer, Wind und Wolken",
         ["name_es"] = "Verano. Nubes y viento",
@@ -65665,7 +65625,7 @@ mission =
         ["qnh"] = 764,
         ["season"] =
         {
-            ["temperature"] = 32,
+            ["temperature"] = 31,
         }, -- end of ["season"]
         ["type_weather"] = 0,
         ["visibility"] =
@@ -65676,18 +65636,18 @@ mission =
         {
             ["at2000"] =
             {
-                ["dir"] = 87,
-                ["speed"] = 4,
+                ["dir"] = 327,
+                ["speed"] = 5,
             }, -- end of ["at2000"]
             ["at8000"] =
             {
-                ["dir"] = 74,
-                ["speed"] = 4,
+                ["dir"] = 303,
+                ["speed"] = 5,
             }, -- end of ["at8000"]
             ["atGround"] =
             {
-                ["dir"] = 52,
-                ["speed"] = 4,
+                ["dir"] = 309,
+                ["speed"] = 5,
             }, -- end of ["atGround"]
         }, -- end of ["wind"]
     }, -- end of ["weather"]

@@ -1,5 +1,5 @@
 env.info( '*** MOOSE STATIC INCLUDE START *** ' )
-env.info( 'Moose Generation Timestamp: 20170830_0932' )
+env.info( 'Moose Generation Timestamp: 20170911_1526' )
 
 --- Various routines
 -- @module routines
@@ -2522,7 +2522,9 @@ FLARECOLOR = trigger.flareColor -- #FLARECOLOR
 
 --- Utilities static class.
 -- @type UTILS
-UTILS = {}
+UTILS = {
+  _MarkID = 1
+}
 
 --- Function to infer instance of an object
 --
@@ -2885,6 +2887,14 @@ function UTILS.spairs( t, order )
             return keys[i], t[keys[i]]
         end
     end
+end
+
+-- get a new mark ID for markings
+function UTILS.GetMarkID()
+
+  UTILS._MarkID = UTILS._MarkID + 1
+  return UTILS._MarkID
+
 end
 --- **Core** -- BASE forms **the basis of the MOOSE framework**. Each class within the MOOSE framework derives from BASE.
 -- 
@@ -11060,16 +11070,18 @@ end
 function SET_UNIT:CalculateThreatLevelA2G()
   
   local MaxThreatLevelA2G = 0
+  local MaxThreatText = ""
   for UnitName, UnitData in pairs( self:GetSet() ) do
     local ThreatUnit = UnitData -- Wrapper.Unit#UNIT
-    local ThreatLevelA2G = ThreatUnit:GetThreatLevel()
+    local ThreatLevelA2G, ThreatText = ThreatUnit:GetThreatLevel()
     if ThreatLevelA2G > MaxThreatLevelA2G then
       MaxThreatLevelA2G = ThreatLevelA2G
+      MaxThreatText = ThreatText
     end
   end
 
-  self:T3( MaxThreatLevelA2G )
-  return MaxThreatLevelA2G
+  self:F( { MaxThreatLevelA2G = MaxThreatLevelA2G, MaxThreatText = MaxThreatText } )
+  return MaxThreatLevelA2G, MaxThreatText
   
 end
 
@@ -12405,6 +12417,18 @@ do -- COORDINATE
   --   * @{#COORDINATE.IlluminationBomb}(): To illuminate the point.
   --
   --
+  -- ## Markings
+  -- 
+  -- Place markers (text boxes with clarifications for briefings, target locations or any other reference point) on the map for all players, coalitions or specific groups:
+  -- 
+  --   * @{#COORDINATE.MarkToAll}(): Place a mark to all players.
+  --   * @{#COORDINATE.MarkToCoalition}(): Place a mark to a coalition.
+  --   * @{#COORDINATE.MarkToCoalitionRed}(): Place a mark to the red coalition.
+  --   * @{#COORDINATE.MarkToCoalitionBlue}(): Place a mark to the blue coalition.
+  --   * @{#COORDINATE.MarkToGroup}(): Place a mark to a group (needs to have a client in it or a CA group (CA group is bugged)).
+  --   * @{#COORDINATE.RemoveMark}(): Removes a mark from the map.
+  --   
+  --
   -- ## 3D calculation methods
   --
   -- Various calculation methods exist to use or manipulate 3D space. Find below a short description of each method:
@@ -12604,8 +12628,54 @@ do -- COORDINATE
   end
 
 
+  --- Set the heading of the coordinate, if applicable.
+  -- @param #COORDINATE self
   function COORDINATE:SetHeading( Heading )
     self.Heading = Heading
+  end
+  
+  
+  --- Get the heading of the coordinate, if applicable.
+  -- @param #COORDINATE self
+  -- @return #number or nil
+  function COORDINATE:GetHeading()
+    return self.Heading
+  end
+
+  
+  --- Set the velocity of the COORDINATE.
+  -- @param #COORDINATE self
+  -- @param #string Velocity Velocity in meters per second.
+  function COORDINATE:SetVelocity( Velocity )
+    self.Velocity = Velocity
+  end
+
+  
+  --- Return the velocity of the COORDINATE.
+  -- @param #COORDINATE self
+  -- @return #number Velocity in meters per second.
+  function COORDINATE:GetVelocity()
+    local Velocity = self.Velocity
+    return Velocity or 0
+  end
+
+  
+  --- Return velocity text of the COORDINATE.
+  -- @param #COORDINATE self
+  -- @return #string
+  function COORDINATE:GetMovingText( Settings )
+
+    local MovingText = ""  
+
+    local Velocity = self:GetVelocity()
+    
+    if Velocity == 0 then
+      MovingText = MovingText .. "stationary "
+    else
+      MovingText = MovingText .. "moving at " .. self:GetVelocityText( Settings ) .. " " .. self:GetHeadingText( Settings )
+    end
+    
+    return MovingText
   end
 
 
@@ -12661,6 +12731,7 @@ do -- COORDINATE
     local SourceVec3 = self:GetVec3()
     return ( ( TargetVec3.x - SourceVec3.x ) ^ 2 + ( TargetVec3.z - SourceVec3.z ) ^ 2 ) ^ 0.5
   end
+
 
   --- Return the 3D distance in meters between the target COORDINATE and the COORDINATE.
   -- @param #COORDINATE self
@@ -12722,6 +12793,39 @@ do -- COORDINATE
       else
         return " at " .. UTILS.Round( UTILS.MetersToFeet( self.y ), -3 ) .. " feet"
       end
+    else
+      return ""
+    end
+  end
+
+
+
+  --- Return the velocity text of the COORDINATE.
+  -- @param #COORDINATE self
+  -- @return #string Velocity text.
+  function COORDINATE:GetVelocityText( Settings )
+    local Velocity = self:GetVelocity()
+    local Settings = Settings or _SETTINGS
+    if Velocity then
+      if Settings:IsMetric() then
+        return UTILS.MpsToKmph( Velocity ) .. " km/h"
+      else
+        return UTILS.MpsToKmph( Velocity ) / 1.852 .. " mph"
+      end
+    else
+      return ""
+    end
+  end
+
+
+  --- Return the heading text of the COORDINATE.
+  -- @param #COORDINATE self
+  -- @return #string Heading text.
+  function COORDINATE:GetHeadingText( Settings )
+    local Heading = self.Heading
+    local Settings = Settings or _SETTINGS
+    if Heading then
+      return Heading .. "°"
     else
       return ""
     end
@@ -12965,6 +13069,88 @@ do -- COORDINATE
     self:F2( Azimuth )
     self:Flare( FLARECOLOR.Red, Azimuth )
   end
+  
+  do -- Markings
+  
+    --- Mark to All
+    -- @param #COORDINATE self
+    -- @param #string MarkText Free format text that shows the marking clarification.
+    -- @return #number The resulting Mark ID which is a number.
+    -- @usage
+    --   local TargetCoord = TargetGroup:GetCoordinate()
+    --   local MarkID = TargetCoord:MarkToAll( "This is a target for all players" )
+    function COORDINATE:MarkToAll( MarkText )
+      local MarkID = UTILS.GetMarkID()
+      trigger.action.markToAll( MarkID, MarkText, self:GetVec3() )
+      return MarkID
+    end
+
+    --- Mark to Coalition
+    -- @param #COORDINATE self
+    -- @param #string MarkText Free format text that shows the marking clarification.
+    -- @param Coalition
+    -- @return #number The resulting Mark ID which is a number.
+    -- @usage
+    --   local TargetCoord = TargetGroup:GetCoordinate()
+    --   local MarkID = TargetCoord:MarkToCoalition( "This is a target for the red coalition", coalition.side.RED )
+    function COORDINATE:MarkToCoalition( MarkText, Coalition )
+      local MarkID = UTILS.GetMarkID()
+      trigger.action.markToCoalition( MarkID, MarkText, self:GetVec3(), Coalition )
+      return MarkID
+    end
+
+    --- Mark to Red Coalition
+    -- @param #COORDINATE self
+    -- @param #string MarkText Free format text that shows the marking clarification.
+    -- @return #number The resulting Mark ID which is a number.
+    -- @usage
+    --   local TargetCoord = TargetGroup:GetCoordinate()
+    --   local MarkID = TargetCoord:MarkToCoalitionRed( "This is a target for the red coalition" )
+    function COORDINATE:MarkToCoalitionRed( MarkText )
+      return self:MarkToCoalition( MarkText, coalition.side.RED )
+    end
+
+    --- Mark to Blue Coalition
+    -- @param #COORDINATE self
+    -- @param #string MarkText Free format text that shows the marking clarification.
+    -- @return #number The resulting Mark ID which is a number.
+    -- @usage
+    --   local TargetCoord = TargetGroup:GetCoordinate()
+    --   local MarkID = TargetCoord:MarkToCoalitionBlue( "This is a target for the blue coalition" )
+    function COORDINATE:MarkToCoalitionBlue( MarkText )
+      return self:MarkToCoalition( MarkText, coalition.side.BLUE )
+    end
+
+    --- Mark to Group
+    -- @param #COORDINATE self
+    -- @param #string MarkText Free format text that shows the marking clarification.
+    -- @param Wrapper.Group#GROUP MarkGroup The @{Group} that receives the mark.
+    -- @return #number The resulting Mark ID which is a number.
+    -- @usage
+    --   local TargetCoord = TargetGroup:GetCoordinate()
+    --   local MarkGroup = GROUP:FindByName( "AttackGroup" )
+    --   local MarkID = TargetCoord:MarkToGroup( "This is a target for the attack group", AttackGroup )
+    function COORDINATE:MarkToGroup( MarkText, MarkGroup )
+      local MarkID = UTILS.GetMarkID()
+      trigger.action.markToGroup( MarkID, MarkText, self:GetVec3(), MarkGroup:GetID() )
+      return MarkID
+    end
+    
+    --- Remove a mark
+    -- @param #COORDINATE self
+    -- @param #number MarkID The ID of the mark to be removed.
+    -- @usage
+    --   local TargetCoord = TargetGroup:GetCoordinate()
+    --   local MarkGroup = GROUP:FindByName( "AttackGroup" )
+    --   local MarkID = TargetCoord:MarkToGroup( "This is a target for the attack group", AttackGroup )
+    --   <<< logic >>>
+    --   RemoveMark( MarkID ) -- The mark is now removed
+    function COORDINATE:RemoveMark( MarkID )
+      trigger.action.removeMark( MarkID )
+    end
+  
+  end -- Markings
+  
 
   --- Returns if a Coordinate has Line of Sight (LOS) with the ToCoordinate.
   -- @param #COORDINATE self
@@ -13113,6 +13299,78 @@ do -- COORDINATE
 
   end
 
+  --- Provides a coordinate string of the point, based on the A2G coordinate format system.
+  -- @param #COORDINATE self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable
+  -- @param Core.Settings#SETTINGS Settings
+  -- @return #string The coordinate Text in the configured coordinate system.
+  function COORDINATE:ToStringA2G( Controllable, Settings ) -- R2.2
+  
+    self:F( { Controllable = Controllable and Controllable:GetName() } )
+
+    local Settings = Settings or ( Controllable and _DATABASE:GetPlayerSettings( Controllable:GetPlayerName() ) ) or _SETTINGS
+
+    if Settings:IsA2G_BR()  then
+      -- If no Controllable is given to calculate the BR from, then MGRS will be used!!!
+      if Controllable then
+        local Coordinate = Controllable:GetCoordinate()
+        return Controllable and self:ToStringBR( Coordinate, Settings ) or self:ToStringMGRS( Settings )
+      else
+        return self:ToStringMGRS( Settings )
+      end
+    end
+    if Settings:IsA2G_LL_DMS()  then
+      return self:ToStringLLDMS( Settings )
+    end
+    if Settings:IsA2G_LL_DDM()  then
+      return self:ToStringLLDDM( Settings )
+    end
+    if Settings:IsA2G_MGRS() then
+      return self:ToStringMGRS( Settings )
+    end
+
+    return nil
+
+  end
+
+
+  --- Provides a coordinate string of the point, based on the A2A coordinate format system.
+  -- @param #COORDINATE self
+  -- @param Wrapper.Controllable#CONTROLLABLE Controllable
+  -- @param Core.Settings#SETTINGS Settings
+  -- @return #string The coordinate Text in the configured coordinate system.
+  function COORDINATE:ToStringA2A( Controllable, Settings ) -- R2.2
+  
+    self:F( { Controllable = Controllable and Controllable:GetName() } )
+
+    local Settings = Settings or ( Controllable and _DATABASE:GetPlayerSettings( Controllable:GetPlayerName() ) ) or _SETTINGS
+
+    if Settings:IsA2A_BRAA()  then
+      if Controllable then
+        local Coordinate = Controllable:GetCoordinate()
+        return self:ToStringBRA( Coordinate, Settings ) 
+      else
+        return self:ToStringMGRS( Settings )
+      end
+    end
+    if Settings:IsA2A_BULLS() then
+      local Coalition = Controllable:GetCoalition()
+      return self:ToStringBULLS( Coalition, Settings )
+    end
+    if Settings:IsA2A_LL_DMS()  then
+      return self:ToStringLLDMS( Settings )
+    end
+    if Settings:IsA2A_LL_DDM()  then
+      return self:ToStringLLDDM( Settings )
+    end
+    if Settings:IsA2A_MGRS() then
+      return self:ToStringMGRS( Settings )
+    end
+
+    return nil
+
+  end
+
   --- Provides a coordinate string of the point, based on a coordinate format system:
   --   * Uses default settings in COORDINATE.
   --   * Can be overridden if for a GROUP containing x clients, a menu was selected to override the default.
@@ -13152,46 +13410,9 @@ do -- COORDINATE
     
 
     if ModeA2A then
-      if Settings:IsA2A_BRAA()  then
-        if Controllable then
-          local Coordinate = Controllable:GetCoordinate()
-          return self:ToStringBRA( Coordinate, Settings ) 
-        else
-          return self:ToStringMGRS( Settings )
-        end
-      end
-      if Settings:IsA2A_BULLS() then
-        local Coalition = Controllable:GetCoalition()
-        return self:ToStringBULLS( Coalition, Settings )
-      end
-      if Settings:IsA2A_LL_DMS()  then
-        return self:ToStringLLDMS( Settings )
-      end
-      if Settings:IsA2A_LL_DDM()  then
-        return self:ToStringLLDDM( Settings )
-      end
-      if Settings:IsA2A_MGRS() then
-        return self:ToStringMGRS( Settings )
-      end
+      return self:ToStringA2A( Controllable, Settings )
     else
-      if Settings:IsA2G_BR()  then
-        -- If no Controllable is given to calculate the BR from, then MGRS will be used!!!
-        if Controllable then
-          local Coordinate = Controllable:GetCoordinate()
-          return Controllable and self:ToStringBR( Coordinate, Settings ) or self:ToStringMGRS( Settings )
-        else
-          return self:ToStringMGRS( Settings )
-        end
-      end
-      if Settings:IsA2G_LL_DMS()  then
-        return self:ToStringLLDMS( Settings )
-      end
-      if Settings:IsA2G_LL_DDM()  then
-        return self:ToStringLLDDM( Settings )
-      end
-      if Settings:IsA2G_MGRS() then
-        return self:ToStringMGRS( Settings )
-      end
+      return self:ToStringA2G( Controllable, Settings )
     end
     
     return nil
@@ -18204,6 +18425,7 @@ function POSITIONABLE:GetCoordinate()
     
     local PositionableCoordinate = COORDINATE:NewFromVec3( PositionableVec3 )
     PositionableCoordinate:SetHeading( self:GetHeading() )
+    PositionableCoordinate:SetVelocity( self:GetVelocityMPS() )
   
     self:T2( PositionableCoordinate )
     return PositionableCoordinate
@@ -19226,14 +19448,19 @@ function CONTROLLABLE:SetTask( DCSTask, WaitTime )
 
   if DCSControllable then
 
+    local DCSControllableName = self:GetName()
 
     -- When a controllable SPAWNs, it takes about a second to get the controllable in the simulator. Setting tasks to unspawned controllables provides unexpected results.
     -- Therefore we schedule the functions to set the mission and options for the Controllable.
     -- Controller.setTask( Controller, DCSTask )
 
     local function SetTask( Controller, DCSTask )
-      local Controller = self:_GetController()
-      Controller:setTask( DCSTask )
+      if self and self:IsAlive() then
+        local Controller = self:_GetController()
+        Controller:setTask( DCSTask )
+      else
+        BASE:E( DCSControllableName .. " is not alive anymore. Cannot set DCSTask " .. DCSTask )
+      end
     end
 
     if not WaitTime or WaitTime == 0 then
@@ -32482,7 +32709,7 @@ do -- DETECTION_BASE
     
     self.DetectionSetGroup = DetectionSetGroup
     
-    self.DetectionInterval = 30
+    self.RefreshTimeInterval = 30
     
     self:InitDetectVisual( nil )
     self:InitDetectOptical( nil )
@@ -32667,7 +32894,7 @@ do -- DETECTION_BASE
     -- @param #string Event The Event string.
     -- @param #string To The To State string.
     function DETECTION_BASE:onafterStart(From,Event,To)
-      self:__Detect(0.1)
+      self:__Detect( 1 )
     end
 
     --- @param #DETECTION_BASE self
@@ -32902,7 +33129,7 @@ do -- DETECTION_BASE
           self:CleanDetectionItem( DetectedItem, DetectedItemID ) -- Any DetectionItem that has a Set with zero elements in it, must be removed from the DetectionItems list.
         end
  
-        self:__Detect( self.DetectionInterval )
+        self:__Detect( self.RefreshTimeInterval )
       end
 
     end
@@ -33082,12 +33309,12 @@ do -- DETECTION_BASE
   
     --- Set the detection interval time in seconds.
     -- @param #DETECTION_BASE self
-    -- @param #number DetectionInterval Interval in seconds.
+    -- @param #number RefreshTimeInterval Interval in seconds.
     -- @return #DETECTION_BASE self
-    function DETECTION_BASE:SetDetectionInterval( DetectionInterval )
+    function DETECTION_BASE:SetRefreshTimeInterval( RefreshTimeInterval )
       self:F2()
     
-      self.DetectionInterval = DetectionInterval
+      self.RefreshTimeInterval = RefreshTimeInterval
       
       return self
     end
@@ -33300,11 +33527,32 @@ do -- DETECTION_BASE
   
   end
   
-  do -- NearBy calculations
+  do -- Friendly calculations
+  
+    --- This will allow during friendly search any recce or detection unit to be also considered as a friendly.
+    -- By default, recce aren't considered friendly, because that would mean that a recce would be also an attacking friendly,
+    -- and this is wrong.
+    -- However, in a CAP situation, when the CAP is part of an EWR network, the CAP is also an attacker.
+    -- This, this method allows to register for a detection the CAP unit name prefixes to be considered CAP.
+    -- @param #DETECTION_BASE self
+    -- @param #string FriendlyPrefixes A string or a list of prefixes.
+    -- @return #DETECTION_BASE 
+    function DETECTION_BASE:SetFriendlyPrefixes( FriendlyPrefixes )
+
+      self.FriendlyPrefixes = self.FriendlyPrefixes or {}
+      if type( FriendlyPrefixes ) ~= "table" then
+        FriendlyPrefixes = { FriendlyPrefixes }
+      end
+      for PrefixID, Prefix in pairs( FriendlyPrefixes ) do
+        self:F( { FriendlyPrefix = Prefix } )
+        self.FriendlyPrefixes[Prefix] = Prefix
+      end
+      return self    
+    end
   
     --- Returns if there are friendlies nearby the FAC units ...
     -- @param #DETECTION_BASE self
-    -- @return #boolean trhe if there are friendlies nearby 
+    -- @return #boolean true if there are friendlies nearby 
     function DETECTION_BASE:IsFriendliesNearBy( DetectedItem )
       
       return DetectedItem.FriendliesNearBy ~= nil or false
@@ -33378,9 +33626,11 @@ do -- DETECTION_BASE
     
       DetectedItem.FriendliesNearBy = nil
 
-      if DetectedUnit then
+      -- We need to ensure that the DetectedUnit is alive!
+      if DetectedUnit and DetectedUnit:IsAlive() then
       
-        local InterceptCoord = ReportGroupData.InterceptCoord or DetectedUnit:GetCoordinate()
+        local DetectedUnitCoord = DetectedUnit:GetCoordinate()
+        local InterceptCoord = ReportGroupData.InterceptCoord or DetectedUnitCoord
         
         local SphereSearch = {
          id = world.VolumeType.SPHERE,
@@ -33409,9 +33659,26 @@ do -- DETECTION_BASE
           local FoundUnitName = FoundDCSUnit:getName()
           local FoundUnitGroupName = FoundDCSUnit:getGroup():getName()
           local EnemyUnitName = DetectedUnit:GetName()
+
           local FoundUnitInReportSetGroup = ReportSetGroup:FindGroup( FoundUnitGroupName ) ~= nil
+          self:T( { "Friendlies search:", FoundUnitName, FoundUnitCoalition, EnemyUnitName, EnemyCoalition, FoundUnitInReportSetGroup } )
           
-          --self:F( { "Friendlies search:", FoundUnitName, FoundUnitCoalition, EnemyUnitName, EnemyCoalition, FoundUnitInReportSetGroup } )
+          if FoundUnitInReportSetGroup == true then
+            -- If the recce was part of the friendlies found, then check if the recce is part of the allowed friendly unit prefixes.
+            for PrefixID, Prefix in pairs( self.FriendlyPrefixes or {} ) do
+              self:F( { "FriendlyPrefix:", Prefix } )
+              -- In case a match is found (so a recce unit name is part of the friendly prefixes), then report that recce to be part of the friendlies.
+              -- This is important if CAP planes (so planes using their own radar) to be scanning for targets as part of the EWR network.
+              -- But CAP planes are also attackers, so they need to be considered friendlies too!
+              -- I chose to use prefixes because it is the fastest way to check.
+              if string.find( FoundUnitName, Prefix:gsub ("-", "%%-"), 1 ) then
+                FoundUnitInReportSetGroup = false
+                break
+              end
+            end
+          end
+
+          self:F( { "Friendlies search:", FoundUnitName, FoundUnitCoalition, EnemyUnitName, EnemyCoalition, FoundUnitInReportSetGroup } )
           
           if FoundUnitCoalition ~= EnemyCoalition and FoundUnitInReportSetGroup == false then
             local FriendlyUnit = UNIT:Find( FoundDCSUnit )
@@ -33419,13 +33686,14 @@ do -- DETECTION_BASE
             local FriendlyUnitCategory = FriendlyUnit:GetDesc().category
             self:T( { FriendlyUnitCategory = FriendlyUnitCategory, FriendliesCategory = self.FriendliesCategory } )
             
-            if ( not self.FriendliesCategory ) or ( self.FriendliesCategory and ( self.FriendliesCategory == FriendlyUnitCategory ) ) then
+            --if ( not self.FriendliesCategory ) or ( self.FriendliesCategory and ( self.FriendliesCategory == FriendlyUnitCategory ) ) then
               DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
               DetectedItem.FriendliesNearBy[FriendlyUnitName] = FriendlyUnit
               local Distance = DetectedUnitCoord:Get2DDistance( FriendlyUnit:GetCoordinate() )
               DetectedItem.FriendliesDistance = DetectedItem.FriendliesDistance or {}
               DetectedItem.FriendliesDistance[Distance] = FriendlyUnit
-            end
+              self:T( { FriendlyUnitName = FriendlyUnitName, Distance = Distance } )
+            --end
             return true
           end
           
@@ -33441,9 +33709,10 @@ do -- DETECTION_BASE
           --- @param Wrapper.Unit#UNIT PlayerUnit
           function( PlayerUnitName )
             local PlayerUnit = UNIT:FindByName( PlayerUnitName )
-            local PlayerUnitCategory = PlayerUnit:GetDesc().category
 
             if PlayerUnit and PlayerUnit:IsInZone(DetectionZone) then
+
+              local PlayerUnitCategory = PlayerUnit:GetDesc().category
     
               if ( not self.FriendliesCategory ) or ( self.FriendliesCategory and ( self.FriendliesCategory == PlayerUnitCategory ) ) then
 
@@ -33456,9 +33725,7 @@ do -- DETECTION_BASE
                 DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
                 DetectedItem.FriendliesNearBy[PlayerUnitName] = PlayerUnit
       
-                local CenterCoord = DetectedUnit:GetCoordinate()
-  
-                local Distance = CenterCoord:Get2DDistance( PlayerUnit:GetCoordinate() )
+                local Distance = DetectedUnitCoord:Get2DDistance( PlayerUnit:GetCoordinate() )
                 DetectedItem.FriendliesDistance = DetectedItem.FriendliesDistance or {}
                 DetectedItem.FriendliesDistance[Distance] = PlayerUnit
 
@@ -33764,7 +34031,7 @@ do -- DETECTION_BASE
         DetectedItem.Coordinate = Coordinate
         DetectedItem.Coordinate:SetHeading( DetectedItemUnit:GetHeading() )
         DetectedItem.Coordinate.y = DetectedItemUnit:GetAltitude()
-        DetectedItem.Coordinate.Speed = DetectedItemUnit:GetVelocityMPS()
+        DetectedItem.Coordinate:SetVelocity( DetectedItemUnit:GetVelocityMPS() )
       end
     end
   end
@@ -33795,7 +34062,7 @@ do -- DETECTION_BASE
     local DetectedSet = DetectedItem.Set
   
     if DetectedItem then
-      DetectedItem.ThreatLevel = DetectedSet:CalculateThreatLevelA2G()
+      DetectedItem.ThreatLevel, DetectedItem.ThreatText = DetectedSet:CalculateThreatLevelA2G()
     end
   end
   
@@ -33811,10 +34078,10 @@ do -- DETECTION_BASE
     local DetectedItem = self:GetDetectedItem( Index )
     
     if DetectedItem then
-      return DetectedItem.ThreatLevel or 0
+      return DetectedItem.ThreatLevel or 0, DetectedItem.ThreatText or ""
     end
     
-    return nil
+    return nil, ""
   end
   
   
@@ -34543,9 +34810,9 @@ do -- DETECTION_AREAS
   -- @param #DETECTION_BASE.DetectedItem DetectedItem
   function DETECTION_AREAS:CalculateIntercept( DetectedItem )
 
-    local DetectedSpeed = DetectedItem.Coordinate.Speed
-    local DetectedHeading = DetectedItem.Coordinate.Heading
     local DetectedCoord = DetectedItem.Coordinate
+    local DetectedSpeed = DetectedCoord:GetVelocity()
+    local DetectedHeading = DetectedCoord:GetHeading()
 
     if self.Intercept then
       local DetectedSet = DetectedItem.Set
@@ -34573,13 +34840,15 @@ do -- DETECTION_AREAS
     local DistanceRecce = 1000000000 -- Units are not further than 1000000 km away from an area :-)
     
     for RecceGroupName, RecceGroup in pairs( self.DetectionSetGroup:GetSet() ) do
-      for RecceUnit, RecceUnit in pairs( RecceGroup:GetUnits() ) do
-        if RecceUnit:IsActive() then
-          local RecceUnitCoord = RecceUnit:GetCoordinate()
-          local Distance = RecceUnitCoord:Get2DDistance( self:GetDetectedItemCoordinate( DetectedItem.Index ) )
-          if Distance < DistanceRecce then
-            DistanceRecce = Distance
-            NearestRecce = RecceUnit
+      if RecceGroup and RecceGroup:IsAlive() then
+        for RecceUnit, RecceUnit in pairs( RecceGroup:GetUnits() ) do
+          if RecceUnit:IsActive() then
+            local RecceUnitCoord = RecceUnit:GetCoordinate()
+            local Distance = RecceUnitCoord:Get2DDistance( self:GetDetectedItemCoordinate( DetectedItem.Index ) )
+            if Distance < DistanceRecce then
+              DistanceRecce = Distance
+              NearestRecce = RecceUnit
+            end
           end
         end
       end
@@ -35776,7 +36045,7 @@ do -- DESIGNATE
           
             local Coord = self.Detection:GetDetectedItemCoordinate( DesignateIndex )
             local ID = self.Detection:GetDetectedItemID( DesignateIndex )
-            local MenuText = ID .. ", " .. Coord:ToString( AttackGroup )
+            local MenuText = ID .. ", " .. Coord:ToStringA2G( AttackGroup )
             
             if Designating == "" then
               MenuText = "(-) " .. MenuText
@@ -35785,7 +36054,7 @@ do -- DESIGNATE
               for LaserCode, MenuText in pairs( self.MenuLaserCodes ) do
                 MENU_GROUP_COMMAND:New( AttackGroup, string.format( MenuText, LaserCode ), DetectedMenu, self.MenuLaseCode, self, DesignateIndex, 60, LaserCode ):SetTime( MenuTime ):SetTag( self.DesignateName )
               end
-              MENU_GROUP_COMMAND:New( AttackGroup, "Lase targets", DetectedMenu, self.MenuLaseOn, self, DesignateIndex, 60 ):SetTime( MenuTime ):SetTag( self.DesignateName )
+              MENU_GROUP_COMMAND:New( AttackGroup, "Lase with random laser code(s)", DetectedMenu, self.MenuLaseOn, self, DesignateIndex, 60 ):SetTime( MenuTime ):SetTag( self.DesignateName )
               MENU_GROUP_COMMAND:New( AttackGroup, "Smoke red", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.Red ):SetTime( MenuTime ):SetTag( self.DesignateName )
               MENU_GROUP_COMMAND:New( AttackGroup, "Smoke blue", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.Blue ):SetTime( MenuTime ):SetTag( self.DesignateName )
               MENU_GROUP_COMMAND:New( AttackGroup, "Smoke green", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.Green ):SetTime( MenuTime ):SetTag( self.DesignateName )
@@ -35913,6 +36182,8 @@ do -- DESIGNATE
   function DESIGNATE:onafterLaseOn( From, Event, To, Index, Duration, LaserCode )
   
     self.Designating[Index] = "Laser"
+    self.LaseStart = timer.getTime()
+    self.LaseDuration = Duration
     self:__Lasing( -1, Index, Duration, LaserCode )
   end
   
@@ -35961,59 +36232,84 @@ do -- DESIGNATE
       end
     end    
     
+    if self.AutoLase or ( not self.AutoLase and ( self.LaseStart + Duration >= timer.getTime() ) ) then
 
-    TargetSetUnit:ForEachUnitPerThreatLevel( 10, 0,
-      --- @param Wrapper.Unit#UNIT SmokeUnit
-      function( TargetUnit )
-      
-        self:F( { TargetUnit = TargetUnit:GetName() } )
-
-        if MarkingCount < self.MaximumMarkings then
-
-          if TargetUnit:IsAlive() then
+      TargetSetUnit:ForEachUnitPerThreatLevel( 10, 0,
+        --- @param Wrapper.Unit#UNIT SmokeUnit
+        function( TargetUnit )
+        
+          self:F( { TargetUnit = TargetUnit:GetName() } )
   
-            local Recce = self.Recces[TargetUnit]
+          if MarkingCount < self.MaximumMarkings then
   
-            if not Recce then
-  
-              self:E( "Lasing..." )
-              self.RecceSet:Flush()
-  
-              for RecceGroupID, RecceGroup in pairs( self.RecceSet:GetSet() ) do
-                for UnitID, UnitData in pairs( RecceGroup:GetUnits() or {} ) do
-  
-                  local RecceUnit = UnitData -- Wrapper.Unit#UNIT
-                  local RecceUnitDesc = RecceUnit:GetDesc()
-                  --self:F( { RecceUnit = RecceUnit:GetName(), RecceDescription = RecceUnitDesc } )
-  
-                  if RecceUnit:IsLasing() == false then
-                    --self:F( { IsDetected = RecceUnit:IsDetected( TargetUnit ), IsLOS = RecceUnit:IsLOS( TargetUnit ) } )
-  
-                    if RecceUnit:IsDetected( TargetUnit ) and RecceUnit:IsLOS( TargetUnit ) then
-  
-                      local LaserCodeIndex = math.random( 1, #self.LaserCodes )
-                      local LaserCode = self.LaserCodes[LaserCodeIndex]
-                      --self:F( { LaserCode = LaserCode, LaserCodeUsed = self.LaserCodesUsed[LaserCode] } )
-  
-                      if LaserCodeRequested and LaserCodeRequested ~= LaserCode then
-                        LaserCode = LaserCodeRequested
-                        LaserCodeRequested = nil
-                      end
-  
-                      if not self.LaserCodesUsed[LaserCode] then
-  
-                        self.LaserCodesUsed[LaserCode] = LaserCodeIndex
-                        local Spot = RecceUnit:LaseUnit( TargetUnit, LaserCode, Duration )
-                        local AttackSet = self.AttackSet
-  
-                        function Spot:OnAfterDestroyed( From, Event, To )
-                          self:E( "Destroyed Message" )
-                          self.Recce:ToSetGroup( "Target " .. TargetUnit:GetTypeName() .. " destroyed. " .. TargetSetUnit:Count() .. " targets left.", 5, AttackSet, self.DesignateName )
+            if TargetUnit:IsAlive() then
+    
+              local Recce = self.Recces[TargetUnit]
+    
+              if not Recce then
+    
+                self:E( "Lasing..." )
+                self.RecceSet:Flush()
+    
+                for RecceGroupID, RecceGroup in pairs( self.RecceSet:GetSet() ) do
+                  for UnitID, UnitData in pairs( RecceGroup:GetUnits() or {} ) do
+    
+                    local RecceUnit = UnitData -- Wrapper.Unit#UNIT
+                    local RecceUnitDesc = RecceUnit:GetDesc()
+                    --self:F( { RecceUnit = RecceUnit:GetName(), RecceDescription = RecceUnitDesc } )
+    
+                    if RecceUnit:IsLasing() == false then
+                      --self:F( { IsDetected = RecceUnit:IsDetected( TargetUnit ), IsLOS = RecceUnit:IsLOS( TargetUnit ) } )
+    
+                      if RecceUnit:IsDetected( TargetUnit ) and RecceUnit:IsLOS( TargetUnit ) then
+    
+                        local LaserCodeIndex = math.random( 1, #self.LaserCodes )
+                        local LaserCode = self.LaserCodes[LaserCodeIndex]
+                        --self:F( { LaserCode = LaserCode, LaserCodeUsed = self.LaserCodesUsed[LaserCode] } )
+    
+                        if LaserCodeRequested and LaserCodeRequested ~= LaserCode then
+                          LaserCode = LaserCodeRequested
+                          LaserCodeRequested = nil
                         end
-  
-                        self.Recces[TargetUnit] = RecceUnit
-                        RecceUnit:MessageToSetGroup( "Marking " .. TargetUnit:GetTypeName() .. " with laser " .. RecceUnit:GetSpot().LaserCode .. " for " .. Duration .. "s.", 5, self.AttackSet, self.DesignateName )
-                        -- OK. We have assigned for the Recce a TargetUnit. We can exit the function.
+    
+                        if not self.LaserCodesUsed[LaserCode] then
+    
+                          self.LaserCodesUsed[LaserCode] = LaserCodeIndex
+                          local Spot = RecceUnit:LaseUnit( TargetUnit, LaserCode, Duration )
+                          local AttackSet = self.AttackSet
+    
+                          function Spot:OnAfterDestroyed( From, Event, To )
+                            self:E( "Destroyed Message" )
+                            self.Recce:ToSetGroup( "Target " .. TargetUnit:GetTypeName() .. " destroyed. " .. TargetSetUnit:Count() .. " targets left.", 5, AttackSet, self.DesignateName )
+                          end
+    
+                          self.Recces[TargetUnit] = RecceUnit
+                          RecceUnit:MessageToSetGroup( "Marking " .. TargetUnit:GetTypeName() .. " with laser " .. RecceUnit:GetSpot().LaserCode .. " for " .. Duration .. "s.", 5, self.AttackSet, self.DesignateName )
+                          -- OK. We have assigned for the Recce a TargetUnit. We can exit the function.
+                          MarkingCount = MarkingCount + 1
+                          local TargetUnitType = TargetUnit:GetTypeName()
+                          if not MarkedTypes[TargetUnitType] then
+                            MarkedTypes[TargetUnitType] = true
+                            ReportTypes:Add(TargetUnitType)
+                          end
+                          ReportLaserCodes:Add(RecceUnit.LaserCode)
+                          return
+                        end
+                      else
+                        --RecceUnit:MessageToSetGroup( "Can't mark " .. TargetUnit:GetTypeName(), 5, self.AttackSet )
+                      end
+                    else
+                      -- The Recce is lasing, but the Target is not detected or within LOS. So stop lasing and send a report.
+    
+                      if not RecceUnit:IsDetected( TargetUnit ) or not RecceUnit:IsLOS( TargetUnit ) then
+    
+                        local Recce = self.Recces[TargetUnit] -- Wrapper.Unit#UNIT
+    
+                        if Recce then
+                          Recce:LaseOff()
+                          Recce:MessageToSetGroup( "Target " .. TargetUnit:GetTypeName() "out of LOS. Cancelling lase!", 5, self.AttackSet, self.DesignateName )
+                        end
+                      else
                         MarkingCount = MarkingCount + 1
                         local TargetUnitType = TargetUnit:GetTypeName()
                         if not MarkedTypes[TargetUnitType] then
@@ -36021,58 +36317,38 @@ do -- DESIGNATE
                           ReportTypes:Add(TargetUnitType)
                         end
                         ReportLaserCodes:Add(RecceUnit.LaserCode)
-                        return
-                      end
-                    else
-                      --RecceUnit:MessageToSetGroup( "Can't mark " .. TargetUnit:GetTypeName(), 5, self.AttackSet )
+                      end  
                     end
-                  else
-                    -- The Recce is lasing, but the Target is not detected or within LOS. So stop lasing and send a report.
-  
-                    if not RecceUnit:IsDetected( TargetUnit ) or not RecceUnit:IsLOS( TargetUnit ) then
-  
-                      local Recce = self.Recces[TargetUnit] -- Wrapper.Unit#UNIT
-  
-                      if Recce then
-                        Recce:LaseOff()
-                        Recce:MessageToSetGroup( "Target " .. TargetUnit:GetTypeName() "out of LOS. Cancelling lase!", 5, self.AttackSet, self.DesignateName )
-                      end
-                    else
-                      MarkingCount = MarkingCount + 1
-                      local TargetUnitType = TargetUnit:GetTypeName()
-                      if not MarkedTypes[TargetUnitType] then
-                        MarkedTypes[TargetUnitType] = true
-                        ReportTypes:Add(TargetUnitType)
-                      end
-                      ReportLaserCodes:Add(RecceUnit.LaserCode)
-                    end  
                   end
                 end
+              else
+                MarkingCount = MarkingCount + 1
+                local TargetUnitType = TargetUnit:GetTypeName()
+                if not MarkedTypes[TargetUnitType] then
+                  MarkedTypes[TargetUnitType] = true
+                  ReportTypes:Add(TargetUnitType)
+                end
+                ReportLaserCodes:Add(Recce.LaserCode)
+                --Recce:MessageToSetGroup( self.DesignateName .. ": Marking " .. TargetUnit:GetTypeName() .. " with laser " .. Recce.LaserCode .. ".", 5, self.AttackSet )
               end
-            else
-              MarkingCount = MarkingCount + 1
-              local TargetUnitType = TargetUnit:GetTypeName()
-              if not MarkedTypes[TargetUnitType] then
-                MarkedTypes[TargetUnitType] = true
-                ReportTypes:Add(TargetUnitType)
-              end
-              ReportLaserCodes:Add(Recce.LaserCode)
-              --Recce:MessageToSetGroup( self.DesignateName .. ": Marking " .. TargetUnit:GetTypeName() .. " with laser " .. Recce.LaserCode .. ".", 5, self.AttackSet )
             end
           end
         end
+      )
+
+      local MarkedTypesText = ReportTypes:Text(', ')
+      local MarkedLaserCodesText = ReportLaserCodes:Text(', ')
+      for MarkedType, MarketCount in pairs( MarkedTypes ) do
+        self.CC:GetPositionable():MessageToSetGroup( "Marking " .. MarkingCount .. " x " .. MarkedTypesText .. " with lasers " .. MarkedLaserCodesText .. ".", 5, self.AttackSet, self.DesignateName )
       end
-    )
+  
+      self:__Lasing( -30, Index, Duration, LaserCodeRequested )
+      
+      self:SetDesignateMenu()
 
-    local MarkedTypesText = ReportTypes:Text(', ')
-    local MarkedLaserCodesText = ReportLaserCodes:Text(', ')
-    for MarkedType, MarketCount in pairs( MarkedTypes ) do
-      self.CC:GetPositionable():MessageToSetGroup( "Marking " .. MarkingCount .. " x " .. MarkedTypesText .. " with lasers " .. MarkedLaserCodesText .. ".", 5, self.AttackSet, self.DesignateName )
+    else
+      self:__LaseOff( 1 )
     end
-
-    self:__Lasing( -30, Index, Duration )
-    
-    self:SetDesignateMenu()
 
   end
     
@@ -37343,7 +37619,7 @@ end
 --   * @{#AI_A2A_PATROL.SetDetectionOn}(): Set the detection on. The AI will detect for targets.
 --   * @{#AI_A2A_PATROL.SetDetectionOff}(): Set the detection off, the AI will not detect for targets. The existing target list will NOT be erased.
 -- 
--- The detection frequency can be set with @{#AI_A2A_PATROL.SetDetectionInterval}( seconds ), where the amount of seconds specify how much seconds will be waited before the next detection.
+-- The detection frequency can be set with @{#AI_A2A_PATROL.SetRefreshTimeInterval}( seconds ), where the amount of seconds specify how much seconds will be waited before the next detection.
 -- Use the method @{#AI_A2A_PATROL.GetDetectedUnits}() to obtain a list of the @{Unit}s detected by the AI.
 -- 
 -- The detection can be filtered to potential targets in a specific zone.
@@ -38009,9 +38285,9 @@ function AI_A2A_CAP:onafterEngage( AIGroup, From, Event, To, AttackSetUnit )
 
   self.AttackSetUnit = AttackSetUnit or self.AttackSetUnit -- Core.Set#SET_UNIT
   
-  local FirstAttackUnit = self.AttackSetUnit:GetFirst()
+  local FirstAttackUnit = self.AttackSetUnit:GetFirst() -- Wrapper.Unit#UNIT
   
-  if FirstAttackUnit then
+  if FirstAttackUnit and FirstAttackUnit:IsAlive() then -- If there is no attacker anymore, stop the engagement.
   
     if AIGroup:IsAlive() then
 
@@ -38475,14 +38751,13 @@ function AI_A2A_GCI:onafterEngage( AIGroup, From, Event, To, AttackSetUnit )
   
   local FirstAttackUnit = self.AttackSetUnit:GetFirst()
   
-  if FirstAttackUnit then
+  if FirstAttackUnit and FirstAttackUnit:IsAlive() then
 
     if AIGroup:IsAlive() then
   
       local EngageRoute = {}
       
       local CurrentCoord = AIGroup:GetCoordinate()
-            
   
       --- Calculate the target route point.
       
@@ -39441,7 +39716,7 @@ do -- AI_A2A_DISPATCHER
     -- TODO: Check detection through radar.
     self.Detection:FilterCategories( { Unit.Category.AIRPLANE, Unit.Category.HELICOPTER } )
     --self.Detection:InitDetectRadar( true )
-    self.Detection:SetDetectionInterval( 30 )
+    self.Detection:SetRefreshTimeInterval( 30 )
 
     self:SetEngageRadius()
     self:SetGciRadius()
@@ -39853,7 +40128,7 @@ do -- AI_A2A_DISPATCHER
   -- @return #number, Core.CommandCenter#REPORT
   function AI_A2A_DISPATCHER:GetAIFriendliesNearBy( DetectedItem )
   
-    local FriendliesNearBy = self.Detection:GetFriendliesNearBy( DetectedItem )
+    local FriendliesNearBy = self.Detection:GetFriendliesDistance( DetectedItem )
     
     return FriendliesNearBy
   end
@@ -39880,6 +40155,12 @@ do -- AI_A2A_DISPATCHER
   -- @param #AI_A2A_DISPATCHER self
   function AI_A2A_DISPATCHER:GetDefenderTaskTarget( Defender )
     return self:GetDefenderTask( Defender ).Target
+  end
+  
+  ---
+  -- @param #AI_A2A_DISPATCHER self
+  function AI_A2A_DISPATCHER:GetDefenderTaskSquadronName( Defender )
+    return self:GetDefenderTask( Defender ).SquadronName
   end
 
   ---
@@ -39946,14 +40227,14 @@ do -- AI_A2A_DISPATCHER
   ---
   -- @param #AI_A2A_DISPATCHER self
   -- @param Wrapper.Group#GROUP AIGroup
-  function AI_A2A_DISPATCHER:SetDefenderTaskTarget( Defender, Target )
+  function AI_A2A_DISPATCHER:SetDefenderTaskTarget( Defender, AttackerDetection )
     
     local Message = "(" .. self.DefenderTasks[Defender].Type .. ") " 
     Message = Message .. Defender:GetName() 
-    Message = Message .. ( Target and ( " target " .. Target.Index .. " [" .. Target.Set:Count() .. "]" ) ) or ""
-    self:F( { Target = Message } )
-    if Target then
-      self.DefenderTasks[Defender].Target = Target
+    Message = Message .. ( AttackerDetection and ( " target " .. AttackerDetection.Index .. " [" .. AttackerDetection.Set:Count() .. "]" ) ) or ""
+    self:F( { AttackerDetection = Message } )
+    if AttackerDetection then
+      self.DefenderTasks[Defender].Target = AttackerDetection
     end
     return self
   end
@@ -39995,7 +40276,7 @@ do -- AI_A2A_DISPATCHER
   --    * Nevada or NTTR: @{Airbase#AIRBASE.Nevada}
   --    * Normandy: @{Airbase#AIRBASE.Normandy}
   -- 
-  -- @param #string SpawnTemplates A string or an array of strings specifying the **prefix names of the templates** (not going to explain what is templates here again). 
+  -- @param #string TemplatePrefixes A string or an array of strings specifying the **prefix names of the templates** (not going to explain what is templates here again). 
   -- Examples are `{ "104th", "105th" }` or `"104th"` or `"Template 1"` or `"BLUE PLANES"`. 
   -- Just remember that your template (groups late activated) need to start with the prefix you have specified in your code.
   -- If you have only one prefix name for a squadron, you don't need to use the `{ }`, otherwise you need to use the brackets.
@@ -40029,7 +40310,7 @@ do -- AI_A2A_DISPATCHER
   --   
   --   
   -- @return #AI_A2A_DISPATCHER
-  function AI_A2A_DISPATCHER:SetSquadron( SquadronName, AirbaseName, SpawnTemplates, Resources )
+  function AI_A2A_DISPATCHER:SetSquadron( SquadronName, AirbaseName, TemplatePrefixes, Resources )
   
   
     self.DefenderSquadrons[SquadronName] = self.DefenderSquadrons[SquadronName] or {} 
@@ -40043,19 +40324,20 @@ do -- AI_A2A_DISPATCHER
     end
     
     DefenderSquadron.Spawn = {}
-    if type( SpawnTemplates ) == "string" then
-      local SpawnTemplate = SpawnTemplates
+    if type( TemplatePrefixes ) == "string" then
+      local SpawnTemplate = TemplatePrefixes
       self.DefenderSpawns[SpawnTemplate] = self.DefenderSpawns[SpawnTemplate] or SPAWN:New( SpawnTemplate ) -- :InitCleanUp( 180 )
       DefenderSquadron.Spawn[1] = self.DefenderSpawns[SpawnTemplate]
     else
-      for TemplateID, SpawnTemplate in pairs( SpawnTemplates ) do
+      for TemplateID, SpawnTemplate in pairs( TemplatePrefixes ) do
         self.DefenderSpawns[SpawnTemplate] = self.DefenderSpawns[SpawnTemplate] or SPAWN:New( SpawnTemplate ) -- :InitCleanUp( 180 )
         DefenderSquadron.Spawn[#DefenderSquadron.Spawn+1] = self.DefenderSpawns[SpawnTemplate]
       end
     end
     DefenderSquadron.Resources = Resources
+    DefenderSquadron.TemplatePrefixes = TemplatePrefixes
 
-    self:E( { Squadron = {SquadronName, AirbaseName, SpawnTemplates, Resources } } )
+    self:E( { Squadron = {SquadronName, AirbaseName, TemplatePrefixes, Resources } } )
     
     return self
   end
@@ -40122,6 +40404,14 @@ do -- AI_A2A_DISPATCHER
     self:SetSquadronCapInterval( SquadronName, self.DefenderDefault.CapLimit, self.DefenderDefault.CapMinSeconds, self.DefenderDefault.CapMaxSeconds, 1 )
 
     self:E( { CAP = { SquadronName, Zone, FloorAltitude, CeilingAltitude, PatrolMinSpeed, PatrolMaxSpeed, EngageMinSpeed, EngageMaxSpeed, AltType } } )
+   
+    -- Add the CAP to the EWR network.
+    
+    local RecceSet = self.Detection:GetDetectionSetGroup()
+    RecceSet:FilterPrefixes( DefenderSquadron.TemplatePrefixes )
+    RecceSet:FilterStart()
+    
+    self.Detection:SetFriendlyPrefixes( DefenderSquadron.TemplatePrefixes )
     
     return self
   end
@@ -40238,7 +40528,7 @@ do -- AI_A2A_DISPATCHER
     self:F({SquadronName = SquadronName})
   
     self.DefenderSquadrons[SquadronName] = self.DefenderSquadrons[SquadronName] or {} 
-    self.DefenderSquadrons[SquadronName].Cap = self.DefenderSquadrons[SquadronName].Cap or {}
+    self.DefenderSquadrons[SquadronName].Gci = self.DefenderSquadrons[SquadronName].Gci or {}
 
     local DefenderSquadron = self:GetSquadron( SquadronName )
 
@@ -41078,42 +41368,47 @@ do -- AI_A2A_DISPATCHER
   
   ---
   -- @param #AI_A2A_DISPATCHER self
-  function AI_A2A_DISPATCHER:CountDefendersEngaged( Target )
+  function AI_A2A_DISPATCHER:CountDefendersEngaged( AttackerDetection )
 
     -- First, count the active AIGroups Units, targetting the DetectedSet
-    local AIUnitCount = 0
+    local DefenderCount = 0
     
     self:E( "Counting Defenders Engaged for Attacker:" )
-    local DetectedSet = Target.Set
+    local DetectedSet = AttackerDetection.Set
     DetectedSet:Flush()
     
     local DefenderTasks = self:GetDefenderTasks()
-    for AIGroup, DefenderTask in pairs( DefenderTasks ) do
-      local AIGroup = AIGroup -- Wrapper.Group#GROUP
-      local DefenderTask = self:GetDefenderTaskTarget( AIGroup )
-      if DefenderTask and DefenderTask.Index == Target.Index then
-        AIUnitCount = AIUnitCount + AIGroup:GetSize()
-        self:E( "Defender Group Name: " .. AIGroup:GetName() .. ", Size: " .. AIGroup:GetSize() )
+    for Defender, DefenderTask in pairs( DefenderTasks ) do
+      local Defender = Defender -- Wrapper.Group#GROUP
+      local DefenderTaskTarget = DefenderTask.Target
+      local DefenderSquadronName = DefenderTask.SquadronName
+      if DefenderTaskTarget and DefenderTaskTarget.Index == AttackerDetection.Index then
+        local Squadron = self:GetSquadron( DefenderSquadronName )
+        local SquadronOverhead = Squadron.Overhead or self.DefenderDefault.Overhead 
+        DefenderCount = DefenderCount + Defender:GetSize() / SquadronOverhead
+        self:E( "Defender Group Name: " .. Defender:GetName() .. ", Size: " .. Defender:GetSize() )
       end
     end
 
-    return AIUnitCount
+    self:F( { DefenderCount = DefenderCount } )
+
+    return DefenderCount
   end
   
   ---
   -- @param #AI_A2A_DISPATCHER self
-  function AI_A2A_DISPATCHER:CountDefendersToBeEngaged( DetectedItem, DefenderCount )
+  function AI_A2A_DISPATCHER:CountDefendersToBeEngaged( AttackerDetection, DefenderCount )
   
     local Friendlies = nil
 
-    local DetectedSet = DetectedItem.Set
-    local DetectedCount = DetectedSet:Count()
+    local AttackerSet = AttackerDetection.Set
+    local AttackerCount = AttackerSet:Count()
 
-    local AIFriendlies = self:GetAIFriendliesNearBy( DetectedItem )
+    local DefenderFriendlies = self:GetAIFriendliesNearBy( AttackerDetection )
     
-    for FriendlyDistance, AIFriendly in UTILS.spairs( AIFriendlies or {} ) do
+    for FriendlyDistance, AIFriendly in UTILS.spairs( DefenderFriendlies or {} ) do
       -- We only allow to ENGAGE targets as long as the Units on both sides are balanced.
-      if DetectedCount > DefenderCount then 
+      if AttackerCount > DefenderCount then 
         local Friendly = AIFriendly:GetGroup() -- Wrapper.Group#GROUP
         if Friendly and Friendly:IsAlive() then
           -- Ok, so we have a friendly near the potential target.
@@ -41122,7 +41417,7 @@ do -- AI_A2A_DISPATCHER
           if DefenderTask then
             -- The Task should be CAP or GCI
             if DefenderTask.Type == "CAP" or DefenderTask.Type == "GCI" then
-              -- If there is no target, then add the AIGroup to the ResultAIGroups for Engagement to the TargetSet
+              -- If there is no target, then add the AIGroup to the ResultAIGroups for Engagement to the AttackerSet
               if DefenderTask.Target == nil then
                 if DefenderTask.Fsm:Is( "Returning" )
                 or DefenderTask.Fsm:Is( "Patrolling" ) then
@@ -41218,16 +41513,16 @@ do -- AI_A2A_DISPATCHER
 
   ---
   -- @param #AI_A2A_DISPATCHER self
-  function AI_A2A_DISPATCHER:onafterENGAGE( From, Event, To, Target, Defenders )
+  function AI_A2A_DISPATCHER:onafterENGAGE( From, Event, To, AttackerDetection, Defenders )
   
     if Defenders then
 
       for DefenderID, Defender in pairs( Defenders ) do
 
         local Fsm = self:GetDefenderTaskFsm( Defender )
-        Fsm:__Engage( 1, Target.Set ) -- Engage on the TargetSetUnit
+        Fsm:__Engage( 1, AttackerDetection.Set ) -- Engage on the TargetSetUnit
         
-        self:SetDefenderTaskTarget( Defender, Target )
+        self:SetDefenderTaskTarget( Defender, AttackerDetection )
 
       end
     end
@@ -41235,164 +41530,174 @@ do -- AI_A2A_DISPATCHER
 
   ---
   -- @param #AI_A2A_DISPATCHER self
-  function AI_A2A_DISPATCHER:onafterGCI( From, Event, To, DetectedItem, DefendersMissing, Friendlies )
+  function AI_A2A_DISPATCHER:onafterGCI( From, Event, To, AttackerDetection, DefendersMissing, DefenderFriendlies )
 
-    self:F( { From, Event, To, DetectedItem.Index, DefendersMissing, Friendlies } )
+    self:F( { From, Event, To, AttackerDetection.Index, DefendersMissing, DefenderFriendlies } )
 
-    local AttackerSet = DetectedItem.Set
-    local AttackerCount = AttackerSet:Count()
-    local DefendersCount = 0
-
-    for DefenderID, AIGroup in pairs( Friendlies or {} ) do
-
-      local Fsm = self:GetDefenderTaskFsm( AIGroup )
-      Fsm:__Engage( 1, AttackerSet ) -- Engage on the TargetSetUnit
+    local AttackerSet = AttackerDetection.Set
+    local AttackerUnit = AttackerSet:GetFirst()
+    
+    if AttackerUnit and AttackerUnit:IsAlive() then
+      local AttackerCount = AttackerSet:Count()
+      local DefenderCount = 0
+  
+      for DefenderID, DefenderGroup in pairs( DefenderFriendlies or {} ) do
+  
+        local Fsm = self:GetDefenderTaskFsm( DefenderGroup )
+        Fsm:__Engage( 1, AttackerSet ) -- Engage on the TargetSetUnit
+        
+        self:SetDefenderTaskTarget( DefenderGroup, AttackerDetection )
+  
+        DefenderCount = DefenderCount + DefenderGroup:GetSize()
+      end
+  
+      self:F( { DefenderCount = DefenderCount, DefendersMissing = DefendersMissing } )
+      DefenderCount = DefendersMissing
+  
+      local ClosestDistance = 0
+      local ClosestDefenderSquadronName = nil
       
-      self:SetDefenderTaskTarget( AIGroup, DetectedItem )
+      local BreakLoop = false
+      
+      while( DefenderCount > 0 and not BreakLoop ) do
+      
+        self:F( { DefenderSquadrons = self.DefenderSquadrons } )
 
-      DefendersCount = DefendersCount + AIGroup:GetSize()
-    end
+        for SquadronName, DefenderSquadron in pairs( self.DefenderSquadrons or {} ) do
 
-    DefendersCount = DefendersMissing
+          self:F( { GCI = DefenderSquadron.Gci } )
 
-    local ClosestDistance = 0
-    local ClosestDefenderSquadronName = nil
-    
-    local BreakLoop = false
-    
-    while( DefendersCount > 0 and not BreakLoop ) do
-      self:F( { DefenderSquadrons = self.DefenderSquadrons } )
-      for SquadronName, DefenderSquadron in pairs( self.DefenderSquadrons or {} ) do
-        self:F( { GCI = DefenderSquadron.Gci } )
-        for InterceptID, Intercept in pairs( DefenderSquadron.Gci or {} ) do
-    
-          self:F( { DefenderSquadron } )
-          local SpawnCoord = DefenderSquadron.Airbase:GetCoordinate() -- Core.Point#COORDINATE
-          --local TargetCoord = AttackerSet:GetFirst():GetCoordinate()
-          local InterceptCoord = DetectedItem.InterceptCoord
-          self:F({InterceptCoord = InterceptCoord})
-          if InterceptCoord then
-            local Distance = SpawnCoord:Get2DDistance( InterceptCoord )
-              self:F( { Distance = Distance, InterceptCoord = InterceptCoord } )
-            
-            if ClosestDistance == 0 or Distance < ClosestDistance then
+          for InterceptID, Intercept in pairs( DefenderSquadron.Gci or {} ) do
+      
+            self:F( { DefenderSquadron } )
+            local SpawnCoord = DefenderSquadron.Airbase:GetCoordinate() -- Core.Point#COORDINATE
+            local AttackerCoord = AttackerUnit:GetCoordinate()
+            local InterceptCoord = AttackerDetection.InterceptCoord
+            self:F({InterceptCoord = InterceptCoord})
+            if InterceptCoord then
+              local InterceptDistance = SpawnCoord:Get2DDistance( InterceptCoord )
+              local AirbaseDistance = SpawnCoord:Get2DDistance( AttackerCoord )
+              self:F( { InterceptDistance = InterceptDistance, AirbaseDistance = AirbaseDistance, InterceptCoord = InterceptCoord } )
               
-              -- Only intercept if the distance to target is smaller or equal to the GciRadius limit.
-              if Distance <= self.GciRadius then
-                ClosestDistance = Distance
-                ClosestDefenderSquadronName = SquadronName
+              if ClosestDistance == 0 or InterceptDistance < ClosestDistance then
+                
+                -- Only intercept if the distance to target is smaller or equal to the GciRadius limit.
+                if AirbaseDistance <= self.GciRadius then
+                  ClosestDistance = InterceptDistance
+                  ClosestDefenderSquadronName = SquadronName
+                end
               end
             end
           end
         end
-      end
-      
-      if ClosestDefenderSquadronName then
-      
-        local DefenderSquadron = self:CanGCI( ClosestDefenderSquadronName )
         
-        if DefenderSquadron then
-
-          local Gci = self.DefenderSquadrons[ClosestDefenderSquadronName].Gci
-          
-          if Gci then
+        if ClosestDefenderSquadronName then
         
-            local DefenderOverhead = DefenderSquadron.Overhead or self.DefenderDefault.Overhead
-            local DefenderGrouping = DefenderSquadron.Grouping or self.DefenderDefault.Grouping
-            local DefendersNeeded = math.ceil( DefendersCount * DefenderOverhead )
-            
-            self:F( { DefaultOverhead = self.DefenderDefault.Overhead, Overhead = DefenderOverhead } )
-            self:F( { DefaultGrouping = self.DefenderDefault.Grouping, Grouping = DefenderGrouping } )
-            self:F( { DefendersCount = DefendersCount, DefendersNeeded = DefendersNeeded } )
-            
-            while ( DefendersNeeded > 0 ) do
+          local DefenderSquadron = self:CanGCI( ClosestDefenderSquadronName )
           
-              local Spawn = DefenderSquadron.Spawn[ math.random( 1, #DefenderSquadron.Spawn ) ] -- Functional.Spawn#SPAWN
-              local DefenderGrouping = ( DefenderGrouping < DefendersNeeded ) and DefenderGrouping or DefendersNeeded
-              if DefenderGrouping then
-                Spawn:InitGrouping( DefenderGrouping )
-              else
-                Spawn:InitGrouping()
-              end
+          if DefenderSquadron then
+  
+            local Gci = self.DefenderSquadrons[ClosestDefenderSquadronName].Gci
+            
+            if Gci then
+          
+              local DefenderOverhead = DefenderSquadron.Overhead or self.DefenderDefault.Overhead
+              local DefenderGrouping = DefenderSquadron.Grouping or self.DefenderDefault.Grouping
+              local DefendersNeeded = math.ceil( DefenderCount * DefenderOverhead )
               
-              local TakeoffMethod = self:GetSquadronTakeoff( ClosestDefenderSquadronName )
-              local DefenderGCI = Spawn:SpawnAtAirbase( DefenderSquadron.Airbase, TakeoffMethod, DefenderSquadron.TakeoffAltitude or self.DefenderDefault.TakeoffAltitude ) -- Wrapper.Group#GROUP
-              self:F( { GCIDefender = DefenderGCI:GetName() } )
-
-              DefendersNeeded = DefendersNeeded - DefenderGrouping
-      
-              self:AddDefenderToSquadron( DefenderSquadron, DefenderGCI, DefenderGrouping )
+              self:F( { Overhead = DefenderOverhead, SquadronOverhead = DefenderSquadron.Overhead , DefaultOverhead = self.DefenderDefault.Overhead } )
+              self:F( { Grouping = DefenderGrouping, SquadronGrouping = DefenderSquadron.Grouping, DefaultGrouping = self.DefenderDefault.Grouping } )
+              self:F( { DefendersCount = DefenderCount, DefendersNeeded = DefendersNeeded } )
+              
+              while ( DefendersNeeded > 0 ) do
+            
+                local Spawn = DefenderSquadron.Spawn[ math.random( 1, #DefenderSquadron.Spawn ) ] -- Functional.Spawn#SPAWN
+                local DefenderGrouping = ( DefenderGrouping < DefendersNeeded ) and DefenderGrouping or DefendersNeeded
+                if DefenderGrouping then
+                  Spawn:InitGrouping( DefenderGrouping )
+                else
+                  Spawn:InitGrouping()
+                end
+                
+                local TakeoffMethod = self:GetSquadronTakeoff( ClosestDefenderSquadronName )
+                local DefenderGCI = Spawn:SpawnAtAirbase( DefenderSquadron.Airbase, TakeoffMethod, DefenderSquadron.TakeoffAltitude or self.DefenderDefault.TakeoffAltitude ) -- Wrapper.Group#GROUP
+                self:F( { GCIDefender = DefenderGCI:GetName() } )
+  
+                DefendersNeeded = DefendersNeeded - DefenderGrouping
         
-              if DefenderGCI then
-      
-                DefendersCount = DefendersCount - DefenderGrouping
-                
-                local Fsm = AI_A2A_GCI:New( DefenderGCI, Gci.EngageMinSpeed, Gci.EngageMaxSpeed )
-                Fsm:SetDispatcher( self )
-                Fsm:SetHomeAirbase( DefenderSquadron.Airbase )
-                Fsm:SetFuelThreshold( DefenderSquadron.FuelThreshold or self.DefenderDefault.FuelThreshold, 60 )
-                Fsm:SetDamageThreshold( self.DefenderDefault.DamageThreshold )
-                Fsm:SetDisengageRadius( self.DisengageRadius )
-                Fsm:Start()
-                Fsm:__Engage( 2, DetectedItem.Set ) -- Engage on the TargetSetUnit
-      
+                self:AddDefenderToSquadron( DefenderSquadron, DefenderGCI, DefenderGrouping )
+          
+                if DefenderGCI then
+
+                  DefenderCount = DefenderCount - DefenderGrouping / DefenderOverhead
         
-                self:SetDefenderTask( ClosestDefenderSquadronName, DefenderGCI, "GCI", Fsm, DetectedItem )
-                
-                
-                function Fsm:onafterRTB( Defender, From, Event, To )
-                  self:F({"GCI RTB", Defender:GetName()})
-                  self:GetParent(self).onafterRTB( self, Defender, From, Event, To )
+                  local Fsm = AI_A2A_GCI:New( DefenderGCI, Gci.EngageMinSpeed, Gci.EngageMaxSpeed )
+                  Fsm:SetDispatcher( self )
+                  Fsm:SetHomeAirbase( DefenderSquadron.Airbase )
+                  Fsm:SetFuelThreshold( DefenderSquadron.FuelThreshold or self.DefenderDefault.FuelThreshold, 60 )
+                  Fsm:SetDamageThreshold( self.DefenderDefault.DamageThreshold )
+                  Fsm:SetDisengageRadius( self.DisengageRadius )
+                  Fsm:Start()
+                  Fsm:__Engage( 2, AttackerDetection.Set ) -- Engage on the TargetSetUnit
+        
+          
+                  self:SetDefenderTask( ClosestDefenderSquadronName, DefenderGCI, "GCI", Fsm, AttackerDetection )
                   
-                  local Dispatcher = self:GetDispatcher() -- #AI_A2A_DISPATCHER
-                  Dispatcher:ClearDefenderTaskTarget( Defender )
-                end
-
-                --- @param #AI_A2A_DISPATCHER self
-                function Fsm:onafterLostControl( Defender, From, Event, To )
-                  self:F({"GCI LostControl", Defender:GetName()})
-                  self:GetParent(self).onafterHome( self, Defender, From, Event, To )
                   
-                  local Dispatcher = Fsm:GetDispatcher() -- #AI_A2A_DISPATCHER
-                  local Squadron = Dispatcher:GetSquadronFromDefender( Defender )
-                  if Defender:IsAboveRunway() then
-                    Dispatcher:RemoveDefenderFromSquadron( Squadron, Defender )
-                    Defender:Destroy()
+                  function Fsm:onafterRTB( Defender, From, Event, To )
+                    self:F({"GCI RTB", Defender:GetName()})
+                    self:GetParent(self).onafterRTB( self, Defender, From, Event, To )
+                    
+                    local Dispatcher = self:GetDispatcher() -- #AI_A2A_DISPATCHER
+                    Dispatcher:ClearDefenderTaskTarget( Defender )
                   end
-                end
-                
-                --- @param #AI_A2A_DISPATCHER self
-                function Fsm:onafterHome( Defender, From, Event, To, Action )
-                  self:F({"GCI Home", Defender:GetName()})
-                  self:GetParent(self).onafterHome( self, Defender, From, Event, To )
+  
+                  --- @param #AI_A2A_DISPATCHER self
+                  function Fsm:onafterLostControl( Defender, From, Event, To )
+                    self:F({"GCI LostControl", Defender:GetName()})
+                    self:GetParent(self).onafterHome( self, Defender, From, Event, To )
+                    
+                    local Dispatcher = Fsm:GetDispatcher() -- #AI_A2A_DISPATCHER
+                    local Squadron = Dispatcher:GetSquadronFromDefender( Defender )
+                    if Defender:IsAboveRunway() then
+                      Dispatcher:RemoveDefenderFromSquadron( Squadron, Defender )
+                      Defender:Destroy()
+                    end
+                  end
                   
-                  local Dispatcher = self:GetDispatcher() -- #AI_A2A_DISPATCHER
-                  local Squadron = Dispatcher:GetSquadronFromDefender( Defender )
-
-                  if Action and Action == "Destroy" then
-                    Dispatcher:RemoveDefenderFromSquadron( Squadron, Defender )
-                    Defender:Destroy()
+                  --- @param #AI_A2A_DISPATCHER self
+                  function Fsm:onafterHome( Defender, From, Event, To, Action )
+                    self:F({"GCI Home", Defender:GetName()})
+                    self:GetParent(self).onafterHome( self, Defender, From, Event, To )
+                    
+                    local Dispatcher = self:GetDispatcher() -- #AI_A2A_DISPATCHER
+                    local Squadron = Dispatcher:GetSquadronFromDefender( Defender )
+  
+                    if Action and Action == "Destroy" then
+                      Dispatcher:RemoveDefenderFromSquadron( Squadron, Defender )
+                      Defender:Destroy()
+                    end
+  
+                    if Dispatcher:GetSquadronLanding( Squadron.Name ) == AI_A2A_DISPATCHER.Landing.NearAirbase then
+                      Dispatcher:RemoveDefenderFromSquadron( Squadron, Defender )
+                      Defender:Destroy()
+                    end
                   end
-
-                  if Dispatcher:GetSquadronLanding( Squadron.Name ) == AI_A2A_DISPATCHER.Landing.NearAirbase then
-                    Dispatcher:RemoveDefenderFromSquadron( Squadron, Defender )
-                    Defender:Destroy()
-                  end
-                end
-              end  -- if DefenderGCI then
-            end  -- while ( DefendersNeeded > 0 ) do
+                end  -- if DefenderGCI then
+              end  -- while ( DefendersNeeded > 0 ) do
+            end
+          else
+            -- No more resources, try something else.
+            -- Subject for a later enhancement to try to depart from another squadron and disable this one.
+            BreakLoop = true
+            break
           end
         else
-          -- No more resources, try something else.
-          -- Subject for a later enhancement to try to depart from another squadron and disable this one.
-          BreakLoop = true
+          -- There isn't any closest airbase anymore, break the loop.
           break
         end
-      else
-        -- There isn't any closest airbase anymore, break the loop.
-        break
-      end
-    end -- if DefenderSquadron then
+      end -- if DefenderSquadron then
+    end -- if AttackerUnit
   end
 
 
@@ -42374,7 +42679,7 @@ end
 --   * @{#AI_PATROL_ZONE.SetDetectionOn}(): Set the detection on. The AI will detect for targets.
 --   * @{#AI_PATROL_ZONE.SetDetectionOff}(): Set the detection off, the AI will not detect for targets. The existing target list will NOT be erased.
 -- 
--- The detection frequency can be set with @{#AI_PATROL_ZONE.SetDetectionInterval}( seconds ), where the amount of seconds specify how much seconds will be waited before the next detection.
+-- The detection frequency can be set with @{#AI_PATROL_ZONE.SetRefreshTimeInterval}( seconds ), where the amount of seconds specify how much seconds will be waited before the next detection.
 -- Use the method @{#AI_PATROL_ZONE.GetDetectedUnits}() to obtain a list of the @{Unit}s detected by the AI.
 -- 
 -- The detection can be filtered to potential targets in a specific zone.
@@ -42433,7 +42738,7 @@ function AI_PATROL_ZONE:New( PatrolZone, PatrolFloorAltitude, PatrolCeilingAltit
   -- defafult PatrolAltType to "RADIO" if not specified
   self.PatrolAltType = PatrolAltType or "RADIO"
   
-  self:SetDetectionInterval( 30 )
+  self:SetRefreshTimeInterval( 30 )
   
   self.CheckStatus = true
   
@@ -42790,7 +43095,7 @@ end
 -- @param #AI_PATROL_ZONE self
 -- @param #number Seconds The interval in seconds.
 -- @return #AI_PATROL_ZONE self
-function AI_PATROL_ZONE:SetDetectionInterval( Seconds )
+function AI_PATROL_ZONE:SetRefreshTimeInterval( Seconds )
   self:F2()
 
   if Seconds then  
@@ -44284,7 +44589,7 @@ function AI_CAS_ZONE:onafterEngage( Controllable, From, Event, To,
     Controllable:OptionROEOpenFire()
     Controllable:OptionROTVertical()
     
-    self:SetDetectionInterval( 2 )
+    self:SetRefreshTimeInterval( 2 )
     self:SetDetectionActivated()
     self:__Target( -2 ) -- Start Targetting
   end
@@ -44943,7 +45248,7 @@ function AI_BAI_ZONE:onafterEngage( Controllable, From, Event, To,
     --- NOW ROUTE THE GROUP!
     Controllable:WayPointExecute( 1 )
 
-    self:SetDetectionInterval( 2 )
+    self:SetRefreshTimeInterval( 2 )
     self:SetDetectionActivated()
     self:__Target( -2 ) -- Start Targetting
   end
@@ -49538,7 +49843,8 @@ function TASK:SetPlannedMenuForGroup( TaskGroup, MenuTime )
   
   if not Mission:IsGroupAssigned( TaskGroup ) then
     self:F( { "Replacing Join Task menu" } )
-    local JoinTaskMenu = MENU_GROUP_COMMAND:New( TaskGroup, string.format( "Join Task" ), TaskTypeMenu, self.MenuAssignToGroup, self, TaskGroup  ):SetTime( MenuTime ):SetTag( "Tasking" ):SetRemoveParent( true )
+    local JoinTaskMenu = MENU_GROUP_COMMAND:New( TaskGroup, string.format( "Join Task" ), TaskTypeMenu, self.MenuAssignToGroup, self, TaskGroup ):SetTime( MenuTime ):SetTag( "Tasking" ):SetRemoveParent( true )
+    local MarkTaskMenu = MENU_GROUP_COMMAND:New( TaskGroup, string.format( "Mark Task on Map" ), TaskTypeMenu, self.MenuMarkToGroup, self, TaskGroup ):SetTime( MenuTime ):SetTag( "Tasking" ):SetRemoveParent( true )
   end
       
   return self
@@ -49646,9 +49952,26 @@ end
 -- @param Wrapper.Group#GROUP TaskGroup
 function TASK:MenuAssignToGroup( TaskGroup )
 
-  self:E( "Assigned menu selected")
+  self:E( "Join Task menu selected")
   
   self:AssignToGroup( TaskGroup )
+end
+
+--- @param #TASK self
+-- @param Wrapper.Group#GROUP TaskGroup
+function TASK:MenuMarkToGroup( TaskGroup )
+
+  self:E( "Mark Task menu selected")
+
+  self:UpdateTaskInfo()
+
+  local Coordinate = self:GetInfo( "Coordinates" ) -- Core.Point#COORDINATE
+  local Briefing = self:GetTaskBriefing()
+  
+  self:F( { Briefing = Briefing, Coordinate = Coordinate } )
+  
+  Coordinate:MarkToGroup( Briefing, TaskGroup )
+  --Coordinate:MarkToAll( Briefing )
 end
 
 --- Report the task status.
@@ -49823,6 +50146,17 @@ function TASK:SetInfo( TaskInfo, TaskInfoText, TaskInfoOrder )
   self.TaskInfo[TaskInfo] = self.TaskInfo[TaskInfo] or {}
   self.TaskInfo[TaskInfo].TaskInfoText = TaskInfoText
   self.TaskInfo[TaskInfo].TaskInfoOrder = TaskInfoOrder
+end
+
+--- Gets the Information of the Task
+-- @param #TASK self
+-- @param #string TaskInfo The key and title of the task information.
+-- @return #string TaskInfoText The Task info text.
+function TASK:GetInfo( TaskInfo )
+
+  self.TaskInfo = self.TaskInfo or {}
+  self.TaskInfo[TaskInfo] = self.TaskInfo[TaskInfo] or {}
+  return self.TaskInfo[TaskInfo].TaskInfoText
 end
 
 --- Gets the Type of the Task
@@ -50428,7 +50762,7 @@ end
 -- ---------------------------------
 -- Derived DETECTION_MANAGER classes will reports detected units using the method @{DetectionManager#DETECTION_MANAGER.ReportDetected}(). This method implements polymorphic behaviour.
 -- 
--- The time interval in seconds of the reporting can be changed using the methods @{DetectionManager#DETECTION_MANAGER.SetReportInterval}(). 
+-- The time interval in seconds of the reporting can be changed using the methods @{DetectionManager#DETECTION_MANAGER.SetRefreshTimeInterval}(). 
 -- To control how long a reporting message is displayed, use @{DetectionManager#DETECTION_MANAGER.SetReportDisplayTime}().
 -- Derived classes need to implement the method @{DetectionManager#DETECTION_MANAGER.GetReportDisplayTime}() to use the correct display time for displayed messages during a report.
 -- 
@@ -50539,7 +50873,7 @@ do -- DETECTION MANAGER
 
     self:AddTransition( "Started", "Report", "Started" )
     
-    self:SetReportInterval( 30 )
+    self:SetRefreshTimeInterval( 30 )
     self:SetReportDisplayTime( 25 )
   
     self:E( { Detection = Detection } )
@@ -50556,19 +50890,19 @@ do -- DETECTION MANAGER
 
     self:E( "onafterReport" )
 
-    self:__Report( -self._ReportInterval )
+    self:__Report( -self._RefreshTimeInterval )
     
     self:ProcessDetected( self.Detection )
   end
   
   --- Set the reporting time interval.
   -- @param #DETECTION_MANAGER self
-  -- @param #number ReportInterval The interval in seconds when a report needs to be done.
+  -- @param #number RefreshTimeInterval The interval in seconds when a report needs to be done.
   -- @return #DETECTION_MANAGER self
-  function DETECTION_MANAGER:SetReportInterval( ReportInterval )
+  function DETECTION_MANAGER:SetRefreshTimeInterval( RefreshTimeInterval )
     self:F2()
   
-    self._ReportInterval = ReportInterval
+    self._RefreshTimeInterval = RefreshTimeInterval
   end
   
   
@@ -51410,13 +51744,18 @@ do -- TASK_A2G_SEAD
     
     Mission:AddTask( self )
     
-    self:SetBriefing( 
-      TaskBriefing or 
-      "Execute a Suppression of Enemy Air Defenses.\n"
-    )
-
     self:UpdateTaskInfo()
     
+    local ThreatLevel, ThreatText = TargetSetUnit:CalculateThreatLevelA2G()
+    local TargetUnit = TargetSetUnit:GetFirst()
+    local TargetCoord = TargetUnit:GetCoordinate()  -- Core.Point#COORDINATE
+    
+    self:SetBriefing( 
+      TaskBriefing or 
+      "Execute a Suppression of Enemy Air Defenses. " ..
+      ThreatText .. " targets to be expected. Target is " .. TargetCoord:GetMovingText() ..  "."
+    )
+
     return self
   end 
 
@@ -51553,12 +51892,17 @@ do -- TASK_A2G_BAI
     
     Mission:AddTask( self )
     
+    self:UpdateTaskInfo()
+
+    local ThreatLevel, ThreatText = TargetSetUnit:CalculateThreatLevelA2G()
+    local TargetUnit = TargetSetUnit:GetFirst()
+    local TargetCoord = TargetUnit:GetCoordinate()  -- Core.Point#COORDINATE
+
     self:SetBriefing( 
       TaskBriefing or 
-      "Execute a Battlefield Air Interdiction of a group of enemy targets.\n"
+      "Execute a Battlefield Air Interdiction of a group of enemy targets. " ..
+      ThreatText .. " targets to be expected. Target is " .. TargetCoord:GetMovingText() ..  "."
     )
-
-    self:UpdateTaskInfo()
     
     return self
   end
@@ -51697,13 +52041,20 @@ do -- TASK_A2G_CAS
     
     Mission:AddTask( self )
     
+    self:UpdateTaskInfo()
+
+    local ThreatLevel, ThreatText = TargetSetUnit:CalculateThreatLevelA2G()
+    local TargetUnit = TargetSetUnit:GetFirst()
+    local TargetCoord = TargetUnit:GetCoordinate()  -- Core.Point#COORDINATE
+
     self:SetBriefing( 
       TaskBriefing or 
-      "Execute a Close Air Support for a group of enemy targets.\n" ..
-      "Beware of friendlies at the vicinity!\n"
+      "Execute a Close Air Support for a group of enemy targets. " ..
+      "Beware of friendlies at the vicinity! " ..
+      ThreatText .. " targets to be expected. Target is " .. TargetCoord:GetMovingText() ..  "."
+      
     )
 
-    self:UpdateTaskInfo()
     
     return self
   end 
@@ -51713,7 +52064,9 @@ do -- TASK_A2G_CAS
     local TargetCoordinate = self.Detection and self.Detection:GetDetectedItemCoordinate( self.DetectedItemIndex ) or self.TargetSetUnit:GetFirst():GetCoordinate() 
     self:SetInfo( "Coordinates", TargetCoordinate, 0 )
 
-    self:SetInfo( "Threat", "[" .. string.rep(  "■", self.Detection and self.Detection:GetDetectedItemThreatLevel( self.DetectedItemIndex ) or self.TargetSetUnit:CalculateThreatLevelA2G() ) .. "]", 11 )
+    local ThreatLevel = self.Detection and self.Detection:GetDetectedItemThreatLevel( self.DetectedItemIndex ) or self.TargetSetUnit:CalculateThreatLevelA2G()
+
+    self:SetInfo( "Threat", "[" .. string.rep(  "■", ThreatLevel ) .. "]", 11 )
 
     if self.Detection then
       local DetectedItemsCount = self.TargetSetUnit:Count()
@@ -51899,7 +52252,7 @@ do -- TASK_A2A_DISPATCHER
   --
   --     local EWRDetection = DETECTION_AREAS:New( EWRSet, 6000 )
   --     EWRDetection:SetFriendliesRange( 10000 )
-  --     EWRDetection:SetDetectionInterval(30)
+  --     EWRDetection:SetRefreshTimeInterval(30)
   --
   --     -- Setup the A2A dispatcher, and initialize it.
   --     A2ADispatcher = TASK_A2A_DISPATCHER:New( Mission, AttackGroups, EWRDetection )
@@ -52003,7 +52356,7 @@ do -- TASK_A2A_DISPATCHER
     -- TODO: Check detection through radar.
     self.Detection:FilterCategories( Unit.Category.AIRPLANE, Unit.Category.HELICOPTER )
     self.Detection:InitDetectRadar( true )
-    self.Detection:SetDetectionInterval( 30 )
+    self.Detection:SetRefreshTimeInterval( 30 )
     
     self:AddTransition( "Started", "Assign", "Started" )
     
