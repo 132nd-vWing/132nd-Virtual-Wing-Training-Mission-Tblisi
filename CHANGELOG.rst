@@ -5,6 +5,15 @@ Changelog
 (unreleased)
 ------------
 
+Fix
+~~~
+- Made Red Infantry at TETRA respawnable via F10 Range menu fix: updated
+  MOOSE fix: removed CLEANUP class from MOOSE script. [132nd-Entropy]
+
+
+3.6.9 (2017-09-11)
+------------------
+
 Changes
 ~~~~~~~
 - Chg: update MOOSE to latest chg: reconfigure Soganlug-based Mi-8s to
