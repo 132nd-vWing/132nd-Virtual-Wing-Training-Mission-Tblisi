@@ -495,19 +495,14 @@ end
 
 --- respawn red Infantry at TETRA
 
-SPAWN:New("TETRA_INF_SOUTH_respawn"):Spawn() -- original spawn
+SPAWN:New("TETRA_INF_SOUTH_respawn"):Spawn() -- first unit spawn
 
 function respawn_red_infantry_TETRA()    -- respawn via menu
 MESSAGE:New( "Red Infantry respawned at TETRA", 7):ToBlue()
-SPAWN:New("TETRA_INF_SOUTH_respawn"):InitRandomizeRoute(0,2,200,500):Spawn()
+SPAWN:New("TETRA_INF_SOUTH_respawn"):Spawn()
 end
 
 menu_respawn_red_infantry_TETRA = MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Respawn Red Infantry at TETRA", TRMT.RANGES.TETRA.MENU, respawn_red_infantry_TETRA ) 
-
-
-
-
-
 
 
 --- No error during script loading, let the log know
