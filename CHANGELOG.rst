@@ -2,13 +2,17 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+3.7.0 (2017-09-12)
+------------------
 
 Fix
 ~~~
 - Made Red Infantry at TETRA respawnable via F10 Range menu fix: updated
   MOOSE fix: removed CLEANUP class from MOOSE script. [132nd-Entropy]
+
+Other
+~~~~~
+- . [132nd-Entropy]
 
 
 3.6.9 (2017-09-11)
