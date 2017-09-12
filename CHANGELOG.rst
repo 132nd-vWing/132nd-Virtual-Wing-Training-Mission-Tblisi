@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Fix
+~~~
+- Forgot test aircraft in the mission. [132nd-Entropy]
+
+
 3.7.1 (2017-09-12)
 ------------------
 
