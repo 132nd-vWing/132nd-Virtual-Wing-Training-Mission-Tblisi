@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Fix
+~~~
+- Fixed infantry unable to move at TETRA. [132nd-Entropy]
+
+
 3.7.0 (2017-09-12)
 ------------------
 
