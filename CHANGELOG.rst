@@ -2,8 +2,18 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+3.7.1 (2017-09-12)
+------------------
+
+Changes
+~~~~~~~
+- Changed missile max distance before it reaches a player aircraft from
+  100m to 1000m. This should prevent us from killing each ohter like we
+  did in the past. If this is still not enough the value will need to be
+  increased. Also removed the missile trainer config menu, so the safe
+  distance cannot be manually overriden. Also disabled the 'player was
+  hit' messages. You get a missile notification and tracking info, but
+  thats it. [132nd-Entropy]
 
 Fix
 ~~~
