@@ -9,6 +9,10 @@ Fix
 ~~~
 - Forgot test aircraft in the mission. [132nd-Entropy]
 
+Other
+~~~~~
+- Update MOOSE 18092017. [132nd-Entropy]
+
 
 3.7.1 (2017-09-12)
 ------------------
