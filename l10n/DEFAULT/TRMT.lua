@@ -217,10 +217,10 @@ do -- MISSILE TRAINER
   
   TRMT.MISSILE_TRAINER.INITIALIZE = function()
     TRMT.INFO('MISSILE TRAINER: INIT: START')
-    TRMT.MISSILE_TRAINER.MISSILE_TRAINER = MISSILETRAINER:New( 1000, '132nd Missile Trainer is active' )
+    TRMT.MISSILE_TRAINER.MISSILE_TRAINER = MISSILETRAINER:New( 450, '132nd Missile Trainer is active' )
                                                          :InitMessagesOnOff       ( true  )
                                                          :InitAlertsToAll         ( true  ) 
-                                                         :InitAlertsHitsOnOff     ( false  )
+                                                         :InitAlertsHitsOnOff     ( true  )
                                                          :InitAlertsLaunchesOnOff ( true  )
                                                          :InitBearingOnOff        ( true  )
                                                          :InitRangeOnOff          ( true  )
