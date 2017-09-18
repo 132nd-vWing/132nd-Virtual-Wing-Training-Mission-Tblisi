@@ -16,6 +16,7 @@ Fix
 
 Other
 ~~~~~
+- Release. [132nd-Entropy]
 - Update MOOSE 18092017. [132nd-Entropy]
 
 
