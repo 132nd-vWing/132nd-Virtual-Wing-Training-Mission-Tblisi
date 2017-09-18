@@ -7,6 +7,8 @@ Changelog
 
 Fix
 ~~~
+- Replaced SA-6 at Tkibuli with SA-3 since SA-6 is bugged. [132nd-
+  Entropy]
 - Forgot test aircraft in the mission. [132nd-Entropy]
 
 Other
