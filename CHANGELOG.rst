@@ -7,8 +7,12 @@ Changelog
 
 Fix
 ~~~
+- Tweak missile trainer: put on hit messages back on, decrease intercept
+  distance between missile to target plane from 1000m to 450m. [132nd-
+  Entropy]
 - Replaced SA-6 at Tkibuli with SA-3 since SA-6 is bugged. [132nd-
   Entropy]
+- Forgot test aircraft in the mission. [132nd-Entropy]
 
 Other
 ~~~~~
