@@ -58790,7 +58790,7 @@ mission =
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
                                             ["action"] = "Off Road",
-                                            ["alt"] = 331,
+                                            ["alt"] = 334,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_3312",
@@ -58807,8 +58807,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -263863.14285714,
-                                            ["y"] = 712330.2857143,
+                                            ["x"] = -263857.28142858,
+                                            ["y"] = 712324.94571429,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                     ["spans"] =
@@ -58831,10 +58831,10 @@ mission =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "Kub 1S91 str",
+                                        ["type"] = "5p73 s-125 ln",
                                         ["unitId"] = 1896,
-                                        ["x"] = -263863.14285714,
-                                        ["y"] = 712330.2857143,
+                                        ["x"] = -263857.28142858,
+                                        ["y"] = 712324.94571429,
                                     }, -- end of [1]
                                     [2] =
                                     {
@@ -58846,10 +58846,10 @@ mission =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "Kub 2P25 ln",
+                                        ["type"] = "p-19 s-125 sr",
                                         ["unitId"] = 1897,
-                                        ["x"] = -263872.85714285,
-                                        ["y"] = 712426.85714287,
+                                        ["x"] = -263866.99571429,
+                                        ["y"] = 712421.51714286,
                                     }, -- end of [2]
                                     [3] =
                                     {
@@ -58861,10 +58861,10 @@ mission =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "Kub 2P25 ln",
+                                        ["type"] = "snr s-125 tr",
                                         ["unitId"] = 1898,
-                                        ["x"] = -263817.71428571,
-                                        ["y"] = 712424.00000001,
+                                        ["x"] = -263811.85285715,
+                                        ["y"] = 712418.66,
                                     }, -- end of [3]
                                     [4] =
                                     {
@@ -58876,10 +58876,10 @@ mission =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "Kub 2P25 ln",
+                                        ["type"] = "Ural-375 PBU",
                                         ["unitId"] = 1899,
-                                        ["x"] = -263840.28571428,
-                                        ["y"] = 712431.42857144,
+                                        ["x"] = -263834.42428572,
+                                        ["y"] = 712426.08857143,
                                     }, -- end of [4]
                                     [5] =
                                     {
@@ -58891,10 +58891,10 @@ mission =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "Kub 2P25 ln",
+                                        ["type"] = "Ural-375 PBU",
                                         ["unitId"] = 1900,
-                                        ["x"] = -263950.57142857,
-                                        ["y"] = 712352.00000001,
+                                        ["x"] = -263944.71000001,
+                                        ["y"] = 712346.66,
                                     }, -- end of [5]
                                     [6] =
                                     {
@@ -58908,8 +58908,8 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Ural-375 PBU",
                                         ["unitId"] = 1901,
-                                        ["x"] = -263870.57142856,
-                                        ["y"] = 712324.2857143,
+                                        ["x"] = -263886.94514286,
+                                        ["y"] = 712273.192,
                                     }, -- end of [6]
                                     [7] =
                                     {
@@ -58923,8 +58923,8 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "ZIL-131 KUNG",
                                         ["unitId"] = 1902,
-                                        ["x"] = -263959.99999999,
-                                        ["y"] = 712300.2857143,
+                                        ["x"] = -263954.13857143,
+                                        ["y"] = 712294.94571429,
                                     }, -- end of [7]
                                     [8] =
                                     {
@@ -58938,8 +58938,8 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Ural-375",
                                         ["unitId"] = 1903,
-                                        ["x"] = -263922.57142856,
-                                        ["y"] = 712357.71428573,
+                                        ["x"] = -263916.71,
+                                        ["y"] = 712352.37428572,
                                     }, -- end of [8]
                                     [9] =
                                     {
@@ -58953,8 +58953,8 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Ural-375",
                                         ["unitId"] = 1904,
-                                        ["x"] = -263852.28571428,
-                                        ["y"] = 712331.71428573,
+                                        ["x"] = -263833.92914286,
+                                        ["y"] = 712355.87171429,
                                     }, -- end of [9]
                                     [10] =
                                     {
@@ -58966,10 +58966,10 @@ mission =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "Kub 2P25 ln",
+                                        ["type"] = "5p73 s-125 ln",
                                         ["unitId"] = 1981,
-                                        ["x"] = -263980,
-                                        ["y"] = 712272.85714287,
+                                        ["x"] = -263921.658,
+                                        ["y"] = 712262.46257143,
                                     }, -- end of [10]
                                     [11] =
                                     {
@@ -58981,15 +58981,30 @@ mission =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "Kub 2P25 ln",
+                                        ["type"] = "p-19 s-125 sr",
                                         ["unitId"] = 1982,
-                                        ["x"] = -263915.14285714,
-                                        ["y"] = 712398.00000001,
+                                        ["x"] = -263909.28142858,
+                                        ["y"] = 712392.66,
                                     }, -- end of [11]
+                                    [12] =
+                                    {
+                                        ["heading"] = 2.3561944901923,
+                                        ["name"] = "DictKey_UnitName_4067",
+                                        ["playerCanDrive"] = false,
+                                        ["skill"] = "Excellent",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "snr s-125 tr",
+                                        ["unitId"] = 2050,
+                                        ["x"] = -264297.28142858,
+                                        ["y"] = 712324.94571429,
+                                    }, -- end of [12]
                                 }, -- end of ["units"]
                                 ["visible"] = false,
-                                ["x"] = -263863.14285714,
-                                ["y"] = 712330.2857143,
+                                ["x"] = -263857.28142858,
+                                ["y"] = 712324.94571429,
                             }, -- end of [14]
                             [15] =
                             {
@@ -59354,7 +59369,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 3976907,
+    ["currentKey"] = 3979379,
     ["date"] =
     {
         ["Day"] = 11,
@@ -62608,11 +62623,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -266477.24771429,
-        ["centerY"] = 487264.32457143,
-        ["zoom"] = 830104,
+        ["centerX"] = -263970.21385715,
+        ["centerY"] = 712552.98428572,
+        ["zoom"] = 4299,
     }, -- end of ["map"]
-    ["maxDictId"] = 4066,
+    ["maxDictId"] = 4067,
     ["pictureFileNameB"] =
     {
         [1] = "ResKey_ImageBriefing_1821",
