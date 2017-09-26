@@ -15434,31 +15434,6 @@ mission =
                                                             {
                                                                 ["action"] =
                                                                 {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 8,
-                                                                        ["frequency"] = 1095000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [4]
-                                                        [5] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 5,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
                                                                     ["id"] = "EPLRS",
                                                                     ["params"] =
                                                                     {
@@ -15467,7 +15442,7 @@ mission =
                                                                     }, -- end of ["params"]
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
-                                                        }, -- end of [5]
+                                                        }, -- end of [4]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -15713,31 +15688,6 @@ mission =
                                                             {
                                                                 ["action"] =
                                                                 {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 9,
-                                                                        ["frequency"] = 1096000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
                                                                     ["id"] = "EPLRS",
                                                                     ["params"] =
                                                                     {
@@ -15746,7 +15696,7 @@ mission =
                                                                     }, -- end of ["params"]
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
-                                                        }, -- end of [4]
+                                                        }, -- end of [3]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -17266,31 +17216,6 @@ mission =
                                                             {
                                                                 ["action"] =
                                                                 {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 10,
-                                                                        ["frequency"] = 1097000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
                                                                     ["id"] = "EPLRS",
                                                                     ["params"] =
                                                                     {
@@ -17299,7 +17224,7 @@ mission =
                                                                     }, -- end of ["params"]
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
-                                                        }, -- end of [4]
+                                                        }, -- end of [3]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -17545,31 +17470,6 @@ mission =
                                                             {
                                                                 ["action"] =
                                                                 {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 11,
-                                                                        ["frequency"] = 1098000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
                                                                     ["id"] = "EPLRS",
                                                                     ["params"] =
                                                                     {
@@ -17578,7 +17478,7 @@ mission =
                                                                     }, -- end of ["params"]
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
-                                                        }, -- end of [4]
+                                                        }, -- end of [3]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -19099,25 +18999,6 @@ mission =
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 0,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [4]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -19350,25 +19231,6 @@ mission =
                                                             {
                                                                 ["action"] =
                                                                 {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 0,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [2]
-                                                        [3] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 3,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
                                                                     ["id"] = "SetFrequency",
                                                                     ["params"] =
                                                                     {
@@ -19377,7 +19239,7 @@ mission =
                                                                     }, -- end of ["params"]
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
-                                                        }, -- end of [3]
+                                                        }, -- end of [2]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -21358,25 +21220,6 @@ mission =
                                                             {
                                                                 ["action"] =
                                                                 {
-                                                                    ["id"] = "EPLRS",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["groupId"] = 0,
-                                                                        ["value"] = true,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [2]
-                                                        [3] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 3,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
                                                                     ["id"] = "SetFrequency",
                                                                     ["params"] =
                                                                     {
@@ -21385,7 +21228,7 @@ mission =
                                                                     }, -- end of ["params"]
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
-                                                        }, -- end of [3]
+                                                        }, -- end of [2]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -26685,47 +26528,6 @@ mission =
                             [35] =
                             {
                                 ["dead"] = false,
-                                ["groupId"] = 1312,
-                                ["heading"] = 0.87266462599716,
-                                ["name"] = "DictKey_GroupName_3224",
-                                ["route"] =
-                                {
-                                    ["points"] =
-                                    {
-                                        [1] =
-                                        {
-                                            ["action"] = "",
-                                            ["alt"] = 0,
-                                            ["formation_template"] = "",
-                                            ["name"] = "",
-                                            ["speed"] = 0,
-                                            ["type"] = "",
-                                            ["x"] = -314703.42857143,
-                                            ["y"] = 894519.42857146,
-                                        }, -- end of [1]
-                                    }, -- end of ["points"]
-                                }, -- end of ["route"]
-                                ["units"] =
-                                {
-                                    [1] =
-                                    {
-                                        ["category"] = "Fortifications",
-                                        ["heading"] = 0.87266462599716,
-                                        ["name"] = "DictKey_GroupName_3224",
-                                        ["rate"] = 100,
-                                        ["shape_name"] = "Hospital",
-                                        ["type"] = "hospital",
-                                        ["unitId"] = 1882,
-                                        ["x"] = -314703.42857143,
-                                        ["y"] = 894519.42857146,
-                                    }, -- end of [1]
-                                }, -- end of ["units"]
-                                ["x"] = -314703.42857143,
-                                ["y"] = 894519.42857146,
-                            }, -- end of [35]
-                            [36] =
-                            {
-                                ["dead"] = false,
                                 ["groupId"] = 1313,
                                 ["heading"] = 0.87266462599716,
                                 ["name"] = "DictKey_GroupName_3227",
@@ -26762,8 +26564,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314662.57142857,
                                 ["y"] = 894541.71428572,
-                            }, -- end of [36]
-                            [37] =
+                            }, -- end of [35]
+                            [36] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 1315,
@@ -26802,8 +26604,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314679.99999999,
                                 ["y"] = 894565.14285715,
-                            }, -- end of [37]
-                            [38] =
+                            }, -- end of [36]
+                            [37] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 1316,
@@ -26842,8 +26644,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314669.14285714,
                                 ["y"] = 894550.28571429,
-                            }, -- end of [38]
-                            [39] =
+                            }, -- end of [37]
+                            [38] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 1371,
@@ -26885,8 +26687,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314981.71428571,
                                 ["y"] = 896384.85714286,
-                            }, -- end of [39]
-                            [40] =
+                            }, -- end of [38]
+                            [39] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 1372,
@@ -26927,8 +26729,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314969.99999999,
                                 ["y"] = 896324.85714286,
-                            }, -- end of [40]
-                            [41] =
+                            }, -- end of [39]
+                            [40] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 1373,
@@ -26970,8 +26772,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314955.71428571,
                                 ["y"] = 896336.00000001,
-                            }, -- end of [41]
-                            [42] =
+                            }, -- end of [40]
+                            [41] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 1378,
@@ -27011,8 +26813,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314640.8571429,
                                 ["y"] = 894567.14285714,
-                            }, -- end of [42]
-                            [43] =
+                            }, -- end of [41]
+                            [42] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 1390,
@@ -27054,8 +26856,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314988.28571428,
                                 ["y"] = 896380.57142858,
-                            }, -- end of [43]
-                            [44] =
+                            }, -- end of [42]
+                            [43] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 1391,
@@ -27096,8 +26898,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314984.57142856,
                                 ["y"] = 896373.71428572,
-                            }, -- end of [44]
-                            [45] =
+                            }, -- end of [43]
+                            [44] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 1392,
@@ -27138,8 +26940,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314976.57142851,
                                 ["y"] = 896318.85714288,
-                            }, -- end of [45]
-                            [46] =
+                            }, -- end of [44]
+                            [45] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 1393,
@@ -27181,8 +26983,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314977.14285714,
                                 ["y"] = 896376.85714286,
-                            }, -- end of [46]
-                            [47] =
+                            }, -- end of [45]
+                            [46] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 1394,
@@ -27224,7 +27026,7 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314963.42857142,
                                 ["y"] = 896331.14285715,
-                            }, -- end of [47]
+                            }, -- end of [46]
                         }, -- end of ["group"]
                     }, -- end of ["static"]
                     ["vehicle"] =
@@ -52988,7 +52790,7 @@ mission =
                                         ["alt"] = 88,
                                         ["alt_type"] = "BARO",
                                         ["callsign"] = 106,
-                                        ["heading"] = 1.521326377251,
+                                        ["heading"] = 1.8346112109984,
                                         ["livery_id"] = "132nd 765th Black agressor",
                                         ["name"] = "DictKey_UnitName_3595",
                                         ["onboard_num"] = "332",
@@ -53220,7 +53022,7 @@ mission =
                                         ["alt"] = 88,
                                         ["alt_type"] = "BARO",
                                         ["callsign"] = 106,
-                                        ["heading"] = 1.5213896464665,
+                                        ["heading"] = 1.8340700125653,
                                         ["livery_id"] = "132nd 765th Black agressor",
                                         ["name"] = "DictKey_UnitName_3600",
                                         ["onboard_num"] = "332",
@@ -53452,7 +53254,7 @@ mission =
                                         ["alt"] = 88,
                                         ["alt_type"] = "BARO",
                                         ["callsign"] = 106,
-                                        ["heading"] = 1.5214695958765,
+                                        ["heading"] = 1.8340930200768,
                                         ["livery_id"] = "132nd 765th Black agressor",
                                         ["name"] = "DictKey_UnitName_3605",
                                         ["onboard_num"] = "332",
@@ -53684,7 +53486,7 @@ mission =
                                         ["alt"] = 88,
                                         ["alt_type"] = "BARO",
                                         ["callsign"] = 106,
-                                        ["heading"] = 1.5207464386702,
+                                        ["heading"] = 1.8341041986117,
                                         ["livery_id"] = "132nd 765th Black agressor",
                                         ["name"] = "DictKey_UnitName_3610",
                                         ["onboard_num"] = "332",
@@ -55587,31 +55389,6 @@ mission =
                                                             {
                                                                 ["action"] =
                                                                 {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 12,
-                                                                        ["frequency"] = 1099000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [2]
-                                                        [3] =
-                                                        {
-                                                            ["auto"] = true,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 3,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
                                                                     ["id"] = "EPLRS",
                                                                     ["params"] =
                                                                     {
@@ -55620,13 +55397,13 @@ mission =
                                                                     }, -- end of ["params"]
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
-                                                        }, -- end of [3]
-                                                        [4] =
+                                                        }, -- end of [2]
+                                                        [3] =
                                                         {
                                                             ["auto"] = false,
                                                             ["enabled"] = true,
                                                             ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
+                                                            ["number"] = 3,
                                                             ["params"] =
                                                             {
                                                                 ["action"] =
@@ -55640,7 +55417,7 @@ mission =
                                                                     }, -- end of ["params"]
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
-                                                        }, -- end of [4]
+                                                        }, -- end of [3]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -58375,6 +58152,138 @@ mission =
                                 ["x"] = -333799.3,
                                 ["y"] = 871264.51171429,
                             }, -- end of [15]
+                            [16] =
+                            {
+                                ["groupId"] = 1438,
+                                ["hidden"] = false,
+                                ["name"] = "DictKey_GroupName_4148",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "Off Road",
+                                            ["alt"] = 7,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_4150",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = -219704.04917857,
+                                            ["y"] = 563489.93692857,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                    ["spans"] =
+                                    {
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_4149",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Excellent",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Ural-375",
+                                        ["unitId"] = 2068,
+                                        ["x"] = -219704.04917857,
+                                        ["y"] = 563489.93692857,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = -219704.04917857,
+                                ["y"] = 563489.93692857,
+                            }, -- end of [16]
+                            [17] =
+                            {
+                                ["groupId"] = 1439,
+                                ["hidden"] = false,
+                                ["name"] = "DictKey_GroupName_4151",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "Off Road",
+                                            ["alt"] = 18,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_4153",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = -318334.35860714,
+                                            ["y"] = 635365.37721428,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                    ["spans"] =
+                                    {
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_4152",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Excellent",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Ural-375",
+                                        ["unitId"] = 2069,
+                                        ["x"] = -318334.35860714,
+                                        ["y"] = 635365.37721428,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = -318334.35860714,
+                                ["y"] = 635365.37721428,
+                            }, -- end of [17]
                         }, -- end of ["group"]
                     }, -- end of ["vehicle"]
                 }, -- end of [1]
@@ -58423,7 +58332,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 4002079,
+    ["currentKey"] = 4004311,
     ["date"] =
     {
         ["Day"] = 11,
@@ -61677,11 +61586,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -219957.56075,
-        ["centerY"] = 564249.12207143,
-        ["zoom"] = 5323,
+        ["centerX"] = -227184.15075,
+        ["centerY"] = 644828.76714286,
+        ["zoom"] = 1816149,
     }, -- end of ["map"]
-    ["maxDictId"] = 4147,
+    ["maxDictId"] = 4153,
     ["pictureFileNameB"] =
     {
         [1] = "ResKey_ImageBriefing_1821",
