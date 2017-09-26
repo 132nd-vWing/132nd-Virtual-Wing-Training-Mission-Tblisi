@@ -161,21 +161,6 @@ function _TANKER.Tanker:New( group )
                 end,
                 {}, 10, 10, 0, 0 )
 
-            -- Wait for the tanker to stop, and remove it from the game once it has
-            self.despawn_scheduler = SCHEDULER:New(self,
-                function()
-                    self:Debug('I am so tired...')
-                    if self and self:IsAlive() then
-                        local velocity = self:GetUnit(1):GetVelocity()
-                        local total_speed = math.abs(velocity.x) + math.abs(velocity.y) + math.abs(velocity.z)
-                        if total_speed < 1 then
-                            self:Debug('Goodbye, cruel world !')
-                            self:Destroy()
-                        end
-                    end
-                end,
-                {}, 10, 10, 0, 0)
-
             self.going_home = true
         end
     end
