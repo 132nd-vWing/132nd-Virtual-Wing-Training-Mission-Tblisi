@@ -4,6 +4,14 @@ Changelog
 
 (unreleased)
 ------------
+- Update moose update CTDL add RED tanker (tanker and freq, see in game
+  mission brief) add F5, Mirage and Mig21 Agressors to Lochini add F5,
+  Mirage and Mig21 Agressors to Sukhumi remove agressors from Sukhumi
+  fix red awacs not respawning new agressor skins. [132nd-Entropy]
+
+
+3.7.2 (2017-09-18)
+------------------
 
 Fix
 ~~~
