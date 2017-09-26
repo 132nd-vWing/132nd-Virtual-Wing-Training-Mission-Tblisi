@@ -47461,8 +47461,8 @@ mission =
         {
             ["bullseye"] =
             {
-                ["x"] = 210899.14285714,
-                ["y"] = 116428.57142857,
+                ["x"] = -305921.47946428,
+                ["y"] = 883193.712,
             }, -- end of ["bullseye"]
             ["country"] =
             {
@@ -52567,21 +52567,13 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 1788.4289361181,
+                                            ["ETA"] = 2382.275270549,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 530,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_3597",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 138.88888888889,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -52595,8 +52587,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -306043.49553589,
-                                            ["y"] = 883279.46428569,
+                                            ["x"] = -305919.12746428,
+                                            ["y"] = 883192.928,
                                         }, -- end of [2]
                                         [3] =
                                         {
@@ -52730,7 +52722,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = -1.8346112109984,
+                                        ["psi"] = -1.834316536086,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -52799,21 +52791,13 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 116.28061995261,
+                                            ["ETA"] = 2383.6622047088,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 530,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_3602",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 138.88888888889,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -52827,8 +52811,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -306053.5982145,
-                                            ["y"] = 883286.16964283,
+                                            ["x"] = -305919.12746428,
+                                            ["y"] = 883192.928,
                                         }, -- end of [2]
                                         [3] =
                                         {
@@ -52962,7 +52946,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = -1.8340700125653,
+                                        ["psi"] = -1.8337511262187,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -53031,21 +53015,13 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 116.28061995261,
+                                            ["ETA"] = 2383.0811558754,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 530,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_3607",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 138.88888888889,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -53059,8 +53035,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -306067.59375026,
-                                            ["y"] = 883297.84821426,
+                                            ["x"] = -305919.91146428,
+                                            ["y"] = 883192.928,
                                         }, -- end of [2]
                                         [3] =
                                         {
@@ -53194,7 +53170,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = -1.8340930200768,
+                                        ["psi"] = -1.8337447075978,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -53263,21 +53239,13 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 116.28061995261,
+                                            ["ETA"] = 2380.9089278535,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 530,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_3612",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 138.88888888889,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -53291,8 +53259,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -305877.41517888,
-                                            ["y"] = 883399.03571426,
+                                            ["x"] = -305920.69546428,
+                                            ["y"] = 883194.496,
                                         }, -- end of [2]
                                         [3] =
                                         {
@@ -53426,7 +53394,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = -1.8341041986117,
+                                        ["psi"] = -1.834391560503,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -53689,21 +53657,13 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 120.89165546107,
+                                            ["ETA"] = 118.76153835371,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 540,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_4074",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 138.88888888889,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -53717,8 +53677,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -305768.24285719,
-                                            ["y"] = 882948.32635714,
+                                            ["x"] = -305919.12746428,
+                                            ["y"] = 883192.928,
                                         }, -- end of [2]
                                         [3] =
                                         {
@@ -53877,7 +53837,7 @@ mission =
                                                 }, -- end of [10]
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98853391002932,
+                                        ["psi"] = 0.98801930929948,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -53946,21 +53906,13 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 120.89165546107,
+                                            ["ETA"] = 118.7572254847,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 540,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_4084",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 138.88888888889,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -53974,8 +53926,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -305799.11582148,
-                                            ["y"] = 882927.05464286,
+                                            ["x"] = -305919.12746428,
+                                            ["y"] = 883192.928,
                                         }, -- end of [2]
                                         [3] =
                                         {
@@ -54134,7 +54086,7 @@ mission =
                                                 }, -- end of [10]
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98863260964846,
+                                        ["psi"] = 0.98584717268738,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -54203,21 +54155,13 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 120.89165546107,
+                                            ["ETA"] = 118.73781992098,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 540,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_4089",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 138.88888888889,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -54231,8 +54175,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -305830.07228576,
-                                            ["y"] = 882907.07892858,
+                                            ["x"] = -305920.69546428,
+                                            ["y"] = 883194.496,
                                         }, -- end of [2]
                                         [3] =
                                         {
@@ -54391,7 +54335,7 @@ mission =
                                                 }, -- end of [10]
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98869300702526,
+                                        ["psi"] = 0.98370137518968,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -54460,21 +54404,13 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 120.89165546107,
+                                            ["ETA"] = 118.74558820123,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 540,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_4094",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 138.88888888889,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -54488,8 +54424,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -305858.65421433,
-                                            ["y"] = 882874.39142858,
+                                            ["x"] = -305919.12746428,
+                                            ["y"] = 883193.712,
                                         }, -- end of [2]
                                         [3] =
                                         {
@@ -54648,7 +54584,7 @@ mission =
                                                 }, -- end of [10]
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98905144187651,
+                                        ["psi"] = 0.98147605758363,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "M-2000C",
@@ -54717,21 +54653,13 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 173.11905097964,
+                                            ["ETA"] = 115.88246914688,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 526,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_4101",
-                                            ["properties"] =
-                                            {
-                                                ["angle"] = 0,
-                                                ["scale"] = 0,
-                                                ["steer"] = 2,
-                                                ["vangle"] = 0,
-                                                ["vnav"] = 1,
-                                            }, -- end of ["properties"]
                                             ["speed"] = 138.88888888889,
                                             ["speed_locked"] = true,
                                             ["task"] =
@@ -54745,8 +54673,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -305755.56339286,
-                                            ["y"] = 882920.86114286,
+                                            ["x"] = -305919.12746428,
+                                            ["y"] = 883192.928,
                                         }, -- end of [2]
                                         [3] =
                                         {
@@ -54868,7 +54796,7 @@ mission =
                                                 }, -- end of [6]
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98925666183262,
+                                        ["psi"] = 0.98846309444132,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "MiG-21Bis",
@@ -54921,7 +54849,7 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 118.57670410357,
+                                            ["ETA"] = 116.58156917349,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 526,
@@ -54941,8 +54869,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -305779.74682143,
-                                            ["y"] = 882956.31428571,
+                                            ["x"] = -305920.69546428,
+                                            ["y"] = 883195.28,
                                         }, -- end of [2]
                                         [3] =
                                         {
@@ -55056,7 +54984,7 @@ mission =
                                                 }, -- end of [6]
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 0.98918408460416,
+                                        ["psi"] = 0.98834987412186,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "MiG-21Bis",
@@ -58239,7 +58167,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 4006543,
+    ["currentKey"] = 4008775,
     ["date"] =
     {
         ["Day"] = 11,
@@ -61493,9 +61421,9 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -318182.23903571,
-        ["centerY"] = 635369.57942857,
-        ["zoom"] = 2897,
+        ["centerX"] = -305841.90346428,
+        ["centerY"] = 883237.616,
+        ["zoom"] = 2744,
     }, -- end of ["map"]
     ["maxDictId"] = 4153,
     ["pictureFileNameB"] =
