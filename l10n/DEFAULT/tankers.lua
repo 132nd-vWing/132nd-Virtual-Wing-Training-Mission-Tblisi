@@ -39,6 +39,7 @@ _TANKER_UNITS = {
   'Tanker_Arco1_2',
   'Tanker_Shell2_1',
   'Tanker_Shell2_2',
+  'RED TANKER 121',
 }
 
 -- Minimum fuel

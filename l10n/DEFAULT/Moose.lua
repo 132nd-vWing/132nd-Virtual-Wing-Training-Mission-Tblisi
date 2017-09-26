@@ -1,5 +1,5 @@
 env.info( '*** MOOSE STATIC INCLUDE START *** ' )
-env.info( 'Moose Generation Timestamp: 20170918_0616' )
+env.info( 'Moose Generation Timestamp: 20170925_1256' )
 
 --- Various routines
 -- @module routines
@@ -2896,6 +2896,23 @@ function UTILS.GetMarkID()
   return UTILS._MarkID
 
 end
+
+
+-- Test if a Vec2 is in a radius of another Vec2
+function UTILS.IsInRadius( InVec2, Vec2, Radius )
+
+  local InRadius = ( ( InVec2.x - Vec2.x ) ^2 + ( InVec2.y - Vec2.y ) ^2 ) ^ 0.5 <= Radius
+
+  return InRadius
+end
+
+-- Test if a Vec3 is in the sphere of another Vec3
+function UTILS.IsInSphere( InVec3, Vec3, Radius )
+
+  local InSphere = ( ( InVec3.x - Vec3.x ) ^2 + ( InVec3.y - Vec3.y ) ^2 + ( InVec3.z - Vec3.z ) ^2 ) ^ 0.5 <= Radius
+
+  return InSphere
+end
 --- **Core** -- BASE forms **the basis of the MOOSE framework**. Each class within the MOOSE framework derives from BASE.
 -- 
 -- ![Banner Image](..\Presentations\BASE\Dia1.JPG)
@@ -3504,6 +3521,22 @@ function BASE:CreateEventCrash( EventTime, Initiator )
 		}
 
 	world.onEvent( Event )
+end
+
+--- Creation of a Takeoff Event.
+-- @param #BASE self
+-- @param Dcs.DCSTypes#Time EventTime The time stamp of the event.
+-- @param Dcs.DCSWrapper.Object#Object Initiator The initiating object of the event.
+function BASE:CreateEventTakeoff( EventTime, Initiator )
+  self:F( { EventTime, Initiator } )
+
+  local Event = {
+    id = world.event.S_EVENT_TAKEOFF,
+    time = EventTime,
+    initiator = Initiator,
+    }
+
+  world.onEvent( Event )
 end
 
 -- TODO: Complete Dcs.DCSTypes#Event structure.                       
@@ -5065,12 +5098,13 @@ end
 -- @param Core.Base#BASE EventClass The self instance of the class for which the event is.
 -- @param EventID
 -- @return #EVENT
-function EVENT:OnEventForGroup( GroupName, EventFunction, EventClass, EventID )
-  self:F2( GroupName )
+function EVENT:OnEventForGroup( GroupName, EventFunction, EventClass, EventID, ... )
+  self:E( GroupName )
 
   local Event = self:Init( EventID, EventClass )
   Event.EventGroup = true
   Event.EventFunction = EventFunction
+  Event.Params = arg
   return self
 end
 
@@ -5454,7 +5488,7 @@ function EVENT:onEvent( Event )
                                       
                     local Result, Value = xpcall( 
                       function() 
-                        return EventData.EventFunction( EventClass, Event ) 
+                        return EventData.EventFunction( EventClass, Event, unpack( EventData.Params ) ) 
                       end, ErrorHandler )
       
                   else
@@ -5470,14 +5504,14 @@ function EVENT:onEvent( Event )
                                           
                       local Result, Value = xpcall( 
                         function() 
-                          return EventFunction( EventClass, Event ) 
+                          return EventFunction( EventClass, Event, unpack( EventData.Params ) ) 
                         end, ErrorHandler )
                     end
                   end
                 end
               else
                 -- The EventClass is not alive anymore, we remove it from the EventHandlers...
-                self:RemoveEvent( EventClass, Event.id )  
+                --self:RemoveEvent( EventClass, Event.id )  
               end
             else
           
@@ -7849,6 +7883,22 @@ function ZONE_RADIUS:GetRandomPointVec3( inner, outer )
 end
 
 
+--- Returns a @{Point#COORDINATE} object reflecting a random 3D location within the zone.
+-- @param #ZONE_RADIUS self
+-- @param #number inner (optional) Minimal distance from the center of the zone. Default is 0.
+-- @param #number outer (optional) Maximal distance from the outer edge of the zone. Default is the radius of the zone.
+-- @return Core.Point#COORDINATE
+function ZONE_RADIUS:GetRandomCoordinate( inner, outer )
+  self:F( self.ZoneName, inner, outer )
+
+  local Coordinate = COORDINATE:NewFromVec2( self:GetRandomVec2() )
+
+  self:T3( { Coordinate = Coordinate } )
+  
+  return Coordinate
+end
+
+
 
 --- @type ZONE
 -- @extends #ZONE_RADIUS
@@ -8292,6 +8342,20 @@ function ZONE_POLYGON_BASE:GetRandomPointVec3()
   self:T2( PointVec3 )
 
   return PointVec3
+end
+
+
+--- Return a @{Point#COORDINATE} object representing a random 3D point at landheight within the zone.
+-- @param #ZONE_POLYGON_BASE self
+-- @return Core.Point#COORDINATE
+function ZONE_POLYGON_BASE:GetRandomCoordinate()
+  self:F2()
+
+  local Coordinate = COORDINATE:NewFromVec2( self:GetRandomVec2() )
+  
+  self:T2( Coordinate )
+
+  return Coordinate
 end
 
 
@@ -13393,6 +13457,39 @@ do -- COORDINATE
     local IsLOS = land.isVisible( FromVec3, ToVec3 )
 
     return IsLOS
+  end
+
+
+  --- Returns if a Coordinate is in a certain Radius of this Coordinate in 2D plane using the X and Z axis.
+  -- @param #COORDINATE self
+  -- @param #COORDINATE ToCoordinate The coordinate that will be tested if it is in the radius of this coordinate.
+  -- @param #number Radius The radius of the circle on the 2D plane around this coordinate.
+  -- @return #boolean true if in the Radius.
+  function COORDINATE:IsInRadius( Coordinate, Radius )
+
+    local InVec2 = self:GetVec2()
+    local Vec2 = Coordinate:GetVec2()
+    
+    local InRadius = UTILS.IsInRadius( InVec2, Vec2, Radius)
+
+    return InRadius
+  end
+
+
+  --- Returns if a Coordinate is in a certain radius of this Coordinate in 3D space using the X, Y and Z axis.
+  -- So Radius defines the radius of the a Sphere in 3D space around this coordinate.
+  -- @param #COORDINATE self
+  -- @param #COORDINATE ToCoordinate The coordinate that will be tested if it is in the radius of this coordinate.
+  -- @param #number Radius The radius of the sphere in the 3D space around this coordinate.
+  -- @return #boolean true if in the Sphere.
+  function COORDINATE:IsInSphere( Coordinate, Radius )
+
+    local InVec3 = self:GetVec3()
+    local Vec3 = Coordinate:GetVec3()
+    
+    local InSphere = UTILS.IsInSphere( InVec3, Vec3, Radius)
+
+    return InSphere
   end
 
 
@@ -19550,7 +19647,7 @@ end
 -- ### Tasks at Waypoints
 -- 
 -- Special Task methods are available to set tasks at certain waypoints.
--- The method @{#CONTROLLABLE.SetTaskAtWaypoint}() helps preparing a Route, embedding a Task at the Waypoint of the Route.
+-- The method @{#CONTROLLABLE.SetTaskWaypoint}() helps preparing a Route, embedding a Task at the Waypoint of the Route.
 -- 
 -- This creates a Task element, with an action to call a function as part of a Wrapped Task.
 -- 
@@ -19827,7 +19924,7 @@ function CONTROLLABLE:SetTask( DCSTask, WaitTime )
     end
 
     if not WaitTime or WaitTime == 0 then
-      SetTask( DCSTask )
+      SetTask( self, DCSTask )
     else
       self.TaskScheduler:Schedule( self, SetTask, { DCSTask }, WaitTime )
     end
@@ -20983,7 +21080,7 @@ function CONTROLLABLE:TaskEmbarkToTransport( Point, Radius )
 end
 
 --- This creates a Task element, with an action to call a function as part of a Wrapped Task.
--- This Task can then be embedded at a Waypoint by calling the method @{#CONTROLLABLE.SetTaskAtWaypoint}.
+-- This Task can then be embedded at a Waypoint by calling the method @{#CONTROLLABLE.SetTaskWaypoint}.
 -- @param #CONTROLLABLE self
 -- @param #string FunctionString The function name embedded as a string that will be called.
 -- @param ... The variable arguments passed to the function when called! These arguments can be of any type!
@@ -21022,7 +21119,7 @@ end
 --    
 --    local TaskRouteToZone = Vehicle:TaskFunction( "RouteToZone", RandomZone )
 --    
---    Vehicle:SetTaskAtWaypoint( Route, #Route, TaskRouteToZone ) -- Set for the given Route at Waypoint 2 the TaskRouteToZone.
+--    Vehicle:SetTaskWaypoint( Route, #Route, TaskRouteToZone ) -- Set for the given Route at Waypoint 2 the TaskRouteToZone.
 --  
 --    Vehicle:Route( Route, math.random( 10, 20 ) ) -- Move after a random seconds to the Route. See the Route method for details.
 --    
@@ -21075,6 +21172,140 @@ function CONTROLLABLE:TaskMission( TaskMission )
   self:T3( { DCSTask } )
   return DCSTask
 end
+
+
+do -- Patrol methods
+
+  --- (GROUND) Patrol iteratively using the waypoints the for the (parent) group.
+  -- @param #CONTROLLABLE self
+  -- @return #CONTROLLABLE
+  function CONTROLLABLE:PatrolRoute()
+  
+    local PatrolGroup = self -- Wrapper.Group#GROUP
+    
+    if not self:IsInstanceOf( "GROUP" ) then
+      PatrolGroup = self:GetGroup() -- Wrapper.Group#GROUP
+    end
+    
+    self:E( { PatrolGroup = PatrolGroup:GetName() } )
+    
+    if PatrolGroup:IsGround() or PatrolGroup:IsShip() then
+    
+      local Waypoints = PatrolGroup:GetTemplateRoutePoints()
+      
+      -- Calculate the new Route.
+      local FromCoord = PatrolGroup:GetCoordinate()
+      local From = FromCoord:WaypointGround( 120 )
+      
+      table.insert( Waypoints, 1, From )
+
+      local TaskRoute = PatrolGroup:TaskFunction( "CONTROLLABLE.PatrolRoute" )
+      
+      self:E({Waypoints = Waypoints})
+      local Waypoint = Waypoints[#Waypoints]
+      PatrolGroup:SetTaskWaypoint( Waypoint, TaskRoute ) -- Set for the given Route at Waypoint 2 the TaskRouteToZone.
+    
+      PatrolGroup:Route( Waypoints ) -- Move after a random seconds to the Route. See the Route method for details.
+    end
+  end
+
+  --- (GROUND) Patrol randomly to the waypoints the for the (parent) group.
+  -- A random waypoint will be picked and the group will move towards that point.
+  -- @param #CONTROLLABLE self
+  -- @return #CONTROLLABLE
+  function CONTROLLABLE:PatrolRouteRandom( Speed, Formation, ToWaypoint )
+  
+    local PatrolGroup = self -- Wrapper.Group#GROUP
+    
+    if not self:IsInstanceOf( "GROUP" ) then
+      PatrolGroup = self:GetGroup() -- Wrapper.Group#GROUP
+    end
+
+    self:E( { PatrolGroup = PatrolGroup:GetName() } )
+    
+    if PatrolGroup:IsGround() or PatrolGroup:IsShip() then
+    
+      local Waypoints = PatrolGroup:GetTemplateRoutePoints()
+      
+      -- Calculate the new Route.
+      local FromCoord = PatrolGroup:GetCoordinate()
+      local FromWaypoint = 1
+      if ToWaypoint then
+        FromWaypoint = ToWaypoint
+      end
+      
+      -- Loop until a waypoint has been found that is not the same as the current waypoint.
+      -- Otherwise the object zon't move or drive in circles and the algorithm would not do exactly
+      -- what it is supposed to do, which is making groups drive around.
+      local ToWaypoint
+      repeat      
+        -- Select a random waypoint and check if it is not the same waypoint as where the object is about.
+        ToWaypoint = math.random( 1, #Waypoints )
+      until( ToWaypoint ~= FromWaypoint )
+      self:E( { FromWaypoint = FromWaypoint, ToWaypoint = ToWaypoint } )
+
+      local  Waypoint = Waypoints[ToWaypoint] -- Select random waypoint.
+      local ToCoord = COORDINATE:NewFromVec2( { x = Waypoint.x, y = Waypoint.y } )
+      -- Create a "ground route point", which is a "point" structure that can be given as a parameter to a Task
+      local Route = {}
+      Route[#Route+1] = FromCoord:WaypointGround( 0 )
+      Route[#Route+1] = ToCoord:WaypointGround( Speed, Formation )
+      
+      
+      local TaskRouteToZone = PatrolGroup:TaskFunction( "CONTROLLABLE.PatrolRouteRandom", Speed, Formation, ToWaypoint )
+      
+      PatrolGroup:SetTaskWaypoint( Route[#Route], TaskRouteToZone ) -- Set for the given Route at Waypoint 2 the TaskRouteToZone.
+    
+      PatrolGroup:Route( Route, 1 ) -- Move after a random seconds to the Route. See the Route method for details.
+    end
+  end
+
+  --- (GROUND) Patrol randomly to the waypoints the for the (parent) group.
+  -- A random waypoint will be picked and the group will move towards that point.
+  -- @param #CONTROLLABLE self
+  -- @return #CONTROLLABLE
+  function CONTROLLABLE:PatrolZones( ZoneList, Speed, Formation )
+  
+    if not type( ZoneList ) == "table" then
+      ZoneList = { ZoneList }
+    end
+  
+    local PatrolGroup = self -- Wrapper.Group#GROUP
+    
+    if not self:IsInstanceOf( "GROUP" ) then
+      PatrolGroup = self:GetGroup() -- Wrapper.Group#GROUP
+    end
+
+    self:E( { PatrolGroup = PatrolGroup:GetName() } )
+    
+    if PatrolGroup:IsGround() or PatrolGroup:IsShip() then
+    
+      local Waypoints = PatrolGroup:GetTemplateRoutePoints()
+      local Waypoint = Waypoints[math.random( 1, #Waypoints )] -- Select random waypoint.
+      
+      -- Calculate the new Route.
+      local FromCoord = PatrolGroup:GetCoordinate()
+      
+      -- Select a random Zone and get the Coordinate of the new Zone.
+      local RandomZone = ZoneList[ math.random( 1, #ZoneList ) ] -- Core.Zone#ZONE
+      local ToCoord = RandomZone:GetRandomCoordinate( 10 )
+      
+      -- Create a "ground route point", which is a "point" structure that can be given as a parameter to a Task
+      local Route = {}
+      Route[#Route+1] = FromCoord:WaypointGround( 120 )
+      Route[#Route+1] = ToCoord:WaypointGround( Speed, Formation )
+      
+      
+      local TaskRouteToZone = PatrolGroup:TaskFunction( "CONTROLLABLE.PatrolZones", ZoneList, Speed, Formation )
+      
+      PatrolGroup:SetTaskWaypoint( Route[#Route], TaskRouteToZone ) -- Set for the given Route at Waypoint 2 the TaskRouteToZone.
+    
+      PatrolGroup:Route( Route, 1 ) -- Move after a random seconds to the Route. See the Route method for details.
+    end
+  end
+
+end
+
 
 --- Return a Misson task to follow a given route defined by Points.
 -- @param #CONTROLLABLE self
@@ -22938,9 +23169,18 @@ end
 -- @return #table 
 function GROUP:GetTemplate()
   local GroupName = self:GetName()
-  self:E( GroupName )
-  return _DATABASE:GetGroupTemplate( GroupName )
+  return UTILS.DeepCopy( _DATABASE:GetGroupTemplate( GroupName ) )
 end
+
+--- Returns the group template route.points[] (the waypoints) from the @{DATABASE} (_DATABASE object).
+-- @param #GROUP self
+-- @return #table 
+function GROUP:GetTemplateRoutePoints()
+  local GroupName = self:GetName()
+  return UTILS.DeepCopy( _DATABASE:GetGroupTemplate( GroupName ).route.points )
+end
+
+
 
 --- Sets the controlled status in a Template.
 -- @param #GROUP self
@@ -23161,9 +23401,9 @@ do -- Event Handling
   -- @param Core.Event#EVENTS Event
   -- @param #function EventFunction (optional) The function to be called when the event occurs for the GROUP.
   -- @return #GROUP
-  function GROUP:HandleEvent( Event, EventFunction )
+  function GROUP:HandleEvent( Event, EventFunction, ... )
   
-    self:EventDispatcher():OnEventForGroup( self:GetName(), EventFunction, self, Event )
+    self:EventDispatcher():OnEventForGroup( self:GetName(), EventFunction, self, Event, ... )
     
     return self
   end
@@ -25714,9 +25954,9 @@ function SCORING:_AddPlayerFromUnit( UnitData )
       if self.Players[PlayerName].UnitCoalition ~= UnitCoalition then
         self.Players[PlayerName].Penalty = self.Players[PlayerName].Penalty + 50
         self.Players[PlayerName].PenaltyCoalition = self.Players[PlayerName].PenaltyCoalition + 1
-        MESSAGE:New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' changed coalition from " .. _SCORINGCoalition[self.Players[PlayerName].UnitCoalition] .. " to " .. _SCORINGCoalition[UnitCoalition] ..
+        MESSAGE:NewType( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' changed coalition from " .. _SCORINGCoalition[self.Players[PlayerName].UnitCoalition] .. " to " .. _SCORINGCoalition[UnitCoalition] ..
           "(changed " .. self.Players[PlayerName].PenaltyCoalition .. " times the coalition). 50 Penalty points added.",
-          2
+          MESSAGE.Type.Information
         ):ToAll()
         self:ScoreCSV( PlayerName, "", "COALITION_PENALTY",  1, -50, self.Players[PlayerName].UnitName, _SCORINGCoalition[self.Players[PlayerName].UnitCoalition], _SCORINGCategory[self.Players[PlayerName].UnitCategory], self.Players[PlayerName].UnitType,
           UnitName, _SCORINGCoalition[UnitCoalition], _SCORINGCategory[UnitCategory], UnitData:GetTypeName() )
@@ -25732,16 +25972,16 @@ function SCORING:_AddPlayerFromUnit( UnitData )
 
     if self.Players[PlayerName].Penalty > self.Fratricide * 0.50 then
       if self.Players[PlayerName].PenaltyWarning < 1 then
-        MESSAGE:New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "': WARNING! If you continue to commit FRATRICIDE and have a PENALTY score higher than " .. self.Fratricide .. ", you will be COURT MARTIALED and DISMISSED from this mission! \nYour total penalty is: " .. self.Players[PlayerName].Penalty,
-          30
+        MESSAGE:NewType( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "': WARNING! If you continue to commit FRATRICIDE and have a PENALTY score higher than " .. self.Fratricide .. ", you will be COURT MARTIALED and DISMISSED from this mission! \nYour total penalty is: " .. self.Players[PlayerName].Penalty,
+          MESSAGE.Type.Information
         ):ToAll()
         self.Players[PlayerName].PenaltyWarning = self.Players[PlayerName].PenaltyWarning + 1
       end
     end
 
     if self.Players[PlayerName].Penalty > self.Fratricide then
-      MESSAGE:New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' committed FRATRICIDE, he will be COURT MARTIALED and is DISMISSED from this mission!",
-        10
+      MESSAGE:NewType( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' committed FRATRICIDE, he will be COURT MARTIALED and is DISMISSED from this mission!",
+        MESSAGE.Type.Information
       ):ToAll()
       UnitData:GetGroup():Destroy()
     end
@@ -25774,7 +26014,7 @@ function SCORING:AddGoalScore( PlayerUnit, GoalTag, Text, Score )
     PlayerData.Goals[GoalTag].Score = PlayerData.Goals[GoalTag].Score + Score  
     PlayerData.Score = PlayerData.Score + Score
   
-    MESSAGE:New( self.DisplayMessagePrefix .. Text, 30 ):ToAll()
+    MESSAGE:NewType( self.DisplayMessagePrefix .. Text, MESSAGE.Type.Information ):ToAll()
   
     self:ScoreCSV( PlayerName, "", "GOAL_" .. string.upper( GoalTag ), 1, Score, PlayerUnit:GetName() )
   end
@@ -25810,7 +26050,7 @@ function SCORING:_AddMissionTaskScore( Mission, PlayerUnit, Text, Score )
     PlayerData.Score = self.Players[PlayerName].Score + Score
     PlayerData.Mission[MissionName].ScoreTask = self.Players[PlayerName].Mission[MissionName].ScoreTask + Score
   
-    MESSAGE:New( self.DisplayMessagePrefix .. MissionName .. " : " .. Text .. " Score: " .. Score, 30 ):ToAll()
+    MESSAGE:NewType( self.DisplayMessagePrefix .. MissionName .. " : " .. Text .. " Score: " .. Score, MESSAGE.Type.Information ):ToAll()
   
     self:ScoreCSV( PlayerName, "", "TASK_" .. MissionName:gsub( ' ', '_' ), 1, Score, PlayerUnit:GetName() )
   end
@@ -25838,9 +26078,9 @@ function SCORING:_AddMissionScore( Mission, Text, Score )
       PlayerData.Score = PlayerData.Score + Score
       PlayerData.Mission[MissionName].ScoreMission = PlayerData.Mission[MissionName].ScoreMission + Score
 
-      MESSAGE:New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' has " .. Text .. " in Mission '" .. MissionName .. "'. " ..
+      MESSAGE:NewType( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' has " .. Text .. " in Mission '" .. MissionName .. "'. " ..
         Score .. " mission score!",
-        60 ):ToAll()
+        MESSAGE.Type.Information ):ToAll()
 
       self:ScoreCSV( PlayerName, "", "MISSION_" .. MissionName:gsub( ' ', '_' ), 1, Score )
     end
@@ -26008,19 +26248,19 @@ function SCORING:_EventOnHit( Event )
       
               if TargetPlayerName ~= nil then -- It is a player hitting another player ...
                 MESSAGE
-                  :New( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit friendly player '" .. TargetPlayerName .. "' " .. 
+                  :NewType( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit friendly player '" .. TargetPlayerName .. "' " .. 
                         TargetUnitCategory .. " ( " .. TargetType .. " ) " .. PlayerHit.PenaltyHit .. " times. " .. 
                         "Penalty: -" .. PlayerHit.Penalty .. ".  Score Total:" .. Player.Score - Player.Penalty,
-                        2
+                        MESSAGE.Type.Update
                       )
                   :ToAllIf( self:IfMessagesHit() and self:IfMessagesToAll() )
                   :ToCoalitionIf( InitCoalition, self:IfMessagesHit() and self:IfMessagesToCoalition() )
               else
                 MESSAGE
-                  :New( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit friendly target " .. 
+                  :NewType( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit friendly target " .. 
                         TargetUnitCategory .. " ( " .. TargetType .. " ) " .. PlayerHit.PenaltyHit .. " times. " .. 
                         "Penalty: -" .. PlayerHit.Penalty .. ".  Score Total:" .. Player.Score - Player.Penalty,
-                        2
+                        MESSAGE.Type.Update
                       )
                   :ToAllIf( self:IfMessagesHit() and self:IfMessagesToAll() )
                   :ToCoalitionIf( InitCoalition, self:IfMessagesHit() and self:IfMessagesToCoalition() )
@@ -26032,19 +26272,19 @@ function SCORING:_EventOnHit( Event )
               PlayerHit.ScoreHit = PlayerHit.ScoreHit + 1
               if TargetPlayerName ~= nil then -- It is a player hitting another player ...
                 MESSAGE
-                  :New( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit enemy player '" .. TargetPlayerName .. "' "  .. 
+                  :NewType( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit enemy player '" .. TargetPlayerName .. "' "  .. 
                         TargetUnitCategory .. " ( " .. TargetType .. " ) " .. PlayerHit.ScoreHit .. " times. " .. 
                         "Score: " .. PlayerHit.Score .. ".  Score Total:" .. Player.Score - Player.Penalty,
-                        2
+                        MESSAGE.Type.Update
                       )
                   :ToAllIf( self:IfMessagesHit() and self:IfMessagesToAll() )
                   :ToCoalitionIf( InitCoalition, self:IfMessagesHit() and self:IfMessagesToCoalition() )
               else
                 MESSAGE
-                  :New( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit enemy target " .. 
+                  :NewType( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit enemy target " .. 
                         TargetUnitCategory .. " ( " .. TargetType .. " ) " .. PlayerHit.ScoreHit .. " times. " .. 
                         "Score: " .. PlayerHit.Score .. ".  Score Total:" .. Player.Score - Player.Penalty,
-                        2
+                        MESSAGE.Type.Update
                       )
                   :ToAllIf( self:IfMessagesHit() and self:IfMessagesToAll() )
                   :ToCoalitionIf( InitCoalition, self:IfMessagesHit() and self:IfMessagesToCoalition() )
@@ -26053,8 +26293,8 @@ function SCORING:_EventOnHit( Event )
             end
           else -- A scenery object was hit.
             MESSAGE
-              :New( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit scenery object.",
-                    2
+              :NewType( self.DisplayMessagePrefix .. "Player '" .. InitPlayerName .. "' hit scenery object.",
+                    MESSAGE.Type.Update
                   )
               :ToAllIf( self:IfMessagesHit() and self:IfMessagesToAll() )
               :ToCoalitionIf( InitCoalition, self:IfMessagesHit() and self:IfMessagesToCoalition() )
@@ -26114,10 +26354,10 @@ function SCORING:_EventOnHit( Event )
               PlayerHit.PenaltyHit = PlayerHit.PenaltyHit + 1
       
               MESSAGE
-                :New( self.DisplayMessagePrefix .. "Player '" .. Event.WeaponPlayerName .. "' hit friendly target " .. 
+                :NewType( self.DisplayMessagePrefix .. "Player '" .. Event.WeaponPlayerName .. "' hit friendly target " .. 
                       TargetUnitCategory .. " ( " .. TargetType .. " ) " .. 
                       "Penalty: -" .. PlayerHit.Penalty .. " = " .. Player.Score - Player.Penalty,
-                      2
+                      MESSAGE.Type.Update
                     )
                 :ToAllIf( self:IfMessagesHit() and self:IfMessagesToAll() )
                 :ToCoalitionIf( Event.WeaponCoalition, self:IfMessagesHit() and self:IfMessagesToCoalition() )
@@ -26127,10 +26367,10 @@ function SCORING:_EventOnHit( Event )
               PlayerHit.Score = PlayerHit.Score + 1
               PlayerHit.ScoreHit = PlayerHit.ScoreHit + 1
               MESSAGE
-                :New( self.DisplayMessagePrefix .. "Player '" .. Event.WeaponPlayerName .. "' hit enemy target " .. 
+                :NewType( self.DisplayMessagePrefix .. "Player '" .. Event.WeaponPlayerName .. "' hit enemy target " .. 
                       TargetUnitCategory .. " ( " .. TargetType .. " ) " .. 
                       "Score: +" .. PlayerHit.Score .. " = " .. Player.Score - Player.Penalty,
-                      2
+                      MESSAGE.Type.Update
                     )
                 :ToAllIf( self:IfMessagesHit() and self:IfMessagesToAll() )
                 :ToCoalitionIf( Event.WeaponCoalition, self:IfMessagesHit() and self:IfMessagesToCoalition() )
@@ -26138,8 +26378,8 @@ function SCORING:_EventOnHit( Event )
             end
           else -- A scenery object was hit.
             MESSAGE
-              :New( self.DisplayMessagePrefix .. "Player '" .. Event.WeaponPlayerName .. "' hit scenery object.",
-                    2
+              :NewType( self.DisplayMessagePrefix .. "Player '" .. Event.WeaponPlayerName .. "' hit scenery object.",
+                    MESSAGE.Type.Update
                   )
               :ToAllIf( self:IfMessagesHit() and self:IfMessagesToAll() )
               :ToCoalitionIf( InitCoalition, self:IfMessagesHit() and self:IfMessagesToCoalition() )
@@ -26237,19 +26477,19 @@ function SCORING:_EventOnDeadOrCrash( Event )
             
             if Player.HitPlayers[TargetPlayerName] then -- A player destroyed another player
               MESSAGE
-                :New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' destroyed friendly player '" .. TargetPlayerName .. "' " .. 
+                :NewType( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' destroyed friendly player '" .. TargetPlayerName .. "' " .. 
                       TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " .. 
                       "Penalty: -" .. TargetDestroy.Penalty .. " = " .. Player.Score - Player.Penalty,
-                      15 
+                      MESSAGE.Type.Information 
                     )
                 :ToAllIf( self:IfMessagesDestroy() and self:IfMessagesToAll() )
                 :ToCoalitionIf( InitCoalition, self:IfMessagesDestroy() and self:IfMessagesToCoalition() )
             else
               MESSAGE
-                :New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' destroyed friendly target " .. 
+                :NewType( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' destroyed friendly target " .. 
                       TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " .. 
                       "Penalty: -" .. TargetDestroy.Penalty .. " = " .. Player.Score - Player.Penalty,
-                      15 
+                      MESSAGE.Type.Information 
                     )
                 :ToAllIf( self:IfMessagesDestroy() and self:IfMessagesToAll() )
                 :ToCoalitionIf( InitCoalition, self:IfMessagesDestroy() and self:IfMessagesToCoalition() )
@@ -26271,19 +26511,19 @@ function SCORING:_EventOnDeadOrCrash( Event )
             TargetDestroy.ScoreDestroy = TargetDestroy.ScoreDestroy + 1
             if Player.HitPlayers[TargetPlayerName] then -- A player destroyed another player
               MESSAGE
-                :New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' destroyed enemy player '" .. TargetPlayerName .. "' " .. 
+                :NewType( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' destroyed enemy player '" .. TargetPlayerName .. "' " .. 
                       TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " .. 
                       "Score: +" .. TargetDestroy.Score .. " = " .. Player.Score - Player.Penalty,
-                      15 
+                      MESSAGE.Type.Information 
                     )
                 :ToAllIf( self:IfMessagesDestroy() and self:IfMessagesToAll() )
                 :ToCoalitionIf( InitCoalition, self:IfMessagesDestroy() and self:IfMessagesToCoalition() )
             else
               MESSAGE
-                :New( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' destroyed enemy " .. 
+                :NewType( self.DisplayMessagePrefix .. "Player '" .. PlayerName .. "' destroyed enemy " .. 
                       TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " .. 
                       "Score: +" .. TargetDestroy.Score .. " = " .. Player.Score - Player.Penalty,
-                      15 
+                      MESSAGE.Type.Information 
                     )
                 :ToAllIf( self:IfMessagesDestroy() and self:IfMessagesToAll() )
                 :ToCoalitionIf( InitCoalition, self:IfMessagesDestroy() and self:IfMessagesToCoalition() )
@@ -26297,9 +26537,9 @@ function SCORING:_EventOnDeadOrCrash( Event )
               Player.Score = Player.Score + Score
               TargetDestroy.Score = TargetDestroy.Score + Score
               MESSAGE
-                :New( self.DisplayMessagePrefix .. "Special target '" .. TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " .. " destroyed! " .. 
+                :NewType( self.DisplayMessagePrefix .. "Special target '" .. TargetUnitCategory .. " ( " .. ThreatTypeTarget .. " ) " .. " destroyed! " .. 
                       "Player '" .. PlayerName .. "' receives an extra " .. Score .. " points! Total: " .. Player.Score - Player.Penalty,
-                      15 
+                      MESSAGE.Type.Information 
                     )
                 :ToAllIf( self:IfMessagesScore() and self:IfMessagesToAll() )
                 :ToCoalitionIf( InitCoalition, self:IfMessagesScore() and self:IfMessagesToCoalition() )
@@ -26316,10 +26556,10 @@ function SCORING:_EventOnDeadOrCrash( Event )
                 Player.Score = Player.Score + Score
                 TargetDestroy.Score = TargetDestroy.Score + Score
                 MESSAGE
-                  :New( self.DisplayMessagePrefix .. "Target destroyed in zone '" .. ScoreZone:GetName() .. "'." .. 
+                  :NewType( self.DisplayMessagePrefix .. "Target destroyed in zone '" .. ScoreZone:GetName() .. "'." .. 
                         "Player '" .. PlayerName .. "' receives an extra " .. Score .. " points! " .. 
                         "Total: " .. Player.Score - Player.Penalty,
-                        15 )
+                        MESSAGE.Type.Information )
                   :ToAllIf( self:IfMessagesZone() and self:IfMessagesToAll() )
                   :ToCoalitionIf( InitCoalition, self:IfMessagesZone() and self:IfMessagesToCoalition() )
                 self:ScoreCSV( PlayerName, TargetPlayerName, "DESTROY_SCORE", 1, Score, InitUnitName, InitUnitCoalition, InitUnitCategory, InitUnitType, TargetUnitName, TargetUnitCoalition, TargetUnitCategory, TargetUnitType )
@@ -26338,10 +26578,10 @@ function SCORING:_EventOnDeadOrCrash( Event )
               Player.Score = Player.Score + Score
               TargetDestroy.Score = TargetDestroy.Score + Score
               MESSAGE
-                :New( self.DisplayMessagePrefix .. "Scenery destroyed in zone '" .. ScoreZone:GetName() .. "'." .. 
+                :NewType( self.DisplayMessagePrefix .. "Scenery destroyed in zone '" .. ScoreZone:GetName() .. "'." .. 
                       "Player '" .. PlayerName .. "' receives an extra " .. Score .. " points! " .. 
                       "Total: " .. Player.Score - Player.Penalty, 
-                      15 
+                      MESSAGE.Type.Information 
                     )
                 :ToAllIf( self:IfMessagesZone() and self:IfMessagesToAll() )
                 :ToCoalitionIf( InitCoalition, self:IfMessagesZone() and self:IfMessagesToCoalition() )
@@ -26628,7 +26868,7 @@ function SCORING:ReportScoreGroupSummary( PlayerGroup )
                        PlayerScore, 
                        PlayerPenalty
                      )
-      MESSAGE:New( PlayerMessage, 30, "Player '" .. PlayerName .. "'" ):ToGroup( PlayerGroup )
+      MESSAGE:NewType( PlayerMessage, MESSAGE.Type.Detailed ):ToGroup( PlayerGroup )
     end
   end
 
@@ -26685,7 +26925,7 @@ function SCORING:ReportScoreGroupDetailed( PlayerGroup )
                        ReportGoals,
                        ReportMissions
                      )
-      MESSAGE:New( PlayerMessage, 30, "Player '" .. PlayerName .. "'" ):ToGroup( PlayerGroup )
+      MESSAGE:NewType( PlayerMessage, MESSAGE.Type.Detailed ):ToGroup( PlayerGroup )
     end
   end
 
@@ -26734,7 +26974,7 @@ function SCORING:ReportScoreAllSummary( PlayerGroup )
                        PlayerScore, 
                        PlayerPenalty 
                      )
-      MESSAGE:New( PlayerMessage, 30, "Player '" .. PlayerName .. "'" ):ToGroup( PlayerGroup )
+      MESSAGE:NewType( PlayerMessage, MESSAGE.Type.Overview ):ToGroup( PlayerGroup )
     end
   end
 
@@ -28394,8 +28634,18 @@ function SPAWN:SpawnAtAirbase( SpawnAirbase, Takeoff, TakeoffAltitude ) -- R2.2
 
       SpawnTemplate.x = PointVec3.x
       SpawnTemplate.y = PointVec3.z
+      
+      local GroupSpawned = self:SpawnWithIndex( self.SpawnIndex )
+      
+      -- When spawned in the air, we need to generate a Takeoff Event
+      
+      if Takeoff == GROUP.Takeoff.Air then
+        for UnitID, UnitSpawned in pairs( GroupSpawned:GetUnits() ) do
+          SCHEDULER:New( nil, BASE.CreateEventTakeoff, { GroupSpawned, timer.getTime(), UnitSpawned:GetDCSObject() } , 1 )
+        end
+      end
 
-      return self:SpawnWithIndex( self.SpawnIndex )
+      return GroupSpawned
     end
   end
   
@@ -36938,13 +37188,15 @@ end
 -- 
 -- # Demo Missions
 --
+-- ### [RAT Demo Missions](https://github.com/FlightControl-Master/MOOSE_MISSIONS/tree/Release/RAT%20-%20Random%20Air%20Traffic)
 -- ### [ALL Demo Missions pack of the last release](https://github.com/FlightControl-Master/MOOSE_MISSIONS/releases)
 -- 
 -- ====
 -- 
 -- # YouTube Channel
 -- 
--- ### [RAT YouTube Channel](https://www.youtube.com/playlist?list=PL7ZUrU4zZUl1jirWIo4t4YxqN-HxjqRkL)
+-- ### RAT videos are work in progress.
+-- ### [MOOSE YouTube Channel](https://www.youtube.com/playlist?list=PL7ZUrU4zZUl1jirWIo4t4YxqN-HxjqRkL)
 -- 
 -- ===
 -- 
@@ -36964,6 +37216,7 @@ end
 -- @field #number spawndelay Delay time in seconds before first spawning happens.
 -- @field #number spawninterval Interval between spawning units/groups. Note that we add a randomization of 50%.
 -- @field #number coalition Coalition of spawn group template.
+-- @field #number country Country of spawn group template.
 -- @field #string category Category of aircarft: "plane" or "heli".
 -- @field #string friendly Possible departure/destination airport: all=blue+red+neutral, same=spawn+neutral, spawnonly=spawn, blue=blue+neutral, blueonly=blue, red=red+neutral, redonly=red.
 -- @field #table ctable Table with the valid coalitons from choice self.friendly.
@@ -37002,7 +37255,8 @@ end
 -- @field #number respawn_delay Delay in seconds until repawn happens after landing.
 -- @field #table markerids Array with marker IDs.
 -- @field #string livery Livery of the aircraft set by user.
--- @field #string skill Skill of AI. 
+-- @field #string skill Skill of AI.
+-- @field #boolean ATCswitch Enable/disable ATC if set to true/false. 
 -- @extends Functional.Spawn#SPAWN
 
 ---# RAT class, extends @{Spawn#SPAWN}
@@ -37130,11 +37384,25 @@ end
 -- * @{#RAT.SetMinDistance}(100) will cause only random destination airports to be selected which are **at least** 100 km away from the departure airport.
 -- * @{#RAT.SetMaxDistance}(150) will allow only destination airports which are **less than** 150 km away from the departure airport.
 -- 
+-- ![Process](..\Presentations\RAT\RAT_Gaussian.png)
 -- 
--- Certain other options like the flight level can also be specified. However, note that this might not be a good idea for random departures and/or destinations.
--- For example the random route might be too short to reach that altitude, which would result in very high climb and descent rates or strange flight plans.
---
---
+-- By default planes get a cruise altitude of ~20,000 ft ASL. The actual altitude is sampled from a Gaussian distribution. The picture shows this distribution
+-- if one would spawn 1000 planes. As can be seen most planes get a cruising alt of around FL200. Other values are possible but less likely the further away
+-- one gets from the expectation value.
+-- 
+-- The expectation value, i.e. the altitude most aircraft get, can be set with the function @{#RAT.SetFLcruise}().
+-- It is possible to restrict the minimum cruise altitude by @{#RAT.SetFLmin}() and the maximum cruise altitude by @{#RAT.SetFLmax}()
+-- 
+-- The cruise altitude can also be given in meters ASL by the functions @{#RAT.SetCruiseAltitude}(), @{#RAT.SetMinCruiseAltitude}() and @{#RAT.SetMaxCruiseAltitude}().
+-- 
+-- For example:
+-- 
+-- * @{#RAT.SetFLcruise}(300) will cause most planes fly around FL300.
+-- * @{#RAT.SetFLmin}(100) restricts the cruising alt such that no plane will fly below FL100. Note that this automatically changes the minimum distance from departure to destination.
+-- That means that only destinations are possible for which the aircraft has had enought time to reach that flight level and descent again.  
+-- * @{#RAT.SetFLmax}(200) will restrict the cruise alt to maximum FL200, i.e. no aircraft will travel above this height.
+-- 
+-- 
 -- @field #RAT
 RAT={
   ClassName = "RAT",        -- Name of class: RAT = Random Air Traffic.
@@ -37143,6 +37411,7 @@ RAT={
   spawndelay=5,             -- Delay time in seconds before first spawning happens.
   spawninterval=5,          -- Interval between spawning units/groups. Note that we add a randomization of 50%.
   coalition = nil,          -- Coalition of spawn group template.
+  country = nil,            -- Country of the group template.
   category = nil,           -- Category of aircarft: "plane" or "heli".
   friendly = "same",        -- Possible departure/destination airport: all=blue+red+neutral, same=spawn+neutral, spawnonly=spawn, blue=blue+neutral, blueonly=blue, red=red+neutral, redonly=red.
   ctable = {},              -- Table with the valid coalitons from choice self.friendly.
@@ -37162,6 +37431,7 @@ RAT={
   departure_zones={},       -- Array containing the names of the departure zones.
   departure_ports={},       -- Array containing the names of the departure airports.
   destination_ports={},     -- Array containing the names of the destination airports.
+  excluded_ports={},        -- Array containing the names of explicitly excluded airports.
   ratcraft={},              -- Array with the spawned RAT aircraft.
   Tinactive=300,            -- Time in seconds after which inactive units will be destroyed. Default is 300 seconds.
   reportstatus=false,       -- Aircraft report status.
@@ -37182,6 +37452,7 @@ RAT={
   markerids={},             -- Array with marker IDs.
   livery=nil,               -- Livery of the aircraft.
   skill="High",             -- Skill of AI.
+  ATCswitch=true,           -- Enable ATC.
 }
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -37215,11 +37486,6 @@ RAT.wp={
 RAT.coal={
   same="same",
   sameonly="sameonly",
-  all="all",
-  blue="blue",
-  blueonly="blueonly",
-  red="red",
-  redonly="redonly",
   neutral="neutral",
 }
 
@@ -37247,6 +37513,14 @@ RAT.ROT={
   evade="evade",
   passive="passive",
   noreaction="noreaction",
+}
+
+RAT.ATC={
+  init=false,
+  flight={},
+  airport={},
+  unregistered=-1,
+  onfinal=-100,
 }
 
 --- Running number of placed markers on the F10 map.
@@ -37336,11 +37610,6 @@ function RAT:New(groupname, alias)
   
   -- Get all airports of current map (Caucasus, NTTR, Normandy, ...).
   self:_GetAirportsOfMap()
-  
-  -- Create F10 main menu if it does not exists yet.
-  if self.f10menu and not RAT.MenuF10 then
-    RAT.MenuF10 = MENU_MISSION:New("RAT")
-  end
      
   return self
 end
@@ -37355,6 +37624,16 @@ function RAT:Spawn(naircraft)
 
   -- Number of aircraft to spawn. Default is one.
   self.ngroups=naircraft or 1
+  
+  -- Init RAT ATC if not already done.
+  if self.ATCswitch and not RAT.ATC.init then
+    RAT:_ATCInit(self.airports_map)
+  end
+  
+  -- Create F10 main menu if it does not exists yet.
+  if self.f10menu and not RAT.MenuF10 then
+    RAT.MenuF10 = MENU_MISSION:New("RAT")
+  end
   
     -- Set the coalition table based on choice of self.coalition and self.friendly.
   self:_SetCoalitionTable()
@@ -37398,6 +37677,7 @@ function RAT:Spawn(naircraft)
   text=text..string.format("Time inactive: %4.1f\n", self.Tinactive)
   text=text..string.format("Create F10 menu : %s\n", tostring(self.f10menu))
   text=text..string.format("F10 submenu name: %s\n", self.SubMenuName)
+  text=text..string.format("ATC enabled : %s\n", tostring(self.ATCswitch))
   text=text..string.format("******************************************************\n")
   env.info(RAT.id..text)
   
@@ -37437,30 +37717,46 @@ end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
---- Set the friendly coalitions from which the airports can be used as departure or destination.
+--- Set the friendly coalitions from which the airports can be used as departure and destination.
 -- @param #RAT self
--- @param #string friendly "same"=own coalition+neutral (default), "all"=neutral+red+blue", "sameonly"=own coalition only, "blue"=blue+neutral, "blueonly"=blue, "red"=red+neutral, "redonly"=red, "neutral"=neutral.
+-- @param #string friendly "same"=own coalition+neutral (default), "sameonly"=own coalition only, "neutral"=all neutral airports.
 -- Default is "same", so aircraft will use airports of the coalition their spawn template has plus all neutral airports.
--- @usage yak:SetCoalition("all") will spawn aircraft randomly on airports of any coaliton, i.e. red, blue and neutral, regardless of its own coalition.
--- @usage yak:SetCoalition("redonly") will spawn aircraft randomly on airports belonging to the red coalition _only_.
+-- @usage yak:SetCoalition("neutral") will spawn aircraft randomly on all neutral airports.
+-- @usage yak:SetCoalition("sameonly") will spawn aircraft randomly on airports belonging to the same coalition only as the template.
 function RAT:SetCoalition(friendly)
-  if friendly:lower()=="all" then
-    self.friendly=RAT.coal.all
-  elseif friendly:lower()=="sameonly" then
+  if friendly:lower()=="sameonly" then
     self.friendly=RAT.coal.sameonly
-  elseif friendly:lower()=="blue" then
-    self.friendly=RAT.coal.blue
-  elseif friendly:lower()=="blueonly" then
-    self.friendly=RAT.coal.blueonly
-  elseif friendly:lower()=="red" then
-    self.friendly=RAT.coal.red
-  elseif friendly:lower()=="redonly" then
-    self.friendly=RAT.coal.redonly
   elseif friendly:lower()=="neutral" then
     self.friendly=RAT.coal.neutral
   else
     self.friendly=RAT.coal.same
   end
+end
+
+--- Set coalition of RAT group. You can make red templates blue and vice versa.
+-- @param #RAT self
+-- @param #string color Color of coalition, i.e. "red" or blue".
+function RAT:SetCoalitionAircraft(color)
+  if color:lower()=="blue" then
+    self.coalition=coalition.side.BLUE
+    if not self.country then
+      self.country=country.id.USA
+    end
+  elseif color:lower()=="red" then
+    self.coalition=coalition.side.RED
+    if not self.country then
+      self.country=country.id.RUSSIA
+    end
+  elseif color:lower()=="neutral" then
+    self.coalition=coalition.side.NEUTRAL
+  end
+end
+
+--- Set country of RAT group. This overrules the coalition settings.
+-- @param #RAT self
+-- @param #number id DCS country enumerator ID. For example country.id.USA or country.id.RUSSIA.
+function RAT:SetCoalition2(id)
+  self.country=id
 end
 
 --- Set takeoff type. Starting cold at airport, starting hot at airport, starting at runway, starting in the air.
@@ -37571,6 +37867,17 @@ function RAT:SetDestination(names)
 
 end
 
+--- Airports, FARPs and ships explicitly excluded as departures and destinations.
+-- @param #RAT self
+-- @param #string ports Name or table of names of excluded airports.
+function RAT:ExcludedAirports(ports)
+  if type(ports)=="string" then
+    self.excluded_ports={ports}
+  else
+    self.excluded_ports=ports
+  end
+end
+
 --- Set livery of aircraft. If more than one livery is specified in a table, the actually used one is chosen randomly from the selection.
 -- @param #RAT self
 -- @param #string skins Name of livery or table of names of liveries.
@@ -37581,7 +37888,6 @@ function RAT:Livery(skins)
     self.livery=skins
   end
 end
-
 
 --- Aircraft will continue their journey from their destination. This means they are respawned at their destination and get a new random destination.
 -- @param #RAT self
@@ -37685,6 +37991,13 @@ function RAT:MenuName(name)
   self.SubMenuName=tostring(name)
 end
 
+--- Enable ATC, which manages the landing queue for RAT aircraft if they arrive simultaniously at the same airport.
+-- @param #RAT self
+-- @param #boolean switch true=enable ATC, false=disable ATC. 
+function RAT:EnableATC(switch)
+  self.ATCswitch=switch
+end
+
 --- Set minimum distance between departure and destination. Default is 5 km.
 -- Minimum distance should not be smaller than maybe ~500 meters to ensure that departure and destination are different.
 -- @param #RAT self
@@ -37743,7 +38056,7 @@ end
 --- Set max cruising altitude above sea level.
 -- @param #RAT self
 -- @param #number alt Altitude ASL in meters.
-function RAT:SetMaCruiseAltitude(alt)
+function RAT:SetMaxCruiseAltitude(alt)
   self.FLmaxuser=alt
 end
 
@@ -37885,11 +38198,16 @@ function RAT:_SpawnWithRoute(_departure, _destination)
   end
   
   -- Modify the spawn template to follow the flight plan.
-  self:_ModifySpawnTemplate(waypoints) 
+  self:_ModifySpawnTemplate(waypoints)
   
   -- Actually spawn the group.
   local group=self:SpawnWithIndex(self.SpawnIndex) -- Wrapper.Group#GROUP
   self.alive=self.alive+1
+  
+  -- ATC is monitoring this flight.
+  if self.ATCswitch then
+    RAT:_ATCAddFlight(group:GetName(), destination:GetName())
+  end
   
   -- Set ROE, default is "weapon hold".
   self:_SetROE(group, self.roe)
@@ -37941,12 +38259,20 @@ function RAT:_SpawnWithRoute(_departure, _destination)
     MENU_MISSION_COMMAND:New("Evade on fire",   self.Menu[self.SubMenuName].groups[self.SpawnIndex]["rot"], self._SetROT, self, group, RAT.ROT.evade)    
     -- F10/RAT/<templatename>/Group X/
     MENU_MISSION_COMMAND:New("Despawn group",  self.Menu[self.SubMenuName].groups[self.SpawnIndex], self._Despawn, self, group)
+    MENU_MISSION_COMMAND:New("Clear for landing",  self.Menu[self.SubMenuName].groups[self.SpawnIndex], self.ClearForLanding, self, group:GetName())
     MENU_MISSION_COMMAND:New("Place markers",  self.Menu[self.SubMenuName].groups[self.SpawnIndex], self._PlaceMarkers, self, waypoints)
     MENU_MISSION_COMMAND:New("Status report",  self.Menu[self.SubMenuName].groups[self.SpawnIndex], self.Status, self, true, self.SpawnIndex)
   end
   
   return self.SpawnIndex
   
+end
+
+function RAT:ClearForLanding(name)
+  env.info("ATC: setting user flag "..name.." to 1.")
+  trigger.action.setUserFlag(name, 1)
+  local flagvalue=trigger.misc.getUserFlag(name)
+  env.info("ATC: user flag "..name.." ="..flagvalue)
 end
 
 --- Respawn a group.
@@ -38091,23 +38417,28 @@ function RAT:_SetRoute(takeoff, _departure, _destination)
   -- DESTINATION AIRPORT
   local destination=nil
   if _destination then
+  
     if self:_AirportExists(_destination) then
       destination=AIRBASE:FindByName(_destination)
     else
       local text=string.format("ERROR: Specified destination airport %s does not exist for %s!", _destination, self.alias)
       env.error(RAT.id..text)
     end
-  else
-    -- Get all destination airports within reach.
-    local destinations=self:_GetDestinations(Pdeparture, self.mindist, math.min(self.aircraft.Reff, self.maxdist))
     
-    local random_destination=false
-    if self.continuejourney and _departure then
-      random_destination=true
+  else
+
+    -- This handes the case where we have a journey and the first flight is done, i.e. _departure is set.
+    -- If a user specified more than two destination airport explicitly, then we will stick to this.
+    -- Otherwise, the route is random from now on.
+    if self.continuejourney and _departure and #self.destination_ports<3 then
+      self.random_destination=true
     end
+  
+    -- Get all destination airports within reach.
+    local destinations=self:_GetDestinations(departure, Pdeparture, self.mindist, math.min(self.aircraft.Reff, self.maxdist))
     
     -- Pick a destination airport.
-    destination=self:_PickDestination(destinations, random_destination)
+    destination=self:_PickDestination(destinations)
   end
     
   -- Return nil if no departure could be found.
@@ -38158,7 +38489,7 @@ function RAT:_SetRoute(takeoff, _departure, _destination)
   local d_holding=Pholding:Get2DDistance(Pdestination)
   
   -- Height difference between departure and holding point.
-  local deltaH=h_holding+H_holding-H_departure
+  local deltaH=math.abs(h_holding+H_holding-H_departure)
   
   -- GENERAL
   -- Heading from departure to holding point of destination.
@@ -38263,6 +38594,7 @@ function RAT:_SetRoute(takeoff, _departure, _destination)
   text=text..string.format("h_climb       = %6.1f m\n",     h_climb)
   text=text..string.format("h_descent     = %6.1f m\n",     h_descent)
   text=text..string.format("h_holding     = %6.1f m\n",     h_holding)
+  text=text..string.format("delta H       = %6.1f m\n",     deltaH)
   text=text..string.format("FLmin         = %6.1f m ASL = FL%03d\n", FLmin, FLmin/RAT.unit.FL2m)
   text=text..string.format("FLcruise      = %6.1f m ASL = FL%03d\n", FLcruise, FLcruise/RAT.unit.FL2m)
   text=text..string.format("FLmax         = %6.1f m ASL = FL%03d\n", FLmax, FLmax/RAT.unit.FL2m)
@@ -38270,6 +38602,8 @@ function RAT:_SetRoute(takeoff, _departure, _destination)
   text=text..string.format("Alpha climb   = %6.1f Deg\n",   math.deg(AlphaClimb))
   text=text..string.format("Alpha descent = %6.1f Deg\n",   math.deg(AlphaDescent))
   text=text..string.format("Phi (slope)   = %6.1f Deg\n",   math.deg(phi))
+  text=text..string.format("Phi climb     = %6.1f Deg\n",   math.deg(PhiClimb))
+  text=text..string.format("Phi descent   = %6.1f Deg\n",   math.deg(PhiDescent))
   text=text..string.format("Heading       = %6.1f Deg\n",   heading)
   text=text..string.format("******************************************************\n")
   env.info(RAT.id..text)
@@ -38320,7 +38654,7 @@ end
 -- @param #RAT self
 -- @param #number takeoff Takeoff type.
 -- @return Wrapper.Airbase#AIRBASE Departure airport if spawning at airport.
--- @return Coore.Zone#ZONE Departure zone if spawning in air.
+-- @return Core.Zone#ZONE Departure zone if spawning in air.
 function RAT:_PickDeparture(takeoff)
 
   -- Array of possible departure airports or zones.
@@ -38331,19 +38665,25 @@ function RAT:_PickDeparture(takeoff)
     if self.random_departure then
     
       -- Air start above a random airport.
-      for _,airport in pairs(self.airports)do
-        table.insert(departures, airport:GetZone())
+      for _,airport in pairs(self.airports) do
+        if not self:_Excluded(airport:GetName()) then
+          table.insert(departures, airport:GetZone())
+        end
       end
     
     else
       
       -- Put all specified zones in table.
       for _,name in pairs(self.departure_zones) do
-        table.insert(departures, ZONE:New(name))
+        if not self:_Excluded(name) then
+          table.insert(departures, ZONE:New(name))
+        end
       end
       -- Put all specified airport zones in table.
       for _,name in pairs(self.departure_ports) do
-        table.insert(departures, AIRBASE:FindByName(name):GetZone())
+        if not self:_Excluded(name) then
+          table.insert(departures, AIRBASE:FindByName(name):GetZone())
+        end
       end
       
     end
@@ -38354,14 +38694,18 @@ function RAT:_PickDeparture(takeoff)
     
       -- All friendly departure airports. 
       for _,airport in pairs(self.airports) do
-        table.insert(departures, airport)
+        if not self:_Excluded(airport:GetName()) then
+          table.insert(departures, airport)
+        end
       end
       
     else
       
       -- All airports specified by user  
       for _,name in pairs(self.departure_ports) do
-        table.insert(departures, AIRBASE:FindByName(name))
+        if not self:_Excluded(name) then
+          table.insert(departures, AIRBASE:FindByName(name))
+        end
       end
         
     end
@@ -38396,27 +38740,37 @@ end
 -- @return Wrapper.Airbase#AIRBASE Destination airport.
 function RAT:_PickDestination(destinations, _random)
 
+  --[[
   -- Take destinations from user input.   
   if not (self.random_destination or _random) then
+  
     destinations=nil
     destinations={}
+    
     -- All airports specified by user.
     for _,name in pairs(self.destination_ports) do
-      table.insert(destinations, AIRBASE:FindByName(name))
+      if not self:_Excluded(name) then
+        table.insert(destinations, AIRBASE:FindByName(name))
+      end
     end
     
   end
+  ]]
   
   -- Randomly select one possible destination.
   local destination=nil
   if destinations and #destinations>0 then
+  
+    -- Random selection.
     destination=destinations[math.random(#destinations)] -- Wrapper.Airbase#AIRBASE
   
+    -- Debug message.
     local text="Chosen destination airport: "..destination:GetName().." (ID "..destination:GetID()..")"
     env.info(RAT.id..text)
     if self.debug then
       MESSAGE:New(text, 30):ToAll()
     end
+    
   else
     env.error(RAT.id.."No destination airport found.")
   end
@@ -38424,36 +38778,58 @@ function RAT:_PickDestination(destinations, _random)
   return destination
 end
 
--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 --- Get all possible destination airports depending on departure position.
 -- The list is sorted w.r.t. distance to departure position.
 -- @param #RAT self
+-- @param Wrapper.Airbase#AIRBASE departure Departure airport or zone.
 -- @param Core.Point#COORDINATE q Coordinate of the departure point.
 -- @param #number minrange Minimum range to q in meters.
 -- @param #number maxrange Maximum range to q in meters.
 -- @return #table Table with possible destination airports.
 -- @return #nil If no airports could be found.
-function RAT:_GetDestinations(q, minrange, maxrange)
+function RAT:_GetDestinations(departure, q, minrange, maxrange)
 
+  -- Min/max range to destination.
   minrange=minrange or self.mindist
   maxrange=maxrange or self.maxdist
+
+  local possible_destinations={}
+  if self.random_destination then
   
-  -- Initialize array.
-  local destinations={}
-   
-  -- loop over all friendly airports
-  for _,airport in pairs(self.airports) do
-    local p=airport:GetCoordinate()
-    local distance=q:Get2DDistance(p)
-    -- check if distance form departure to destination is within min/max range
-    if distance>=minrange and distance<=maxrange then
-      table.insert(destinations, airport)
+    -- Airports of friendly coalitions.
+    for _,airport in pairs(self.airports) do
+      local name=airport:GetName()
+      if self:_IsFriendly(name) and not self:_Excluded(name) and name~=departure:GetName() then
+      
+        -- Distance from departure to possible destination
+        local distance=q:Get2DDistance(airport:GetCoordinate())
+        
+        -- Check if distance form departure to destination is within min/max range.
+        if distance>=minrange and distance<=maxrange then
+          table.insert(possible_destinations, airport)
+        end
+      end
     end
+    
+  else
+    
+    -- Airports specified by user.
+    for _,name in pairs(self.destination_ports) do
+      --if self:_IsFriendly(name) and not self:_Excluded(name) and name~=departure:GetName() then
+      if name~=departure:GetName() then
+        local airport=AIRBASE:FindByName(name)
+        --TODO: Maybe here I should check min/max distance as well? But the user explicitly specified the airports...
+        table.insert(possible_destinations, airport)
+      end
+    end
+    
   end
-  env.info(RAT.id.."Number of possible destination airports = "..#destinations)
   
-  if #destinations > 1 then
+  -- Info message.
+  env.info(RAT.id.."Number of possible destination airports = "..#possible_destinations)
+  
+  if #possible_destinations > 0 then
     --- Compare distance of destination airports.
     -- @param Core.Point#COORDINATE a Coordinate of point a.
     -- @param Core.Point#COORDINATE b Coordinate of point b.
@@ -38463,17 +38839,45 @@ function RAT:_GetDestinations(q, minrange, maxrange)
       local qb=q:Get2DDistance(b:GetCoordinate())
       return qa < qb
     end
-    table.sort(destinations, compare)
+    table.sort(possible_destinations, compare)
   else
     env.error(RAT.id.."No possible destination airports found!")
-    destinations=nil
+    possible_destinations=nil
   end
   
   -- Return table with destination airports.
-  return destinations
+  return possible_destinations
   
 end
 
+--- Check if airport is excluded from possible departures and destinations.
+-- @param #RAT self
+-- @param #string port Name of airport, FARP or ship to check.
+-- @return #boolean true if airport is excluded and false otherwise.
+function RAT:_Excluded(port)
+  for _,name in pairs(self.excluded_ports) do
+    if name==port then
+      return true
+    end
+  end
+  return false
+end
+
+--- Check if airport is friendly, i.e. belongs to the right coalition.
+-- @param #RAT self
+-- @param #string port Name of airport, FARP or ship to check.
+-- @return #boolean true if airport is friendly and false otherwise.
+function RAT:_IsFriendly(port)
+  for _,airport in pairs(self.airports) do
+    local name=airport:GetName()
+    if name==port then
+      return true
+    end
+  end
+  return false
+end
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 --- Get all airports of the current map.
 -- @param #RAT self
@@ -38516,7 +38920,6 @@ function RAT:_GetAirportsOfMap()
     
   end
 end
-
 
 --- Get all "friendly" airports of the current map.
 -- @param #RAT self
@@ -38562,6 +38965,9 @@ function RAT:Status(message, forID)
     MESSAGE:New(text, 20):ToAll()
   end
   
+  -- Current time.
+  local Tnow=timer.getTime()
+    
   for i=1, ngroups do
   
     if self.ratcraft[i].group then
@@ -38579,7 +38985,7 @@ function RAT:Status(message, forID)
         local departure=self.ratcraft[i].departure:GetName()
         local destination=self.ratcraft[i].destination:GetName()
         local type=self.aircraft.type
-        local Tnow=timer.getTime()
+        
         
         -- Monitor time and distance on ground.
         local Tg=0
@@ -38636,6 +39042,27 @@ function RAT:Status(message, forID)
         
         -- Distance remaining to destination.
         local Ddestination=Pn:Get2DDistance(self.ratcraft[i].destination:GetCoordinate())
+        
+        -- Distance remaining to holding point, which is waypoint 6
+        local Hp=COORDINATE:New(self.ratcraft[i].waypoints[6].x, self.ratcraft[i].waypoints[6].alt, self.ratcraft[i].waypoints[6].y)
+        local Dholding=Pn:Get2DDistance(Hp)
+        
+        -- Status shortcut.
+        local status=self.ratcraft[i].status
+        
+        -- Range from holding point
+        local DRholding 
+        if self.category==RAT.cat.plane then
+          DRholding=8000
+        else
+          DRholding=2000
+        end
+        
+        -- If distance to holding point is less then 6 km we register the plane.
+        if self.ATCswitch and Dholding<=DRholding and string.match(status, "On journey") then
+           RAT:_ATCRegisterFlight(group:GetName(), Tnow)
+           self.ratcraft[i].status="Holding"
+        end
      
         -- Status report.
         if (forID and i==forID) or (not forID) then
@@ -38658,7 +39085,8 @@ function RAT:Status(message, forID)
           text=text..string.format("FL%03d = %i m\n", alt/RAT.unit.FL2m, alt)
           --text=text..string.format("Speed = %i km/h\n", vel)
           text=text..string.format("Distance travelled        = %6.1f km\n", self.ratcraft[i]["Distance"]/1000)
-          text=text..string.format("Distance to destination = %6.1f km", Ddestination/1000)
+          --text=text..string.format("Distance to destination = %6.1f km\n", Ddestination/1000)
+          text=text..string.format("Distance to destination = %6.1f km", Dholding/1000)
           if not airborne then
             text=text..string.format("\nTime on ground  = %6.0f seconds\n", Tg)
             text=text..string.format("Position change = %8.1f m since %3.0f seconds.", Dg, dTlast)
@@ -38723,7 +39151,7 @@ end
 -- @param #RAT self
 function RAT:_SetStatus(group, status)
   local index=self:GetSpawnIndexFromGroup(group)
-  env.info(RAT.id.."Index for group "..group:GetName().." "..index.." status: "..status)
+  env.info(RAT.id.."Status for group "..group:GetName()..": "..status)
   self.ratcraft[index].status=status
 end
 
@@ -38857,7 +39285,11 @@ function RAT:_OnLand(EventData)
     
         -- Set status.
         self:_SetStatus(SpawnGroup, "Taxiing (after landing)")
-        
+
+        -- ATC plane landed. Take it out of the queue and set runway to free.
+        if self.ATCswitch then
+          RAT:_ATCFlightLanded(SpawnGroup:GetName())
+        end        
         
         if self.respawn_at_landing then
           text="Event: Group "..SpawnGroup:GetName().." will be respawned."
@@ -38960,6 +39392,8 @@ function RAT:_OnCrash(EventData)
 
   local SpawnGroup = EventData.IniGroup --Wrapper.Group#GROUP
   
+  env.info(string.format("%sGroup %s crashed!", RAT.id, SpawnGroup:GetName()))
+  
   if SpawnGroup then
 
     -- Get the template name of the group. This can be nil if this was not a spawned group.
@@ -39039,21 +39473,21 @@ function RAT:_Waypoint(Type, Coord, Speed, Altitude, Airport)
     -- take-off with engine off
     _Type="TakeOffParking"
     _Action="From Parking Area"
-    _Altitude = 2
+    _Altitude = 0
     _alttype="RADIO"
     _AID = Airport:GetID()
   elseif Type==RAT.wp.hot then
     -- take-off with engine on 
     _Type="TakeOffParkingHot"
     _Action="From Parking Area Hot"
-    _Altitude = 2
+    _Altitude = 0
     _alttype="RADIO"
     _AID = Airport:GetID()
   elseif Type==RAT.wp.runway then
     -- take-off from runway
     _Type="TakeOff"
     _Action="From Parking Area"
-    _Altitude = 2
+    _Altitude = 0
     _alttype="RADIO"
     _AID = Airport:GetID()
   elseif Type==RAT.wp.air then
@@ -39084,7 +39518,7 @@ function RAT:_Waypoint(Type, Coord, Speed, Altitude, Airport)
   elseif Type==RAT.wp.landing then
     _Type="Land"
     _Action="Landing"
-    _Altitude = 2
+    _Altitude = 0
     _alttype="RADIO"
     _AID = Airport:GetID()
   else
@@ -39116,7 +39550,7 @@ function RAT:_Waypoint(Type, Coord, Speed, Altitude, Airport)
   if self.debug then
     env.info(RAT.id..text)
   end
-  
+    
   -- define waypoint
   local RoutePoint = {}
   -- coordinates and altitude
@@ -39136,9 +39570,28 @@ function RAT:_Waypoint(Type, Coord, Speed, Altitude, Airport)
   RoutePoint.ETA_locked = false
   -- waypoint name (only for the mission editor)
   RoutePoint.name="RAT waypoint"
-  if _AID then
-    RoutePoint.airdromeId=_AID
+  
+  if (Airport~=nil) and Type~=RAT.wp.air then
+    local AirbaseID = Airport:GetID()
+    local AirbaseCategory = Airport:GetDesc().category
+    if AirbaseCategory == Airbase.Category.SHIP then
+      RoutePoint.linkUnit = AirbaseID
+      RoutePoint.helipadId = AirbaseID
+      --env.info(RAT.id.."WP: Ship id = "..AirbaseID)
+    elseif AirbaseCategory == Airbase.Category.HELIPAD then
+      RoutePoint.linkUnit = AirbaseID
+      RoutePoint.helipadId = AirbaseID
+      --env.info(RAT.id.."WP: Helipad id = "..AirbaseID)
+    elseif AirbaseCategory == Airbase.Category.AIRDROME then
+      RoutePoint.airdromeId = AirbaseID
+      --env.info(RAT.id.."WP: Airdrome id = "..AirbaseID)
+    else
+      --env.error(RAT.id.."Unknown Airport categoryin _Waypoint()!")
+    end  
   end
+--  if _AID then
+--    RoutePoint.airdromeId=_AID
+--  end
   -- properties
   RoutePoint.properties = {
     ["vnav"]   = 1,
@@ -39241,6 +39694,7 @@ function RAT:_TaskHolding(P1, Altitude, Speed, Duration)
     id = 'Orbit',
     params = {
       pattern = AI.Task.OrbitPattern.RACE_TRACK,
+      --pattern = AI.Task.OrbitPattern.CIRCLE,
       point = P1,
       point2 = P2,
       speed = Speed,
@@ -39252,7 +39706,14 @@ function RAT:_TaskHolding(P1, Altitude, Speed, Duration)
   DCSTask.id="ControlledTask"
   DCSTask.params={}
   DCSTask.params.task=Task
-  DCSTask.params.stopCondition={duration=Duration}
+  
+  if self.ATCswitch then
+    -- Set stop condition for holding. Either flag=1 or after max. 30 min holding.
+    local userflagname=string.format("%s#%03d", self.alias, self.SpawnIndex+1)
+    DCSTask.params.stopCondition={userFlag=userflagname, userFlagValue=1, duration=1800}
+  else
+    DCSTask.params.stopCondition={duration=Duration}
+  end
   
   return DCSTask
 end
@@ -39352,17 +39813,7 @@ end
 -- @param #RAT self
 function RAT:_SetCoalitionTable()
   -- get all possible departures/destinations depending on coalition
-  if self.friendly==RAT.coal.all then
-    self.ctable={coalition.side.BLUE, coalition.side.RED, coalition.side.NEUTRAL}
-  elseif self.friendly==RAT.coal.blue then
-    self.ctable={coalition.side.BLUE, coalition.side.NEUTRAL}
-  elseif self.friendly==RAT.coal.blueonly then
-    self.ctable={coalition.side.BLUE}
-  elseif self.friendly==RAT.coal.red then
-    self.ctable={coalition.side.RED, coalition.side.NEUTRAL}
-  elseif self.friendly==RAT.coal.redonly then
-    self.ctable={coalition.side.RED}
-  elseif self.friendly==RAT.coal.neutral then
+  if self.friendly==RAT.coal.neutral then
     self.ctable={coalition.side.NEUTRAL}
   elseif self.friendly==RAT.coal.same then
     self.ctable={self.coalition, coalition.side.NEUTRAL}
@@ -39448,6 +39899,31 @@ function RAT:_Random_Gaussian(x0, sigma, xmin, xmax)
 
   -- Standard deviation. Default 10 if not given.
   sigma=sigma or 10
+    
+  local r
+  local gotit=false
+  local i=0
+  while not gotit do
+  
+    -- Uniform numbers in [0,1). We need two.
+    local x1=math.random()
+    local x2=math.random()
+  
+    -- Transform to Gaussian exp(-(x-x0)²/(2*sigma²).
+    r = math.sqrt(-2*sigma*sigma * math.log(x1)) * math.cos(2*math.pi * x2) + x0
+    
+    i=i+1
+    if (r>=xmin and r<=xmax) or i>100 then
+      gotit=true
+    end
+  end
+  
+  return r
+
+--old version
+--[[
+  -- Standard deviation. Default 10 if not given.
+  sigma=sigma or 10
   
   -- Uniform numbers in [0,1). We need two.
   local x1=math.random()
@@ -39479,6 +39955,7 @@ function RAT:_Random_Gaussian(x0, sigma, xmin, xmax)
   end
   
   return r
+]]
 end
 
 --- Place markers of the waypoints. Note we assume a very specific number and type of waypoints here.
@@ -39508,36 +39985,19 @@ function RAT:_SetMarker(text, wp)
   -- Convert to coordinate.
   local vec={x=wp.x, y=wp.alt, z=wp.y}
   -- Place maker visible for all on the F10 map.
-  trigger.action.markToAll(RAT.markerid, text, vec)
+  local text1=string.format("%s:\n%s", self.alias, text)
+  trigger.action.markToAll(RAT.markerid, text1, vec)
 end
 
 --- Delete all markers on F10 map.
 -- @param #RAT self
 function RAT:_DeleteMarkers()
-  --self:E({"self ids before: ", self.markerids})
   for k,v in ipairs(self.markerids) do
-    --env.info("Deleting marker id v= "..v)
     trigger.action.removeMark(v)
   end
   for k,v in ipairs(self.markerids) do
-    --env.info("Removing marker k= "..k)
     self.markerids[k]=nil
   end
-  --self:E({"self ids after: ", self.markerids})
-end
-
---- Utility function which checks if table contains a specific value.
--- @param #RAT self
--- @param #table tab Table with elements to check.
--- @param #string val The value we are looking for.
--- @return #boolean True if element in the list, false otherwise. 
-function RAT:has_value (tab, val)
-  for _,value in pairs(tab) do
-    if value == val then
-      return true
-    end
-  end
-  return false
 end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -39592,8 +40052,19 @@ function RAT:_ModifySpawnTemplate(waypoints)
         -- Onboard number.
         SpawnTemplate.units[UnitID]["onboard_num"] = self.SpawnIndex
         
+        -- Modify coaltion and country of template.
+        SpawnTemplate.CoalitionID=self.coalition
+        if self.country then
+          SpawnTemplate.CountryID=self.country
+        end
+        
         -- Parking spot.
-        --SpawnTemplate.units[UnitID]["parking"]=19
+        UnitTemplate.parking = nil
+        UnitTemplate.parking_id = nil
+        
+        -- Initial altitude
+        UnitTemplate.alt=PointVec3.y
+        
         self:T('After Translation SpawnTemplate.units['..UnitID..'].x = '..SpawnTemplate.units[UnitID].x..', SpawnTemplate.units['..UnitID..'].y = '..SpawnTemplate.units[UnitID].y)
         
       end
@@ -39613,6 +40084,260 @@ function RAT:_ModifySpawnTemplate(waypoints)
       
       self:T(SpawnTemplate)        
     end
+  end
+end
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--- Initializes the ATC arrays and starts schedulers.
+-- @param #RAT self
+-- @param #table airports_map List of all airports of the map.
+function RAT:_ATCInit(airports_map)
+  if not RAT.ATC.init then
+    env.info(RAT.id.."Starting RAT ATC.")
+    RAT.ATC.init=true
+    for _,ap in pairs(airports_map) do
+      local name=ap:GetName()
+      RAT.ATC.airport[name]={}
+      RAT.ATC.airport[name].queue={}
+      RAT.ATC.airport[name].busy=false
+      RAT.ATC.airport[name].onfinal=nil
+      RAT.ATC.airport[name].traffic=0
+    end
+    SCHEDULER:New(nil, RAT._ATCCheck, {self}, 5, 15)
+    SCHEDULER:New(nil, RAT._ATCStatus, {self}, 5, 60)
+    RAT.ATC.T0=timer.getTime()
+  end
+end
+
+--- Adds andd initializes a new flight after it was spawned.
+-- @param #RAT self
+-- @param #string name Group name of the flight.
+-- @param #string dest Name of the destination airport.
+function RAT:_ATCAddFlight(name, dest)
+  env.info(string.format("%s%s ATC: Adding flight %s with destination %s.", RAT.id, dest, name, dest))
+  RAT.ATC.flight[name]={}
+  RAT.ATC.flight[name].destination=dest
+  RAT.ATC.flight[name].Tarrive=-1
+  RAT.ATC.flight[name].holding=-1
+  RAT.ATC.flight[name].Tonfinal=-1
+end
+
+--- Deletes a flight from ATC lists after it landed.
+-- @param #RAT self
+-- @param #table t Table.
+-- @param #string entry Flight name which shall be deleted.
+function RAT:_ATCDelFlight(t,entry)
+  for k,_ in pairs(t) do
+    if k==entry then
+      t[entry]=nil
+    end
+  end
+end
+
+--- Registers a flight once it is near its holding point at the final destination.
+-- @param #RAT self
+-- @param #string name Group name of the flight.
+-- @param #number time Time the fight first registered.
+function RAT:_ATCRegisterFlight(name, time)
+  RAT.ATC.flight[name].Tarrive=time
+  RAT.ATC.flight[name].holding=0
+end
+
+
+--- ATC status report about flights.
+-- @param #RAT self
+function RAT:_ATCStatus()
+
+  -- Current time.
+  local Tnow=timer.getTime()
+   
+  for name,_ in pairs(RAT.ATC.flight) do
+
+    local hold=RAT.ATC.flight[name].holding
+    local dest=RAT.ATC.flight[name].destination
+    
+    if hold >= 0 then
+    
+      -- Some string whether the runway is busy or not.
+      local busy="Runway is currently clear"
+      if RAT.ATC.airport[dest].busy then
+        if RAT.ATC.airport[dest].onfinal then
+          busy="Runway is occupied by "..RAT.ATC.airport[dest].onfinal
+        else
+          busy="Runway is occupied"
+        end
+      end
+      
+      -- Aircraft is holding.
+      env.info(string.format("%s%s ATC: Flight %s is holding for %i:%02d. %s.", RAT.id, dest, name, hold/60, hold%60, busy))
+      
+    elseif hold==RAT.ATC.onfinal then
+    
+      -- Aircarft is on final approach for landing.
+      local Tfinal=Tnow-RAT.ATC.flight[name].Tonfinal
+      env.info(string.format("%s%s ATC: Flight %s was cleared for landing. Waiting %i:%02d for landing event.", RAT.id, dest, name, Tfinal/60, Tfinal%60))
+      
+      --TODO: Trigger landing for another aircraft when Tfinal > x min?
+      -- After five minutes we set the runway to green. ==> Increase the landing frequency a bit.
+      if Tfinal>300 then
+        --RAT.ATC.airport[dest].busy=false
+      end
+      
+    elseif hold==RAT.ATC.unregistered then
+    
+      -- Aircraft has not arrived at holding point.
+      --env.info(string.format("%s ATC: Flight %s is not registered yet (hold %d).", dest, name, hold))
+      
+    else
+      env.error(RAT.id.."Unknown holding time in RAT:_ATCStatus().")
+    end
+  end
+  
+end
+
+--- Main ATC function. Updates the landing queue of all airports and inceases holding time for all flights.
+-- @param #RAT self
+function RAT:_ATCCheck()
+
+  -- Init queue of flights at all airports.
+  RAT:_ATCQueue()
+  
+  -- Current time.
+  local Tnow=timer.getTime()
+  
+  for name,_ in pairs(RAT.ATC.airport) do
+  
+    
+    -- List of flights cleared for landing.
+    local qw={}
+    
+    for qID,flight in ipairs(RAT.ATC.airport[name].queue) do
+    
+      -- Number of aircraft in queue.
+      local nqueue=#RAT.ATC.airport[name].queue
+    
+      if RAT.ATC.airport[name].busy then
+      
+        -- Update holding time.
+        RAT.ATC.flight[flight].holding=Tnow-RAT.ATC.flight[flight].Tarrive
+        
+        -- Debug message.
+        local text=string.format("%s ATC: Flight %s runway is busy. You are #%d of %d in landing queue. Your holding time is %i:%02d.", name, flight,qID, nqueue, RAT.ATC.flight[flight].holding/60, RAT.ATC.flight[flight].holding%60)
+        env.info(text)
+        
+      else
+      
+        -- Clear flight for landing.
+        RAT:_ATCClearForLanding(name, flight)
+        table.insert(qw, qID)
+        
+      end
+      
+    end
+    
+    -- Remove cleared flights from queue.
+    for _,i in pairs(qw) do
+      table.remove(RAT.ATC.airport[name].queue, i)
+    end
+    
+  end
+end
+
+--- Giving landing clearance for aircraft by setting user flag.
+-- @param #RAT self
+-- @param #string airport Name of destination airport.
+-- @param #string flight Group name of flight, which gets landing clearence.
+function RAT:_ATCClearForLanding(airport, flight)
+  -- Flight is cleared for landing.
+  RAT.ATC.flight[flight].holding=RAT.ATC.onfinal
+  -- Airport runway is busy now.
+  RAT.ATC.airport[airport].busy=true
+  -- Flight which is landing.
+  RAT.ATC.airport[airport].onfinal=flight
+  -- Current time.
+  RAT.ATC.flight[flight].Tonfinal=timer.getTime()
+  -- Set user flag to 1 ==> stop condition for holding.
+  trigger.action.setUserFlag(flight, 1)
+  local flagvalue=trigger.misc.getUserFlag(flight)
+  
+  -- Debug message.
+  local text1=string.format("%s%s ATC: Flight %s cleared for final approach (flag=%d).", RAT.id, airport, flight, flagvalue)
+  local text2=string.format("%s ATC: Flight %s you are cleared for landing.", airport, flight)
+  env.info(text1)
+  MESSAGE:New(text2, 10):ToAll()
+end
+
+--- Takes care of organisational stuff after a plane has landed.
+-- @param #RAT self
+-- @param #string name Group name of flight.
+function RAT:_ATCFlightLanded(name)
+
+  if RAT.ATC.flight[name] then
+  
+    -- Destination airport.
+    local dest=RAT.ATC.flight[name].destination
+    
+    -- Times for holding and final approach.
+    local Tnow=timer.getTime()
+    local Tfinal=Tnow-RAT.ATC.flight[name].Tonfinal
+    local Thold=RAT.ATC.flight[name].Tonfinal-RAT.ATC.flight[name].Tarrive
+    
+    -- Airport is not busy any more.
+    RAT.ATC.airport[dest].busy=false
+    
+    -- No aircraft on final any more.
+    RAT.ATC.airport[dest].onfinal=nil
+    
+    -- Remove this flight from list of flights.
+    RAT:_ATCDelFlight(RAT.ATC.flight, name)
+    
+    -- Increase landing counter to monitor traffic.
+    RAT.ATC.airport[dest].traffic=RAT.ATC.airport[dest].traffic+1
+    
+    -- Debug info
+    local text1=string.format("%s%s ATC: Flight %s landed. Tholding = %i:%02d, Tfinal = %i:%02d.", RAT.id, dest, name, Thold/60, Thold%60, Tfinal/60, Tfinal%60)
+    local text2=string.format("%s ATC: Flight %s landed. Welcome to %s.", dest, name, dest)
+    env.info(text1)
+    env.info(string.format("%s%s ATC: Number of planes landed in total %d.", RAT.id, dest, RAT.ATC.airport[dest].traffic))
+    MESSAGE:New(text2, 10):ToAll()
+  end
+  
+end
+
+--- Creates a landing queue for all flights holding at airports. Aircraft with longest holding time gets first permission to land.
+-- @param #RAT self
+function RAT:_ATCQueue()
+
+  for airport,_ in pairs(RAT.ATC.airport) do
+  
+    -- Local airport queue.
+    local _queue={}
+
+    -- Loop over all flights.
+    for name,_ in pairs(RAT.ATC.flight) do
+  
+      local hold=RAT.ATC.flight[name].holding
+      local dest=RAT.ATC.flight[name].destination
+      
+      -- Flight is holding at this airport.
+      if hold>=0 and airport==dest then
+        _queue[#_queue+1]={name,hold}
+      end
+    end
+    
+    -- Sort queue w.r.t holding time in acending order.
+    local function compare(a,b)
+      return a[2] > b[2]
+    end
+    table.sort(_queue, compare)
+    
+    -- Transfer queue to airport queue.
+    RAT.ATC.airport[airport].queue={}
+    for k,v in ipairs(_queue) do
+      table.insert(RAT.ATC.airport[airport].queue, v[1])
+    end
+    
   end
 end
 
@@ -40169,6 +40894,7 @@ function AI_A2A:New( AIGroup )
   -- @param #AI_A2A self
   -- @param #number Delay
 
+  self:AddTransition( "*", "Takeoff", "Airborne" )
   self:AddTransition( "*", "Return", "Returning" )
   self:AddTransition( "*", "Hold", "Holding" )
   self:AddTransition( "*", "Home", "Home" )
@@ -40182,6 +40908,13 @@ function AI_A2A:New( AIGroup )
   self.IdleCount = 0
   
   return self
+end
+
+--- @param Wrapper.Group#GROUP self
+-- @param Core.Event#EVENTDATA EventData
+function GROUP:OnEventTakeoff( EventData, Fsm )
+  Fsm:Takeoff()
+  self:UnHandleEvent( EVENTS.Takeoff )
 end
 
 function AI_A2A:SetDispatcher( Dispatcher )
@@ -40379,7 +41112,6 @@ function AI_A2A:onafterStatus()
         else
           self:E( self.Controllable:GetName() .. " is out of fuel: " .. Fuel .. " ... RTB!" )
           local OldAIControllable = self.Controllable
-          local AIControllableTemplate = self.Controllable:GetTemplate()
           
           local OrbitTask = OldAIControllable:TaskOrbitCircle( math.random( self.PatrolFloorAltitude, self.PatrolCeilingAltitude ), self.PatrolMinSpeed )
           local TimedOrbitTask = OldAIControllable:TaskControlled( OrbitTask, OldAIControllable:TaskCondition(nil,nil,nil,nil,self.PatrolOutOfFuelOrbitTime,nil ) )
@@ -40832,7 +41564,7 @@ function AI_A2A_PATROL:New( AIGroup, PatrolZone, PatrolFloorAltitude, PatrolCeil
   -- defafult PatrolAltType to "RADIO" if not specified
   self.PatrolAltType = PatrolAltType or "RADIO"
   
-  self:AddTransition( { "Started", "Refuelling" }, "Patrol", "Patrolling" )
+  self:AddTransition( { "Started", "Airborne", "Refuelling" }, "Patrol", "Patrolling" )
 
 --- OnBefore Transition Handler for Event Patrol.
 -- @function [parent=#AI_A2A_PATROL] OnBeforePatrol
@@ -41189,7 +41921,7 @@ function AI_A2A_CAP:New( AIGroup, PatrolZone, PatrolFloorAltitude, PatrolCeiling
   self.EngageMinSpeed = EngageMinSpeed
   self.EngageMaxSpeed = EngageMaxSpeed
   
-  self:AddTransition( { "Patrolling", "Engaging", "Returning" }, "Engage", "Engaging" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_CAP.
+  self:AddTransition( { "Patrolling", "Engaging", "Returning", "Airborne" }, "Engage", "Engaging" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_CAP.
 
   --- OnBefore Transition Handler for Event Engage.
   -- @function [parent=#AI_A2A_CAP] OnBeforeEngage
@@ -41350,6 +42082,17 @@ function AI_A2A_CAP:New( AIGroup, PatrolZone, PatrolFloorAltitude, PatrolCeiling
   return self
 end
 
+--- onafter State Transition for Event Patrol.
+-- @param #AI_A2A_GCI self
+-- @param Wrapper.Group#GROUP AIGroup The AI Group managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A_CAP:onafterStart( AIGroup, From, Event, To )
+
+  AIGroup:HandleEvent( EVENTS.Takeoff, nil, self )
+
+end
 
 --- Set the Engage Zone which defines where the AI will engage bogies. 
 -- @param #AI_A2A_CAP self
@@ -41679,7 +42422,7 @@ function AI_A2A_GCI:New( AIGroup, EngageMinSpeed, EngageMaxSpeed )
   
   self.PatrolAltType = "RADIO"
   
-  self:AddTransition( { "Started", "Engaging", "Returning" }, "Engage", "Engaging" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_GCI.
+  self:AddTransition( { "Started", "Engaging", "Returning", "Airborne" }, "Engage", "Engaging" ) -- FSM_CONTROLLABLE Transition for type #AI_A2A_GCI.
 
   --- OnBefore Transition Handler for Event Engage.
   -- @function [parent=#AI_A2A_GCI] OnBeforeEngage
@@ -41839,6 +42582,19 @@ function AI_A2A_GCI:New( AIGroup, EngageMinSpeed, EngageMaxSpeed )
 
   return self
 end
+
+--- onafter State Transition for Event Patrol.
+-- @param #AI_A2A_GCI self
+-- @param Wrapper.Group#GROUP AIGroup The AI Group managed by the FSM.
+-- @param #string From The From State string.
+-- @param #string Event The Event string.
+-- @param #string To The To State string.
+function AI_A2A_GCI:onafterStart( AIGroup, From, Event, To )
+
+  AIGroup:HandleEvent( EVENTS.Takeoff, nil, self )
+
+end
+
 
 
 --- onafter State Transition for Event Patrol.
@@ -42984,6 +43740,7 @@ do -- AI_A2A_DISPATCHER
     -- This will avoid the detection to still "know" the shot unit until the next detection.
     -- Otherwise, a new intercept or engage may happen for an already shot plane!
     
+    
     self:HandleEvent( EVENTS.Crash, self.OnEventCrashOrDead )
     self:HandleEvent( EVENTS.Dead, self.OnEventCrashOrDead )
     
@@ -43365,6 +44122,8 @@ do -- AI_A2A_DISPATCHER
   ---
   -- @param #AI_A2A_DISPATCHER self
   function AI_A2A_DISPATCHER:SetDefenderTask( SquadronName, Defender, Type, Fsm, Target )
+  
+    self:F( { SquadronName = SquadronName, Defender = Defender:GetName() } )
   
     self.DefenderTasks[Defender] = self.DefenderTasks[Defender] or {}
     self.DefenderTasks[Defender].Type = Type
@@ -44532,15 +45291,18 @@ do -- AI_A2A_DISPATCHER
     DetectedSet:Flush()
     
     local DefenderTasks = self:GetDefenderTasks()
-    for Defender, DefenderTask in pairs( DefenderTasks ) do
-      local Defender = Defender -- Wrapper.Group#GROUP
+    for DefenderGroup, DefenderTask in pairs( DefenderTasks ) do
+      local Defender = DefenderGroup -- Wrapper.Group#GROUP
       local DefenderTaskTarget = DefenderTask.Target
       local DefenderSquadronName = DefenderTask.SquadronName
+      
       if DefenderTaskTarget and DefenderTaskTarget.Index == AttackerDetection.Index then
         local Squadron = self:GetSquadron( DefenderSquadronName )
-        local SquadronOverhead = Squadron.Overhead or self.DefenderDefault.Overhead 
-        DefenderCount = DefenderCount + Defender:GetSize() / SquadronOverhead
-        self:E( "Defender Group Name: " .. Defender:GetName() .. ", Size: " .. Defender:GetSize() )
+        local SquadronOverhead = Squadron.Overhead or self.DefenderDefault.Overhead
+        
+        local DefenderSize = Defender:GetInitialSize()
+        DefenderCount = DefenderCount + DefenderSize / SquadronOverhead
+        self:F( "Defender Group Name: " .. Defender:GetName() .. ", Size: " .. DefenderSize )
       end
     end
 
@@ -44628,10 +45390,21 @@ do -- AI_A2A_DISPATCHER
           Fsm:SetDisengageRadius( self.DisengageRadius )
           Fsm:SetTanker( DefenderSquadron.TankerName or self.DefenderDefault.TankerName )
           Fsm:Start()
-          Fsm:__Patrol( 2 )
   
           self:SetDefenderTask( SquadronName, DefenderCAP, "CAP", Fsm )
 
+          function Fsm:onafterTakeoff( Defender, From, Event, To )
+            self:F({"GCI Birth", Defender:GetName()})
+            --self:GetParent(self).onafterBirth( self, Defender, From, Event, To )
+            
+            local Dispatcher = Fsm:GetDispatcher() -- #AI_A2A_DISPATCHER
+            local Squadron = Dispatcher:GetSquadronFromDefender( Defender )
+
+            if Squadron then
+              Fsm:__Patrol( 2 ) -- Start Patrolling
+            end
+          end
+  
           function Fsm:onafterRTB( Defender, From, Event, To )
             self:F({"CAP RTB", Defender:GetName()})
             self:GetParent(self).onafterRTB( self, Defender, From, Event, To )
@@ -44727,7 +45500,7 @@ do -- AI_A2A_DISPATCHER
             local SpawnCoord = DefenderSquadron.Airbase:GetCoordinate() -- Core.Point#COORDINATE
             local AttackerCoord = AttackerUnit:GetCoordinate()
             local InterceptCoord = AttackerDetection.InterceptCoord
-            self:F({InterceptCoord = InterceptCoord})
+            self:F( { InterceptCoord = InterceptCoord } )
             if InterceptCoord then
               local InterceptDistance = SpawnCoord:Get2DDistance( InterceptCoord )
               local AirbaseDistance = SpawnCoord:Get2DDistance( AttackerCoord )
@@ -44763,6 +45536,11 @@ do -- AI_A2A_DISPATCHER
               self:F( { Grouping = DefenderGrouping, SquadronGrouping = DefenderSquadron.Grouping, DefaultGrouping = self.DefenderDefault.Grouping } )
               self:F( { DefendersCount = DefenderCount, DefendersNeeded = DefendersNeeded } )
               
+              if DefendersNeeded > DefenderSquadron.Resources then
+                DefendersNeeded = DefenderSquadron.Resources
+                BreakLoop = true
+              end
+              
               while ( DefendersNeeded > 0 ) do
             
                 local Spawn = DefenderSquadron.Spawn[ math.random( 1, #DefenderSquadron.Spawn ) ] -- Functional.Spawn#SPAWN
@@ -44775,14 +45553,14 @@ do -- AI_A2A_DISPATCHER
                 
                 local TakeoffMethod = self:GetSquadronTakeoff( ClosestDefenderSquadronName )
                 local DefenderGCI = Spawn:SpawnAtAirbase( DefenderSquadron.Airbase, TakeoffMethod, DefenderSquadron.TakeoffAltitude or self.DefenderDefault.TakeoffAltitude ) -- Wrapper.Group#GROUP
-                self:F( { GCIDefender = DefenderGCI:GetName() } )
+                self:E( { GCIDefender = DefenderGCI:GetName() } )
   
                 DefendersNeeded = DefendersNeeded - DefenderGrouping
         
                 self:AddDefenderToSquadron( DefenderSquadron, DefenderGCI, DefenderGrouping )
           
                 if DefenderGCI then
-
+                
                   DefenderCount = DefenderCount - DefenderGrouping / DefenderOverhead
         
                   local Fsm = AI_A2A_GCI:New( DefenderGCI, Gci.EngageMinSpeed, Gci.EngageMaxSpeed )
@@ -44792,12 +45570,24 @@ do -- AI_A2A_DISPATCHER
                   Fsm:SetDamageThreshold( self.DefenderDefault.DamageThreshold )
                   Fsm:SetDisengageRadius( self.DisengageRadius )
                   Fsm:Start()
-                  Fsm:__Engage( 2, AttackerDetection.Set ) -- Engage on the TargetSetUnit
         
           
                   self:SetDefenderTask( ClosestDefenderSquadronName, DefenderGCI, "GCI", Fsm, AttackerDetection )
                   
                   
+                  function Fsm:onafterTakeoff( Defender, From, Event, To )
+                    self:F({"GCI Birth", Defender:GetName()})
+                    --self:GetParent(self).onafterBirth( self, Defender, From, Event, To )
+                    
+                    local Dispatcher = Fsm:GetDispatcher() -- #AI_A2A_DISPATCHER
+                    local Squadron = Dispatcher:GetSquadronFromDefender( Defender )
+                    local DefenderTarget = Dispatcher:GetDefenderTaskTarget( Defender )
+                    
+                    if DefenderTarget then
+                      Fsm:__Engage( 2, DefenderTarget.Set ) -- Engage on the TargetSetUnit
+                    end
+                  end
+  
                   function Fsm:onafterRTB( Defender, From, Event, To )
                     self:F({"GCI RTB", Defender:GetName()})
                     self:GetParent(self).onafterRTB( self, Defender, From, Event, To )
@@ -44926,7 +45716,11 @@ do -- AI_A2A_DISPATCHER
     for AIGroup, DefenderTask in pairs( self:GetDefenderTasks() ) do
       local AIGroup = AIGroup -- Wrapper.Group#GROUP
       if not AIGroup:IsAlive() then
-        self:ClearDefenderTask( AIGroup )
+        local DefenderTaskFsm = self:GetDefenderTaskFsm( AIGroup )
+        self:E( { Defender = AIGroup:GetName(), DefenderState = DefenderTaskFsm:GetState() } )
+        if not DefenderTaskFsm:Is( "Started" ) then
+          self:ClearDefenderTask( AIGroup )
+        end
       else
         if DefenderTask.Target then
           local AttackerItem = Detection:GetDetectedItem( DefenderTask.Target.Index )
@@ -46539,7 +47333,6 @@ function AI_PATROL_ZONE:onafterStatus()
     if Fuel < self.PatrolFuelThresholdPercentage then
       self:E( self.Controllable:GetName() .. " is out of fuel:" .. Fuel .. ", RTB!" )
       local OldAIControllable = self.Controllable
-      local AIControllableTemplate = self.Controllable:GetTemplate()
       
       local OrbitTask = OldAIControllable:TaskOrbitCircle( math.random( self.PatrolFloorAltitude, self.PatrolCeilingAltitude ), self.PatrolMinSpeed )
       local TimedOrbitTask = OldAIControllable:TaskControlled( OrbitTask, OldAIControllable:TaskCondition(nil,nil,nil,nil,self.PatrolOutOfFuelOrbitTime,nil ) )
@@ -46997,15 +47790,19 @@ function AI_CAP_ZONE:onafterStart( Controllable, From, Event, To )
 
 end
 
--- todo: need to fix this global function
 
---- @param Wrapper.Controllable#CONTROLLABLE AIControllable
-function _NewEngageCapRoute( AIControllable )
+--- @param AI.AI_CAP#AI_CAP_ZONE 
+-- @param Wrapper.Group#GROUP EngageGroup
+function AI_CAP_ZONE.EngageRoute( EngageGroup, Fsm )
 
-  AIControllable:T( "NewEngageRoute" )
-  local EngageZone = AIControllable:GetState( AIControllable, "EngageZone" ) -- AI.AI_Cap#AI_CAP_ZONE
-  EngageZone:__Engage( 1 )
+  EngageGroup:F( { "AI_CAP_ZONE.EngageRoute:", EngageGroup:GetName() } )
+
+  if EngageGroup:IsAlive() then
+    Fsm:__Engage( 1 )
+  end
 end
+
+
 
 --- @param #AI_CAP_ZONE self
 -- @param Wrapper.Controllable#CONTROLLABLE Controllable The Controllable Object managed by the FSM.
@@ -47142,28 +47939,20 @@ function AI_CAP_ZONE:onafterEngage( Controllable, From, Event, To )
       end
     end
 
-    --- Now we're going to do something special, we're going to call a function from a waypoint action at the AIControllable...
-    self.Controllable:WayPointInitialize( EngageRoute )
-    
-    
     if #AttackTasks == 0 then
       self:F("No targets found -> Going back to Patrolling")
       self:__Abort( 1 )
       self:__Route( 1 )
       self:SetDetectionActivated()
     else
+
+      AttackTasks[#AttackTasks+1] = Controllable:TaskFunction( "AI_CAP_ZONE.EngageRoute", self )
       EngageRoute[1].task = Controllable:TaskCombo( AttackTasks )
-      
-      --- Do a trick, link the NewEngageRoute function of the object to the AIControllable in a temporary variable ...
-      self.Controllable:SetState( self.Controllable, "EngageZone", self )
-  
-      self.Controllable:WayPointFunction( #EngageRoute, 1, "_NewEngageCapRoute" )
       
       self:SetDetectionDeactivated()
     end
     
-    --- NOW ROUTE THE GROUP!
-    self.Controllable:WayPointExecute( 1, 2 )
+    Controllable:Route( EngageRoute, 0.5 )
   
   end
 end
@@ -47577,12 +48366,15 @@ function AI_CAS_ZONE:onafterStart( Controllable, From, Event, To )
   self:SetDetectionDeactivated() -- When not engaging, set the detection off.
 end
 
---- @param Wrapper.Controllable#CONTROLLABLE AIControllable
-function _NewEngageRoute( AIControllable )
+--- @param AI.AI_CAS#AI_CAS_ZONE 
+-- @param Wrapper.Group#GROUP EngageGroup
+function AI_CAS_ZONE.EngageRoute( EngageGroup, Fsm )
 
-  AIControllable:T( "NewEngageRoute" )
-  local EngageZone = AIControllable:GetState( AIControllable, "EngageZone" ) -- AI.AI_Cas#AI_CAS_ZONE
-  EngageZone:__Engage( 1, EngageZone.EngageSpeed, EngageZone.EngageAltitude, EngageZone.EngageWeaponExpend, EngageZone.EngageAttackQty, EngageZone.EngageDirection )
+  EngageGroup:F( { "AI_CAS_ZONE.EngageRoute:", EngageGroup:GetName() } )
+
+  if EngageGroup:IsAlive() then
+    Fsm:__Engage( 1, Fsm.EngageSpeed, Fsm.EngageAltitude, Fsm.EngageWeaponExpend, Fsm.EngageAttackQty, Fsm.EngageDirection )
+  end
 end
 
 
@@ -47668,6 +48460,9 @@ function AI_CAS_ZONE:onafterEngage( Controllable, From, Event, To,
 
   if Controllable:IsAlive() then
 
+    Controllable:OptionROEOpenFire()
+    Controllable:OptionROTVertical()
+
     local EngageRoute = {}
 
     --- Calculate the current route point.
@@ -47689,7 +48484,7 @@ function AI_CAS_ZONE:onafterEngage( Controllable, From, Event, To,
 
     local AttackTasks = {}
 
-    for DetectedUnitID, DetectedUnit in pairs( self.DetectedUnits ) do
+    for DetectedUnit, Detected in pairs( self.DetectedUnits ) do
       local DetectedUnit = DetectedUnit -- Wrapper.Unit#UNIT
       self:T( DetectedUnit )
       if DetectedUnit:IsAlive() then
@@ -47707,7 +48502,8 @@ function AI_CAS_ZONE:onafterEngage( Controllable, From, Event, To,
       end
     end
 
-    EngageRoute[1].task = Controllable:TaskCombo( AttackTasks )
+    AttackTasks[#AttackTasks+1] = Controllable:TaskFunction( "AI_CAS_ZONE.EngageRoute", self )
+    EngageRoute[#EngageRoute].task = Controllable:TaskCombo( AttackTasks )
 
     --- Define a random point in the @{Zone}. The AI will fly to that point within the zone.
     
@@ -47728,20 +48524,8 @@ function AI_CAS_ZONE:onafterEngage( Controllable, From, Event, To,
     )
     
     EngageRoute[#EngageRoute+1] = ToTargetRoutePoint
-
-    --- Now we're going to do something special, we're going to call a function from a waypoint action at the AIControllable...
-    Controllable:WayPointInitialize( EngageRoute )
-    
-    --- Do a trick, link the NewEngageRoute function of the object to the AIControllable in a temporary variable ...
-    Controllable:SetState( Controllable, "EngageZone", self )
-
-    Controllable:WayPointFunction( #EngageRoute, 1, "_NewEngageRoute" )
-
-    --- NOW ROUTE THE GROUP!
-    Controllable:WayPointExecute( 1 )
-
-    Controllable:OptionROEOpenFire()
-    Controllable:OptionROTVertical()
+  
+    Controllable:Route( EngageRoute, 0.5 )
     
     self:SetRefreshTimeInterval( 2 )
     self:SetDetectionActivated()
