@@ -11,9 +11,9 @@ mapResource =
     ["ResKey_Action_2496"] = "beep_beep.ogg",
     ["ResKey_Action_3675"] = "mist.lua",
     ["ResKey_Action_3969"] = "TRTM_cargo_CTLD.lua",
-    ["ResKey_Action_4096"] = "Moose.lua",
     ["ResKey_Action_4126"] = "CTLD.lua",
     ["ResKey_Action_4132"] = "TRMT.lua",
     ["ResKey_Action_4133"] = "tankers.lua",
+    ["ResKey_Action_4221"] = "Moose.lua",
     ["ResKey_ImageBriefing_1821"] = "132nd_Logo_Main.png",
 } -- end of mapResource

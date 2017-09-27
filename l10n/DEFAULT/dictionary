@@ -4279,8 +4279,7 @@ RED SAM  located via nav points:\
 1xSA-8 group; SA8_EAST\
 \
 \
-\
-METAR by DAWS: UGTB 111300Z 13009KT 100V160 9999 SCT050CB 31/16 Q1018 R13R/CLRD70 NOSIG",
+METAR by DAWS: UGTB 271100Z 11007KT 9999 BKN025CB OVC031 18/12 Q1020 R13R/CLRD70 NOSIG",
     ["DictKey_sortie_652"] = "132nd - Training mission",
     ["DictKey_subtitle_1843"] = "",
     ["DictKey_subtitle_1845"] = "",
