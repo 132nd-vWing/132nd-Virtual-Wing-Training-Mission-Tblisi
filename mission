@@ -27882,6 +27882,47 @@ mission =
                                 ["x"] = -300444.62289285,
                                 ["y"] = 850572.35085714,
                             }, -- end of [58]
+                            [59] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 1458,
+                                ["heading"] = 0.92502450355699,
+                                ["name"] = "DictKey_GroupName_4222",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314710.13175,
+                                            ["y"] = 894527.02228571,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 0.92502450355699,
+                                        ["name"] = "DictKey_GroupName_4222",
+                                        ["rate"] = 100,
+                                        ["shape_name"] = "Hospital",
+                                        ["type"] = "hospital",
+                                        ["unitId"] = 2094,
+                                        ["x"] = -314710.13175,
+                                        ["y"] = 894527.02228571,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314710.13175,
+                                ["y"] = 894527.02228571,
+                            }, -- end of [59]
                         }, -- end of ["group"]
                     }, -- end of ["static"]
                     ["vehicle"] =
@@ -59142,7 +59183,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 4043687,
+    ["currentKey"] = 4050637,
     ["date"] =
     {
         ["Day"] = 27,
@@ -62396,11 +62437,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -320013.18875,
-        ["centerY"] = 903427.40714286,
-        ["zoom"] = 121915,
+        ["centerX"] = -314661.39317857,
+        ["centerY"] = 894517.05657142,
+        ["zoom"] = 1090,
     }, -- end of ["map"]
-    ["maxDictId"] = 4221,
+    ["maxDictId"] = 4224,
     ["pictureFileNameB"] =
     {
         [1] = "ResKey_ImageBriefing_1821",
