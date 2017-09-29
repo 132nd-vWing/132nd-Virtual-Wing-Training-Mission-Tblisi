@@ -2,7 +2,13 @@ Changelog
 =========
 
 
-3.7.5 (2017-09-29)
+(unreleased)
+------------
+- Replaced F5 agressors with flyable version. [132nd-Entropy]
+- Replaced F5 agressors with flyable version. [132nd-Entropy]
+
+
+3.7.4 (2017-09-29)
 ------------------
 
 New
