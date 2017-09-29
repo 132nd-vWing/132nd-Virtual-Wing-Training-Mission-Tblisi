@@ -2,8 +2,38 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+3.7.5 (2017-09-29)
+------------------
+
+New
+~~~
+- Add auto-despawn for tankers after RTB taxi (reverted from commit
+  58ee10d03890ed7d2811593bacca7445fb28304c) [Neck]
+
+Changes
+~~~~~~~
+- Re-added hospital close to Lochini. [Neck]
+- Minor changes. [Neck]
+- Added SOF FOB at KAVTISHEVI, just NORTHWEST of OBORA. [Neck]
+- Moved RED Bullseye and placed it at same location as BLUE bullseye.
+  [Neck]
+- Added RED Ural logistics vehicle to SUKHUMI and KOBULETI in order to
+  make sure that the aggressor airfields stay RED. Blue tankers will
+  spawn there, so not sure if it will make the the airfield turn blue.
+  [Neck]
+- Added RED Ural on Sukhumi and Kobuleti, to make sure that airfield
+  stays red, even if Blue AC spawns there (Blue tankers are set to spawn
+  there) [Neck]
+
+Other
+~~~~~
+- Release. [132nd-Entropy]
+- Update MOOSE to latest fix TACAN and EPLRS on tankers and AWACS.
+  [132nd-Entropy]
+
+
+3.7.3 (2017-09-26)
+------------------
 - Update moose update CTDL add RED tanker (tanker and freq, see in game
   mission brief) add F5, Mirage and Mig21 Agressors to Lochini add F5,
   Mirage and Mig21 Agressors to Sukhumi remove agressors from Sukhumi
