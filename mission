@@ -11324,6 +11324,7 @@ mission =
                                             ["ExhaustScreen"] = true,
                                             ["GunnersAISkill"] = 90,
                                             ["LeftEngineResource"] = 90,
+                                            ["NS430allow"] = true,
                                             ["RightEngineResource"] = 90,
                                         }, -- end of ["AddPropAircraft"]
                                         ["Radio"] =
@@ -11468,6 +11469,7 @@ mission =
                                             ["ExhaustScreen"] = true,
                                             ["GunnersAISkill"] = 90,
                                             ["LeftEngineResource"] = 90,
+                                            ["NS430allow"] = true,
                                             ["RightEngineResource"] = 90,
                                         }, -- end of ["AddPropAircraft"]
                                         ["Radio"] =
@@ -11612,6 +11614,7 @@ mission =
                                             ["ExhaustScreen"] = false,
                                             ["GunnersAISkill"] = 90,
                                             ["LeftEngineResource"] = 90,
+                                            ["NS430allow"] = true,
                                             ["RightEngineResource"] = 90,
                                         }, -- end of ["AddPropAircraft"]
                                         ["Radio"] =
@@ -11756,6 +11759,7 @@ mission =
                                             ["ExhaustScreen"] = false,
                                             ["GunnersAISkill"] = 90,
                                             ["LeftEngineResource"] = 90,
+                                            ["NS430allow"] = true,
                                             ["RightEngineResource"] = 90,
                                         }, -- end of ["AddPropAircraft"]
                                         ["Radio"] =
@@ -12322,6 +12326,7 @@ mission =
                                             ["ExhaustScreen"] = false,
                                             ["GunnersAISkill"] = 90,
                                             ["LeftEngineResource"] = 90,
+                                            ["NS430allow"] = true,
                                             ["RightEngineResource"] = 90,
                                         }, -- end of ["AddPropAircraft"]
                                         ["Radio"] =
@@ -12778,6 +12783,7 @@ mission =
                                             ["ExhaustScreen"] = true,
                                             ["GunnersAISkill"] = 90,
                                             ["LeftEngineResource"] = 90,
+                                            ["NS430allow"] = true,
                                             ["RightEngineResource"] = 90,
                                         }, -- end of ["AddPropAircraft"]
                                         ["Radio"] =
@@ -12922,6 +12928,7 @@ mission =
                                             ["ExhaustScreen"] = true,
                                             ["GunnersAISkill"] = 90,
                                             ["LeftEngineResource"] = 90,
+                                            ["NS430allow"] = true,
                                             ["RightEngineResource"] = 90,
                                         }, -- end of ["AddPropAircraft"]
                                         ["Radio"] =
@@ -13270,6 +13277,7 @@ mission =
                                             ["ExhaustScreen"] = true,
                                             ["GunnersAISkill"] = 90,
                                             ["LeftEngineResource"] = 90,
+                                            ["NS430allow"] = true,
                                             ["RightEngineResource"] = 90,
                                         }, -- end of ["AddPropAircraft"]
                                         ["Radio"] =
@@ -13411,6 +13419,7 @@ mission =
                                             ["ExhaustScreen"] = true,
                                             ["GunnersAISkill"] = 90,
                                             ["LeftEngineResource"] = 90,
+                                            ["NS430allow"] = true,
                                             ["RightEngineResource"] = 90,
                                         }, -- end of ["AddPropAircraft"]
                                         ["Radio"] =
@@ -26464,8 +26473,8 @@ mission =
                                             ["name"] = "",
                                             ["speed"] = 0,
                                             ["type"] = "",
-                                            ["x"] = -318195.71428571,
-                                            ["y"] = 895448.57142857,
+                                            ["x"] = -318180.46569643,
+                                            ["y"] = 895363.35685714,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                 }, -- end of ["route"]
@@ -26479,12 +26488,12 @@ mission =
                                         ["shape_name"] = "sklad",
                                         ["type"] = "Warehouse",
                                         ["unitId"] = 1318,
-                                        ["x"] = -318195.71428571,
-                                        ["y"] = 895448.57142857,
+                                        ["x"] = -318180.46569643,
+                                        ["y"] = 895363.35685714,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -318195.71428571,
-                                ["y"] = 895448.57142857,
+                                ["x"] = -318180.46569643,
+                                ["y"] = 895363.35685714,
                             }, -- end of [24]
                             [25] =
                             {
@@ -32454,6 +32463,92 @@ mission =
                                 ["x"] = -285780,
                                 ["y"] = 683777.14285714,
                             }, -- end of [37]
+                            [38] =
+                            {
+                                ["groupId"] = 1459,
+                                ["hidden"] = false,
+                                ["name"] = "DictKey_GroupName_4225",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "Off Road",
+                                            ["alt"] = 450,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_4227",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                        [1] =
+                                                        {
+                                                            ["auto"] = true,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "WrappedAction",
+                                                            ["number"] = 1,
+                                                            ["params"] =
+                                                            {
+                                                                ["action"] =
+                                                                {
+                                                                    ["id"] = "EPLRS",
+                                                                    ["params"] =
+                                                                    {
+                                                                        ["groupId"] = 8,
+                                                                        ["value"] = true,
+                                                                    }, -- end of ["params"]
+                                                                }, -- end of ["action"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [1]
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = -318295.12626786,
+                                            ["y"] = 895613.41914286,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                    ["spans"] =
+                                    {
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_UnitName_4226",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Average",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "Hummer",
+                                        ["unitId"] = 2095,
+                                        ["x"] = -318295.12626786,
+                                        ["y"] = 895613.41914286,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = -318295.12626786,
+                                ["y"] = 895613.41914286,
+                            }, -- end of [38]
                         }, -- end of ["group"]
                     }, -- end of ["vehicle"]
                 }, -- end of [9]
@@ -56000,6 +56095,22 @@ mission =
                                                 {
                                                     ["tasks"] =
                                                     {
+                                                        [1] =
+                                                        {
+                                                            ["auto"] = true,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "EngageTargets",
+                                                            ["key"] = "CAP",
+                                                            ["number"] = 1,
+                                                            ["params"] =
+                                                            {
+                                                                ["priority"] = 0,
+                                                                ["targetTypes"] =
+                                                                {
+                                                                    [1] = "Air",
+                                                                }, -- end of ["targetTypes"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [1]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -56019,9 +56130,52 @@ mission =
                                 {
                                     [1] =
                                     {
+                                        ["AddPropAircraft"] =
+                                        {
+                                            ["ChaffBurst"] = 0,
+                                            ["ChaffBurstInt"] = 0,
+                                            ["ChaffSalvo"] = 0,
+                                            ["ChaffSalvoInt"] = 0,
+                                            ["FlareBurst"] = 0,
+                                            ["FlareBurstInt"] = 0,
+                                            ["LAU3ROF"] = 0,
+                                            ["LAU68ROF"] = 0,
+                                            ["LaserCode1"] = 8,
+                                            ["LaserCode10"] = 8,
+                                            ["LaserCode100"] = 6,
+                                        }, -- end of ["AddPropAircraft"]
+                                        ["Radio"] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 305,
+                                                    [2] = 264,
+                                                    [3] = 265,
+                                                    [4] = 256,
+                                                    [5] = 254,
+                                                    [6] = 250,
+                                                    [7] = 270,
+                                                    [8] = 257,
+                                                    [9] = 255,
+                                                    [10] = 262,
+                                                    [11] = 259,
+                                                    [12] = 268,
+                                                    [13] = 269,
+                                                    [14] = 260,
+                                                    [15] = 263,
+                                                    [16] = 261,
+                                                    [17] = 267,
+                                                    [18] = 251,
+                                                    [19] = 253,
+                                                    [20] = 266,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [1]
+                                        }, -- end of ["Radio"]
                                         ["alt"] = 476,
                                         ["alt_type"] = "BARO",
-                                        ["callsign"] = 120,
+                                        ["callsign"] = 119,
                                         ["hardpoint_racks"] = true,
                                         ["heading"] = -0.90327026659476,
                                         ["livery_id"] = "USA standard",
@@ -56032,30 +56186,18 @@ mission =
                                         ["payload"] =
                                         {
                                             ["ammo_type"] = 1,
-                                            ["chaff"] = 0,
-                                            ["flare"] = 0,
-                                            ["fuel"] = 1996,
+                                            ["chaff"] = 30,
+                                            ["flare"] = 15,
+                                            ["fuel"] = 2046,
                                             ["gun"] = 100,
                                             ["pylons"] =
                                             {
-                                                [1] =
-                                                {
-                                                    ["CLSID"] = "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
-                                                }, -- end of [1]
-                                                [4] =
-                                                {
-                                                    ["CLSID"] = "{PTB-150GAL}",
-                                                }, -- end of [4]
-                                                [7] =
-                                                {
-                                                    ["CLSID"] = "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
-                                                }, -- end of [7]
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
                                         ["psi"] = 0,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
-                                        ["type"] = "F-5E",
+                                        ["type"] = "F-5E-3",
                                         ["unitId"] = 2061,
                                         ["x"] = -314883.84375,
                                         ["y"] = 896799.9375,
@@ -56387,6 +56529,22 @@ mission =
                                                 {
                                                     ["tasks"] =
                                                     {
+                                                        [1] =
+                                                        {
+                                                            ["auto"] = true,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "EngageTargets",
+                                                            ["key"] = "CAP",
+                                                            ["number"] = 1,
+                                                            ["params"] =
+                                                            {
+                                                                ["priority"] = 0,
+                                                                ["targetTypes"] =
+                                                                {
+                                                                    [1] = "Air",
+                                                                }, -- end of ["targetTypes"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [1]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -56406,9 +56564,52 @@ mission =
                                 {
                                     [1] =
                                     {
+                                        ["AddPropAircraft"] =
+                                        {
+                                            ["ChaffBurst"] = 0,
+                                            ["ChaffBurstInt"] = 0,
+                                            ["ChaffSalvo"] = 0,
+                                            ["ChaffSalvoInt"] = 0,
+                                            ["FlareBurst"] = 0,
+                                            ["FlareBurstInt"] = 0,
+                                            ["LAU3ROF"] = 0,
+                                            ["LAU68ROF"] = 0,
+                                            ["LaserCode1"] = 8,
+                                            ["LaserCode10"] = 8,
+                                            ["LaserCode100"] = 6,
+                                        }, -- end of ["AddPropAircraft"]
+                                        ["Radio"] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 305,
+                                                    [2] = 264,
+                                                    [3] = 265,
+                                                    [4] = 256,
+                                                    [5] = 254,
+                                                    [6] = 250,
+                                                    [7] = 270,
+                                                    [8] = 257,
+                                                    [9] = 255,
+                                                    [10] = 262,
+                                                    [11] = 259,
+                                                    [12] = 268,
+                                                    [13] = 269,
+                                                    [14] = 260,
+                                                    [15] = 263,
+                                                    [16] = 261,
+                                                    [17] = 267,
+                                                    [18] = 251,
+                                                    [19] = 253,
+                                                    [20] = 266,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [1]
+                                        }, -- end of ["Radio"]
                                         ["alt"] = 9,
                                         ["alt_type"] = "BARO",
-                                        ["callsign"] = 120,
+                                        ["callsign"] = 122,
                                         ["hardpoint_racks"] = true,
                                         ["heading"] = -0.90327026659476,
                                         ["livery_id"] = "USA standard",
@@ -56419,30 +56620,18 @@ mission =
                                         ["payload"] =
                                         {
                                             ["ammo_type"] = 1,
-                                            ["chaff"] = 0,
-                                            ["flare"] = 0,
-                                            ["fuel"] = 1996,
+                                            ["chaff"] = 30,
+                                            ["flare"] = 15,
+                                            ["fuel"] = 2046,
                                             ["gun"] = 100,
                                             ["pylons"] =
                                             {
-                                                [1] =
-                                                {
-                                                    ["CLSID"] = "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
-                                                }, -- end of [1]
-                                                [4] =
-                                                {
-                                                    ["CLSID"] = "{PTB-150GAL}",
-                                                }, -- end of [4]
-                                                [7] =
-                                                {
-                                                    ["CLSID"] = "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
-                                                }, -- end of [7]
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
                                         ["psi"] = 0,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
-                                        ["type"] = "F-5E",
+                                        ["type"] = "F-5E-3",
                                         ["unitId"] = 2064,
                                         ["x"] = -219826.59375,
                                         ["y"] = 564170.5,
@@ -56483,6 +56672,22 @@ mission =
                                                 {
                                                     ["tasks"] =
                                                     {
+                                                        [1] =
+                                                        {
+                                                            ["auto"] = true,
+                                                            ["enabled"] = true,
+                                                            ["id"] = "EngageTargets",
+                                                            ["key"] = "CAP",
+                                                            ["number"] = 1,
+                                                            ["params"] =
+                                                            {
+                                                                ["priority"] = 0,
+                                                                ["targetTypes"] =
+                                                                {
+                                                                    [1] = "Air",
+                                                                }, -- end of ["targetTypes"]
+                                                            }, -- end of ["params"]
+                                                        }, -- end of [1]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -56502,9 +56707,52 @@ mission =
                                 {
                                     [1] =
                                     {
+                                        ["AddPropAircraft"] =
+                                        {
+                                            ["ChaffBurst"] = 0,
+                                            ["ChaffBurstInt"] = 0,
+                                            ["ChaffSalvo"] = 0,
+                                            ["ChaffSalvoInt"] = 0,
+                                            ["FlareBurst"] = 0,
+                                            ["FlareBurstInt"] = 0,
+                                            ["LAU3ROF"] = 0,
+                                            ["LAU68ROF"] = 0,
+                                            ["LaserCode1"] = 8,
+                                            ["LaserCode10"] = 8,
+                                            ["LaserCode100"] = 6,
+                                        }, -- end of ["AddPropAircraft"]
+                                        ["Radio"] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["channels"] =
+                                                {
+                                                    [1] = 305,
+                                                    [2] = 264,
+                                                    [3] = 265,
+                                                    [4] = 256,
+                                                    [5] = 254,
+                                                    [6] = 250,
+                                                    [7] = 270,
+                                                    [8] = 257,
+                                                    [9] = 255,
+                                                    [10] = 262,
+                                                    [11] = 259,
+                                                    [12] = 268,
+                                                    [13] = 269,
+                                                    [14] = 260,
+                                                    [15] = 263,
+                                                    [16] = 261,
+                                                    [17] = 267,
+                                                    [18] = 251,
+                                                    [19] = 253,
+                                                    [20] = 266,
+                                                }, -- end of ["channels"]
+                                            }, -- end of [1]
+                                        }, -- end of ["Radio"]
                                         ["alt"] = 9,
                                         ["alt_type"] = "BARO",
-                                        ["callsign"] = 120,
+                                        ["callsign"] = 123,
                                         ["hardpoint_racks"] = true,
                                         ["heading"] = -0.90327026659476,
                                         ["livery_id"] = "USA standard",
@@ -56515,30 +56763,18 @@ mission =
                                         ["payload"] =
                                         {
                                             ["ammo_type"] = 1,
-                                            ["chaff"] = 0,
-                                            ["flare"] = 0,
-                                            ["fuel"] = 1996,
+                                            ["chaff"] = 30,
+                                            ["flare"] = 15,
+                                            ["fuel"] = 2046,
                                             ["gun"] = 100,
                                             ["pylons"] =
                                             {
-                                                [1] =
-                                                {
-                                                    ["CLSID"] = "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
-                                                }, -- end of [1]
-                                                [4] =
-                                                {
-                                                    ["CLSID"] = "{PTB-150GAL}",
-                                                }, -- end of [4]
-                                                [7] =
-                                                {
-                                                    ["CLSID"] = "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
-                                                }, -- end of [7]
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
                                         ["psi"] = 0,
                                         ["skill"] = "Client",
                                         ["speed"] = 138.88888888889,
-                                        ["type"] = "F-5E",
+                                        ["type"] = "F-5E-3",
                                         ["unitId"] = 2065,
                                         ["x"] = -219714.203125,
                                         ["y"] = 564198,
@@ -59183,10 +59419,10 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 4050637,
+    ["currentKey"] = 4057726,
     ["date"] =
     {
-        ["Day"] = 27,
+        ["Day"] = 30,
         ["Month"] = 9,
         ["Year"] = 2011,
     }, -- end of ["date"]
@@ -62437,11 +62673,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -314661.39317857,
-        ["centerY"] = 894517.05657142,
-        ["zoom"] = 1090,
+        ["centerX"] = -318399.76926786,
+        ["centerY"] = 895957.958,
+        ["zoom"] = 4983,
     }, -- end of ["map"]
-    ["maxDictId"] = 4224,
+    ["maxDictId"] = 4227,
     ["pictureFileNameB"] =
     {
         [1] = "ResKey_ImageBriefing_1821",
@@ -65502,10 +65738,10 @@ mission =
         ["atmosphere_type"] = 0,
         ["clouds"] =
         {
-            ["base"] = 945,
-            ["density"] = 8,
+            ["base"] = 1372,
+            ["density"] = 10,
             ["iprecptns"] = 0,
-            ["thickness"] = 1284,
+            ["thickness"] = 1218,
         }, -- end of ["clouds"]
         ["cyclones"] =
         {
@@ -65523,10 +65759,11 @@ mission =
         ["name_es"] = "Verano. Nubes y viento",
         ["name_fr"] = "Eté, nuages et vent",
         ["name_ru"] = "Лето. Oблачность и ветер",
-        ["qnh"] = 765,
+        ["qnh"] = 771,
         ["season"] =
         {
-            ["temperature"] = 18,
+            ["iseason"] = 3,
+            ["temperature"] = 12,
         }, -- end of ["season"]
         ["type_weather"] = 0,
         ["visibility"] =
@@ -65537,18 +65774,18 @@ mission =
         {
             ["at2000"] =
             {
-                ["dir"] = 261,
-                ["speed"] = 4,
+                ["dir"] = 191,
+                ["speed"] = 0,
             }, -- end of ["at2000"]
             ["at8000"] =
             {
-                ["dir"] = 267,
-                ["speed"] = 4,
+                ["dir"] = 184,
+                ["speed"] = 0,
             }, -- end of ["at8000"]
             ["atGround"] =
             {
-                ["dir"] = 290,
-                ["speed"] = 4,
+                ["dir"] = 180,
+                ["speed"] = 0,
             }, -- end of ["atGround"]
         }, -- end of ["wind"]
     }, -- end of ["weather"]
