@@ -15695,31 +15695,6 @@ mission =
                                                             {
                                                                 ["action"] =
                                                                 {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 8,
-                                                                        ["frequency"] = 1095000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
                                                                     ["id"] = "EPLRS",
                                                                     ["params"] =
                                                                     {
@@ -15728,7 +15703,7 @@ mission =
                                                                     }, -- end of ["params"]
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
-                                                        }, -- end of [4]
+                                                        }, -- end of [3]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -15974,31 +15949,6 @@ mission =
                                                             {
                                                                 ["action"] =
                                                                 {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 9,
-                                                                        ["frequency"] = 1096000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
                                                                     ["id"] = "EPLRS",
                                                                     ["params"] =
                                                                     {
@@ -16007,7 +15957,7 @@ mission =
                                                                     }, -- end of ["params"]
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
-                                                        }, -- end of [4]
+                                                        }, -- end of [3]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -17519,31 +17469,6 @@ mission =
                                                             {
                                                                 ["action"] =
                                                                 {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 10,
-                                                                        ["frequency"] = 1097000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
                                                                     ["id"] = "EPLRS",
                                                                     ["params"] =
                                                                     {
@@ -17552,7 +17477,7 @@ mission =
                                                                     }, -- end of ["params"]
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
-                                                        }, -- end of [4]
+                                                        }, -- end of [3]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -17798,31 +17723,6 @@ mission =
                                                             {
                                                                 ["action"] =
                                                                 {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 11,
-                                                                        ["frequency"] = 1098000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
                                                                     ["id"] = "EPLRS",
                                                                     ["params"] =
                                                                     {
@@ -17831,7 +17731,7 @@ mission =
                                                                     }, -- end of ["params"]
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
-                                                        }, -- end of [4]
+                                                        }, -- end of [3]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -19310,7 +19210,7 @@ mission =
                                                         }, -- end of [1]
                                                         [2] =
                                                         {
-                                                            ["auto"] = true,
+                                                            ["auto"] = false,
                                                             ["enabled"] = true,
                                                             ["id"] = "WrappedAction",
                                                             ["number"] = 2,
@@ -19318,17 +19218,11 @@ mission =
                                                             {
                                                                 ["action"] =
                                                                 {
-                                                                    ["id"] = "ActivateBeacon",
+                                                                    ["id"] = "SetFrequency",
                                                                     ["params"] =
                                                                     {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 5,
-                                                                        ["frequency"] = 1092000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
+                                                                        ["frequency"] = 150000000,
+                                                                        ["modulation"] = 0,
                                                                     }, -- end of ["params"]
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
@@ -19343,25 +19237,6 @@ mission =
                                                             {
                                                                 ["action"] =
                                                                 {
-                                                                    ["id"] = "SetFrequency",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["frequency"] = 150000000,
-                                                                        ["modulation"] = 0,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
                                                                     ["id"] = "EPLRS",
                                                                     ["params"] =
                                                                     {
@@ -19370,7 +19245,7 @@ mission =
                                                                     }, -- end of ["params"]
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
-                                                        }, -- end of [4]
+                                                        }, -- end of [3]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -56384,31 +56259,6 @@ mission =
                                                                 }, -- end of ["action"]
                                                             }, -- end of ["params"]
                                                         }, -- end of [3]
-                                                        [4] =
-                                                        {
-                                                            ["auto"] = false,
-                                                            ["enabled"] = true,
-                                                            ["id"] = "WrappedAction",
-                                                            ["number"] = 4,
-                                                            ["params"] =
-                                                            {
-                                                                ["action"] =
-                                                                {
-                                                                    ["id"] = "ActivateBeacon",
-                                                                    ["params"] =
-                                                                    {
-                                                                        ["AA"] = true,
-                                                                        ["bearing"] = true,
-                                                                        ["callsign"] = "TKR",
-                                                                        ["channel"] = 12,
-                                                                        ["frequency"] = 1099000000,
-                                                                        ["modeChannel"] = "Y",
-                                                                        ["system"] = 5,
-                                                                        ["type"] = 4,
-                                                                    }, -- end of ["params"]
-                                                                }, -- end of ["action"]
-                                                            }, -- end of ["params"]
-                                                        }, -- end of [4]
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
@@ -59419,7 +59269,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 4057726,
+    ["currentKey"] = 4060123,
     ["date"] =
     {
         ["Day"] = 30,
@@ -65762,7 +65612,6 @@ mission =
         ["qnh"] = 771,
         ["season"] =
         {
-            ["iseason"] = 3,
             ["temperature"] = 12,
         }, -- end of ["season"]
         ["type_weather"] = 0,

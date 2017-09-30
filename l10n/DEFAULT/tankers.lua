@@ -12,7 +12,7 @@
 -- that the tanker group has one waypoing set as "Orbit", and that the group
 -- has the "Refueling task".
 --
--- You may also want to set the radio frequency and the TACAN on your tankers.
+-- You may also want to set the radio frequency on your tankers.
 --
 -- At the start of the mission, the script will start one tanker of each group,
 -- and will monitor its status, spawning a new tanker if the previous one
@@ -23,7 +23,6 @@
 ----------
 -- TODO --
 ----------
--- + Automatically add TACAN on every tanker
 -- + Automatically set radio frequency on every tanker
 
 -------------------
@@ -33,13 +32,14 @@
 -- Tanker list
 -- -----------
 -- Comma separated list of groups that are to be managed by the script.
+-- note, TACAN are on channel Y 
 _TANKER_UNITS = {
-  'Tanker_Texaco',
-  'Tanker_Arco1_1',
-  'Tanker_Arco1_2',
-  'Tanker_Shell2_1',
-  'Tanker_Shell2_2',
-  'RED TANKER 121',
+  {NAME='Tanker_Texaco',   TACAN=5 },
+  {NAME='Tanker_Arco1_1',  TACAN=8 },
+  {NAME='Tanker_Arco1_2',  TACAN=10},
+  {NAME='Tanker_Shell2_1', TACAN=9 },
+  {NAME='Tanker_Shell2_2', TACAN=11},
+  {NAME='RED TANKER 121',  TACAN=12},
 }
 
 -- Minimum fuel
@@ -247,13 +247,14 @@ function _TANKER.FSM:Debug( text )
     _TANKER.DEBUG('FSM: '..self.template_name..': '..text)
 end
 
-function _TANKER.FSM:New( template_name )
+function _TANKER.FSM:New( template )
     
     -- Inherit from MOOSE's FSM
     local self = BASE:Inherit( self, FSM:New() )
     
     -- Template name is the name of the group in the ME to copy from
-    self.template_name = template_name
+    self.template_name = template.NAME
+    self.tacan_channel = template.TACAN
     
     self:Debug('FSM created')
     
@@ -273,7 +274,22 @@ function _TANKER.FSM:New( template_name )
     
     -- Spawn a tanker group
     function self:SpawnNewTanker()    
-        self.group = _TANKER.Tanker:New(self.spawner:Spawn())   
+        self.group = _TANKER.Tanker:New(self.spawner:Spawn())
+    
+        -- Schedules the creation of the TACAN 10 seconds later, so the unit has time to appear
+        self.tacan_scheduler = SCHEDULER:New(
+          nil,
+          function( fsm )
+            if fsm.beacon ~= nil then
+              fsm.beacon:StopAATACAN()
+              fsm.group:Debug('stopping previous TACAN on channel: '..fsm.tacan_channel..'Y')
+            end
+            local unit = fsm.group:GetUnit(1)
+            fsm.beacon = unit:GetBeacon()
+            fsm.beacon:AATACAN(fsm.tacan_channel, fsm.template_name, true)
+            fsm.group:Debug('starting TACAN on channel: '..fsm.tacan_channel..'Y')
+          end, { self }, 10
+        )
     end
     
     -- Triggered when the FSM is ready to work
@@ -416,13 +432,13 @@ do
     -- Iterate over all the tanker templates
     for _, unit in ipairs( _TANKER_UNITS ) do
     
-        _TANKER.DEBUG('INIT: initializing tanker unit: '..unit)
+        _TANKER.DEBUG('INIT: initializing tanker unit: '..unit.NAME)
         
         -- Create the FSM
         local fsm = _TANKER.FSM:New(unit)
         
         -- Add it for sanity's sake
-        _TANKER._fsm[unit] = fsm
+        _TANKER._fsm[unit.NAME] = fsm
         
         -- And start it
         fsm:Ready()
