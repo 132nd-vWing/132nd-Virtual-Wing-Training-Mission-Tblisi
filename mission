@@ -59370,6 +59370,7 @@ mission =
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
                                 ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -59436,6 +59437,7 @@ mission =
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
                                 ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -59502,6 +59504,7 @@ mission =
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
                                 ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -59568,6 +59571,7 @@ mission =
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
                                 ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -59634,6 +59638,7 @@ mission =
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
                                 ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -59700,6 +59705,7 @@ mission =
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
                                 ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -59766,6 +59772,7 @@ mission =
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
                                 ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -62931,6 +62938,7 @@ mission =
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
                                 ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -62938,7 +62946,7 @@ mission =
                                 {
                                     [1] =
                                     {
-                                        ["heading"] = 1.0942061472285,
+                                        ["heading"] = 1.1251931930442,
                                         ["name"] = "DictKey_UnitName_4250",
                                         ["playerCanDrive"] = true,
                                         ["skill"] = "Average",
@@ -62997,6 +63005,7 @@ mission =
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
                                 ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -63070,7 +63079,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 4064857,
+    ["currentKey"] = 4067245,
     ["date"] =
     {
         ["Day"] = 30,
@@ -66324,11 +66333,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -289395.03771428,
-        ["centerY"] = 765493.22771429,
-        ["zoom"] = 663558,
+        ["centerX"] = -265478.63142857,
+        ["centerY"] = 782461.44257143,
+        ["zoom"] = 1175530,
     }, -- end of ["map"]
-    ["maxDictId"] = 4267,
+    ["maxDictId"] = 4272,
     ["pictureFileNameB"] =
     {
         [1] = "ResKey_ImageBriefing_1821",
@@ -66388,7 +66397,7 @@ mission =
     {
         ["actions"] =
         {
-            [1] = "a_set_flag_value(2501, 1);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3009\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3010\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3011\"), 1, false);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_group_off(1326);a_group_off(911);a_group_off(992);a_group_off(1466);a_group_off(1461);a_group_off(1463);a_group_off(1462);a_group_off(1460);a_group_off(1468);a_group_off(1464);a_group_off(1467);a_group_off(1465);",
+            [1] = "a_set_flag_value(2501, 1);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3009\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3010\"), 1, false);a_out_text_delay_g(118, getValueDictByKey(\"DictKey_ActionText_3011\"), 1, false);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(1327, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(1323, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 ON\"), 60, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"SA-6 OFF\"), 61, 1);a_group_off(1326);a_group_off(911);a_group_off(992);a_group_off(1466);a_group_off(1461);a_group_off(1463);a_group_off(1462);a_group_off(1460);a_group_off(1468);a_group_off(1464);a_group_off(1467);a_group_off(1465);a_add_radio_item_for_group(689, getValueDictByKey(\"DictKey_ActionRadioText_4268\"), 80, 1);a_add_radio_item_for_group(689, getValueDictByKey(\"DictKey_ActionRadioText_4270\"), 81, 1);",
             [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_4221\")); mission.trig.func[2]=nil;",
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_3675\")); mission.trig.func[3]=nil;",
             [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_4126\"));a_out_text_delay(getValueDictByKey(\"DictKey_ActionText_4127\"), 10, false); mission.trig.func[4]=nil;",
@@ -66417,6 +66426,8 @@ mission =
             [27] = "a_clear_flag(50);",
             [28] = "a_group_on(1326);a_out_text_delay_c(15, getValueDictByKey(\"DictKey_ActionText_3399\"), 20, false);a_out_text_delay_c(3, getValueDictByKey(\"DictKey_ActionText_3407\"), 20, false);a_out_text_delay_g(689, getValueDictByKey(\"DictKey_ActionText_3539\"), 20, false);a_clear_flag(60);",
             [29] = "a_group_off(1326);a_out_text_delay_c(15, getValueDictByKey(\"DictKey_ActionText_3405\"), 20, false);a_out_text_delay_c(3, getValueDictByKey(\"DictKey_ActionText_3406\"), 20, false);a_out_text_delay_g(689, getValueDictByKey(\"DictKey_ActionText_3541\"), 20, false);a_clear_flag(61);",
+            [30] = "a_group_on(1466);a_group_on(1461);a_group_on(1463);a_group_on(1462);a_group_on(1460);a_group_on(1468);a_group_on(1464);a_group_on(1467);a_group_on(1465);a_out_text_delay_g(689, getValueDictByKey(\"DictKey_ActionText_4271\"), 10, false);",
+            [31] = "a_group_off(1466);a_group_off(1461);a_group_off(1463);a_group_off(1462);a_group_off(1460);a_group_off(1468);a_group_off(1464);a_group_off(1467);a_group_off(1465);a_out_text_delay_g(689, getValueDictByKey(\"DictKey_ActionText_4272\"), 10, false);",
         }, -- end of ["actions"]
         ["conditions"] =
         {
@@ -66449,6 +66460,8 @@ mission =
             [27] = "return(c_flag_is_true(50) )",
             [28] = "return(c_flag_is_true(60) )",
             [29] = "return(c_flag_is_true(61) )",
+            [30] = "return(c_flag_is_true(80) )",
+            [31] = "return(c_flag_is_true(81) )",
         }, -- end of ["conditions"]
         ["custom"] =
         {
@@ -66490,6 +66503,8 @@ mission =
             [27] = true,
             [28] = true,
             [29] = true,
+            [30] = true,
+            [31] = true,
         }, -- end of ["flag"]
         ["func"] =
         {
@@ -66521,6 +66536,8 @@ mission =
             [27] = "if mission.trig.conditions[27]() then if not mission.trig.flag[27] then mission.trig.actions[27](); mission.trig.flag[27] = true;end; else mission.trig.flag[27] = false; end;",
             [28] = "if mission.trig.conditions[28]() then mission.trig.actions[28]() end",
             [29] = "if mission.trig.conditions[29]() then mission.trig.actions[29]() end",
+            [30] = "if mission.trig.conditions[30]() then mission.trig.actions[30]() end",
+            [31] = "if mission.trig.conditions[31]() then mission.trig.actions[31]() end",
         }, -- end of ["func"]
         ["funcStartup"] =
         {
@@ -67908,6 +67925,34 @@ mission =
                     ["group"] = 1465,
                     ["predicate"] = "a_group_off",
                 }, -- end of [22]
+                [23] =
+                {
+                    ["KeyDict_radiotext"] = "DictKey_ActionRadioText_4268",
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["flag"] = 80,
+                    ["group"] = 689,
+                    ["predicate"] = "a_add_radio_item_for_group",
+                    ["radiotext"] = "DictKey_ActionRadioText_4268",
+                    ["value"] = 1,
+                }, -- end of [23]
+                [24] =
+                {
+                    ["KeyDict_radiotext"] = "DictKey_ActionRadioText_4270",
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["flag"] = 81,
+                    ["group"] = 689,
+                    ["predicate"] = "a_add_radio_item_for_group",
+                    ["radiotext"] = "DictKey_ActionRadioText_4270",
+                    ["value"] = 1,
+                }, -- end of [24]
             }, -- end of ["actions"]
             ["comment"] = "TRMT LOAD FLAG",
             ["eventlist"] = "",
@@ -69472,6 +69517,252 @@ mission =
                 }, -- end of [1]
             }, -- end of ["rules"]
         }, -- end of [29]
+        [30] =
+        {
+            ["actions"] =
+            {
+                [1] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1466,
+                    ["predicate"] = "a_group_on",
+                }, -- end of [1]
+                [2] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1461,
+                    ["predicate"] = "a_group_on",
+                }, -- end of [2]
+                [3] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1463,
+                    ["predicate"] = "a_group_on",
+                }, -- end of [3]
+                [4] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1462,
+                    ["predicate"] = "a_group_on",
+                }, -- end of [4]
+                [5] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1460,
+                    ["predicate"] = "a_group_on",
+                }, -- end of [5]
+                [6] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1468,
+                    ["predicate"] = "a_group_on",
+                }, -- end of [6]
+                [7] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1464,
+                    ["predicate"] = "a_group_on",
+                }, -- end of [7]
+                [8] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1467,
+                    ["predicate"] = "a_group_on",
+                }, -- end of [8]
+                [9] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1465,
+                    ["predicate"] = "a_group_on",
+                }, -- end of [9]
+                [10] =
+                {
+                    ["KeyDict_text"] = "DictKey_ActionText_4271",
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["clearview"] = false,
+                    ["group"] = 689,
+                    ["predicate"] = "a_out_text_delay_g",
+                    ["seconds"] = 10,
+                    ["text"] = "DictKey_ActionText_4271",
+                }, -- end of [10]
+            }, -- end of ["actions"]
+            ["comment"] = "Activate advanced scenario",
+            ["eventlist"] = "",
+            ["predicate"] = "triggerContinious",
+            ["rules"] =
+            {
+                [1] =
+                {
+                    ["coalitionlist"] = "red",
+                    ["flag"] = 80,
+                    ["predicate"] = "c_flag_is_true",
+                    ["zone"] = 6815,
+                }, -- end of [1]
+            }, -- end of ["rules"]
+        }, -- end of [30]
+        [31] =
+        {
+            ["actions"] =
+            {
+                [1] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1466,
+                    ["predicate"] = "a_group_off",
+                }, -- end of [1]
+                [2] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1461,
+                    ["predicate"] = "a_group_off",
+                }, -- end of [2]
+                [3] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1463,
+                    ["predicate"] = "a_group_off",
+                }, -- end of [3]
+                [4] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1462,
+                    ["predicate"] = "a_group_off",
+                }, -- end of [4]
+                [5] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1460,
+                    ["predicate"] = "a_group_off",
+                }, -- end of [5]
+                [6] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1468,
+                    ["predicate"] = "a_group_off",
+                }, -- end of [6]
+                [7] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1464,
+                    ["predicate"] = "a_group_off",
+                }, -- end of [7]
+                [8] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1467,
+                    ["predicate"] = "a_group_off",
+                }, -- end of [8]
+                [9] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["group"] = 1465,
+                    ["predicate"] = "a_group_off",
+                }, -- end of [9]
+                [10] =
+                {
+                    ["KeyDict_text"] = "DictKey_ActionText_4272",
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["clearview"] = false,
+                    ["group"] = 689,
+                    ["predicate"] = "a_out_text_delay_g",
+                    ["seconds"] = 10,
+                    ["text"] = "DictKey_ActionText_4272",
+                }, -- end of [10]
+            }, -- end of ["actions"]
+            ["comment"] = "Deactivate advanced scenario",
+            ["eventlist"] = "",
+            ["predicate"] = "triggerContinious",
+            ["rules"] =
+            {
+                [1] =
+                {
+                    ["coalitionlist"] = "red",
+                    ["flag"] = 81,
+                    ["predicate"] = "c_flag_is_true",
+                    ["zone"] = 6815,
+                }, -- end of [1]
+            }, -- end of ["rules"]
+        }, -- end of [31]
     }, -- end of ["trigrules"]
     ["version"] = 13,
     ["weather"] =

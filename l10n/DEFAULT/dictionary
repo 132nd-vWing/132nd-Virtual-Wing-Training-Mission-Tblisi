@@ -258,6 +258,9 @@ Controller.setCommand(group, {id = 'SetCallsign', params = {callname = callsign,
     ["DictKey_ActionRadioText_3409"] = "",
     ["DictKey_ActionRadioText_3530"] = "",
     ["DictKey_ActionRadioText_3532"] = "",
+    ["DictKey_ActionRadioText_4268"] = "Activate Advanced scenario",
+    ["DictKey_ActionRadioText_4269"] = "",
+    ["DictKey_ActionRadioText_4270"] = "Deactivate advanced scenario",
     ["DictKey_ActionText_913"] = "--RESPAWN SCRIPT; MISSION START -> DO SCRIPT\
 local groupName = 'Tanker Texaco' -- Name of the group in the ME\
 local lowFuelThreshold = 0.08 -- RTB when less then this amount of fuel\
@@ -879,6 +882,8 @@ do\
 end ",
     ["DictKey_ActionText_4000"] = "",
     ["DictKey_ActionText_4127"] = "CTLD loaded",
+    ["DictKey_ActionText_4271"] = "Advanced scenario is now activated.",
+    ["DictKey_ActionText_4272"] = "Advanced scenario is now deactivated.",
     ["DictKey_GroupName_132"] = "Beslan Helicopter ",
     ["DictKey_GroupName_134"] = "__RESPAWN__Beslan foot patrol",
     ["DictKey_GroupName_138"] = "__RESPAWN__Beslan BTR group",
