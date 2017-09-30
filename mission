@@ -56814,7 +56814,7 @@ mission =
                                         }, -- end of [1]
                                         [2] =
                                         {
-                                            ["ETA"] = 1837.401578402,
+                                            ["ETA"] = 1599.1640279138,
                                             ["ETA_locked"] = false,
                                             ["action"] = "Turning Point",
                                             ["alt"] = 2000,
@@ -56848,8 +56848,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -193759.31517857,
-                                            ["y"] = 494190.75578571,
+                                            ["x"] = -221814.26000001,
+                                            ["y"] = 563452.92228572,
                                         }, -- end of [2]
                                     }, -- end of ["points"]
                                     ["routeRelativeTOT"] = true,
@@ -56881,7 +56881,7 @@ mission =
                                             {
                                             }, -- end of ["pylons"]
                                         }, -- end of ["payload"]
-                                        ["psi"] = 2.1636573617217,
+                                        ["psi"] = 2.4464048461301,
                                         ["skill"] = "High",
                                         ["speed"] = 138.88888888889,
                                         ["type"] = "IL-78M",
@@ -63517,7 +63517,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 4077133,
+    ["currentKey"] = 4084439,
     ["date"] =
     {
         ["Day"] = 30,
@@ -66771,11 +66771,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -300643.32414286,
-        ["centerY"] = 851350.61685714,
-        ["zoom"] = 28719,
+        ["centerX"] = -272038.33000001,
+        ["centerY"] = 657940.40342857,
+        ["zoom"] = 772678,
     }, -- end of ["map"]
-    ["maxDictId"] = 4305,
+    ["maxDictId"] = 4310,
     ["pictureFileNameB"] =
     {
         [1] = "ResKey_ImageBriefing_1821",
@@ -70209,7 +70209,7 @@ mission =
         ["clouds"] =
         {
             ["base"] = 1372,
-            ["density"] = 10,
+            ["density"] = 0,
             ["iprecptns"] = 0,
             ["thickness"] = 1218,
         }, -- end of ["clouds"]
