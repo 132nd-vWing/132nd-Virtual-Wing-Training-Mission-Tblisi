@@ -2,8 +2,17 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+3.8.0 (2017-09-30)
+------------------
+
+Fix
+~~~
+- New tankers should have a functional TACAN beacon. [132nd-etcher]
+
+  Using MOOSE AATACAN feature instead of the one provided in the ME
+
+Other
+~~~~~
 - Replaced F5 agressors with flyable version. [132nd-Entropy]
 - Replaced F5 agressors with flyable version. [132nd-Entropy]
 
