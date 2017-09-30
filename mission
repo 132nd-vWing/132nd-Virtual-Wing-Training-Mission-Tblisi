@@ -60116,7 +60116,7 @@ mission =
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
                                             ["action"] = "Off Road",
-                                            ["alt"] = 208,
+                                            ["alt"] = 147,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_4245",
@@ -60133,8 +60133,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -271977.754,
-                                            ["y"] = 721880.61,
+                                            ["x"] = -280169.63371428,
+                                            ["y"] = 720144.00142857,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                     ["spans"] =
@@ -60161,13 +60161,13 @@ mission =
                                         }, -- end of ["transportable"]
                                         ["type"] = "Tor 9A331",
                                         ["unitId"] = 2101,
-                                        ["x"] = -271977.754,
-                                        ["y"] = 721880.61,
+                                        ["x"] = -280169.63371428,
+                                        ["y"] = 720144.00142857,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
                                 ["visible"] = false,
-                                ["x"] = -271977.754,
-                                ["y"] = 721880.61,
+                                ["x"] = -280169.63371428,
+                                ["y"] = 720144.00142857,
                             }, -- end of [23]
                             [24] =
                             {
@@ -63517,7 +63517,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 4069837,
+    ["currentKey"] = 4072269,
     ["date"] =
     {
         ["Day"] = 30,
@@ -66771,9 +66771,9 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -268049.00685714,
-        ["centerY"] = 721914.64114286,
-        ["zoom"] = 31170,
+        ["centerX"] = -277625.78928571,
+        ["centerY"] = 723842.03342857,
+        ["zoom"] = 109959,
     }, -- end of ["map"]
     ["maxDictId"] = 4305,
     ["pictureFileNameB"] =
