@@ -63517,7 +63517,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 4072269,
+    ["currentKey"] = 4074701,
     ["date"] =
     {
         ["Day"] = 30,
@@ -66771,9 +66771,9 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -277625.78928571,
-        ["centerY"] = 723842.03342857,
-        ["zoom"] = 109959,
+        ["centerX"] = -268310.72,
+        ["centerY"] = 721355.11342857,
+        ["zoom"] = 10558,
     }, -- end of ["map"]
     ["maxDictId"] = 4305,
     ["pictureFileNameB"] =
