@@ -56260,11 +56260,11 @@ mission =
                                             {
                                                 [1] =
                                                 {
-                                                    ["CLSID"] = "{R-60 2L}",
+                                                    ["CLSID"] = "{R-13M1}",
                                                 }, -- end of [1]
                                                 [2] =
                                                 {
-                                                    ["CLSID"] = "{R-3R}",
+                                                    ["CLSID"] = "{R-13M1}",
                                                 }, -- end of [2]
                                                 [3] =
                                                 {
@@ -56272,11 +56272,11 @@ mission =
                                                 }, -- end of [3]
                                                 [4] =
                                                 {
-                                                    ["CLSID"] = "{R-3R}",
+                                                    ["CLSID"] = "{R-13M1}",
                                                 }, -- end of [4]
                                                 [5] =
                                                 {
-                                                    ["CLSID"] = "{R-60 2R}",
+                                                    ["CLSID"] = "{R-13M1}",
                                                 }, -- end of [5]
                                                 [6] =
                                                 {
@@ -56448,11 +56448,11 @@ mission =
                                             {
                                                 [1] =
                                                 {
-                                                    ["CLSID"] = "{R-60 2L}",
+                                                    ["CLSID"] = "{R-13M1}",
                                                 }, -- end of [1]
                                                 [2] =
                                                 {
-                                                    ["CLSID"] = "{R-3R}",
+                                                    ["CLSID"] = "{R-13M1}",
                                                 }, -- end of [2]
                                                 [3] =
                                                 {
@@ -56460,11 +56460,11 @@ mission =
                                                 }, -- end of [3]
                                                 [4] =
                                                 {
-                                                    ["CLSID"] = "{R-3R}",
+                                                    ["CLSID"] = "{R-13M1}",
                                                 }, -- end of [4]
                                                 [5] =
                                                 {
-                                                    ["CLSID"] = "{R-60 2R}",
+                                                    ["CLSID"] = "{R-13M1}",
                                                 }, -- end of [5]
                                                 [6] =
                                                 {
@@ -56501,7 +56501,7 @@ mission =
                                         {
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
-                                            ["action"] = "From Parking Area",
+                                            ["action"] = "From Parking Area Hot",
                                             ["airdromeId"] = 29,
                                             ["alt"] = 476,
                                             ["alt_type"] = "BARO",
@@ -56535,7 +56535,7 @@ mission =
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
-                                            ["type"] = "TakeOffParking",
+                                            ["type"] = "TakeOffParkingHot",
                                             ["x"] = -314883.84375,
                                             ["y"] = 896799.9375,
                                         }, -- end of [1]
@@ -56644,7 +56644,7 @@ mission =
                                         {
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
-                                            ["action"] = "From Parking Area",
+                                            ["action"] = "From Parking Area Hot",
                                             ["airdromeId"] = 29,
                                             ["alt"] = 476,
                                             ["alt_type"] = "BARO",
@@ -56662,7 +56662,7 @@ mission =
                                                     }, -- end of ["tasks"]
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
-                                            ["type"] = "TakeOffParking",
+                                            ["type"] = "TakeOffParkingHot",
                                             ["x"] = -314913.40625,
                                             ["y"] = 896779.6875,
                                         }, -- end of [1]
@@ -56867,7 +56867,7 @@ mission =
                                         ["alt"] = 320,
                                         ["alt_type"] = "BARO",
                                         ["callsign"] = 121,
-                                        ["heading"] = -2.1636573617217,
+                                        ["heading"] = -2.4464048461301,
                                         ["livery_id"] = "RF Air Force",
                                         ["name"] = "DictKey_UnitName_4129",
                                         ["onboard_num"] = "4763",
@@ -63517,11 +63517,11 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 4084439,
+    ["currentKey"] = 4091854,
     ["date"] =
     {
-        ["Day"] = 30,
-        ["Month"] = 9,
+        ["Day"] = 2,
+        ["Month"] = 10,
         ["Year"] = 2011,
     }, -- end of ["date"]
     ["descriptionBlueTask"] = "DictKey_descriptionBlueTask_651",
@@ -66771,9 +66771,9 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -272038.33000001,
-        ["centerY"] = 657940.40342857,
-        ["zoom"] = 772678,
+        ["centerX"] = -313792.75800001,
+        ["centerY"] = 896869.40771428,
+        ["zoom"] = 9506,
     }, -- end of ["map"]
     ["maxDictId"] = 4310,
     ["pictureFileNameB"] =
@@ -66829,7 +66829,7 @@ mission =
         ["total"] = 0,
     }, -- end of ["result"]
     ["sortie"] = "DictKey_sortie_652",
-    ["start_time"] = 39600,
+    ["start_time"] = 43200,
     ["theatre"] = "Caucasus",
     ["trig"] =
     {
@@ -70208,10 +70208,10 @@ mission =
         ["atmosphere_type"] = 0,
         ["clouds"] =
         {
-            ["base"] = 1372,
-            ["density"] = 0,
-            ["iprecptns"] = 0,
-            ["thickness"] = 1218,
+            ["base"] = 0,
+            ["density"] = 7,
+            ["iprecptns"] = 1,
+            ["thickness"] = 430,
         }, -- end of ["clouds"]
         ["cyclones"] =
         {
@@ -70223,16 +70223,17 @@ mission =
             ["thickness"] = 0,
             ["visibility"] = 0,
         }, -- end of ["fog"]
-        ["groundTurbulence"] = 0,
-        ["name"] = "Downloaded weather",
-        ["name_de"] = "Sommer, Wind und Wolken",
-        ["name_es"] = "Verano. Nubes y viento",
-        ["name_fr"] = "Eté, nuages et vent",
-        ["name_ru"] = "Лето. Oблачность и ветер",
-        ["qnh"] = 771,
+        ["groundTurbulence"] = 7,
+        ["name"] = "Autumn, Rainy day",
+        ["name_cn"] = "秋季 雨天",
+        ["name_de"] = "Herbst, Regen",
+        ["name_es"] = "Otoño. Lluvia",
+        ["name_fr"] = "Automne, averses",
+        ["name_ru"] = "Осень. Дождь",
+        ["qnh"] = 750,
         ["season"] =
         {
-            ["temperature"] = 12,
+            ["temperature"] = 23,
         }, -- end of ["season"]
         ["type_weather"] = 0,
         ["visibility"] =
@@ -70243,18 +70244,18 @@ mission =
         {
             ["at2000"] =
             {
-                ["dir"] = 191,
-                ["speed"] = 0,
+                ["dir"] = 167,
+                ["speed"] = 7,
             }, -- end of ["at2000"]
             ["at8000"] =
             {
-                ["dir"] = 184,
-                ["speed"] = 0,
+                ["dir"] = 221,
+                ["speed"] = 4,
             }, -- end of ["at8000"]
             ["atGround"] =
             {
-                ["dir"] = 180,
-                ["speed"] = 0,
+                ["dir"] = 221,
+                ["speed"] = 4,
             }, -- end of ["atGround"]
         }, -- end of ["wind"]
     }, -- end of ["weather"]
