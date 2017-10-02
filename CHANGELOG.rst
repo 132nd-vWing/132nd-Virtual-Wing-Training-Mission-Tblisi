@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+3.8.1 (2017-10-02)
+------------------
 
 New
 ~~~
@@ -23,6 +23,11 @@ Changes
   TKIBULI. [Neck]
 - Set tankers and AWACS staged on airfields West on the map as invicible
   (so red SAMs dont fire at the units) [Neck]
+
+Other
+~~~~~
+- Set red F5s at Lochini to hotstart put in moderate default weather.
+  [132nd-Entropy]
 
 
 3.8.0 (2017-09-30)
