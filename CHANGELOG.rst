@@ -2,6 +2,29 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+New
+~~~
+- Added Air Interdiction targets at TKIBULI range. [Neck]
+- Triggers to activate advanced scenario (activate SAM's) added to 617th
+  Neck AC. [Neck]
+- Added SAM's ( AI OFF) to protect High Value Target area of TKIBULI and
+  KUTAISI. All SAM's with pre-fix ADV_  is intended for advanced
+  scenarios or big exercises. [Neck]
+
+Changes
+~~~~~~~
+- Red Tanker orbit moved so it is now over SUKHUMI. [Neck]
+- Moved Commstower at KAVATSHIRI (SOF FOB) [Neck]
+- Renamed AI targets at TKIBULI SOUTH. [Neck]
+- Moved Tkibuli SA-8, further south, to "give room" for AI Targets at
+  TKIBULI. [Neck]
+- Set tankers and AWACS staged on airfields West on the map as invicible
+  (so red SAMs dont fire at the units) [Neck]
+
+
 3.8.0 (2017-09-30)
 ------------------
 
