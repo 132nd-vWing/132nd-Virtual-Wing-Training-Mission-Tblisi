@@ -1,5 +1,5 @@
 env.info('*** MOOSE STATIC INCLUDE START *** ')
-env.info('Moose Generation Timestamp: 20170926_1853')
+env.info('Moose Generation Timestamp: 20171003_1351')
 env.setErrorMessageBoxEnabled(false)
 routines={}
 routines.majorVersion=3
@@ -2054,9 +2054,11 @@ ClassName="BASE",
 ClassID=0,
 Events={},
 States={},
-_={},
 }
 BASE.__={}
+BASE._={
+Schedules={}
+}
 FORMATION={
 Cone="Cone",
 Vee="Vee"
@@ -2191,6 +2193,50 @@ end
 end
 end
 end
+end
+end
+do
+function BASE:ScheduleOnce(Start,SchedulerFunction,...)
+self:F2({Start})
+self:T3({...})
+local ObjectName="-"
+ObjectName=self.ClassName..self.ClassID
+self:F3({"ScheduleOnce: ",ObjectName,Start})
+self.SchedulerObject=self
+local ScheduleID=_SCHEDULEDISPATCHER:AddSchedule(
+self,
+SchedulerFunction,
+{...},
+Start,
+nil,
+nil,
+nil
+)
+self._.Schedules[#self.Schedules+1]=ScheduleID
+return self._.Schedules
+end
+function BASE:ScheduleRepeat(Start,Repeat,RandomizeFactor,Stop,SchedulerFunction,...)
+self:F2({Start})
+self:T3({...})
+local ObjectName="-"
+ObjectName=self.ClassName..self.ClassID
+self:F3({"ScheduleRepeat: ",ObjectName,Start,Repeat,RandomizeFactor,Stop})
+self.SchedulerObject=self
+local ScheduleID=_SCHEDULEDISPATCHER:AddSchedule(
+self,
+SchedulerFunction,
+{...},
+Start,
+Repeat,
+RandomizeFactor,
+Stop
+)
+self._.Schedules[SchedulerFunction]=ScheduleID
+return self._.Schedules
+end
+function BASE:ScheduleStop(SchedulerFunction)
+self:F3({"ScheduleStop:"})
+_SCHEDULEDISPATCHER:Stop(self,self._.Schedules[SchedulerFunction])
 end
 end
 function BASE:SetState(Object,Key,Value)
@@ -15750,8 +15796,18 @@ if SpeedingWarnings<=3 then
 Client:Message("You are speeding on the taxiway! Slow down or you will be removed from this airbase! Your current velocity is "..string.format("%2.0f km/h",Velocity),5,"Warning "..SpeedingWarnings.." / 3")
 Client:SetState(self,"Warnings",SpeedingWarnings+1)
 else
-MESSAGE:New("Player "..Client:GetPlayerName().." has been removed from the airbase, due to a speeding violation ...",10,"Airbase Police"):ToAll()
-Client:Destroy()
+MESSAGE:New("Player "..Client:GetPlayerName().." is being damaged at the airbase, due to a speeding violation ...",10,"Airbase Police"):ToAll()
+local function DestroyUntilHeavilyDamaged(Client)
+local ClientCoord=Client:GetCoordinate()
+ClientCoord:Explosion(100)
+local Damage=Client:GetLife()
+local InitialLife=Client:GetLife0()
+MESSAGE:New("Player "..Client:GetPlayerName().." Damage ... "..Damage,5,"Airbase Police"):ToAll()
+if(Damage/InitialLife)*100<80 then
+Client:ScheduleStop(DestroyUntilHeavilyDamaged)
+end
+end
+Client:ScheduleOnce(1,DestroyUntilHeavilyDamaged,Client)
 trigger.action.setUserFlag("AIRCRAFT_"..Client:GetID(),100)
 Client:SetState(self,"Speeding",false)
 Client:SetState(self,"Warnings",0)
