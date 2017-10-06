@@ -227,6 +227,10 @@ ctld.transportPilotNames = {
   "259th Soganlug 1",
   "259th Soganlug 2",
   "259th Soganlug 3",
+  "MI-8 External #1",
+  "MI-8 External #2",
+  "MI-8 External #3",
+  "MI-8 External #4",
   
   "Huey #1",
   "Huey #2",
