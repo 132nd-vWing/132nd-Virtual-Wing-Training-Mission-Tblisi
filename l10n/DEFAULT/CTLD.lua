@@ -203,7 +203,7 @@ ctld.wpZones = {
 
 -- Use any of the predefined names or set your own ones
 ctld.transportPilotNames = {
-    "TIANETI JTAC NORTH EAST",
+  "TIANETI JTAC NORTH EAST",
   "TIANETI JTAC SOUTH WEST",
   "DUSHETI JTAC NORTH",
   "DUSHETI JTAC WEST",
@@ -231,6 +231,7 @@ ctld.transportPilotNames = {
   "MI-8 External #2",
   "MI-8 External #3",
   "MI-8 External #4",
+  "GORI_RANGE_CONVOY_JTAC",
   
   "Huey #1",
   "Huey #2",
