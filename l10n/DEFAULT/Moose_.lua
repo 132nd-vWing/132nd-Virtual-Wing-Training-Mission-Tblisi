@@ -1,5 +1,5 @@
 env.info('*** MOOSE STATIC INCLUDE START *** ')
-env.info('Moose Generation Timestamp: 20171003_1351')
+env.info('Moose Generation Timestamp: 20171006_1443')
 env.setErrorMessageBoxEnabled(false)
 routines={}
 routines.majorVersion=3
@@ -2081,15 +2081,39 @@ end
 end
 return Child
 end
-function BASE:GetParent(Child)
-local Parent
+local function getParent(Child)
+local Parent=nil
 if Child.ClassName=='BASE'then
 Parent=nil
-elseif rawget(Child,"__")then
+else
+if rawget(Child,"__")then
 Parent=getmetatable(Child.__).__index
 else
 Parent=getmetatable(Child).__index
 end
+end
+return Parent
+end
+function BASE:GetParent(Child,FromClass)
+local Parent
+if Child.ClassName=='BASE'then
+Parent=nil
+else
+self:E({FromClass=FromClass})
+self:E({Child=Child.ClassName})
+if FromClass then
+while(Child.ClassName~="BASE"and Child.ClassName~=FromClass.ClassName)do
+Child=getParent(Child)
+self:E({Child.ClassName})
+end
+end
+if Child.ClassName=='BASE'then
+Parent=nil
+else
+Parent=getParent(Child)
+end
+end
+self:E({Parent.ClassName})
 return Parent
 end
 function BASE:IsInstanceOf(ClassName)
@@ -2106,12 +2130,12 @@ ClassName=string.upper(ClassName)
 if string.upper(self.ClassName)==ClassName then
 return true
 end
-local Parent=self:GetParent(self)
+local Parent=getParent(self)
 while Parent do
 if string.upper(Parent.ClassName)==ClassName then
 return true
 end
-Parent=Parent:GetParent(Parent)
+Parent=getParent(Parent)
 end
 return false
 end
@@ -3992,6 +4016,10 @@ function ZONE_BASE:GetName()
 self:F2()
 return self.ZoneName
 end
+function ZONE_BASE:SetName(ZoneName)
+self:F2()
+self.ZoneName=ZoneName
+end
 function ZONE_BASE:IsVec2InZone(Vec2)
 self:F2(Vec2)
 return false
@@ -4185,6 +4213,86 @@ local Vec2=self:GetVec2()
 local Vec3={x=Vec2.x,y=land.getHeight(self:GetVec2())+Height,z=Vec2.y}
 self:T2({Vec3})
 return Vec3
+end
+function ZONE_RADIUS:Scan()
+self.Coalitions={}
+local ZoneCoord=self:GetCoordinate()
+local ZoneRadius=self:GetRadius()
+self:E({ZoneCoord=ZoneCoord,ZoneRadius=ZoneRadius,ZoneCoordLL=ZoneCoord:ToStringLLDMS()})
+local SphereSearch={
+id=world.VolumeType.SPHERE,
+params={
+point=ZoneCoord:GetVec3(),
+radius=ZoneRadius,
+}
+}
+local function EvaluateZone(ZoneDCSUnit)
+if ZoneDCSUnit:isExist()then
+local CategoryDCSUnit=ZoneDCSUnit:getCategory()
+if(CategoryDCSUnit==Object.Category.UNIT and ZoneDCSUnit:isActive())or
+CategoryDCSUnit==Object.Category.STATIC then
+local CoalitionDCSUnit=ZoneDCSUnit:getCoalition()
+self.Coalitions[CoalitionDCSUnit]=true
+self:E({Name=ZoneDCSUnit:getName(),Coalition=CoalitionDCSUnit})
+end
+end
+return true
+end
+world.searchObjects({Object.Category.UNIT,Object.Category.STATIC},SphereSearch,EvaluateZone)
+end
+function ZONE_RADIUS:CountCoalitions()
+local Count=0
+for CoalitionID,Coalition in pairs(self.Coalitions)do
+Count=Count+1
+end
+return Count
+end
+function ZONE_RADIUS:IsAllInZoneOfCoalition(Coalition)
+return self:CountCoalitions()==1 and self.Coalitions[Coalition]==true
+end
+function ZONE_RADIUS:IsAllInZoneOfOtherCoalition(Coalition)
+self:E({Coalitions=self.Coalitions,Count=self:CountCoalitions()})
+return self:CountCoalitions()==1 and self.Coalitions[Coalition]==nil
+end
+function ZONE_RADIUS:IsSomeInZoneOfCoalition(Coalition)
+return self:CountCoalitions()>1 and self.Coalitions[Coalition]==true
+end
+function ZONE_RADIUS:IsNoneInZoneOfCoalition(Coalition)
+return self.Coalitions[Coalition]==nil
+end
+function ZONE_RADIUS:IsNoneInZone()
+return self:CountCoalitions()==0
+end
+function ZONE_RADIUS:GetCoalition()
+local Count=0
+local ReturnCoalition=nil
+for CoalitionID,Coalition in pairs(self.Coalitions)do
+Count=Count+1
+ReturnCoalition=CoalitionID
+end
+if Count~=1 then
+ReturnCoalition=nil
+end
+return ReturnCoalition
+end
+function ZONE_RADIUS:SearchZone(EvaluateFunction)
+local SearchZoneResult=true
+local ZoneCoord=self:GetCoordinate()
+local ZoneRadius=self:GetRadius()
+self:E({ZoneCoord=ZoneCoord,ZoneRadius=ZoneRadius,ZoneCoordLL=ZoneCoord:ToStringLLDMS()})
+local SphereSearch={
+id=world.VolumeType.SPHERE,
+params={
+point=ZoneCoord:GetVec3(),
+radius=ZoneRadius/2,
+}
+}
+local function EvaluateZone(ZoneDCSUnit)
+env.info(ZoneDCSUnit:getName())
+local ZoneUnit=UNIT:Find(ZoneDCSUnit)
+return EvaluateFunction(ZoneUnit)
+end
+world.searchObjects(Object.Category.UNIT,SphereSearch,EvaluateZone)
 end
 function ZONE_RADIUS:IsVec2InZone(Vec2)
 self:F2(Vec2)
@@ -4501,6 +4609,8 @@ COUNTRY_NAME={},
 NavPoints={},
 PLAYERSETTINGS={},
 ZONENAMES={},
+HITS={},
+DESTROYS={},
 }
 local _DATABASECoalition=
 {
@@ -4521,6 +4631,7 @@ self:SetEventPriority(1)
 self:HandleEvent(EVENTS.Birth,self._EventOnBirth)
 self:HandleEvent(EVENTS.Dead,self._EventOnDeadOrCrash)
 self:HandleEvent(EVENTS.Crash,self._EventOnDeadOrCrash)
+self:HandleEvent(EVENTS.Hit,self.AccountHits)
 self:HandleEvent(EVENTS.NewCargo)
 self:HandleEvent(EVENTS.DeleteCargo)
 self:HandleEvent(EVENTS.PlayerEnterUnit,self._EventOnPlayerEnterUnit)
@@ -4885,6 +4996,7 @@ end
 end
 end
 end
+self:AccountDestroys(Event)
 end
 function DATABASE:_EventOnPlayerEnterUnit(Event)
 self:F2({Event})
@@ -5064,6 +5176,62 @@ local ZoneName=ZoneData.name
 self.ZONENAMES[ZoneName]=ZoneName
 end
 return self
+end
+function DATABASE:AccountHits(Event)
+self:F({Event})
+if Event.IniPlayerName~=nil then
+self:T("Hitting Something")
+if Event.TgtCategory then
+self.HITS[Event.TgtUnitName]=self.HITS[Event.TgtUnitName]or{}
+local Hit=self.HITS[Event.TgtUnitName]
+Hit.Players=Hit.Players or{}
+Hit.Players[Event.IniPlayerName]=true
+end
+end
+if Event.WeaponPlayerName~=nil then
+self:T("Hitting Scenery")
+if Event.TgtCategory then
+if Event.IniCoalition then
+self.HITS[Event.TgtUnitName]=self.HITS[Event.TgtUnitName]or{}
+local Hit=self.HITS[Event.TgtUnitName]
+Hit.Players=Hit.Players or{}
+Hit.Players[Event.WeaponPlayerName]=true
+else
+end
+end
+end
+end
+function DATABASE:AccountDestroys(Event)
+self:F({Event})
+local TargetUnit=nil
+local TargetGroup=nil
+local TargetUnitName=""
+local TargetGroupName=""
+local TargetPlayerName=""
+local TargetCoalition=nil
+local TargetCategory=nil
+local TargetType=nil
+local TargetUnitCoalition=nil
+local TargetUnitCategory=nil
+local TargetUnitType=nil
+if Event.IniDCSUnit then
+TargetUnit=Event.IniUnit
+TargetUnitName=Event.IniDCSUnitName
+TargetGroup=Event.IniDCSGroup
+TargetGroupName=Event.IniDCSGroupName
+TargetPlayerName=Event.IniPlayerName
+TargetCoalition=Event.IniCoalition
+TargetCategory=Event.IniCategory
+TargetType=Event.IniTypeName
+TargetUnitType=TargetType
+self:T({TargetUnitName,TargetGroupName,TargetPlayerName,TargetCoalition,TargetCategory,TargetType})
+end
+self:T("Something got destroyed")
+local Destroyed=false
+if self.HITS[Event.IniUnitName]then
+self.DESTROYS[Event.IniUnitName]=self.DESTROYS[Event.IniUnitName]or{}
+self.DESTROYS[Event.IniUnitName]=true
+end
 end
 SET_BASE={
 ClassName="SET_BASE",
@@ -5638,6 +5806,7 @@ end
 self:T2(MooseGroupInclude)
 return MooseGroupInclude
 end
+do
 SET_UNIT={
 ClassName="SET_UNIT",
 Units={},
@@ -5692,9 +5861,7 @@ local UnitFound=self.Set[UnitName]
 return UnitFound
 end
 function SET_UNIT:FilterCoalitions(Coalitions)
-if not self.Filter.Coalitions then
 self.Filter.Coalitions={}
-end
 if type(Coalitions)~="table"then
 Coalitions={Coalitions}
 end
@@ -5784,6 +5951,41 @@ end
 function SET_UNIT:FindInDatabase(Event)
 self:F2({Event.IniDCSUnitName,self.Set[Event.IniDCSUnitName],Event})
 return Event.IniDCSUnitName,self.Set[Event.IniDCSUnitName]
+end
+do
+function SET_UNIT:IsPartiallyInZone(ZoneTest)
+local IsPartiallyInZone=false
+local function EvaluateZone(ZoneUnit)
+local ZoneUnitName=ZoneUnit:GetName()
+self:E({ZoneUnitName=ZoneUnitName})
+if self:FindUnit(ZoneUnitName)then
+IsPartiallyInZone=true
+self:E({Found=true})
+return false
+end
+return true
+end
+ZoneTest:SearchZone(EvaluateZone)
+return IsPartiallyInZone
+end
+function SET_UNIT:IsNotInZone(Zone)
+local IsNotInZone=true
+local function EvaluateZone(ZoneUnit)
+local ZoneUnitName=ZoneUnit:GetName()
+if self:FindUnit(ZoneUnitName)then
+IsNotInZone=false
+return false
+end
+return true
+end
+Zone:SearchZone(EvaluateZone)
+return IsNotInZone
+end
+function SET_UNIT:ForEachUnitInZone(IteratorFunction,...)
+self:F2(arg)
+self:ForEach(IteratorFunction,arg,self.Set)
+return self
+end
 end
 function SET_UNIT:ForEachUnit(IteratorFunction,...)
 self:F2(arg)
@@ -6032,7 +6234,7 @@ local MUnitInclude=true
 if self.Filter.Coalitions then
 local MUnitCoalition=false
 for CoalitionID,CoalitionName in pairs(self.Filter.Coalitions)do
-self:T3({"Coalition:",MUnit:GetCoalition(),self.FilterMeta.Coalitions[CoalitionName],CoalitionName})
+self:E({"Coalition:",MUnit:GetCoalition(),self.FilterMeta.Coalitions[CoalitionName],CoalitionName})
 if self.FilterMeta.Coalitions[CoalitionName]and self.FilterMeta.Coalitions[CoalitionName]==MUnit:GetCoalition()then
 MUnitCoalition=true
 end
@@ -6116,6 +6318,365 @@ TypeReport:Add(UnitTypeName)
 end
 end
 return TypeReport:Text(Delimiter)
+end
+end
+do
+SET_STATIC={
+ClassName="SET_STATIC",
+Statics={},
+Filter={
+Coalitions=nil,
+Categories=nil,
+Types=nil,
+Countries=nil,
+StaticPrefixes=nil,
+},
+FilterMeta={
+Coalitions={
+red=coalition.side.RED,
+blue=coalition.side.BLUE,
+neutral=coalition.side.NEUTRAL,
+},
+Categories={
+plane=Unit.Category.AIRPLANE,
+helicopter=Unit.Category.HELICOPTER,
+ground=Unit.Category.GROUND_STATIC,
+ship=Unit.Category.SHIP,
+structure=Unit.Category.STRUCTURE,
+},
+},
+}
+function SET_STATIC:New()
+local self=BASE:Inherit(self,SET_BASE:New(_DATABASE.STATICS))
+return self
+end
+function SET_STATIC:AddStatic(AddStatic)
+self:F2(AddStatic:GetName())
+self:Add(AddStatic:GetName(),AddStatic)
+return self
+end
+function SET_STATIC:AddStaticsByName(AddStaticNames)
+local AddStaticNamesArray=(type(AddStaticNames)=="table")and AddStaticNames or{AddStaticNames}
+self:T(AddStaticNamesArray)
+for AddStaticID,AddStaticName in pairs(AddStaticNamesArray)do
+self:Add(AddStaticName,STATIC:FindByName(AddStaticName))
+end
+return self
+end
+function SET_STATIC:RemoveStaticsByName(RemoveStaticNames)
+local RemoveStaticNamesArray=(type(RemoveStaticNames)=="table")and RemoveStaticNames or{RemoveStaticNames}
+for RemoveStaticID,RemoveStaticName in pairs(RemoveStaticNamesArray)do
+self:Remove(RemoveStaticName)
+end
+return self
+end
+function SET_STATIC:FindStatic(StaticName)
+local StaticFound=self.Set[StaticName]
+return StaticFound
+end
+function SET_STATIC:FilterCoalitions(Coalitions)
+if not self.Filter.Coalitions then
+self.Filter.Coalitions={}
+end
+if type(Coalitions)~="table"then
+Coalitions={Coalitions}
+end
+for CoalitionID,Coalition in pairs(Coalitions)do
+self.Filter.Coalitions[Coalition]=Coalition
+end
+return self
+end
+function SET_STATIC:FilterCategories(Categories)
+if not self.Filter.Categories then
+self.Filter.Categories={}
+end
+if type(Categories)~="table"then
+Categories={Categories}
+end
+for CategoryID,Category in pairs(Categories)do
+self.Filter.Categories[Category]=Category
+end
+return self
+end
+function SET_STATIC:FilterTypes(Types)
+if not self.Filter.Types then
+self.Filter.Types={}
+end
+if type(Types)~="table"then
+Types={Types}
+end
+for TypeID,Type in pairs(Types)do
+self.Filter.Types[Type]=Type
+end
+return self
+end
+function SET_STATIC:FilterCountries(Countries)
+if not self.Filter.Countries then
+self.Filter.Countries={}
+end
+if type(Countries)~="table"then
+Countries={Countries}
+end
+for CountryID,Country in pairs(Countries)do
+self.Filter.Countries[Country]=Country
+end
+return self
+end
+function SET_STATIC:FilterPrefixes(Prefixes)
+if not self.Filter.StaticPrefixes then
+self.Filter.StaticPrefixes={}
+end
+if type(Prefixes)~="table"then
+Prefixes={Prefixes}
+end
+for PrefixID,Prefix in pairs(Prefixes)do
+self.Filter.StaticPrefixes[Prefix]=Prefix
+end
+return self
+end
+function SET_STATIC:FilterStart()
+if _DATABASE then
+self:_FilterStart()
+end
+return self
+end
+function SET_STATIC:AddInDatabase(Event)
+self:F3({Event})
+if Event.IniObjectCategory==Object.Category.STATIC then
+if not self.Database[Event.IniDCSStaticName]then
+self.Database[Event.IniDCSStaticName]=STATIC:Register(Event.IniDCSStaticName)
+self:T3(self.Database[Event.IniDCSStaticName])
+end
+end
+return Event.IniDCSStaticName,self.Database[Event.IniDCSStaticName]
+end
+function SET_STATIC:FindInDatabase(Event)
+self:F2({Event.IniDCSStaticName,self.Set[Event.IniDCSStaticName],Event})
+return Event.IniDCSStaticName,self.Set[Event.IniDCSStaticName]
+end
+do
+function SET_STATIC:IsPatriallyInZone(Zone)
+local IsPartiallyInZone=false
+local function EvaluateZone(ZoneStatic)
+local ZoneStaticName=ZoneStatic:GetName()
+if self:FindStatic(ZoneStaticName)then
+IsPartiallyInZone=true
+return false
+end
+return true
+end
+return IsPartiallyInZone
+end
+function SET_STATIC:IsNotInZone(Zone)
+local IsNotInZone=true
+local function EvaluateZone(ZoneStatic)
+local ZoneStaticName=ZoneStatic:GetName()
+if self:FindStatic(ZoneStaticName)then
+IsNotInZone=false
+return false
+end
+return true
+end
+Zone:Search(EvaluateZone)
+return IsNotInZone
+end
+function SET_STATIC:ForEachStaticInZone(IteratorFunction,...)
+self:F2(arg)
+self:ForEach(IteratorFunction,arg,self.Set)
+return self
+end
+end
+function SET_STATIC:ForEachStatic(IteratorFunction,...)
+self:F2(arg)
+self:ForEach(IteratorFunction,arg,self.Set)
+return self
+end
+function SET_STATIC:ForEachStaticCompletelyInZone(ZoneObject,IteratorFunction,...)
+self:F2(arg)
+self:ForEach(IteratorFunction,arg,self.Set,
+function(ZoneObject,StaticObject)
+if StaticObject:IsInZone(ZoneObject)then
+return true
+else
+return false
+end
+end,{ZoneObject})
+return self
+end
+function SET_STATIC:ForEachStaticNotInZone(ZoneObject,IteratorFunction,...)
+self:F2(arg)
+self:ForEach(IteratorFunction,arg,self.Set,
+function(ZoneObject,StaticObject)
+if StaticObject:IsNotInZone(ZoneObject)then
+return true
+else
+return false
+end
+end,{ZoneObject})
+return self
+end
+function SET_STATIC:GetStaticTypes()
+self:F2()
+local MT={}
+local StaticTypes={}
+for StaticID,StaticData in pairs(self:GetSet())do
+local TextStatic=StaticData
+if TextStatic:IsAlive()then
+local StaticType=TextStatic:GetTypeName()
+if not StaticTypes[StaticType]then
+StaticTypes[StaticType]=1
+else
+StaticTypes[StaticType]=StaticTypes[StaticType]+1
+end
+end
+end
+for StaticTypeID,StaticType in pairs(StaticTypes)do
+MT[#MT+1]=StaticType.." of "..StaticTypeID
+end
+return StaticTypes
+end
+function SET_STATIC:GetStaticTypesText()
+self:F2()
+local MT={}
+local StaticTypes=self:GetStaticTypes()
+for StaticTypeID,StaticType in pairs(StaticTypes)do
+MT[#MT+1]=StaticType.." of "..StaticTypeID
+end
+return table.concat(MT,", ")
+end
+function SET_STATIC:GetCoordinate()
+local Coordinate=self:GetFirst():GetCoordinate()
+local x1=Coordinate.x
+local x2=Coordinate.x
+local y1=Coordinate.y
+local y2=Coordinate.y
+local z1=Coordinate.z
+local z2=Coordinate.z
+local MaxVelocity=0
+local AvgHeading=nil
+local MovingCount=0
+for StaticName,StaticData in pairs(self:GetSet())do
+local Static=StaticData
+local Coordinate=Static:GetCoordinate()
+x1=(Coordinate.x<x1)and Coordinate.x or x1
+x2=(Coordinate.x>x2)and Coordinate.x or x2
+y1=(Coordinate.y<y1)and Coordinate.y or y1
+y2=(Coordinate.y>y2)and Coordinate.y or y2
+z1=(Coordinate.y<z1)and Coordinate.z or z1
+z2=(Coordinate.y>z2)and Coordinate.z or z2
+local Velocity=Coordinate:GetVelocity()
+if Velocity~=0 then
+MaxVelocity=(MaxVelocity<Velocity)and Velocity or MaxVelocity
+local Heading=Coordinate:GetHeading()
+AvgHeading=AvgHeading and(AvgHeading+Heading)or Heading
+MovingCount=MovingCount+1
+end
+end
+AvgHeading=AvgHeading and(AvgHeading/MovingCount)
+Coordinate.x=(x2-x1)/2+x1
+Coordinate.y=(y2-y1)/2+y1
+Coordinate.z=(z2-z1)/2+z1
+Coordinate:SetHeading(AvgHeading)
+Coordinate:SetVelocity(MaxVelocity)
+self:F({Coordinate=Coordinate})
+return Coordinate
+end
+function SET_STATIC:GetVelocity()
+return 0
+end
+function SET_STATIC:GetHeading()
+local HeadingSet=nil
+local MovingCount=0
+for StaticName,StaticData in pairs(self:GetSet())do
+local Static=StaticData
+local Coordinate=Static:GetCoordinate()
+local Velocity=Coordinate:GetVelocity()
+if Velocity~=0 then
+local Heading=Coordinate:GetHeading()
+if HeadingSet==nil then
+HeadingSet=Heading
+else
+local HeadingDiff=(HeadingSet-Heading+180+360)%360-180
+HeadingDiff=math.abs(HeadingDiff)
+if HeadingDiff>5 then
+HeadingSet=nil
+break
+end
+end
+end
+end
+return HeadingSet
+end
+function SET_STATIC:IsIncludeObject(MStatic)
+self:F2(MStatic)
+local MStaticInclude=true
+if self.Filter.Coalitions then
+local MStaticCoalition=false
+for CoalitionID,CoalitionName in pairs(self.Filter.Coalitions)do
+self:T3({"Coalition:",MStatic:GetCoalition(),self.FilterMeta.Coalitions[CoalitionName],CoalitionName})
+if self.FilterMeta.Coalitions[CoalitionName]and self.FilterMeta.Coalitions[CoalitionName]==MStatic:GetCoalition()then
+MStaticCoalition=true
+end
+end
+MStaticInclude=MStaticInclude and MStaticCoalition
+end
+if self.Filter.Categories then
+local MStaticCategory=false
+for CategoryID,CategoryName in pairs(self.Filter.Categories)do
+self:T3({"Category:",MStatic:GetDesc().category,self.FilterMeta.Categories[CategoryName],CategoryName})
+if self.FilterMeta.Categories[CategoryName]and self.FilterMeta.Categories[CategoryName]==MStatic:GetDesc().category then
+MStaticCategory=true
+end
+end
+MStaticInclude=MStaticInclude and MStaticCategory
+end
+if self.Filter.Types then
+local MStaticType=false
+for TypeID,TypeName in pairs(self.Filter.Types)do
+self:T3({"Type:",MStatic:GetTypeName(),TypeName})
+if TypeName==MStatic:GetTypeName()then
+MStaticType=true
+end
+end
+MStaticInclude=MStaticInclude and MStaticType
+end
+if self.Filter.Countries then
+local MStaticCountry=false
+for CountryID,CountryName in pairs(self.Filter.Countries)do
+self:T3({"Country:",MStatic:GetCountry(),CountryName})
+if country.id[CountryName]==MStatic:GetCountry()then
+MStaticCountry=true
+end
+end
+MStaticInclude=MStaticInclude and MStaticCountry
+end
+if self.Filter.StaticPrefixes then
+local MStaticPrefix=false
+for StaticPrefixId,StaticPrefix in pairs(self.Filter.StaticPrefixes)do
+self:T3({"Prefix:",string.find(MStatic:GetName(),StaticPrefix,1),StaticPrefix})
+if string.find(MStatic:GetName(),StaticPrefix,1)then
+MStaticPrefix=true
+end
+end
+MStaticInclude=MStaticInclude and MStaticPrefix
+end
+self:T2(MStaticInclude)
+return MStaticInclude
+end
+function SET_STATIC:GetTypeNames(Delimiter)
+Delimiter=Delimiter or", "
+local TypeReport=REPORT:New()
+local Types={}
+for StaticName,StaticData in pairs(self:GetSet())do
+local Static=StaticData
+local StaticTypeName=Static:GetTypeName()
+if not Types[StaticTypeName]then
+Types[StaticTypeName]=StaticTypeName
+TypeReport:Add(StaticTypeName)
+end
+end
+return TypeReport:Text(Delimiter)
+end
 end
 SET_CLIENT={
 ClassName="SET_CLIENT",
@@ -7078,7 +7639,7 @@ end
 function COORDINATE:ToString(Controllable,Settings,Task)
 self:F({Controllable=Controllable and Controllable:GetName()})
 local Settings=Settings or(Controllable and _DATABASE:GetPlayerSettings(Controllable:GetPlayerName()))or _SETTINGS
-local ModeA2A=true
+local ModeA2A=false
 if Task then
 if Task:IsInstanceOf(TASK_A2A)then
 ModeA2A=true
@@ -7087,6 +7648,8 @@ if Task:IsInstanceOf(TASK_A2G)then
 ModeA2A=false
 else
 if Task:IsInstanceOf(TASK_CARGO)then
+ModeA2A=false
+else
 ModeA2A=false
 end
 end
@@ -7305,7 +7868,7 @@ if Client and Client:GetClientGroupID()then
 if self.MessageType then
 local Settings=Settings or(Client and _DATABASE:GetPlayerSettings(Client:GetPlayerName()))or _SETTINGS
 self.MessageDuration=Settings:GetMessageTime(self.MessageType)
-self.MessageCategory=self.MessageType..": "
+self.MessageCategory=""
 end
 if self.MessageDuration~=0 then
 local ClientGroupID=Client:GetClientGroupID()
@@ -7321,7 +7884,7 @@ if Group then
 if self.MessageType then
 local Settings=Settings or(Group and _DATABASE:GetPlayerSettings(Group:GetPlayerName()))or _SETTINGS
 self.MessageDuration=Settings:GetMessageTime(self.MessageType)
-self.MessageCategory=self.MessageType..": "
+self.MessageCategory=""
 end
 if self.MessageDuration~=0 then
 self:T(self.MessageCategory..self.MessageText:gsub("\n$",""):gsub("\n$","").." / "..self.MessageDuration)
@@ -7345,7 +7908,7 @@ self:F(CoalitionSide)
 if self.MessageType then
 local Settings=Settings or _SETTINGS
 self.MessageDuration=Settings:GetMessageTime(self.MessageType)
-self.MessageCategory=self.MessageType..": "
+self.MessageCategory=""
 end
 if CoalitionSide then
 if self.MessageDuration~=0 then
@@ -7367,7 +7930,7 @@ self:F()
 if self.MessageType then
 local Settings=Settings or _SETTINGS
 self.MessageDuration=Settings:GetMessageTime(self.MessageType)
-self.MessageCategory=self.MessageType..": "
+self.MessageCategory=""
 end
 if self.MessageDuration~=0 then
 self:T(self.MessageCategory..self.MessageText:gsub("\n$",""):gsub("\n$","").." / "..self.MessageDuration)
@@ -8167,6 +8730,38 @@ function SPAWNSTATIC:SpawnFromZone(Zone,Heading,NewName)
 self:F({Zone,Heading,NewName})
 local Static=self:SpawnFromPointVec2(Zone:GetPointVec2(),Heading,NewName)
 return Static
+end
+do
+GOAL={
+ClassName="GOAL",
+}
+GOAL.Players={}
+GOAL.TotalContributions=0
+function GOAL:New()
+local self=BASE:Inherit(self,FSM:New())
+self:F({})
+self:SetStartState("Pending")
+self:AddTransition("*","Achieved","Achieved")
+self:SetEventPriority(5)
+return self
+end
+function GOAL:AddPlayerContribution(PlayerName)
+self.Players[PlayerName]=self.Players[PlayerName]or 0
+self.Players[PlayerName]=self.Players[PlayerName]+1
+self.TotalContributions=self.TotalContributions+1
+end
+function GOAL:GetPlayerContribution(PlayerName)
+return self.Players[PlayerName]or 0
+end
+function GOAL:GetPlayerContributions()
+return self.Players or{}
+end
+function GOAL:GetTotalContributions()
+return self.TotalContributions or 0
+end
+function GOAL:IsAchieved()
+return self:Is("Achieved")
+end
 end
 CARGOS={}
 do
@@ -9029,6 +9624,25 @@ end
 self:E(self.ClassName.." "..self.IdentifiableName.." not found!")
 return nil
 end
+function IDENTIFIABLE:GetCoalitionName()
+self:F2(self.IdentifiableName)
+local DCSIdentifiable=self:GetDCSObject()
+if DCSIdentifiable then
+local IdentifiableCoalition=DCSIdentifiable:getCoalition()
+self:T3(IdentifiableCoalition)
+if IdentifiableCoalition==coalition.side.BLUE then
+return"Blue"
+end
+if IdentifiableCoalition==coalition.side.RED then
+return"Red"
+end
+if IdentifiableCoalition==coalition.side.NEUTRAL then
+return"Neutral"
+end
+end
+self:E(self.ClassName.." "..self.IdentifiableName.." not found!")
+return nil
+end
 function IDENTIFIABLE:GetCountry()
 self:F2(self.IdentifiableName)
 local DCSIdentifiable=self:GetDCSObject()
@@ -9258,9 +9872,9 @@ end
 function POSITIONABLE:GetMessageText(Message,Name)
 local DCSObject=self:GetDCSObject()
 if DCSObject then
-Name=Name and(" ("..Name..")")or""
-local Callsign=string.format("[%s]",self:GetCallsign()~=""and self:GetCallsign()or self:GetName())
-local MessageText=Callsign..Name..": "..Message
+Name=Name and(" => "..Name)or""
+local Callsign=string.format("%s",self:GetCallsign()~=""and self:GetCallsign()or self:GetName())
+local MessageText=string.format("[%s%s]: %s",Callsign,Name,Message)
 return MessageText
 end
 return nil
@@ -12552,6 +13166,24 @@ PlayerData.Score=self.Players[PlayerName].Score+Score
 PlayerData.Mission[MissionName].ScoreTask=self.Players[PlayerName].Mission[MissionName].ScoreTask+Score
 MESSAGE:NewType(self.DisplayMessagePrefix..MissionName.." : "..Text.." Score: "..Score,MESSAGE.Type.Information):ToAll()
 self:ScoreCSV(PlayerName,"","TASK_"..MissionName:gsub(' ','_'),1,Score,PlayerUnit:GetName())
+end
+end
+function SCORING:_AddMissionGoalScore(Mission,PlayerName,Text,Score)
+local MissionName=Mission:GetName()
+self:E({Mission:GetName(),PlayerName,Text,Score})
+if PlayerName then
+local PlayerData=self.Players[PlayerName]
+if not PlayerData.Mission[MissionName]then
+PlayerData.Mission[MissionName]={}
+PlayerData.Mission[MissionName].ScoreTask=0
+PlayerData.Mission[MissionName].ScoreMission=0
+end
+self:T(PlayerName)
+self:T(PlayerData.Mission[MissionName])
+PlayerData.Score=self.Players[PlayerName].Score+Score
+PlayerData.Mission[MissionName].ScoreTask=self.Players[PlayerName].Mission[MissionName].ScoreTask+Score
+MESSAGE:NewType(string.format("%s%s: %s! Player %s receives %d score!",self.DisplayMessagePrefix,MissionName,Text,PlayerName,Score),MESSAGE.Type.Information):ToAll()
+self:ScoreCSV(PlayerName,"","TASK_"..MissionName:gsub(' ','_'),1,Score)
 end
 end
 function SCORING:_AddMissionScore(Mission,Text,Score)
@@ -20031,6 +20663,219 @@ table.insert(RAT.ATC.airport[airport].queue,v[1])
 end
 end
 end
+do
+ZONE_GOAL={
+ClassName="ZONE_GOAL",
+}
+function ZONE_GOAL:New(Zone)
+local self=BASE:Inherit(self,FSM:New())
+self:F({Zone=Zone})
+self.Zone=Zone
+self.Goal=GOAL:New()
+self.SmokeTime=nil
+self:AddTransition("*","DestroyedUnit","*")
+return self
+end
+function ZONE_GOAL:GetZone()
+return self.Zone
+end
+function ZONE_GOAL:GetZoneName()
+return self.Zone:GetName()
+end
+function ZONE_GOAL:Smoke(SmokeColor)
+self:F({SmokeColor=SmokeColor})
+self.SmokeColor=SmokeColor
+end
+function ZONE_GOAL:Flare(FlareColor)
+self.Zone:FlareZone(FlareColor,math.random(1,360))
+end
+function ZONE_GOAL:onafterGuard()
+self:E("Guard")
+if not self.SmokeScheduler then
+self.SmokeScheduler=self:ScheduleRepeat(1,1,0.1,nil,self.StatusSmoke,self)
+end
+end
+function ZONE_GOAL:StatusSmoke()
+self:F({self.SmokeTime,self.SmokeColor})
+local CurrentTime=timer.getTime()
+if self.SmokeTime==nil or self.SmokeTime+300<=CurrentTime then
+if self.SmokeColor then
+self.Zone:GetCoordinate():Smoke(self.SmokeColor)
+self.SmokeTime=CurrentTime
+end
+end
+end
+function ZONE_GOAL:__Destroyed(EventData)
+self:E({"EventDead",EventData})
+self:E({EventData.IniUnit})
+local Vec3=EventData.IniDCSUnit:getPosition().p
+self:E({Vec3=Vec3})
+local ZoneGoal=self:GetZone()
+self:E({ZoneGoal})
+if EventData.IniDCSUnit then
+if ZoneGoal:IsVec3InZone(Vec3)then
+local PlayerHits=_DATABASE.HITS[EventData.IniUnitName]
+if PlayerHits then
+for PlayerName,PlayerHit in pairs(PlayerHits.Players or{})do
+self.Goal:AddPlayerContribution(PlayerName)
+self:DestroyedUnit(EventData.IniUnitName,PlayerName)
+end
+end
+end
+end
+end
+function ZONE_GOAL:MonitorDestroyedUnits()
+self:HandleEvent(EVENTS.Dead,self.__Destroyed)
+self:HandleEvent(EVENTS.Crash,self.__Destroyed)
+end
+end
+do
+ZONE_GOAL_COALITION={
+ClassName="ZONE_GOAL_COALITION",
+}
+ZONE_GOAL_COALITION.States={}
+function ZONE_GOAL_COALITION:New(Zone,Coalition)
+local self=BASE:Inherit(self,ZONE_GOAL:New(Zone))
+self:F({Zone=Zone,Coalition=Coalition})
+self:SetCoalition(Coalition)
+do
+end
+do
+end
+do
+end
+do
+end
+self:AddTransition("*","Guard","Guarded")
+self:AddTransition("*","Empty","Empty")
+self:AddTransition({"Guarded","Empty"},"Attack","Attacked")
+self:AddTransition({"Guarded","Attacked","Empty"},"Capture","Captured")
+return self
+end
+function ZONE_GOAL_COALITION:SetCoalition(Coalition)
+self.Coalition=Coalition
+end
+function ZONE_GOAL_COALITION:GetCoalition()
+return self.Coalition
+end
+function ZONE_GOAL_COALITION:GetCoalitionName()
+if self.Coalition==coalition.side.BLUE then
+return"Blue"
+end
+if self.Coalition==coalition.side.RED then
+return"Red"
+end
+if self.Coalition==coalition.side.NEUTRAL then
+return"Neutral"
+end
+return""
+end
+function ZONE_GOAL_COALITION:IsGuarded()
+local IsGuarded=self.Zone:IsAllInZoneOfCoalition(self.Coalition)
+self:E({IsGuarded=IsGuarded})
+return IsGuarded
+end
+function ZONE_GOAL_COALITION:IsEmpty()
+local IsEmpty=self.Zone:IsNoneInZone()
+self:E({IsEmpty=IsEmpty})
+return IsEmpty
+end
+function ZONE_GOAL_COALITION:IsCaptured()
+local IsCaptured=self.Zone:IsAllInZoneOfOtherCoalition(self.Coalition)
+self:E({IsCaptured=IsCaptured})
+return IsCaptured
+end
+function ZONE_GOAL_COALITION:IsAttacked()
+local IsAttacked=self.Zone:IsSomeInZoneOfCoalition(self.Coalition)
+self:E({IsAttacked=IsAttacked})
+return IsAttacked
+end
+function ZONE_GOAL_COALITION:Mark()
+local Coord=self.Zone:GetCoordinate()
+local ZoneName=self:GetZoneName()
+local State=self:GetState()
+if self.MarkRed and self.MarkBlue then
+self:E({MarkRed=self.MarkRed,MarkBlue=self.MarkBlue})
+Coord:RemoveMark(self.MarkRed)
+Coord:RemoveMark(self.MarkBlue)
+end
+if self.Coalition==coalition.side.BLUE then
+self.MarkBlue=Coord:MarkToCoalitionBlue("Guard Zone: "..ZoneName.."\nStatus: "..State)
+self.MarkRed=Coord:MarkToCoalitionRed("Capture Zone: "..ZoneName.."\nStatus: "..State)
+else
+self.MarkRed=Coord:MarkToCoalitionRed("Guard Zone: "..ZoneName.."\nStatus: "..State)
+self.MarkBlue=Coord:MarkToCoalitionBlue("Capture Zone: "..ZoneName.."\nStatus: "..State)
+end
+end
+function ZONE_GOAL_COALITION:onenterGuarded()
+if self.Coalition==coalition.side.BLUE then
+else
+end
+self:Mark()
+end
+function ZONE_GOAL_COALITION:onenterCaptured()
+local NewCoalition=self.Zone:GetCoalition()
+self:E({NewCoalition=NewCoalition})
+self:SetCoalition(NewCoalition)
+self:Mark()
+end
+function ZONE_GOAL_COALITION:onenterEmpty()
+self:Mark()
+end
+function ZONE_GOAL_COALITION:onenterAttacked()
+self:Mark()
+end
+function ZONE_GOAL_COALITION:onafterGuard()
+if not self.SmokeScheduler then
+self.SmokeScheduler=self:ScheduleRepeat(1,1,0.1,nil,self.StatusSmoke,self)
+end
+if not self.ScheduleStatusZone then
+self.ScheduleStatusZone=self:ScheduleRepeat(15,15,0.1,nil,self.StatusZone,self)
+end
+end
+function ZONE_GOAL_COALITION:IsCaptured()
+local IsCaptured=self.Zone:IsAllInZoneOfOtherCoalition(self.Coalition)
+self:E({IsCaptured=IsCaptured})
+return IsCaptured
+end
+function ZONE_GOAL_COALITION:IsAttacked()
+local IsAttacked=self.Zone:IsSomeInZoneOfCoalition(self.Coalition)
+self:E({IsAttacked=IsAttacked})
+return IsAttacked
+end
+function ZONE_GOAL_COALITION:StatusZone()
+local State=self:GetState()
+self:E({State=self:GetState()})
+self.Zone:Scan()
+if State~="Guarded"and self:IsGuarded()then
+self:Guard()
+end
+if State~="Empty"and self:IsEmpty()then
+self:Empty()
+end
+if State~="Attacked"and self:IsAttacked()then
+self:Attack()
+end
+if State~="Captured"and self:IsCaptured()then
+self:Capture()
+end
+end
+end
+do
+ZONE_CAPTURE_COALITION={
+ClassName="ZONE_CAPTURE_COALITION",
+}
+ZONE_CAPTURE_COALITION.States={}
+function ZONE_CAPTURE_COALITION:New(Zone,Coalition)
+local self=BASE:Inherit(self,ZONE_GOAL_COALITION:New(Zone,Coalition))
+self:F({Zone=Zone,Coalition=Coalition})
+return self
+end
+function ZONE_CAPTURE_COALITION:onenterCaptured()
+self:GetParent(self,ZONE_CAPTURE_COALITION).onenterCaptured(self)
+self.Goal:Achieved()
+end
+end
 AI_BALANCER={
 ClassName="AI_BALANCER",
 PatrolZones={},
@@ -20452,8 +21297,8 @@ end
 AI_A2A_PATROL={
 ClassName="AI_A2A_PATROL",
 }
-function AI_A2A_PATROL:New(AIGroup,PatrolZone,PatrolFloorAltitude,PatrolCeilingAltitude,PatrolMinSpeed,PatrolMaxSpeed,PatrolAltType)
-local self=BASE:Inherit(self,AI_A2A:New(AIGroup))
+function AI_A2A_PATROL:New(AIPatrol,PatrolZone,PatrolFloorAltitude,PatrolCeilingAltitude,PatrolMinSpeed,PatrolMaxSpeed,PatrolAltType)
+local self=BASE:Inherit(self,AI_A2A:New(AIPatrol))
 self.PatrolZone=PatrolZone
 self.PatrolFloorAltitude=PatrolFloorAltitude
 self.PatrolCeilingAltitude=PatrolCeilingAltitude
@@ -20475,11 +21320,11 @@ self:F2({PatrolFloorAltitude,PatrolCeilingAltitude})
 self.PatrolFloorAltitude=PatrolFloorAltitude
 self.PatrolCeilingAltitude=PatrolCeilingAltitude
 end
-function AI_A2A_PATROL:onafterPatrol(Controllable,From,Event,To)
+function AI_A2A_PATROL:onafterPatrol(AIPatrol,From,Event,To)
 self:F2()
 self:ClearTargetDistance()
 self:__Route(1)
-self.Controllable:OnReSpawn(
+self.AIPatrol:OnReSpawn(
 function(PatrolGroup)
 self:E("ReSpawn")
 self:__Reset(1)
@@ -20487,20 +21332,20 @@ self:__Route(5)
 end
 )
 end
-function AI_A2A_PATROL.PatrolRoute(AIGroup,Fsm)
-AIGroup:F({"AI_A2A_PATROL.PatrolRoute:",AIGroup:GetName()})
-if AIGroup:IsAlive()then
+function AI_A2A_PATROL.PatrolRoute(AIPatrol,Fsm)
+AIPatrol:F({"AI_A2A_PATROL.PatrolRoute:",AIPatrol:GetName()})
+if AIPatrol:IsAlive()then
 Fsm:Route()
 end
 end
-function AI_A2A_PATROL:onafterRoute(AIGroup,From,Event,To)
+function AI_A2A_PATROL:onafterRoute(AIPatrol,From,Event,To)
 self:F2()
 if From=="RTB"then
 return
 end
-if AIGroup:IsAlive()then
+if AIPatrol:IsAlive()then
 local PatrolRoute={}
-local CurrentCoord=AIGroup:GetCoordinate()
+local CurrentCoord=AIPatrol:GetCoordinate()
 local ToTargetCoord=self.PatrolZone:GetRandomPointVec2()
 ToTargetCoord:SetAlt(math.random(self.PatrolFloorAltitude,self.PatrolCeilingAltitude))
 self:SetTargetDistance(ToTargetCoord)
@@ -20515,17 +21360,17 @@ true
 PatrolRoute[#PatrolRoute+1]=ToPatrolRoutePoint
 PatrolRoute[#PatrolRoute+1]=ToPatrolRoutePoint
 local Tasks={}
-Tasks[#Tasks+1]=AIGroup:TaskFunction("AI_A2A_PATROL.PatrolRoute",self)
-PatrolRoute[#PatrolRoute].task=AIGroup:TaskCombo(Tasks)
-AIGroup:OptionROEReturnFire()
-AIGroup:OptionROTPassiveDefense()
-AIGroup:Route(PatrolRoute,0.5)
+Tasks[#Tasks+1]=AIPatrol:TaskFunction("AI_A2A_PATROL.PatrolRoute",self)
+PatrolRoute[#PatrolRoute].task=AIPatrol:TaskCombo(Tasks)
+AIPatrol:OptionROEReturnFire()
+AIPatrol:OptionROTEvadeFire()
+AIPatrol:Route(PatrolRoute,0.5)
 end
 end
-function AI_A2A_PATROL.Resume(AIGroup)
-AIGroup:F({"AI_A2A_PATROL.Resume:",AIGroup:GetName()})
-if AIGroup:IsAlive()then
-local _AI_A2A=AIGroup:GetState(AIGroup,"AI_A2A")
+function AI_A2A_PATROL.Resume(AIPatrol)
+AIPatrol:F({"AI_A2A_PATROL.Resume:",AIPatrol:GetName()})
+if AIPatrol:IsAlive()then
+local _AI_A2A=AIPatrol:GetState(AIPatrol,"AI_A2A")
 _AI_A2A:__Reset(1)
 _AI_A2A:__Route(5)
 end
@@ -20533,8 +21378,8 @@ end
 AI_A2A_CAP={
 ClassName="AI_A2A_CAP",
 }
-function AI_A2A_CAP:New(AIGroup,PatrolZone,PatrolFloorAltitude,PatrolCeilingAltitude,PatrolMinSpeed,PatrolMaxSpeed,EngageMinSpeed,EngageMaxSpeed,PatrolAltType)
-local self=BASE:Inherit(self,AI_A2A_PATROL:New(AIGroup,PatrolZone,PatrolFloorAltitude,PatrolCeilingAltitude,PatrolMinSpeed,PatrolMaxSpeed,PatrolAltType))
+function AI_A2A_CAP:New(AICap,PatrolZone,PatrolFloorAltitude,PatrolCeilingAltitude,PatrolMinSpeed,PatrolMaxSpeed,EngageMinSpeed,EngageMaxSpeed,PatrolAltType)
+local self=BASE:Inherit(self,AI_A2A_PATROL:New(AICap,PatrolZone,PatrolFloorAltitude,PatrolCeilingAltitude,PatrolMinSpeed,PatrolMaxSpeed,PatrolAltType))
 self.Accomplished=false
 self.Engaging=false
 self.EngageMinSpeed=EngageMinSpeed
@@ -20546,8 +21391,8 @@ self:AddTransition("Engaging","Abort","Patrolling")
 self:AddTransition("Engaging","Accomplish","Patrolling")
 return self
 end
-function AI_A2A_CAP:onafterStart(AIGroup,From,Event,To)
-AIGroup:HandleEvent(EVENTS.Takeoff,nil,self)
+function AI_A2A_CAP:onafterStart(AICap,From,Event,To)
+AICap:HandleEvent(EVENTS.Takeoff,nil,self)
 end
 function AI_A2A_CAP:SetEngageZone(EngageZone)
 self:F2()
@@ -20565,33 +21410,33 @@ else
 self.EngageRange=nil
 end
 end
-function AI_A2A_CAP:onafterPatrol(AIGroup,From,Event,To)
-self:GetParent(self).onafterPatrol(self,AIGroup,From,Event,To)
+function AI_A2A_CAP:onafterPatrol(AICap,From,Event,To)
+self:GetParent(self).onafterPatrol(self,AICap,From,Event,To)
 self:HandleEvent(EVENTS.Dead)
 end
-function AI_A2A_CAP.AttackRoute(AIGroup,Fsm)
-AIGroup:F({"AI_A2A_CAP.AttackRoute:",AIGroup:GetName()})
-if AIGroup:IsAlive()then
+function AI_A2A_CAP.AttackRoute(AICap,Fsm)
+AICap:F({"AI_A2A_CAP.AttackRoute:",AICap:GetName()})
+if AICap:IsAlive()then
 Fsm:__Engage(0.5)
 end
 end
-function AI_A2A_CAP:onbeforeEngage(AIGroup,From,Event,To)
+function AI_A2A_CAP:onbeforeEngage(AICap,From,Event,To)
 if self.Accomplished==true then
 return false
 end
 end
-function AI_A2A_CAP:onafterAbort(AIGroup,From,Event,To)
-AIGroup:ClearTasks()
+function AI_A2A_CAP:onafterAbort(AICap,From,Event,To)
+AICap:ClearTasks()
 self:__Route(0.5)
 end
-function AI_A2A_CAP:onafterEngage(AIGroup,From,Event,To,AttackSetUnit)
-self:F({AIGroup,From,Event,To,AttackSetUnit})
+function AI_A2A_CAP:onafterEngage(AICap,From,Event,To,AttackSetUnit)
+self:F({AICap,From,Event,To,AttackSetUnit})
 self.AttackSetUnit=AttackSetUnit or self.AttackSetUnit
 local FirstAttackUnit=self.AttackSetUnit:GetFirst()
 if FirstAttackUnit and FirstAttackUnit:IsAlive()then
-if AIGroup:IsAlive()then
+if AICap:IsAlive()then
 local EngageRoute={}
-local CurrentCoord=AIGroup:GetCoordinate()
+local CurrentCoord=AICap:GetCoordinate()
 local ToTargetCoord=self.AttackSetUnit:GetFirst():GetCoordinate()
 local ToTargetSpeed=math.random(self.EngageMinSpeed,self.EngageMaxSpeed)
 local ToInterceptAngle=CurrentCoord:GetAngleDegrees(CurrentCoord:GetDirectionVec3(ToTargetCoord))
@@ -20611,30 +21456,30 @@ for AttackUnitID,AttackUnit in pairs(self.AttackSetUnit:GetSet())do
 local AttackUnit=AttackUnit
 self:T({"Attacking Unit:",AttackUnit:GetName(),AttackUnit:IsAlive(),AttackUnit:IsAir()})
 if AttackUnit:IsAlive()and AttackUnit:IsAir()then
-AttackTasks[#AttackTasks+1]=AIGroup:TaskAttackUnit(AttackUnit)
+AttackTasks[#AttackTasks+1]=AICap:TaskAttackUnit(AttackUnit)
 end
 end
 if#AttackTasks==0 then
 self:E("No targets found -> Going back to Patrolling")
 self:__Abort(0.5)
 else
-AIGroup:OptionROEOpenFire()
-AIGroup:OptionROTPassiveDefense()
-AttackTasks[#AttackTasks+1]=AIGroup:TaskFunction("AI_A2A_CAP.AttackRoute",self)
-EngageRoute[#EngageRoute].task=AIGroup:TaskCombo(AttackTasks)
+AICap:OptionROEOpenFire()
+AICap:OptionROTEvadeFire()
+AttackTasks[#AttackTasks+1]=AICap:TaskFunction("AI_A2A_CAP.AttackRoute",self)
+EngageRoute[#EngageRoute].task=AICap:TaskCombo(AttackTasks)
 end
-AIGroup:Route(EngageRoute,0.5)
+AICap:Route(EngageRoute,0.5)
 end
 else
 self:E("No targets found -> Going back to Patrolling")
 self:__Abort(0.5)
 end
 end
-function AI_A2A_CAP:onafterAccomplish(Controllable,From,Event,To)
+function AI_A2A_CAP:onafterAccomplish(AICap,From,Event,To)
 self.Accomplished=true
 self:SetDetectionOff()
 end
-function AI_A2A_CAP:onafterDestroy(Controllable,From,Event,To,EventData)
+function AI_A2A_CAP:onafterDestroy(AICap,From,Event,To,EventData)
 if EventData.IniUnit then
 self.AttackUnits[EventData.IniUnit]=nil
 end
@@ -20647,10 +21492,10 @@ self:__Destroy(1,EventData)
 end
 end
 end
-function AI_A2A_CAP.Resume(AIGroup)
-AIGroup:F({"AI_A2A_CAP.Resume:",AIGroup:GetName()})
-if AIGroup:IsAlive()then
-local _AI_A2A=AIGroup:GetState(AIGroup,"AI_A2A")
+function AI_A2A_CAP.Resume(AICap)
+AICap:F({"AI_A2A_CAP.Resume:",AICap:GetName()})
+if AICap:IsAlive()then
+local _AI_A2A=AICap:GetState(AICap,"AI_A2A")
 _AI_A2A:__Reset(1)
 _AI_A2A:__Route(5)
 end
@@ -20658,8 +21503,8 @@ end
 AI_A2A_GCI={
 ClassName="AI_A2A_GCI",
 }
-function AI_A2A_GCI:New(AIGroup,EngageMinSpeed,EngageMaxSpeed)
-local self=BASE:Inherit(self,AI_A2A:New(AIGroup))
+function AI_A2A_GCI:New(AIIntercept,EngageMinSpeed,EngageMaxSpeed)
+local self=BASE:Inherit(self,AI_A2A:New(AIIntercept))
 self.Accomplished=false
 self.Engaging=false
 self.EngageMinSpeed=EngageMinSpeed
@@ -20674,37 +21519,37 @@ self:AddTransition("Engaging","Abort","Patrolling")
 self:AddTransition("Engaging","Accomplish","Patrolling")
 return self
 end
-function AI_A2A_GCI:onafterStart(AIGroup,From,Event,To)
-AIGroup:HandleEvent(EVENTS.Takeoff,nil,self)
+function AI_A2A_GCI:onafterStart(AIIntercept,From,Event,To)
+AIIntercept:HandleEvent(EVENTS.Takeoff,nil,self)
 end
-function AI_A2A_GCI:onafterEngage(AIGroup,From,Event,To)
+function AI_A2A_GCI:onafterEngage(AIIntercept,From,Event,To)
 self:HandleEvent(EVENTS.Dead)
 end
-function AI_A2A_GCI.InterceptRoute(AIGroup,Fsm)
-AIGroup:F({"AI_A2A_GCI.InterceptRoute:",AIGroup:GetName()})
-if AIGroup:IsAlive()then
+function AI_A2A_GCI.InterceptRoute(AIIntercept,Fsm)
+AIIntercept:F({"AI_A2A_GCI.InterceptRoute:",AIIntercept:GetName()})
+if AIIntercept:IsAlive()then
 Fsm:__Engage(0.5)
 end
 end
-function AI_A2A_GCI:onbeforeEngage(AIGroup,From,Event,To)
+function AI_A2A_GCI:onbeforeEngage(AIIntercept,From,Event,To)
 if self.Accomplished==true then
 return false
 end
 end
-function AI_A2A_GCI:onafterAbort(AIGroup,From,Event,To)
-AIGroup:ClearTasks()
+function AI_A2A_GCI:onafterAbort(AIIntercept,From,Event,To)
+AIIntercept:ClearTasks()
 self:Return()
 self:__RTB(0.5)
 end
-function AI_A2A_GCI:onafterEngage(AIGroup,From,Event,To,AttackSetUnit)
-self:F({AIGroup,From,Event,To,AttackSetUnit})
+function AI_A2A_GCI:onafterEngage(AIIntercept,From,Event,To,AttackSetUnit)
+self:F({AIIntercept,From,Event,To,AttackSetUnit})
 self.AttackSetUnit=AttackSetUnit or self.AttackSetUnit
 local FirstAttackUnit=self.AttackSetUnit:GetFirst()
 if FirstAttackUnit and FirstAttackUnit:IsAlive()then
-if AIGroup:IsAlive()then
+if AIIntercept:IsAlive()then
 local EngageRoute={}
-local CurrentCoord=AIGroup:GetCoordinate()
-local CurrentCoord=AIGroup:GetCoordinate()
+local CurrentCoord=AIIntercept:GetCoordinate()
+local CurrentCoord=AIIntercept:GetCoordinate()
 local ToTargetCoord=self.AttackSetUnit:GetFirst():GetCoordinate()
 self:SetTargetDistance(ToTargetCoord)
 local ToTargetSpeed=math.random(self.EngageMinSpeed,self.EngageMaxSpeed)
@@ -20725,7 +21570,7 @@ for AttackUnitID,AttackUnit in pairs(self.AttackSetUnit:GetSet())do
 local AttackUnit=AttackUnit
 if AttackUnit:IsAlive()and AttackUnit:IsAir()then
 self:T({"Intercepting Unit:",AttackUnit:GetName(),AttackUnit:IsAlive(),AttackUnit:IsAir()})
-AttackTasks[#AttackTasks+1]=AIGroup:TaskAttackUnit(AttackUnit)
+AttackTasks[#AttackTasks+1]=AIIntercept:TaskAttackUnit(AttackUnit)
 end
 end
 if#AttackTasks==0 then
@@ -20733,12 +21578,12 @@ self:E("No targets found -> Going RTB")
 self:Return()
 self:__RTB(0.5)
 else
-AIGroup:OptionROEOpenFire()
-AIGroup:OptionROTPassiveDefense()
-AttackTasks[#AttackTasks+1]=AIGroup:TaskFunction("AI_A2A_GCI.InterceptRoute",self)
-EngageRoute[#EngageRoute].task=AIGroup:TaskCombo(AttackTasks)
+AIIntercept:OptionROEOpenFire()
+AIIntercept:OptionROTEvadeFire()
+AttackTasks[#AttackTasks+1]=AIIntercept:TaskFunction("AI_A2A_GCI.InterceptRoute",self)
+EngageRoute[#EngageRoute].task=AIIntercept:TaskCombo(AttackTasks)
 end
-AIGroup:Route(EngageRoute,0.5)
+AIIntercept:Route(EngageRoute,0.5)
 end
 else
 self:E("No targets found -> Going RTB")
@@ -20746,11 +21591,11 @@ self:Return()
 self:__RTB(0.5)
 end
 end
-function AI_A2A_GCI:onafterAccomplish(AIGroup,From,Event,To)
+function AI_A2A_GCI:onafterAccomplish(AIIntercept,From,Event,To)
 self.Accomplished=true
 self:SetDetectionOff()
 end
-function AI_A2A_GCI:onafterDestroy(AIGroup,From,Event,To,EventData)
+function AI_A2A_GCI:onafterDestroy(AIIntercept,From,Event,To,EventData)
 if EventData.IniUnit then
 self.AttackUnits[EventData.IniUnit]=nil
 end
@@ -22192,7 +23037,7 @@ true
 )
 EngageRoute[#EngageRoute+1]=ToPatrolRoutePoint
 Controllable:OptionROEOpenFire()
-Controllable:OptionROTPassiveDefense()
+Controllable:OptionROTEvadeFire()
 local AttackTasks={}
 for DetectedUnit,Detected in pairs(self.DetectedUnits)do
 local DetectedUnit=DetectedUnit
@@ -22732,7 +23577,7 @@ ClientUnit:SetState(self,"CV1",CV2)
 end
 FollowGroupSet:ForEachGroup(
 function(FollowGroup,Formation,ClientUnit,CT1,CV1,CT2,CV2)
-FollowGroup:OptionROTPassiveDefense()
+FollowGroup:OptionROTEvadeFire()
 FollowGroup:OptionROEReturnFire()
 local GroupUnit=FollowGroup:GetUnit(1)
 local FollowFormation=FollowGroup:GetState(self,"FormationVec3")
@@ -23199,18 +24044,6 @@ self:T({"EventDead",EventData})
 if EventData.IniPlayerName and EventData.TgtDCSUnitName then
 self.PlayerHits=self.PlayerHits or{}
 self.PlayerHits[EventData.TgtDCSUnitName]=EventData.IniPlayerName
-end
-end
-function ACT_ACCOUNT_DEADS:onfuncEventDead(EventData)
-self:T({"EventDead",EventData})
-if EventData.IniDCSUnit then
-self:Event(EventData)
-end
-end
-function ACT_ACCOUNT_DEADS:onfuncEventCrash(EventData)
-self:T({"EventDead",EventData})
-if EventData.IniDCSUnit then
-self:Event(EventData)
 end
 end
 end
@@ -24247,29 +25080,17 @@ self:E("Mark Task menu selected")
 self:UpdateTaskInfo()
 local Report=REPORT:New():SetIndent(0)
 local Name=self:GetName()
-Report:Add(Name..": "..self:GetTaskBriefing())
+Report:Add("Task "..Name..": "..self:GetTaskBriefing().."\n")
 for TaskInfoID,TaskInfo in pairs(self.TaskInfo,function(t,a,b)return t[a].TaskInfoOrder<t[b].TaskInfoOrder end)do
-local TaskInfoIDText=""
-if type(TaskInfo.TaskInfoText)=="string"then
-if TaskInfoID=="Targets"then
-else
-Report:Add(TaskInfoIDText..TaskInfo.TaskInfoText)
-end
-elseif type(TaskInfo)=="table"then
-if TaskInfoID=="Coordinates"then
-else
+local ReportText=self:GetMarkInfo(TaskInfoID,TaskInfo)
+if ReportText then
+Report:Add(ReportText)
 end
 end
-end
-local Coordinate=self:GetInfo("Coordinates")
-local Velocity=self.TargetSetUnit:GetVelocity()
-local Heading=self.TargetSetUnit:GetHeading()
-Coordinate:SetHeading(Heading)
-Coordinate:SetVelocity(Velocity)
-Report:Add("Targets are"..Coordinate:GetMovingText()..".")
+local TargetCoordinate=self:GetInfo("Coordinate")
 local MarkText=Report:Text(", ")
-self:F({Coordinate=Coordinate,MarkText=MarkText})
-Coordinate:MarkToGroup(MarkText,TaskGroup)
+self:F({Coordinate=TargetCoordinate,MarkText=MarkText})
+TargetCoordinate:MarkToGroup(MarkText,TaskGroup)
 end
 function TASK:MenuTaskStatus(TaskGroup)
 local ReportText=self:ReportDetails(TaskGroup)
@@ -24431,7 +25252,7 @@ self:E("Firing Assign event ")
 self.Dispatcher:Assign(self,PlayerUnit,PlayerName)
 end
 self:GetMission():__Start(1)
-self:__Goal(-10)
+self:__Goal(-10,PlayerUnit,PlayerName)
 self:SetMenu()
 end
 end
@@ -24503,11 +25324,11 @@ end
 do
 function TASK:ReportSummary(ReportGroup)
 local Report=REPORT:New()
-Report:Add(self:GetName())
+Report:Add("Task "..self:GetName())
 Report:Add("State: <"..self:GetState()..">")
-if self.TaskInfo["Coordinates"]then
+if self.TaskInfo["Coordinate"]then
 local TaskInfoIDText=string.format("%s: ","Coordinate")
-local TaskCoord=self.TaskInfo["Coordinates"].TaskInfoText
+local TaskCoord=self.TaskInfo["Coordinate"].TaskInfoText
 Report:Add(TaskInfoIDText..TaskCoord:ToString(ReportGroup,nil,self))
 end
 return Report:Text(', ')
@@ -24524,7 +25345,7 @@ if Line<math.floor(TaskInfo.TaskInfoOrder/10)then
 if Line~=0 then
 Report:AddIndent(LineReport:Text(", "))
 else
-Report:Add(TaskName..", "..LineReport:Text(", "))
+Report:Add("Task "..TaskName..", "..LineReport:Text(", "))
 end
 LineReport=REPORT:New()
 Line=math.floor(TaskInfo.TaskInfoOrder/10)
@@ -24533,7 +25354,7 @@ local TaskInfoIDText=string.format("%s: ",TaskInfoID)
 if type(TaskInfo.TaskInfoText)=="string"then
 LineReport:Add(TaskInfoIDText..TaskInfo.TaskInfoText)
 elseif type(TaskInfo)=="table"then
-if TaskInfoID=="Coordinates"then
+if TaskInfoID=="Coordinate"then
 local ToCoordinate=TaskInfo.TaskInfoText
 LineReport:Add(TaskInfoIDText..ToCoordinate:ToString(ReportGroup,nil,self))
 else
@@ -24572,7 +25393,7 @@ self:UpdateTaskInfo()
 local Report=REPORT:New():SetIndent(3)
 local Name=self:GetName()
 local Status="<"..self:GetState()..">"
-Report:Add("Task: "..Name.." - "..Status.." - Detailed Report")
+Report:Add("Task "..Name.." - "..Status.." - Detailed Report")
 local PlayerNames=self:GetPlayerNames()
 local PlayerReport=REPORT:New()
 for PlayerName,PlayerGroup in pairs(PlayerNames)do
@@ -24584,24 +25405,11 @@ Report:Add(" - Players assigned:")
 Report:AddIndent(Players)
 end
 for TaskInfoID,TaskInfo in pairs(self.TaskInfo,function(t,a,b)return t[a].TaskInfoOrder<t[b].TaskInfoOrder end)do
-local TaskInfoIDText=string.format(" - %s: ",TaskInfoID)
-if type(TaskInfo.TaskInfoText)=="string"then
-Report:Add(TaskInfoIDText..TaskInfo.TaskInfoText)
-elseif type(TaskInfo)=="table"then
-if TaskInfoID=="Coordinates"then
-local FromCoordinate=ReportGroup:GetUnit(1):GetCoordinate()
-local ToCoordinate=TaskInfo.TaskInfoText
-Report:Add(TaskInfoIDText..ToCoordinate:ToString(ReportGroup:GetUnit(1),nil,self))
-else
+local ReportText=self:GetReportDetail(ReportGroup,TaskInfoID,TaskInfo)
+if ReportText then
+Report:Add(ReportText)
 end
 end
-end
-local Coordinate=self:GetInfo("Coordinates")
-local Velocity=self.TargetSetUnit:GetVelocity()
-local Heading=self.TargetSetUnit:GetHeading()
-Coordinate:SetHeading(Heading)
-Coordinate:SetVelocity(Velocity)
-Report:Add("Targets are"..Coordinate:GetMovingText()..".")
 return Report:Text()
 end
 end
@@ -25093,6 +25901,30 @@ end
 function TASK_A2G:GetGoalTotal()
 return self.GoalTotal
 end
+function TASK_A2G:GetMarkInfo(TaskInfoID,TaskInfo)
+if type(TaskInfo.TaskInfoText)=="string"then
+if TaskInfoID=="Targets"then
+else
+return string.format("%s: %s",TaskInfoID,TaskInfo.TaskInfoText)
+end
+elseif type(TaskInfo)=="table"then
+if TaskInfoID=="Coordinate"then
+end
+end
+return nil
+end
+function TASK_A2G:GetReportDetail(ReportGroup,TaskInfoID,TaskInfo)
+if type(TaskInfo.TaskInfoText)=="string"then
+return string.format("%s: %s",TaskInfoID,TaskInfo.TaskInfoText)
+elseif type(TaskInfo)=="table"then
+if TaskInfoID=="Coordinate"then
+local FromCoordinate=ReportGroup:GetUnit(1):GetCoordinate()
+local ToCoordinate=TaskInfo.TaskInfoText
+return string.format(" - %s: %s",TaskInfoID,ToCoordinate:ToString(ReportGroup:GetUnit(1),nil,self))
+else
+end
+end
+end
 end
 do
 TASK_A2G_SEAD={
@@ -25110,7 +25942,7 @@ return self
 end
 function TASK_A2G_SEAD:UpdateTaskInfo()
 local TargetCoordinate=self.Detection and self.Detection:GetDetectedItemCoordinate(self.DetectedItemIndex)or self.TargetSetUnit:GetFirst():GetCoordinate()
-self:SetInfo("Coordinates",TargetCoordinate,0)
+self:SetInfo("Coordinate",TargetCoordinate,0)
 local ThreatLevel,ThreatText
 if self.Detection then
 ThreatLevel,ThreatText=self.Detection:GetDetectedItemThreatLevel(self.DetectedItemIndex)
@@ -25137,7 +25969,7 @@ self:SetInfo("Targets",string.format("%d of %s",DetectedItemsCount,DetectedItems
 end
 end
 function TASK_A2G_SEAD:ReportOrder(ReportGroup)
-local Coordinate=self:GetInfo("Coordinates")
+local Coordinate=self:GetInfo("Coordinate")
 local Distance=ReportGroup:GetCoordinate():Get2DDistance(Coordinate)
 return Distance
 end
@@ -25184,7 +26016,7 @@ end
 function TASK_A2G_BAI:UpdateTaskInfo()
 self:E({self.Detection,self.DetectedItemIndex})
 local TargetCoordinate=self.Detection and self.Detection:GetDetectedItemCoordinate(self.DetectedItemIndex)or self.TargetSetUnit:GetFirst():GetCoordinate()
-self:SetInfo("Coordinates",TargetCoordinate,0)
+self:SetInfo("Coordinate",TargetCoordinate,0)
 local ThreatLevel,ThreatText
 if self.Detection then
 ThreatLevel,ThreatText=self.Detection:GetDetectedItemThreatLevel(self.DetectedItemIndex)
@@ -25209,9 +26041,15 @@ local DetectedItemsCount=self.TargetSetUnit:Count()
 local DetectedItemsTypes=self.TargetSetUnit:GetTypeNames()
 self:SetInfo("Targets",string.format("%d of %s",DetectedItemsCount,DetectedItemsTypes),10)
 end
+local TargetCoordinate=self:GetInfo("Coordinate")
+local Velocity=self.TargetSetUnit:GetVelocity()
+local Heading=self.TargetSetUnit:GetHeading()
+TargetCoordinate:SetHeading(Heading)
+TargetCoordinate:SetVelocity(Velocity)
+self:SetInfo("Position","Targets are"..TargetCoordinate:GetMovingText()..".",12)
 end
 function TASK_A2G_BAI:ReportOrder(ReportGroup)
-local Coordinate=self:GetInfo("Coordinates")
+local Coordinate=self:GetInfo("Coordinate")
 local Distance=ReportGroup:GetCoordinate():Get2DDistance(Coordinate)
 return Distance
 end
@@ -25258,7 +26096,7 @@ return self
 end
 function TASK_A2G_CAS:UpdateTaskInfo()
 local TargetCoordinate=(self.Detection and self.Detection:GetDetectedItemCoordinate(self.DetectedItemIndex))or self.TargetSetUnit:GetFirst():GetCoordinate()
-self:SetInfo("Coordinates",TargetCoordinate,0)
+self:SetInfo("Coordinate",TargetCoordinate,0)
 local ThreatLevel,ThreatText
 if self.Detection then
 ThreatLevel,ThreatText=self.Detection:GetDetectedItemThreatLevel(self.DetectedItemIndex)
@@ -25285,7 +26123,7 @@ self:SetInfo("Targets",string.format("%d of %s",DetectedItemsCount,DetectedItems
 end
 end
 function TASK_A2G_CAS:ReportOrder(ReportGroup)
-local Coordinate=self:GetInfo("Coordinates")
+local Coordinate=self:GetInfo("Coordinate")
 local Distance=ReportGroup:GetCoordinate():Get2DDistance(Coordinate)
 return Distance
 end
@@ -25673,6 +26511,30 @@ end
 function TASK_A2A:GetGoalTotal()
 return self.GoalTotal
 end
+function TASK_A2A:GetMarkInfo(TaskInfoID,TaskInfo)
+if type(TaskInfo.TaskInfoText)=="string"then
+if TaskInfoID=="Targets"then
+else
+return string.format("%s: %s",TaskInfoID,TaskInfo.TaskInfoText)
+end
+elseif type(TaskInfo)=="table"then
+if TaskInfoID=="Coordinate"then
+end
+end
+return nil
+end
+function TASK_A2A:GetReportDetail(ReportGroup,TaskInfoID,TaskInfo)
+if type(TaskInfo.TaskInfoText)=="string"then
+return string.format("%s: %s",TaskInfoID,TaskInfo.TaskInfoText)
+elseif type(TaskInfo)=="table"then
+if TaskInfoID=="Coordinate"then
+local FromCoordinate=ReportGroup:GetUnit(1):GetCoordinate()
+local ToCoordinate=TaskInfo.TaskInfoText
+return string.format(" - %s: %s",TaskInfoID,ToCoordinate:ToString(ReportGroup:GetUnit(1),nil,self))
+else
+end
+end
+end
 end
 do
 TASK_A2A_INTERCEPT={
@@ -25691,7 +26553,7 @@ return self
 end
 function TASK_A2A_INTERCEPT:UpdateTaskInfo()
 local TargetCoordinate=self.Detection and self.Detection:GetDetectedItemCoordinate(self.DetectedItemIndex)or self.TargetSetUnit:GetFirst():GetCoordinate()
-self:SetInfo("Coordinates",TargetCoordinate,0)
+self:SetInfo("Coordinate",TargetCoordinate,0)
 self:SetInfo("Threat","["..string.rep("■",self.Detection and self.Detection:GetDetectedItemThreatLevel(self.DetectedItemIndex)or self.TargetSetUnit:CalculateThreatLevelA2G()).."]",11)
 if self.Detection then
 local DetectedItemsCount=self.TargetSetUnit:Count()
@@ -25760,7 +26622,7 @@ return self
 end
 function TASK_A2A_SWEEP:UpdateTaskInfo()
 local TargetCoordinate=self.Detection and self.Detection:GetDetectedItemCoordinate(self.DetectedItemIndex)or self.TargetSetUnit:GetFirst():GetCoordinate()
-self:SetInfo("Coordinates",TargetCoordinate,0)
+self:SetInfo("Coordinate",TargetCoordinate,0)
 self:SetInfo("Assumed Threat","["..string.rep("■",self.Detection and self.Detection:GetDetectedItemThreatLevel(self.DetectedItemIndex)or self.TargetSetUnit:CalculateThreatLevelA2G()).."]",11)
 if self.Detection then
 local DetectedItemsCount=self.TargetSetUnit:Count()
@@ -25828,7 +26690,7 @@ return self
 end
 function TASK_A2A_ENGAGE:UpdateTaskInfo()
 local TargetCoordinate=self.Detection and self.Detection:GetDetectedItemCoordinate(self.DetectedItemIndex)or self.TargetSetUnit:GetFirst():GetCoordinate()
-self:SetInfo("Coordinates",TargetCoordinate,0)
+self:SetInfo("Coordinate",TargetCoordinate,0)
 self:SetInfo("Threat","["..string.rep("■",self.Detection and self.Detection:GetDetectedItemThreatLevel(self.DetectedItemIndex)or self.TargetSetUnit:CalculateThreatLevelA2G()).."]",11)
 if self.Detection then
 local DetectedItemsCount=self.TargetSetUnit:Count()
@@ -26293,6 +27155,134 @@ if self:IsAllCargoTransported()then
 self:Success()
 end
 self:__Goal(-10)
+end
+end
+do
+TASK_ZONE_GOAL={
+ClassName="TASK_ZONE_GOAL",
+}
+function TASK_ZONE_GOAL:New(Mission,SetGroup,TaskName,ZoneGoal,TaskType,TaskBriefing)
+local self=BASE:Inherit(self,TASK:New(Mission,SetGroup,TaskName,TaskType,TaskBriefing))
+self:F()
+self.ZoneGoal=ZoneGoal
+self.TaskType=TaskType
+local Fsm=self:GetUnitProcess()
+Fsm:AddProcess("Planned","Accept",ACT_ASSIGN_ACCEPT:New(self.TaskBriefing),{Assigned="StartMonitoring",Rejected="Reject"})
+Fsm:AddTransition("Assigned","StartMonitoring","Monitoring")
+Fsm:AddTransition("Monitoring","Monitor","Monitoring",{})
+Fsm:AddTransition("Monitoring","RouteTo","Monitoring")
+Fsm:AddProcess("Monitoring","RouteToZone",ACT_ROUTE_ZONE:New(),{})
+Fsm:AddTransition("Rejected","Reject","Aborted")
+Fsm:AddTransition("Failed","Fail","Failed")
+self:SetTargetZone(self.ZoneGoal:GetZone())
+function Fsm:onafterStartMonitoring(TaskUnit,Task)
+self:E({self})
+self:__Monitor(0.1)
+self:__RouteTo(0.1)
+end
+function Fsm:onafterMonitor(TaskUnit,Task)
+self:E({self})
+self:__Monitor(15)
+end
+function Fsm:onafterRouteTo(TaskUnit,Task)
+self:E({TaskUnit=TaskUnit,Task=Task and Task:GetClassNameAndID()})
+if Task:GetTargetZone(TaskUnit)then
+self:__RouteTo(0.1)
+end
+end
+return self
+end
+function TASK_ZONE_GOAL:SetProtect(ZoneGoal)
+self.ZoneGoal=ZoneGoal
+end
+function TASK_ZONE_GOAL:GetPlannedMenuText()
+return self:GetStateString().." - "..self:GetTaskName().." ( "..self.ZoneGoal:GetZoneName().." )"
+end
+function TASK_ZONE_GOAL:SetTargetZone(TargetZone,TaskUnit)
+local ProcessUnit=self:GetUnitProcess(TaskUnit)
+local ActRouteZone=ProcessUnit:GetProcess("Monitoring","RouteToZone")
+ActRouteZone:SetZone(TargetZone)
+end
+function TASK_ZONE_GOAL:GetTargetZone(TaskUnit)
+local ProcessUnit=self:GetUnitProcess(TaskUnit)
+local ActRouteZone=ProcessUnit:GetProcess("Monitoring","RouteToZone")
+return ActRouteZone:GetZone()
+end
+function TASK_ZONE_GOAL:SetGoalTotal(GoalTotal)
+self.GoalTotal=GoalTotal
+end
+function TASK_ZONE_GOAL:GetGoalTotal()
+return self.GoalTotal
+end
+function TASK_ZONE_GOAL:GetMarkInfo(TaskInfoID,TaskInfo)
+if type(TaskInfo.TaskInfoText)=="string"then
+return string.format("%s: %s",TaskInfoID,TaskInfo.TaskInfoText)
+elseif type(TaskInfo)=="table"then
+if TaskInfoID=="Coordinate"then
+end
+end
+return nil
+end
+function TASK_ZONE_GOAL:GetReportDetail(ReportGroup,TaskInfoID,TaskInfo)
+if type(TaskInfo.TaskInfoText)=="string"then
+return string.format(" - %s: %s",TaskInfoID,TaskInfo.TaskInfoText)
+elseif type(TaskInfo)=="table"then
+if TaskInfoID=="Coordinate"then
+local FromCoordinate=ReportGroup:GetUnit(1):GetCoordinate()
+local ToCoordinate=TaskInfo.TaskInfoText
+return string.format(" - %s: %s",TaskInfoID,ToCoordinate:ToString(ReportGroup:GetUnit(1),nil,self))
+else
+end
+end
+end
+end
+do
+TASK_ZONE_CAPTURE={
+ClassName="TASK_ZONE_CAPTURE",
+}
+function TASK_ZONE_CAPTURE:New(Mission,SetGroup,TaskName,ZoneGoalCoalition,TaskBriefing)
+local self=BASE:Inherit(self,TASK_ZONE_GOAL:New(Mission,SetGroup,TaskName,ZoneGoalCoalition,"CAPTURE",TaskBriefing))
+self:F()
+Mission:AddTask(self)
+self.TaskCoalition=ZoneGoalCoalition:GetCoalition()
+self.TaskCoalitionName=ZoneGoalCoalition:GetCoalitionName()
+self.TaskZoneName=ZoneGoalCoalition:GetZoneName()
+ZoneGoalCoalition:MonitorDestroyedUnits()
+self:SetBriefing(
+TaskBriefing or
+"Capture Zone "..self.TaskZoneName
+)
+self:UpdateTaskInfo()
+return self
+end
+function TASK_ZONE_CAPTURE:UpdateTaskInfo()
+local ZoneCoordinate=self.ZoneGoal:GetZone():GetCoordinate()
+self:SetInfo("Coordinate",ZoneCoordinate,0)
+self:SetInfo("Zone Name",self.ZoneGoal:GetZoneName(),10)
+self:SetInfo("Zone Coalition",self.ZoneGoal:GetCoalitionName(),11)
+end
+function TASK_ZONE_CAPTURE:ReportOrder(ReportGroup)
+local Coordinate=self:GetInfo("Coordinate")
+local Distance=ReportGroup:GetCoordinate():Get2DDistance(Coordinate)
+return Distance
+end
+function TASK_ZONE_CAPTURE:OnAfterGoal(From,Event,To,PlayerUnit,PlayerName)
+self:E({PlayerUnit=PlayerUnit})
+if self.ZoneGoal then
+if self.ZoneGoal.Goal:IsAchieved()then
+self:Success()
+local TotalContributions=self.ZoneGoal.Goal:GetTotalContributions()
+local PlayerContributions=self.ZoneGoal.Goal:GetPlayerContributions()
+self:E({TotalContributions=TotalContributions,PlayerContributions=PlayerContributions})
+for PlayerName,PlayerContribution in pairs(PlayerContributions)do
+local Scoring=self:GetScoring()
+if Scoring then
+Scoring:_AddMissionGoalScore(self.Mission,PlayerName,"Zone "..self.ZoneGoal:GetZoneName().." captured",PlayerContribution*200/TotalContributions)
+end
+end
+end
+end
+self:__Goal(-10,PlayerUnit,PlayerName)
 end
 end
 _EVENTDISPATCHER=EVENT:New()
