@@ -159,7 +159,7 @@ ctld.pickupZones = {
     { "pickzone13", "none", -1, "yes", 0 },
     { "FOB_KILO", "none", -1, "yes", 0 },
     { "GORI_RANGE_PICKUPZONE", "none", -1, "yes", 0 },
-    { "pickzone16", "none", -1, "yes", 0 },
+    { "Tblisi_railstation", "none", -1, "yes", 0 },
     { "pickzone17", "none", -1, "yes", 0 },
     { "pickzone18", "none", -1, "yes", 0 },
     { "pickzone19", "none", 5, "yes", 0 },
