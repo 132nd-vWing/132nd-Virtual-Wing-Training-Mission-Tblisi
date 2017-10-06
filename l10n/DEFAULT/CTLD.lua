@@ -152,13 +152,13 @@ ctld.pickupZones = {
     { "pickzone8", "none", -1, "yes", 0 },
     { "pickzone9", "none", -1, "yes", 0 },
     { "pickzone10", "none", 10, "yes", 2 },  -- limits pickup zone 10 to 10 groups of soldiers or vehicles, only blue can pick up
-  { "pickzone11", "none", 5, "yes", 1 }, -- limits pickup zone 9 to 5 groups of soldiers or vehicles, only red can pick up
+    { "pickzone11", "none", 5, "yes", 1 }, -- limits pickup zone 9 to 5 groups of soldiers or vehicles, only red can pick up
 
     { "pickzone11", "blue", 20, "no", 2 },  -- limits pickup zone 11 to 20 groups of soldiers or vehicles, only blue can pick up. Zone starts inactive!
     { "pickzone12", "red", 20, "no", 1 },  -- limits pickup zone 11 to 20 groups of soldiers or vehicles, only blue can pick up. Zone starts inactive!
     { "pickzone13", "none", -1, "yes", 0 },
-    { "pickzone14", "none", -1, "yes", 0 },
-    { "pickzone15", "none", -1, "yes", 0 },
+    { "FOB_KILO", "none", -1, "yes", 0 },
+    { "GORI_RANGE_PICKUPZONE", "none", -1, "yes", 0 },
     { "pickzone16", "none", -1, "yes", 0 },
     { "pickzone17", "none", -1, "yes", 0 },
     { "pickzone18", "none", -1, "yes", 0 },
