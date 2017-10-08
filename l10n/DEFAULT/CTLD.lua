@@ -171,7 +171,7 @@ ctld.pickupZones = {
 
 -- dropOffZones = {"name","smoke colour",0,side 1 = Red or 2 = Blue or 0 = Both sides}
 ctld.dropOffZones = {
-    { "LZ_HAWK_dropzone", "none", 0 },
+    { "dropzone1", "none", 0 },
     { "dropzone2", "blue", 2 },
     { "dropzone3", "orange", 2 },
     { "dropzone4", "none", 2 },
@@ -186,8 +186,8 @@ ctld.dropOffZones = {
 
 --wpZones = { "Zone name", "smoke color",  "ACTIVE (yes/no)", "side (0 = Both sides / 1 = Red / 2 = Blue )", }
 ctld.wpZones = {
-    { "wpzone1", "green","yes", 2 },
-    { "wpzone2", "blue","yes", 2 },
+    { "LZ_HAWK_dropzone", "none","yes", 0 },
+    { "wpzone2", "none","yes", 0 },
     { "wpzone3", "orange","yes", 2 },
     { "wpzone4", "none","yes", 2 },
     { "wpzone5", "none","yes", 2 },
