@@ -171,7 +171,7 @@ ctld.pickupZones = {
 
 -- dropOffZones = {"name","smoke colour",0,side 1 = Red or 2 = Blue or 0 = Both sides}
 ctld.dropOffZones = {
-    { "dropzone1", "green", 2 },
+    { "LZ_HAWK_dropzone", "none", 0 },
     { "dropzone2", "blue", 2 },
     { "dropzone3", "orange", 2 },
     { "dropzone4", "none", 2 },
