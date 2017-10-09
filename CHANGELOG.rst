@@ -2,6 +2,88 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+New
+~~~
+- Added some navpoints for targets at NOLGA and KASHUR ranges. [Neck]
+- Added Pickupzone in ME at Tblisi railstation. [Neck]
+- GORI RANGE: Added various targets and activity (JTAC related) [Neck]
+- Added CTLD pickupzone at GORI range complex and at FOB Kilo. [Neck]
+- Added M113 convoy (For JTAC) on GORI Range Complex. JTAC should not
+  use first vehicle. JTAC starts convoy by Using F10. Convoy drives to
+  the range village. Convoy can be started and stopped using F10. (JTAC
+  veichle is the 3rd veichle in the convoy.) [Neck]
+- Added navpoints for some targets at TKIBULI range. [Neck]
+- Added more targets at GORI RANGE COMPLEX. [Neck]
+- Added targets for GORI RANGE COMPLEX. [Neck]
+- Added targets at NOLGA range complex. [Neck]
+- Added veichles to the range storage at KASHURI Range. [Neck]
+- Added 3x External MI-8's at Lochini. [Neck]
+- Added 1x Ural truck for each SAM group. (So that all SAM's can get new
+  missiles if they run out of missiles). [Neck]
+- Added NOLGA Range + SA-15 at NOLGA. [Neck]
+- Added KASHURI WEST Range (Arty, + Buildings) [Neck]
+- Added Ammo crates at Railway station at TBLISI for sling load to SOF
+  FOB. [Neck]
+- Added Bomb cargo at Tblisi Railstation for MI-8 to slingload. [Neck]
+- Added LZ HAWK as a triggerzone, just to see it in the ME. [Neck]
+- Added SAM's to TSKHINVALI area (SA-8, SA-13 and SA-9). Plus EWR. All
+  for advanced scenario. [Neck]
+
+Changes
+~~~~~~~
+- Set blue units at TKIBULI to ROE Weapons hold (to prevent firing on
+  the aggressors) [Neck]
+- Changed LZ Hawk zone from dropzone to WP zone. [Neck]
+- Set SAM's at TSKHINVALI area to hidden on map, so they dont show up on
+  ABRIS in KA-50. [Neck]
+- Renamed 476th A-10s at VAZIANI to External A-10 #5-8 to avoid
+  confuction. [Neck]
+- Adjusted startup of advanced scenario. [Neck]
+- Adjusted RED Tanker (IL-78) tanker track and speed. Now racetrack WEST
+  of the coast. FL240, speed 390. [Neck]
+- Loaded latest CTLD file. [Neck]
+- Added MI-8 #5 and #6 to CTLD. [Neck]
+- Added 2 more external MI-8s. Now a total of 6. #5 and #6 have a German
+  skin. While 1-4 is US. [Neck]
+- Updated range targets at GORI Range complex. [Neck]
+- Added LZ's for MI'8 SOF insertions (Just to see them in the ME).
+  Placed combatants on one of the LZ's at GORI Range complex. [Neck]
+- Set SA-15 at Nolga range to AI off. [Neck]
+- Added Tblisi Railstation pickupzone in CTLD. [Neck]
+- Made Tkibuli TGT #4 and #9 destructable chg: update MOOSE to latest.
+  [132nd-Entropy]
+- Added Gori Range convoy JTAC veichle as a CTLD transport. (3rd vehicle
+  in the convoy). [Neck]
+- IN CTLD: Added GORI Range pickupzone, close to Gori Range Warehouse.
+  Added FOB KILO pickupzone. [Neck]
+- Added US SOF team 1 and 2 (FOB KILO) as extracable group in CTLD.
+  [Neck]
+- Edited CTLD (I did not do it in the last commit apperantly). Added 4x
+  external MI-8s so they can use CTLD. [Neck]
+- Edited CTLD to make the 4 external MI-8's able to use CTLD. Renamed
+  the first MI-8 external to MI-8 External #1. [Neck]
+- Make Tkibuli range Targets 1 and 7 destroyable. [132nd-Entropy]
+- Added another External MI-8 (total of 4), changed the locations for
+  MI-8's, renamed 3rd wing and 36 stormo KA-50's and Huey to External
+  AC, and changed nationality to US for all of them. [Neck]
+- Set the newly added SAM's at TSKHINVALI to AI Off, and made F10 menu
+  to turn them on/off as part of the advanced scenario. [Neck]
+
+Fix
+~~~
+- Remove external M8-s with wrong presets chg: update MOOSE to latest
+  release. [132nd-Entropy]
+
+Other
+~~~~~
+- Add: Added Dropzone for LZ Hawk in CTLD file. [Neck]
+- Add: Added dropzone for CTLD for LZ hawk. [Neck]
+- Update mose to version 2.2. [132nd-Entropy]
+
+
 3.8.1 (2017-10-02)
 ------------------
 
