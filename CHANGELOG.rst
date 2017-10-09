@@ -79,6 +79,7 @@ Fix
 
 Other
 ~~~~~
+- Release. [132nd-Entropy]
 - Add: Added Dropzone for LZ Hawk in CTLD file. [Neck]
 - Add: Added dropzone for CTLD for LZ hawk. [Neck]
 - Update mose to version 2.2. [132nd-Entropy]
