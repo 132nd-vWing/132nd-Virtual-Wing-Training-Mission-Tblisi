@@ -2,6 +2,11 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+- Added 6x Mi-8 with correct radio presets. [132nd-Entropy]
+
+
 3.8.3 (2017-10-09)
 ------------------
 
