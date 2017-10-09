@@ -2,8 +2,16 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+3.8.3 (2017-10-09)
+------------------
+
+Fix
+~~~
+- Revert Moose update (server crash) [132nd-etcher]
+
+
+3.8.2 (2017-10-09)
+------------------
 
 New
 ~~~
