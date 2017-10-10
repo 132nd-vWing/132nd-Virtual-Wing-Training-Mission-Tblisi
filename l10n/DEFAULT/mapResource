@@ -1,6 +1,5 @@
 mapResource = 
 {
-    [""] = "Entropy_TMT_v10_5.lua",
     ["ResKey_Action_1851"] = "beep_beep.ogg",
     ["ResKey_Action_2342"] = "beacon.ogg",
     ["ResKey_Action_2343"] = "beaconsilent.ogg",
@@ -12,8 +11,8 @@ mapResource =
     ["ResKey_Action_3675"] = "mist.lua",
     ["ResKey_Action_3969"] = "TRTM_cargo_CTLD.lua",
     ["ResKey_Action_4126"] = "CTLD.lua",
-    ["ResKey_Action_4132"] = "TRMT.lua",
     ["ResKey_Action_4133"] = "tankers.lua",
     ["ResKey_Action_5063"] = "Moose_.lua",
+    ["ResKey_Action_5064"] = "TRMT.lua",
     ["ResKey_ImageBriefing_1821"] = "132nd_Logo_Main.png",
 } -- end of mapResource
