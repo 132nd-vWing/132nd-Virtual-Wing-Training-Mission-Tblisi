@@ -4,6 +4,14 @@ Changelog
 
 (unreleased)
 ------------
+
+Fix
+~~~
+- Update moose (this time with the correct script..) chg: change
+  external Mi-8s from NOR to USA. [132nd-Entropy]
+
+Other
+~~~~~
 - Added 6x Mi-8 with correct radio presets. [132nd-Entropy]
 
 
