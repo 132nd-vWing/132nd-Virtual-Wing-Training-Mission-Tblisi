@@ -4,6 +4,11 @@ Changelog
 
 (unreleased)
 ------------
+- MOOSE hotfix. [132nd-Entropy]
+
+
+3.9.0 (2017-10-10)
+------------------
 
 Fix
 ~~~
