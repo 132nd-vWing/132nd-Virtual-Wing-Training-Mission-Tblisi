@@ -233,7 +233,8 @@ ctld.transportPilotNames = {
   "MI-8 External #4",
   "MI-8 External #5",
   "MI-8 External #6",
-  "GORI_RANGE_CONVOY_JTAC",
+  "GORI_RANGE_CONVOY_JTAC1",
+  "GORI_RANGE_CONVOY_JTAC2",
   
   "Huey #1",
   "Huey #2",
