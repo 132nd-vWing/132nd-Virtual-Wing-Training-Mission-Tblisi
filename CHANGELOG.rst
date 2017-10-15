@@ -4,6 +4,27 @@ Changelog
 
 (unreleased)
 ------------
+
+Changes
+~~~~~~~
+- Added TSKHINVALI Range. [132nd.Neck]
+- Added second JTAC vehicle to CTLD. [132nd.Neck]
+- Changed the skins for the external MI-8's. [132nd.Neck]
+- Changed Bullseye to Kutaisi. Adjusted timing in the mission to be
+  correct for event on Sunday. Changed weather for event on Sunday.
+  [132nd.Neck]
+- Just a small fix of a radar as example for Hamster. [132nd.Neck]
+- Disabled tracking info on the missile trainer (only launch and hit)
+  chg: loaded all scripts on mission start (should facilitate testing in
+  single player) [132nd-Entropy]
+
+Other
+~~~~~
+- . [132nd-Entropy]
+
+
+3.9.1 (2017-10-10)
+------------------
 - MOOSE hotfix. [132nd-Entropy]
 
 
