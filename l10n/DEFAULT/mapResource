@@ -12,7 +12,7 @@ mapResource =
     ["ResKey_Action_3969"] = "TRTM_cargo_CTLD.lua",
     ["ResKey_Action_4126"] = "CTLD.lua",
     ["ResKey_Action_4133"] = "tankers.lua",
-    ["ResKey_Action_5063"] = "Moose_.lua",
     ["ResKey_Action_5064"] = "TRMT.lua",
+    ["ResKey_Action_5166"] = "Moose_.lua",
     ["ResKey_ImageBriefing_1821"] = "132nd_Logo_Main.png",
 } -- end of mapResource
