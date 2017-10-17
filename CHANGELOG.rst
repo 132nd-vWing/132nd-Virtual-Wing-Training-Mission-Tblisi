@@ -7,6 +7,20 @@ Changelog
 
 Changes
 ~~~~~~~
+- Update MOOSE. [132nd-Entropy]
+
+Fix
+~~~
+- Change tankerscript to prevent tankers getting stuck at Soganlug.
+  [132nd-Entropy]
+- Fixed Mi-8 presets (again) [132nd-Entropy]
+
+
+3.9.2 (2017-10-15)
+------------------
+
+Changes
+~~~~~~~
 - Added TSKHINVALI Range. [132nd.Neck]
 - Added second JTAC vehicle to CTLD. [132nd.Neck]
 - Changed the skins for the external MI-8's. [132nd.Neck]
