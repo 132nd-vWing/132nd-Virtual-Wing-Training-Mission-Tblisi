@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+3.9.3 (2017-10-17)
+------------------
 
 Changes
 ~~~~~~~
@@ -14,6 +14,16 @@ Fix
 - Change tankerscript to prevent tankers getting stuck at Soganlug.
   [132nd-Entropy]
 - Fixed Mi-8 presets (again) [132nd-Entropy]
+
+Other
+~~~~~
+- Changes ~~~~~~~ - Update MOOSE. [132nd-Entropy] [132nd-Entropy]
+
+  Fix
+  ~~~
+  - Change tankerscript to prevent tankers getting stuck at Soganlug.
+    [132nd-Entropy]
+  - Fixed Mi-8 presets (again) [132nd-Entropy]
 
 
 3.9.2 (2017-10-15)
