@@ -2,6 +2,18 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Removed Mechaniccs Mi-8 and replaced with Q's Mi-8. [132nd-Entropy]
+
+Other
+~~~~~
+- Release. [132nd-Entropy]
+
+
 3.9.3 (2017-10-17)
 ------------------
 
