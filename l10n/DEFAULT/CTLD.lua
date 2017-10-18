@@ -222,7 +222,7 @@ ctld.transportPilotNames = {
   "259th Evilivan",
   "259th Fudd",
   "259th Looney",
-  "259th Mechanic",
+  "259th Q",
   "259th Trainee",
   "259th Soganlug 1",
   "259th Soganlug 2",
