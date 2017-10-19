@@ -40,8 +40,8 @@ ctld.enableSmokeDrop = true -- if false, helis and c-130 will not be able to dro
 
 ctld.maxExtractDistance = 125 -- max distance from vehicle to troops to allow a group extraction
 ctld.maximumDistanceLogistic = 200 -- max distance from vehicle to logistics to allow a loading or spawning operation
-ctld.maximumSearchDistance = 2000 -- max distance for troops to search for enemy
-ctld.maximumMoveDistance = 30 -- max distance for troops to move from drop point if no enemy is nearby
+ctld.maximumSearchDistance = 0 -- max distance for troops to search for enemy
+ctld.maximumMoveDistance = 0 -- max distance for troops to move from drop point if no enemy is nearby
 
 ctld.numberOfTroops = 21 -- default number of troops to load on a transport heli or C-130 
               -- also works as maximum size of group that'll fit into a helicopter unless overridden
