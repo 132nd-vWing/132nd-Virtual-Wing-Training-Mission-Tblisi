@@ -14,6 +14,10 @@ Fix
 ~~~
 - Removed obsolete obstruction vehicles at Soganlug. [132nd-Entropy]
 
+Other
+~~~~~
+- Release. [132nd-Entropy]
+
 
 3.9.4 (2017-10-18)
 ------------------
