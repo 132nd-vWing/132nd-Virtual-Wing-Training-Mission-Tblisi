@@ -7,6 +7,19 @@ Changelog
 
 Changes
 ~~~~~~~
+- Troops dropped from helicopter will not run around and damage the
+  dropship. [132nd-Entropy]
+
+Fix
+~~~
+- Removed obsolete obstruction vehicles at Soganlug. [132nd-Entropy]
+
+
+3.9.4 (2017-10-18)
+------------------
+
+Changes
+~~~~~~~
 - Removed Mechaniccs Mi-8 and replaced with Q's Mi-8. [132nd-Entropy]
 
 Other
