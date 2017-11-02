@@ -16,6 +16,11 @@ Fix
 - Remove tester A10 chg: change orbit  for A10 Formation trainer from
   FL100 to FL140. [132nd-Entropy]
 
+Other
+~~~~~
+- Try the release again. [132nd-Entropy]
+- Muck around with the tag to get the build started. [132nd-Entropy]
+
 
 3.9.5 (2017-10-19)
 ------------------
