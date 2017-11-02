@@ -7,6 +7,21 @@ Changelog
 
 Changes
 ~~~~~~~
+- Set aggressor mirages, Mig21 and F5s to black skin by default chg:
+  updated standard loadout of aggressor F5 chg: update MOOSE to latest
+  chg: advanced date to current (Nov2) [132nd-Entropy]
+
+Fix
+~~~
+- Remove tester A10 chg: change orbit  for A10 Formation trainer from
+  FL100 to FL140. [132nd-Entropy]
+
+
+3.9.5 (2017-10-19)
+------------------
+
+Changes
+~~~~~~~
 - Troops dropped from helicopter will not run around and damage the
   dropship. [132nd-Entropy]
 
