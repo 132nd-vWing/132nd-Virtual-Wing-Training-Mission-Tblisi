@@ -253,6 +253,9 @@ ctld.extractableGroups = {
   "TETRA  JTAC NORTH EAST",
   "US SOF TEAM2",
   "US SOF TEAM1",
+  "DOWNED_PILOT",
+  
+  
 
     "DUSHETI_Medevac1",
     "DUSHETI_Medevac2",
