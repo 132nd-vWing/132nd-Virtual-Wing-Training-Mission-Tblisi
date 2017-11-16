@@ -477,7 +477,7 @@ do
 
   --- The list below exists so it is easy enough to switch modules on & off
   local modules_to_load = {
-    -- TRMT.MOOSE_CONFIG,
+    TRMT.MOOSE_CONFIG,
     TRMT.RANGES,
     TRMT.SUPPORT_AIRCRAFT,
     TRMT.ARK_UD,
@@ -485,7 +485,7 @@ do
     TRMT.SMOKE,
     TRMT.SAR,
     TRMT.TANKERS,
-    TRMT.CLEANUP,
+    -- TRMT.CLEANUP,
   }
 
   for _, module in ipairs( modules_to_load ) do
