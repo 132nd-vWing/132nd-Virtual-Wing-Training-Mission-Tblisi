@@ -17,8 +17,8 @@ function SetClient:OnEventEjection(EventData)
    Skinny = SPAWN:New("Skinny"):SpawnInZone(SkinnyZone,true)
    table.insert(ctld.extractableGroups, Skinny)
 
-SkinnyMenu = MENU_COALITION:New(Skinny,"radio option for Ejected pilot")
-MENU_COALITION_COMMAND:New(Skinny, "Activate Homing Beacon",SkinnyMenu,Skinnybeacon)
+SkinnyMenu = MENU_COALITION:New(coalition.side.BLUE,"radio option for Ejected pilot")
+MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Activate Homing Beacon",SkinnyMenu,Skinnybeacon)
 
 -- Let's get a reference to Skinny's RADIO
 EmergencyRadio = Skinny:GetRadio()  
