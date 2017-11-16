@@ -217,7 +217,7 @@ do -- MISSILE TRAINER
   
   TRMT.MISSILE_TRAINER.INITIALIZE = function()
     TRMT.INFO('MISSILE TRAINER: INIT: START')
-    TRMT.MISSILE_TRAINER.MISSILE_TRAINER = MISSILETRAINER:New( 450, '132nd Missile Trainer is active' )
+    TRMT.MISSILE_TRAINER.MISSILE_TRAINER = MISSILETRAINER:New( 450, 'Missile Trainer is active, ONLY if you see this message when entering an Aircraft, Missiles will be intercepted!' )
                                                          :InitMessagesOnOff       ( true  )
                                                          :InitAlertsToAll         ( true  ) 
                                                          :InitAlertsHitsOnOff     ( true  )
@@ -417,7 +417,7 @@ do -- SAR
     
     TRMT.DEBUG('SAR: spawning pilot')
     local group_details = ctld.generateTroopTypes(2, {aa=1}, 2)
-    TRMT.SAR.MANPAD = ctld.spawnDroppedGroup(TRMT.SAR.VEC3, group_details, false, 0);
+    TRMT.SAR.MANPAD = ctld.spawnDroppedGroup(TRMT.SAR.VEC3, group_details, false, 0)
     table.insert(ctld.droppedTroopsBLUE, TRMT.SAR.MANPAD:getName())
     TRMT.SAR.CTLD_TEMPLATE = GROUP:Register(group_details)
     
@@ -477,7 +477,7 @@ do
 
   --- The list below exists so it is easy enough to switch modules on & off
   local modules_to_load = {
-    TRMT.MOOSE_CONFIG,
+    -- TRMT.MOOSE_CONFIG,
     TRMT.RANGES,
     TRMT.SUPPORT_AIRCRAFT,
     TRMT.ARK_UD,

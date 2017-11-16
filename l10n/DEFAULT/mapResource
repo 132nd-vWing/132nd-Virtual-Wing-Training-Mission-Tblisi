@@ -10,12 +10,12 @@ mapResource =
     ["ResKey_Action_2496"] = "beep_beep.ogg",
     ["ResKey_Action_3675"] = "mist.lua",
     ["ResKey_Action_3969"] = "TRTM_cargo_CTLD.lua",
-    ["ResKey_Action_5064"] = "TRMT.lua",
     ["ResKey_Action_5167"] = "tankers.lua",
     ["ResKey_Action_5169"] = "CTLD.lua",
     ["ResKey_Action_5170"] = "Moose_.lua",
     ["ResKey_Action_5198"] = "RandomAirTraffic.lua",
     ["ResKey_Action_5204"] = "ejection.ogg",
     ["ResKey_Action_5205"] = "CSAR_Entropy.lua",
+    ["ResKey_Action_5212"] = "TRMT.lua",
     ["ResKey_ImageBriefing_1821"] = "132nd_Logo_Main.png",
 } -- end of mapResource
