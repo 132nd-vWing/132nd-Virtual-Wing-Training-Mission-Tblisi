@@ -5,6 +5,37 @@ Changelog
 (unreleased)
 ------------
 
+New
+~~~
+- Ejection will now trigger the broadcast of an emergency signal on
+  guard frequency (UHF) new: Ejection will now place a controllable
+  manpad unit on the location of the ejection new: the controllable
+  manpad will have the ability to create a CTLD beacon. [132nd-Entropy]
+- Added Civilian Airtraffic in Russian Airspace. [132nd-Entropy]
+- Added AJS37 Aggressor at Sukhumi. [132nd.Neck]
+
+Changes
+~~~~~~~
+- Added additional targets. [132nd.Neck]
+- Added Downed pilot as extracable group in CTLD. [132nd.Neck]
+- Adjusted the 476th range targets at Dusheti and Tianeti (oriented
+  strafe pits and foul lines 90 degrees to orient them correctly).
+  [132nd.Neck]
+
+Fix
+~~~
+- Spread out the times of script initialization chg: added Dejjvid's and
+  Q's Ka50s. [132nd-Entropy]
+- RAT correct table of excluded airports. [132nd-Entropy]
+
+Other
+~~~~~
+- . [132nd-Entropy]
+
+
+3.9.6 (2017-11-02)
+------------------
+
 Changes
 ~~~~~~~
 - Set aggressor mirages, Mig21 and F5s to black skin by default chg:
