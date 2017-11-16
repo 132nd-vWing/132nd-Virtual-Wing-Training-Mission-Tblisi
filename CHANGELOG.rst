@@ -5,6 +5,16 @@ Changelog
 (unreleased)
 ------------
 
+Changes
+~~~~~~~
+- Spawn the CSAR manpad in a random area 3000m around the location of
+  ejection chg: activation of the radio beacon no longer directly on top
+  of the CSAR manpad. [132nd-Entropy]
+
+
+3.9.7 (2017-11-16)
+------------------
+
 New
 ~~~
 - Ejection will now trigger the broadcast of an emergency signal on
