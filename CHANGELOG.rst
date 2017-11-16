@@ -11,6 +11,10 @@ Changes
   ejection chg: activation of the radio beacon no longer directly on top
   of the CSAR manpad. [132nd-Entropy]
 
+Fix
+~~~
+- Ejected pilot menu changed to coalition menu. [132nd-Entropy]
+
 
 3.9.7 (2017-11-16)
 ------------------
