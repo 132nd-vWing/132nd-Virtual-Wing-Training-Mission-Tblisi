@@ -13,6 +13,7 @@ Changes
 
 Fix
 ~~~
+- Bugfix csar. [132nd-Entropy]
 - Ejected pilot menu changed to coalition menu. [132nd-Entropy]
 
 
