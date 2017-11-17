@@ -1,4 +1,4 @@
-version: 3.9.7.{build}
+version: 4.0.0.{build}
 
 skip_branch_with_pr: false
 skip_commits:
