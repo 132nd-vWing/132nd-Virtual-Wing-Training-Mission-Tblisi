@@ -13,6 +13,7 @@ Changes
 
 Fix
 ~~~
+- Fixed ejected pilot not being transportable. [132nd-Entropy]
 - Bugfix csar. [132nd-Entropy]
 - Ejected pilot menu changed to coalition menu. [132nd-Entropy]
 
