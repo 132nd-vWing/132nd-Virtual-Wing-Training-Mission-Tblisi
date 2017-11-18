@@ -5,6 +5,14 @@ Changelog
 (unreleased)
 ------------
 
+Fix
+~~~
+- Removed Civlian Traffic ATC messages. [132nd-Entropy]
+
+
+4.0.0 (2017-11-17)
+------------------
+
 Changes
 ~~~~~~~
 - Spawn the CSAR manpad in a random area 3000m around the location of
