@@ -26,6 +26,6 @@ RussianYak:ContinueJourney()
 
 
 -- Spawn three aircraft.
+RussianYak:StatusReports(false) 
 RussianYak:Spawn(3)
 
-RAT:StatusReports(false) 
