@@ -13,6 +13,10 @@ Fix
 ~~~
 - Removed Civlian Traffic ATC messages. [132nd-Entropy]
 
+Other
+~~~~~
+- . [132nd-Entropy]
+
 
 4.0.0 (2017-11-17)
 ------------------
