@@ -4,6 +4,14 @@ Changelog
 
 (unreleased)
 ------------
+
+Fix
+~~~
+- Menus disappearing (hopefully) fix: Civillian Traffic messages off.
+  [132nd-Entropy]
+
+Other
+~~~~~
 - . [132nd-Entropy]
 
 
