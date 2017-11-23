@@ -2,8 +2,17 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+4.2.0 (2017-11-22)
+------------------
+
+Fix
+~~~
+- Menus disappearing (hopefully) fix: Civillian Traffic messages off.
+  [132nd-Entropy]
+
+Other
+~~~~~
+- . [132nd-Entropy]
 - . [132nd-Entropy]
 
 

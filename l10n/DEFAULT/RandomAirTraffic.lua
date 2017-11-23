@@ -13,7 +13,7 @@ RussianYak:SetCoalitionAircraft("red")
 RussianYak:SetCoalition("sameonly")
 
 -- Explicitly exclude Senaki from possible departures and destinations.
-RussianYak:ExcludedAirports({ "Anapa-Vityazevo" , "Krymsk" , "Novorossiysk" })
+RussianYak:ExcludedAirports({ "Anapa-Vityazevo" , "Krymsk" , "Novorossiysk" , "Kobuleti" })
 
 -- We also change the livery of these groups. If a table of liveries is given, each spawned group gets a random livery.
 RussianYak:Livery({"Georgian Airlines", "Aeroflot", "Olympic Airways", "Ukrainian" })
