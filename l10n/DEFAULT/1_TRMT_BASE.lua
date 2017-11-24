@@ -18,7 +18,7 @@ TRMT = {}
 -- > TRMT.TANKERS = {}
 -- >
 -- > TRMT.TANKERS.DEBUG = function(some_text)
--- >   TRMT.DEBUG("TANKER:", some_text
+-- >   TRMT.DEBUG("TANKER:", some_text)
 -- > end
 -- 
 -- 
