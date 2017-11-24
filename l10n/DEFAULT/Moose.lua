@@ -1,5 +1,5 @@
 env.info( '*** MOOSE STATIC INCLUDE START *** ' )
-env.info( 'Moose Generation Timestamp: 20171123_2216' )
+env.info( 'Moose Generation Timestamp: 20171124_0636' )
 MOOSE = {}
 function MOOSE.Include()
 
@@ -3996,6 +3996,8 @@ function BASE:E( Arguments )
   	end
   
   	env.info( string.format( "%6d(%6d)/%1s:%20s%05d.%s(%s)" , LineCurrent, LineFrom, "E", self.ClassName, self.ClassID, Function, routines.utils.oneLineSerialize( Arguments ) ) )
+  else
+    env.info( string.format( "%1s:%20s%05d(%s)" , "E", self.ClassName, self.ClassID, routines.utils.oneLineSerialize( Arguments ) ) )
   end
   
 end
@@ -7310,7 +7312,6 @@ do -- MENU_COALITION_COMMAND
     local CoalitionMenu = MENU_INDEX:HasCoalitionMenu( self.Coalition, Path )   
 
     if CoalitionMenu == self then
-      self:RemoveSubMenus()
       if not MenuTime or self.MenuTime ~= MenuTime then
         if ( not MenuTag ) or ( MenuTag and self.MenuTag and MenuTag == self.MenuTag ) then
           self:E( { Coalition = self.Coalition, Text = self.MenuText, Path = self.MenuPath } )
