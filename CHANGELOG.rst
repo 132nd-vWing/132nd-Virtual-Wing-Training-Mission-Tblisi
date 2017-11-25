@@ -2,6 +2,38 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Changes
+~~~~~~~
+- Reactivated Civilian Traffic and commented out Civ Traffic Status
+  messages again. [132nd-Entropy]
+- Removed submenus for Search and Rescue Tasking after they have been
+  activated. [132nd-Entropy]
+- Increased missile detonation range from 450m to 500m to prevent
+  casualties with the Missile Trainer running. [132nd-Entropy]
+
+Fix
+~~~
+- Fixed typo in the ARK-UD beacon menu. [132nd-Entropy]
+- Tanker landing at Soganlug clipping its wing during taxi. Placed an
+  Hummer to block the taxiway to prevent the colission. [132nd-Entropy]
+- Ejection sound not audible unless tuned into guard channel manually.
+  Fixed this by played the emergency sound now to the Blue coalition
+  regardless of radio settings. [132nd-Entropy]
+
+Other
+~~~~~
+- Release Master. [132nd-Entropy]
+- New moose lua from Sven, for debugging the menu issue. [132nd-Entropy]
+- Received new moose.lua from Sven, this one contains debugging
+  information to trace the problem with the disappearing menus. [132nd-
+  Entropy]
+- Roll back moose and take out RAT script for now. [132nd-Entropy]
+- Create 1_TRMT_BASE.lua. [132nd-etcher]
+
+
 4.2.0 (2017-11-22)
 ------------------
 
