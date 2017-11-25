@@ -295,12 +295,13 @@ do -- SAR
     TRMT.DEBUG('SAR: spawning smoke')
     trigger.action.smoke(TRMT.SAR.VEC3,SMOKECOLOR.Green)
     MESSAGE:New( 'Green smoke on the deck at downed pilot location', 7):ToBlue()
+    SARsmokeMenu:Remove()
   end
   
   TRMT.SAR.SPAWN_HELO = function()
     TRMT.DEBUG('SAR: RESCUE HELO: start')
     MESSAGE:New( 'Search and Rescue Helicopter starting up from FARP MARNUELI, we are inbound the crashsite', 7):ToBlue()
-    
+    SARdispatchMenu:Remove()
     TRMT.DEBUG('SAR: RESCUE HELO: destroying dummy')
     GROUP:FindByName(TRMT.SAR.DUMMY_HELO_GROUP_NAME):Destroy()
     
@@ -337,6 +338,7 @@ do -- SAR
   end
   
   TRMT.SAR.SPAWN_HOSTILES = function()
+    SARhostilesMenu:Remove()
     TRMT.DEBUG('SAR: HOSTILES: start')
     TRMT.SAR.HOSTILES.INNER1  = ZONE_RADIUS:New('innercircle',  TRMT.SAR.VEC2, 1000)
     TRMT.SAR.HOSTILES.INNER2 = ZONE_RADIUS:New('innercircle2', TRMT.SAR.VEC2, 600)
@@ -428,6 +430,7 @@ do -- SAR
     TRMT.SAR.ZONE = ZONE_RADIUS:New('SARzone', TRMT.SAR.VEC2, 200)
     
     TRMT.INFO('SAR: started')
+    SARactivationMenu:Remove()
   end
   
   TRMT.SAR.INITIALIZE = function()
@@ -439,10 +442,10 @@ do -- SAR
       table.insert( TRMT.SAR.ZONES, ZONE:New( 'SAR'..i ))
     end
     
-    MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Activate Crashsite', TRMT.SAR.MENU, TRMT.SAR.START )
-    MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Dispatch Rescue Helicopter from FARP MARNUELI', TRMT.SAR.MENU, TRMT.SAR.SPAWN_HELO )
-    MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Request Smoke on the Crashsite', TRMT.SAR.MENU, TRMT.SAR.SPAWN_SMOKE )
-    MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Activate Hostile Forces', TRMT.SAR.MENU, TRMT.SAR.SPAWN_HOSTILES )
+    SARactivationMenu = MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Activate Crashsite', TRMT.SAR.MENU, TRMT.SAR.START )
+    SARdispatchMenu   = MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Dispatch Rescue Helicopter from FARP MARNUELI', TRMT.SAR.MENU, TRMT.SAR.SPAWN_HELO )
+    SARsmokeMenu      = MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Request Smoke on the Crashsite', TRMT.SAR.MENU, TRMT.SAR.SPAWN_SMOKE )
+    SARhostilesMenu = MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Activate Hostile Forces', TRMT.SAR.MENU, TRMT.SAR.SPAWN_HOSTILES )
   
     TRMT.INFO('SAR: INIT: DONE')  
     
