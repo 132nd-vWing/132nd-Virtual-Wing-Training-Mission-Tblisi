@@ -20,7 +20,7 @@ Fix
 - Tanker landing at Soganlug clipping its wing during taxi. Placed an
   Hummer to block the taxiway to prevent the colission. [132nd-Entropy]
 - Ejection sound not audible unless tuned into guard channel manually.
-  Fixed this by played the emergency sound now to the Blue coalition
+  Fixed this by playing the emergency sound now to the Blue coalition
   regardless of radio settings. [132nd-Entropy]
 
 Other
