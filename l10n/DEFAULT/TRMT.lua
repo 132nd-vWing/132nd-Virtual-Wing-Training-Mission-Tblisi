@@ -194,7 +194,7 @@ do -- ARK UD
     {text='Activate Ark-UD at TIANETI',    flag=12},
     {text='Activate Ark-UD at TETRA',      flag=13},
     {text='Activate Ark-UD at MARNUELI',   flag=14},
-    {text='Activate Ark-UD at MARNUELI',   flag=15},
+    {text='Activate Ark-UD at Lochini Airport',   flag=15},
     {text='Deactivate all Ark-UD Beacons', flag=16},
   }
   
