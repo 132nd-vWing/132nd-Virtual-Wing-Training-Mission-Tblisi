@@ -266,6 +266,7 @@ Controller.setCommand(group, {id = 'SetCallsign', params = {callname = callsign,
     ["DictKey_ActionRadioText_4949"] = "Stop moving",
     ["DictKey_ActionRadioText_4970"] = "IED explosion EAST ",
     ["DictKey_ActionRadioText_5035"] = "IED explosion WEST ",
+    ["DictKey_ActionRadioText_5236"] = "test beacon",
     ["DictKey_ActionText_913"] = "--RESPAWN SCRIPT; MISSION START -> DO SCRIPT\
 local groupName = 'Tanker Texaco' -- Name of the group in the ME\
 local lowFuelThreshold = 0.08 -- RTB when less then this amount of fuel\
@@ -897,6 +898,8 @@ end ",
     ["DictKey_ActionText_5208"] = "Logistics Missions Initialized",
     ["DictKey_ActionText_5209"] = "Civilian Air Traffic Loaded",
     ["DictKey_ActionText_5210"] = "Ejection Seat Armed",
+    ["DictKey_ActionText_5237"] = "trigger.action.outSoundForCoalition(coalition.side.BLUE, 'ejection.ogg')",
+    ["DictKey_ActionText_5242"] = "testing",
     ["DictKey_GroupName_132"] = "Beslan Helicopter ",
     ["DictKey_GroupName_134"] = "__RESPAWN__Beslan foot patrol",
     ["DictKey_GroupName_138"] = "__RESPAWN__Beslan BTR group",
