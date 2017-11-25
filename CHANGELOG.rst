@@ -4,6 +4,9 @@ Changelog
 
 (unreleased)
 ------------
+- Release. [132nd-Entropy]
+- . [132nd-Entropy]
+- Fix forgot to activate Civ Traffic. [132nd-Entropy]
 - Update CHANGELOG.rst. [132nd-Entropy]
 
 
