@@ -45275,7 +45275,7 @@ function RAT:_ATCClearForLanding(airport, flight)
   local text1=string.format("ATC %s: Flight %s cleared for landing (flag=%d).", airport, flight, flagvalue)
   local text2=string.format("ATC %s: Flight %s you are cleared for landing.", airport, flight)
   env.info( RAT.id..text1)
-  MESSAGE:New(text2, 10):ToAll()
+  --MESSAGE:New(text2, 10):ToAll()
 end
 
 --- Takes care of organisational stuff after a plane has landed.
@@ -45319,7 +45319,7 @@ function RAT:_ATCFlightLanded(name)
     env.info(RAT.id..text1)
     env.info(RAT.id..text2)
     env.info(RAT.id..text3)
-    MESSAGE:New(text4, 10):ToAll()
+    --MESSAGE:New(text4, 10):ToAll()
   end
   
 end
