@@ -217,7 +217,7 @@ do -- MISSILE TRAINER
   
   TRMT.MISSILE_TRAINER.INITIALIZE = function()
     TRMT.INFO('MISSILE TRAINER: INIT: START')
-    TRMT.MISSILE_TRAINER.MISSILE_TRAINER = MISSILETRAINER:New( 450, 'Missile Trainer is active, ONLY if you see this message when entering an Aircraft, Missiles will be intercepted!' )
+    TRMT.MISSILE_TRAINER.MISSILE_TRAINER = MISSILETRAINER:New( 500, 'Missile Trainer is active, ONLY if you see this message when entering an Aircraft, Missiles will be intercepted!' )
                                                          :InitMessagesOnOff       ( true  )
                                                          :InitAlertsToAll         ( true  ) 
                                                          :InitAlertsHitsOnOff     ( true  )
