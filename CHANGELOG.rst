@@ -4,6 +4,10 @@ Changelog
 
 (unreleased)
 ------------
+- Delete 1_TRMT_BASE.lua. [132nd-etcher]
+
+  Why on Earth is there a "1_TRMT_BASE.lua" file in the master branch ???
+- Working on base class system. [132nd-etcher]
 - Release. [132nd-Entropy]
 - . [132nd-Entropy]
 - Fix forgot to activate Civ Traffic. [132nd-Entropy]
