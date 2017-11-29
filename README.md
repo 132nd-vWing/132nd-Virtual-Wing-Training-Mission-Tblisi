@@ -7,13 +7,10 @@ This mission is designed for conducting all sort of training within the 132nd Vi
 
 There are 4 ranges in the vicinity of Tblisi: Marnueli range, Tetra range, Dusheti range and Tianeti range. All ranges are close to Tblisi TMA, see full briefing for map overview of Tblisi TMA and range airspace.
 
-<<<<<<< HEAD
 ## Development
 
 An overview of the development process for this repository can be found on [ZenHub](https://app.zenhub.com/workspace/o/132nd-vwing/132nd-virtual-wing-training-mission-tblisi/boards?repos=79440118,91231932) (a Github account is needed view it).
 
-=======
->>>>>>> 284722f... chg: updated README !minor
 ## Content
 * [Features](#features)
     * [DAWS Weather](#daws-weather)
@@ -168,7 +165,7 @@ The latest stable version can be found on the [release page](https://github.com/
 
 Every change triggers an automated build of the MIZ file. Be aware that this build may be unstable; it exists only for testing and debugging purpose.
 
-Latest build artifact can be downloaded from (Appveyor)[https://ci.appveyor.com/project/132nd-VirtualWing/132nd-virtual-wing-training-mission-tblisi/build/artifacts]
+Latest build artifact can be downloaded from [Appveyor](https://ci.appveyor.com/project/132nd-VirtualWing/132nd-virtual-wing-training-mission-tblisi/build/artifacts)
 
 ## Credits
 
