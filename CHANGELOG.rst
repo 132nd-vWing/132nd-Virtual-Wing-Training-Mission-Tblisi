@@ -4,6 +4,7 @@ Changelog
 
 (unreleased)
 ------------
+- Fix README.md. [132nd-etcher]
 - Delete 1_TRMT_BASE.lua. [132nd-etcher]
 
   Why on Earth is there a "1_TRMT_BASE.lua" file in the master branch ???
