@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+4.3.1 (2017-12-04)
+------------------
 - Fix README.md. [132nd-etcher]
 - Delete 1_TRMT_BASE.lua. [132nd-etcher]
 
