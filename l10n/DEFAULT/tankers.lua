@@ -155,7 +155,9 @@ function _TANKER.Tanker:New( group )
                             self:ClearTasks()
                             self:RouteRTB()
                             self.rtb_scheduler:Stop()
-                            self:remove_debug_menu()
+                            if self.remove_debug_menu ~= nil then
+                              self:remove_debug_menu()
+                            end
                         end
                     end
                 end,
