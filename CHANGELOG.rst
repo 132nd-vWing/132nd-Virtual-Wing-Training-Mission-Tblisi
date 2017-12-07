@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+4.3.5 (2017-12-07)
+------------------
+
+Fix
+~~~
+- Fix stupid mistake I made a while back. [132nd-etcher]
+
+
 4.3.4 (2017-12-07)
 ------------------
 
