@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+
+Fix
+~~~
+- Random Air Traffic (etcher) [132nd-Entropy]
+
+
 4.3.5 (2017-12-07)
 ------------------
 
