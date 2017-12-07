@@ -459,7 +459,7 @@ do -- MOOSE CONFIG
     TRMT.INFO('MOOSE CONFIG: INIT: START')
 --    TRMT.DEBUG_MENU = MENU_COALITION:New( coalition.side.BLUE, 'DEBUG')
     BASE:TraceOnOff( false )
-    debug = false
+    -- debug = false
   --  BASE.E = function(arguments) end
     TRMT.INFO('MOOSE CONFIG: INIT: DONE')
   end
