@@ -2,8 +2,18 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+4.3.4 (2017-12-07)
+------------------
+
+Changes
+~~~~~~~
+- Auto-version. [132nd-etcher]
+
+  No need to update appveyor.yml anymore, just push tags when new version is ready
+
+
+4.3.2 (2017-12-07)
+------------------
 
 Fix
 ~~~
