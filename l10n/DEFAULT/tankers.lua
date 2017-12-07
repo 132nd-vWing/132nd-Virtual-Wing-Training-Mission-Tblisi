@@ -167,10 +167,16 @@ function _TANKER.Tanker:New( group )
                     self:Debug('I am so tired...')
                     if self and self:IsAlive() then
                         local velocity = self:GetUnit(1):GetVelocity()
-                        local total_speed = math.abs(velocity.x) + math.abs(velocity.y) + math.abs(velocity.z)
-                        if total_speed < 3 then -- increased from 1 
-                            self:Debug('Goodbye, cruel world !')
-                            self:Destroy()
+                        if velocity ~= nil then
+                          if velocity.x ~= nil and velocity.y ~= nil and velocity.z ~= nil then
+                            if type(velocity.x) == 'number' and type(velocity.y) == 'number' and type(velocity.z) == 'number' then
+                              local total_speed = math.abs(velocity.x) + math.abs(velocity.y) + math.abs(velocity.z)
+                              if total_speed < 3 then -- increased from 1 
+                                  self:Debug('Goodbye, cruel world !')
+                                  self:Destroy()
+                              end
+                            end
+                          end
                         end
                     end
                 end,
