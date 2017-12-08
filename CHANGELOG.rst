@@ -45,10 +45,6 @@ Fix
 - Fix removal of debug menu. [132nd-etcher]
 - Fix tankers not being destroyed after they stop. [132nd-etcher]
 
-Other
-~~~~~
-- . [132nd-Entropy]
-
 
 4.3.1 (2017-12-04)
 ------------------
