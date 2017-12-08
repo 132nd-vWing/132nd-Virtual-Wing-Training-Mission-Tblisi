@@ -16,6 +16,6 @@ mapResource =
     ["ResKey_Action_5230"] = "RandomAirTraffic.lua",
     ["ResKey_Action_5253"] = "CSAR_Entropy.lua",
     ["ResKey_Action_5263"] = "TRMT.lua",
-    ["ResKey_Action_5264"] = "Moose.lua",
+    ["ResKey_Action_5264"] = "Moose_.lua",
     ["ResKey_ImageBriefing_1821"] = "132nd_Logo_Main.png",
 } -- end of mapResource
