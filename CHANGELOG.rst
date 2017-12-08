@@ -7,6 +7,15 @@ Changelog
 
 Fix
 ~~~
+- Update moose to latest, including all fixes to RAT and Menus. [132nd-
+  Entropy]
+
+
+4.3.6 (2017-12-07)
+------------------
+
+Fix
+~~~
 - Random Air Traffic (etcher) [132nd-Entropy]
 
 
