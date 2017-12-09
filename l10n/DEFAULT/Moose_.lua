@@ -1,5 +1,5 @@
 env.info('*** MOOSE STATIC INCLUDE START *** ')
-env.info('Moose Generation Timestamp: 20171207_1853')
+env.info('Moose Generation Timestamp: 20171209_1329')
 MOOSE={}
 function MOOSE.Include()
 end
@@ -2068,6 +2068,7 @@ ClassID=0,
 Events={},
 States={},
 Debug=debug,
+Scheduler=nil,
 }
 BASE.__={}
 BASE._={
@@ -2240,9 +2241,12 @@ self:T3({...})
 local ObjectName="-"
 ObjectName=self.ClassName..self.ClassID
 self:F3({"ScheduleOnce: ",ObjectName,Start})
-self.SchedulerObject=self
+if not self.Scheduler then
+self.Scheduler=SCHEDULER:New(self)
+end
+self.Scheduler.SchedulerObject=self.Scheduler
 local ScheduleID=_SCHEDULEDISPATCHER:AddSchedule(
-self,
+self.Scheduler,
 SchedulerFunction,
 {...},
 Start,
@@ -2259,9 +2263,12 @@ self:T3({...})
 local ObjectName="-"
 ObjectName=self.ClassName..self.ClassID
 self:F3({"ScheduleRepeat: ",ObjectName,Start,Repeat,RandomizeFactor,Stop})
-self.SchedulerObject=self
+if not self.Scheduler then
+self.Scheduler=SCHEDULER:New(self)
+end
+self.Scheduler.SchedulerObject=self.Scheduler
 local ScheduleID=_SCHEDULEDISPATCHER:AddSchedule(
-self,
+self.Scheduler,
 SchedulerFunction,
 {...},
 Start,
@@ -2274,7 +2281,7 @@ return self._.Schedules[#self._.Schedules]
 end
 function BASE:ScheduleStop(SchedulerFunction)
 self:F3({"ScheduleStop:"})
-_SCHEDULEDISPATCHER:Stop(self,self._.Schedules[SchedulerFunction])
+_SCHEDULEDISPATCHER:Stop(self.Scheduler,self._.Schedules[SchedulerFunction])
 end
 end
 function BASE:SetState(Object,Key,Value)
@@ -2620,7 +2627,6 @@ self.Schedule[Scheduler][CallID].Randomize=Randomize or 0
 self.Schedule[Scheduler][CallID].Stop=Stop
 self:T3(self.Schedule[Scheduler][CallID])
 self.Schedule[Scheduler][CallID].CallHandler=function(CallID)
-self:F2(CallID)
 local ErrorHandler=function(errmsg)
 env.info("Error in timer function: "..errmsg)
 if BASE.Debug~=nil then
@@ -2635,7 +2641,7 @@ end
 if Scheduler then
 local MasterObject=tostring(Scheduler.MasterObject)
 local Schedule=self.Schedule[Scheduler][CallID]
-local ScheduleObject=Scheduler.SchedulerObject
+local SchedulerObject=Scheduler.SchedulerObject
 local ScheduleFunction=Schedule.Function
 local ScheduleArguments=Schedule.Arguments
 local Start=Schedule.Start
@@ -2644,9 +2650,9 @@ local Randomize=Schedule.Randomize or 0
 local Stop=Schedule.Stop or 0
 local ScheduleID=Schedule.ScheduleID
 local Status,Result
-if ScheduleObject then
+if SchedulerObject then
 local function Timer()
-return ScheduleFunction(ScheduleObject,unpack(ScheduleArguments))
+return ScheduleFunction(SchedulerObject,unpack(ScheduleArguments))
 end
 Status,Result=xpcall(Timer,ErrorHandler)
 else
@@ -9251,6 +9257,7 @@ else
 error("SPAWN:New: There is no group declared in the mission editor with SpawnTemplatePrefix = '"..SpawnTemplatePrefix.."'")
 end
 self:SetEventPriority(5)
+self.SpawnHookScheduler=SCHEDULER:New(nil)
 return self
 end
 function SPAWN:NewWithAlias(SpawnTemplatePrefix,SpawnAliasPrefix)
@@ -9282,6 +9289,7 @@ else
 error("SPAWN:New: There is no group declared in the mission editor with SpawnTemplatePrefix = '"..SpawnTemplatePrefix.."'")
 end
 self:SetEventPriority(5)
+self.SpawnHookScheduler=SCHEDULER:New(nil)
 return self
 end
 function SPAWN:InitLimit(SpawnMaxUnitsAlive,SpawnMaxGroups)
@@ -9545,7 +9553,6 @@ SpawnGroup:SetAIOnOff(self.AIOnOff)
 end
 self:T3(SpawnTemplate.name)
 if self.SpawnFunctionHook then
-self.SpawnHookScheduler=SCHEDULER:New()
 self.SpawnHookScheduler:Schedule(nil,self.SpawnFunctionHook,{self.SpawnGroups[self.SpawnIndex].Group,unpack(self.SpawnFunctionArguments)},0.1)
 end
 end
@@ -10022,6 +10029,7 @@ function SPAWN:_GetSpawnIndex(SpawnIndex)
 self:F2({self.SpawnTemplatePrefix,SpawnIndex,self.SpawnMaxGroups,self.SpawnMaxUnitsAlive,self.AliveUnits,#self.SpawnTemplate.units})
 if(self.SpawnMaxGroups==0)or(SpawnIndex<=self.SpawnMaxGroups)then
 if(self.SpawnMaxUnitsAlive==0)or(self.AliveUnits+#self.SpawnTemplate.units<=self.SpawnMaxUnitsAlive)or self.UnControlled==true then
+self:F({SpawnCount=self.SpawnCount,SpawnIndex=SpawnIndex})
 if SpawnIndex and SpawnIndex>=self.SpawnCount+1 then
 self.SpawnCount=self.SpawnCount+1
 SpawnIndex=self.SpawnCount
@@ -11683,7 +11691,6 @@ WayPointFunctions={},
 }
 function CONTROLLABLE:New(ControllableName)
 local self=BASE:Inherit(self,POSITIONABLE:New(ControllableName))
-self:F2(ControllableName)
 self.ControllableName=ControllableName
 self.TaskScheduler=SCHEDULER:New(self)
 return self
@@ -13036,8 +13043,8 @@ self:SetEventPriority(4)
 return self
 end
 function GROUP:Register(GroupName)
-self=BASE:Inherit(self,CONTROLLABLE:New(GroupName))
-self:F2(GroupName)
+local self=BASE:Inherit(self,CONTROLLABLE:New(GroupName))
+self:F(GroupName)
 self.GroupName=GroupName
 self:SetEventPriority(4)
 return self
