@@ -212,24 +212,24 @@ do -- ARK UD
   end
 end -- ARK UD
 
-do -- MISSILE TRAINER
-  TRMT.MISSILE_TRAINER = {}
-  
-  TRMT.MISSILE_TRAINER.INITIALIZE = function()
-    TRMT.INFO('MISSILE TRAINER: INIT: START')
-    TRMT.MISSILE_TRAINER.MISSILE_TRAINER = MISSILETRAINER:New( 500, 'Missile Trainer is active, ONLY if you see this message when entering an Aircraft, Missiles will be intercepted!' )
-                                                         :InitMessagesOnOff       ( true  )
-                                                         :InitAlertsToAll         ( true  ) 
-                                                         :InitAlertsHitsOnOff     ( true  )
-                                                         :InitAlertsLaunchesOnOff ( true  )
-                                                         :InitBearingOnOff        ( false )
-                                                         :InitRangeOnOff          ( false )
-                                                         :InitTrackingOnOff       ( false )
-                                                         :InitTrackingToAll       ( false  )
-                                                         :InitMenusOnOff          ( false )
-    TRMT.INFO('MISSILE TRAINER: INIT: DONE')
-  end
-end -- MISSILE TRAINER
+--do -- MISSILE TRAINER
+--  TRMT.MISSILE_TRAINER = {}
+--  
+--  TRMT.MISSILE_TRAINER.INITIALIZE = function()
+--    TRMT.INFO('MISSILE TRAINER: INIT: START')
+--    TRMT.MISSILE_TRAINER.MISSILE_TRAINER = MISSILETRAINER:New( 500, 'Missile Trainer is active, ONLY if you see this message when entering an Aircraft, Missiles will be intercepted!' )
+--                                                         :InitMessagesOnOff       ( true  )
+--                                                         :InitAlertsToAll         ( true  ) 
+--                                                         :InitAlertsHitsOnOff     ( true  )
+--                                                         :InitAlertsLaunchesOnOff ( true  )
+--                                                         :InitBearingOnOff        ( false )
+--                                                         :InitRangeOnOff          ( false )
+--                                                         :InitTrackingOnOff       ( false )
+--                                                         :InitTrackingToAll       ( false  )
+--                                                         :InitMenusOnOff          ( false )
+--    TRMT.INFO('MISSILE TRAINER: INIT: DONE')
+--  end
+--end -- MISSILE TRAINER
 
 do -- SMOKES 
 TRMT.SMOKE = {
@@ -484,7 +484,7 @@ do
     TRMT.RANGES,
     TRMT.SUPPORT_AIRCRAFT,
     TRMT.ARK_UD,
-    TRMT.MISSILE_TRAINER,
+    -- TRMT.MISSILE_TRAINER,
     TRMT.SMOKE,
     TRMT.SAR,
     TRMT.TANKERS,

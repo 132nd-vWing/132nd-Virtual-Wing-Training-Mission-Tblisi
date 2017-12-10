@@ -900,6 +900,19 @@ end ",
     ["DictKey_ActionText_5210"] = "Ejection Seat Armed",
     ["DictKey_ActionText_5237"] = "trigger.action.outSoundForCoalition(coalition.side.BLUE, 'ejection.ogg')",
     ["DictKey_ActionText_5242"] = "testing",
+    ["DictKey_ActionText_5269"] = "MISSILETRAINER:New( 500, 'Missile Trainer is active, ONLY if you see this message when entering an Aircraft, Missiles will be intercepted!' )\
+                                                         :InitMessagesOnOff       ( true  )\
+                                                         :InitAlertsToAll         ( true  ) \
+                                                         :InitAlertsHitsOnOff     ( true  )\
+                                                         :InitAlertsLaunchesOnOff ( true  )\
+                                                         :InitBearingOnOff        ( false )\
+                                                         :InitRangeOnOff          ( false )\
+                                                         :InitTrackingOnOff       ( false )\
+                                                         :InitTrackingToAll       ( false  )\
+                                                         :InitMenusOnOff          ( false )",
+    ["DictKey_ActionText_5274"] = "",
+    ["DictKey_ActionText_5281"] = "",
+    ["DictKey_ActionText_5282"] = "",
     ["DictKey_GroupName_132"] = "Beslan Helicopter ",
     ["DictKey_GroupName_134"] = "__RESPAWN__Beslan foot patrol",
     ["DictKey_GroupName_138"] = "__RESPAWN__Beslan BTR group",
