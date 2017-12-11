@@ -1,5 +1,5 @@
 env.info('*** MOOSE STATIC INCLUDE START *** ')
-env.info('Moose Generation Timestamp: 20171211_1109')
+env.info('Moose Generation Timestamp: 20171211_1333')
 MOOSE={}
 function MOOSE.Include()
 end
@@ -2114,12 +2114,9 @@ local Parent
 if Child.ClassName=='BASE'then
 Parent=nil
 else
-self:E({FromClass=FromClass})
-self:E({Child=Child.ClassName})
 if FromClass then
 while(Child.ClassName~="BASE"and Child.ClassName~=FromClass.ClassName)do
 Child=getParent(Child)
-self:E({Child.ClassName})
 end
 end
 if Child.ClassName=='BASE'then
@@ -2128,7 +2125,6 @@ else
 Parent=getParent(Child)
 end
 end
-self:E({Parent.ClassName})
 return Parent
 end
 function BASE:IsInstanceOf(ClassName)
@@ -5710,7 +5706,7 @@ AliveSet:Add(GroupName,GroupObject)
 end
 end
 end
-return AliveSet
+return AliveSet.Set or{}
 end
 function SET_GROUP:AddGroupsByName(AddGroupNames)
 local AddGroupNamesArray=(type(AddGroupNames)=="table")and AddGroupNames or{AddGroupNames}
@@ -18550,7 +18546,7 @@ DetectedItem.Changes=DetectedItem.Changes or{}
 DetectedItem.Changes[ChangeCode]=DetectedItem.Changes[ChangeCode]or{}
 DetectedItem.Changes[ChangeCode].ID=ID
 DetectedItem.Changes[ChangeCode].ItemUnitType=ItemUnitType
-self:E({"Change on Detection Item:",DetectedItem.ID,ChangeCode,ItemUnitType})
+self:E({"Change on Detected Item:",DetectedItemID=DetectedItem.ID,ChangeCode=ChangeCode,ItemUnitType=ItemUnitType})
 return self
 end
 function DETECTION_BASE:AddChangeUnit(DetectedItem,ChangeCode,ChangeUnitType)
@@ -18561,7 +18557,7 @@ DetectedItem.Changes[ChangeCode]=DetectedItem.Changes[ChangeCode]or{}
 DetectedItem.Changes[ChangeCode][ChangeUnitType]=DetectedItem.Changes[ChangeCode][ChangeUnitType]or 0
 DetectedItem.Changes[ChangeCode][ChangeUnitType]=DetectedItem.Changes[ChangeCode][ChangeUnitType]+1
 DetectedItem.Changes[ChangeCode].ID=ID
-self:E({"Change on Detection Item:",DetectedItem.ID,ChangeCode,ChangeUnitType})
+self:E({"Change on Detected Unit:",DetectedItemID=DetectedItem.ID,ChangeCode=ChangeCode,ChangeUnitType=ChangeUnitType})
 return self
 end
 end
@@ -23892,9 +23888,7 @@ return CapCount
 end
 function AI_A2A_DISPATCHER:CountDefendersEngaged(AttackerDetection)
 local DefenderCount=0
-self:E("Counting Defenders Engaged for Attacker:")
 local DetectedSet=AttackerDetection.Set
-DetectedSet:Flush()
 local DefenderTasks=self:GetDefenderTasks()
 for DefenderGroup,DefenderTask in pairs(DefenderTasks)do
 local Defender=DefenderGroup
@@ -26255,7 +26249,7 @@ return self.Tasks[TaskName]
 end
 function MISSION:AddTask(Task)
 local TaskName=Task:GetTaskName()
-self:F(TaskName)
+self:E({"==> Adding TASK ",MissionName=self:GetName(),TaskName=TaskName})
 self.Tasks[TaskName]=self.Tasks[TaskName]or{n=0}
 self.Tasks[TaskName]=Task
 self:GetCommandCenter():SetMenu()
@@ -26263,6 +26257,7 @@ return Task
 end
 function MISSION:RemoveTask(Task)
 local TaskName=Task:GetTaskName()
+self:E({"<== Removing TASK ",MissionName=self:GetName(),TaskName=TaskName})
 self:F(TaskName)
 self.Tasks[TaskName]=self.Tasks[TaskName]or{n=0}
 self.Tasks[TaskName]=nil
@@ -26874,7 +26869,7 @@ self:E("Join Task menu selected")
 self:AssignToGroup(TaskGroup)
 end
 function TASK:MenuMarkToGroup(TaskGroup)
-self:E("Mark Task menu selected")
+self:F()
 self:UpdateTaskInfo()
 local Report=REPORT:New():SetIndent(0)
 local Name=self:GetName()
