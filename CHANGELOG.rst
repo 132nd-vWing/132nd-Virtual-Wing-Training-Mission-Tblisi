@@ -2,13 +2,37 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+4.3.8 (2017-12-11)
+------------------
+
+Changes
+~~~~~~~
+- Include trigger conditions in the Mission editor to turn on/off
+  scripts fix: Missile trainer working again chg: forwarded time to
+  December -> Winter Textures. [132nd-Entropy]
+
+Fix
+~~~
+- Updated moose to the latest fix: change Ejection script to also take
+  into account helicopters. [132nd-Entropy]
+
+Other
+~~~~~
+- Disable everything but moose to isolate the issue with the missile
+  script. [132nd-Entropy]
+
+
+4.3.7 (2017-12-08)
+------------------
 
 Fix
 ~~~
 - Update moose to latest, including all fixes to RAT and Menus. [132nd-
   Entropy]
+
+Other
+~~~~~
+- Fix changelog. [132nd-Entropy]
 
 
 4.3.6 (2017-12-07)
@@ -44,6 +68,10 @@ Fix
 ~~~
 - Fix removal of debug menu. [132nd-etcher]
 - Fix tankers not being destroyed after they stop. [132nd-etcher]
+
+Other
+~~~~~
+- . [132nd-Entropy]
 
 
 4.3.1 (2017-12-04)
