@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+4.3.9 (2017-12-11)
+------------------
+
+Changes
+~~~~~~~
+- Moose update with latest fixes. [132nd-Entropy]
+
+
 4.3.8 (2017-12-11)
 ------------------
 
