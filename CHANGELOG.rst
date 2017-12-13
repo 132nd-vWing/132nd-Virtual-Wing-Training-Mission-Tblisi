@@ -4,6 +4,15 @@ Changelog
 
 (unreleased)
 ------------
+
+Changes
+~~~~~~~
+- Disable RAT for debugging. [132nd-etcher]
+
+  It seems like RAT might be the source of the disappearing menus
+
+Other
+~~~~~
 - Delete test.lua. [132nd-etcher]
 
 
