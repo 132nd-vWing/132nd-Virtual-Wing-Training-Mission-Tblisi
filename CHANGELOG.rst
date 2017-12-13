@@ -2,6 +2,11 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+- Delete test.lua. [132nd-etcher]
+
+
 4.3.9 (2017-12-11)
 ------------------
 
