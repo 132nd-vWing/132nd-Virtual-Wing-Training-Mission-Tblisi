@@ -8,7 +8,7 @@ navigation=
 	},
 	["expiration_date"]=
 	{
-		["year"]=2011,
+		["year"]=2025,
 		["day"]=1,
 		["month"]=6,
 	},
