@@ -1,5 +1,5 @@
 env.info('*** MOOSE STATIC INCLUDE START *** ')
-env.info('Moose Generation Timestamp: 20171211_1333')
+env.info('Moose Generation Timestamp: 20171213_2320')
 MOOSE={}
 function MOOSE.Include()
 end
@@ -4448,7 +4448,6 @@ function ZONE_RADIUS:IsAllInZoneOfCoalition(Coalition)
 return self:CountScannedCoalitions()==1 and self:GetScannedCoalition(Coalition)==true
 end
 function ZONE_RADIUS:IsAllInZoneOfOtherCoalition(Coalition)
-self:E({Coalitions=self.Coalitions,Count=self:CountScannedCoalitions()})
 return self:CountScannedCoalitions()==1 and self:GetScannedCoalition(Coalition)==nil
 end
 function ZONE_RADIUS:IsSomeInZoneOfCoalition(Coalition)
@@ -4853,8 +4852,6 @@ end
 end
 end
 end
-self:E("Scheduling")
-PlayerCheckSchedule=SCHEDULER:New(nil,CheckPlayers,{self},1,1)
 return self
 end
 function DATABASE:FindUnit(UnitName)
@@ -5181,6 +5178,21 @@ self:AddUnit(Event.IniDCSUnitName)
 self:AddGroup(Event.IniDCSGroupName)
 end
 end
+if Event.IniObjectCategory==1 then
+Event.IniUnit=self:FindUnit(Event.IniDCSUnitName)
+Event.IniGroup=self:FindGroup(Event.IniDCSGroupName)
+local PlayerName=Event.IniUnit:GetPlayerName()
+self:E({"PlayerName:",PlayerName})
+if PlayerName~=""then
+self:E({"Player Joined:",PlayerName})
+if not self.PLAYERS[PlayerName]then
+self:AddPlayer(Event.IniUnitName,PlayerName)
+end
+local Settings=SETTINGS:Set(PlayerName)
+Settings:SetPlayerMenu(Event.IniUnit)
+MENU_INDEX:Refresh(Event.IniGroup)
+end
+end
 end
 end
 function DATABASE:_EventOnDeadOrCrash(Event)
@@ -5202,13 +5214,14 @@ self:AccountDestroys(Event)
 end
 function DATABASE:_EventOnPlayerEnterUnit(Event)
 self:F2({Event})
-if Event.IniUnit then
+if Event.IniDCSUnit then
 if Event.IniObjectCategory==1 then
 self:AddUnit(Event.IniDCSUnitName)
+Event.IniUnit=self:FindUnit(Event.IniDCSUnitName)
 self:AddGroup(Event.IniDCSGroupName)
-local PlayerName=Event.IniUnit:GetPlayerName()
+local PlayerName=Event.IniDCSUnit:getPlayerName()
 if not self.PLAYERS[PlayerName]then
-self:AddPlayer(Event.IniUnitName,PlayerName)
+self:AddPlayer(Event.IniDCSUnitName,PlayerName)
 end
 local Settings=SETTINGS:Set(PlayerName)
 Settings:SetPlayerMenu(Event.IniUnit)
@@ -5221,6 +5234,7 @@ if Event.IniUnit then
 if Event.IniObjectCategory==1 then
 local PlayerName=Event.IniUnit:GetPlayerName()
 if self.PLAYERS[PlayerName]then
+self:E({"Player Left:",PlayerName})
 local Settings=SETTINGS:Set(PlayerName)
 Settings:RemovePlayerMenu(Event.IniUnit)
 self:DeletePlayer(Event.IniUnit,PlayerName)
@@ -5558,8 +5572,6 @@ end
 self:HandleEvent(EVENTS.Birth,self._EventOnBirth)
 self:HandleEvent(EVENTS.Dead,self._EventOnDeadOrCrash)
 self:HandleEvent(EVENTS.Crash,self._EventOnDeadOrCrash)
-self:HandleEvent(EVENTS.PlayerEnterUnit,self._EventOnPlayerEnterUnit)
-self:HandleEvent(EVENTS.PlayerLeaveUnit,self._EventOnPlayerLeaveUnit)
 return self
 end
 function SET_BASE:FilterDeads()
@@ -14614,7 +14626,6 @@ self:HandleEvent(EVENTS.Dead,self._EventOnDeadOrCrash)
 self:HandleEvent(EVENTS.Crash,self._EventOnDeadOrCrash)
 self:HandleEvent(EVENTS.Hit,self._EventOnHit)
 self:HandleEvent(EVENTS.Birth)
-self:HandleEvent(EVENTS.PlayerEnterUnit)
 self:HandleEvent(EVENTS.PlayerLeaveUnit)
 self.ScoringPlayerScan=BASE:ScheduleOnce(1,
 function()
@@ -14859,10 +14870,15 @@ self:ScoreCSV(PlayerName,"","MISSION_"..MissionName:gsub(' ','_'),1,Score)
 end
 end
 end
-function SCORING:OnEventPlayerEnterUnit(Event)
+function SCORING:OnEventBirth(Event)
 if Event.IniUnit then
+if Event.IniObjectCategory==1 then
+local PlayerName=Event.IniUnit:GetPlayerName()
+if PlayerName~=""then
 self:_AddPlayerFromUnit(Event.IniUnit)
 self:SetScoringMenu(Event.IniGroup)
+end
+end
 end
 end
 function SCORING:OnEventPlayerLeaveUnit(Event)
@@ -21776,12 +21792,16 @@ end
 end
 end
 function RAT:_Despawn(group)
+if group~=nil then
 local index=self:GetSpawnIndexFromGroup(group)
+if index~=nil then
 self.ratcraft[index].group=nil
 group:Destroy()
 self.alive=self.alive-1
-if self.f10menu then
+if self.f10menu~=nil and self.SubMenuName~=nil then
 self.Menu[self.SubMenuName]["groups"][index]:Remove()
+end
+end
 end
 end
 function RAT:_Waypoint(index,Type,Coord,Speed,Altitude,Airport)

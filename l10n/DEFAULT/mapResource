@@ -14,9 +14,9 @@ mapResource =
     ["ResKey_Action_5167"] = "tankers.lua",
     ["ResKey_Action_5169"] = "CTLD.lua",
     ["ResKey_Action_5204"] = "ejection.ogg",
-    ["ResKey_Action_5230"] = "RandomAirTraffic.lua",
     ["ResKey_Action_5270"] = "TRMT.lua",
     ["ResKey_Action_5287"] = "MissileTrainer.lua",
-    ["ResKey_Action_5290"] = "Moose_.lua",
+    ["ResKey_Action_5291"] = "Moose_.lua",
+    ["ResKey_Action_5292"] = "RandomAirTraffic.lua",
     ["ResKey_ImageBriefing_1821"] = "132nd_Logo_Main.png",
 } -- end of mapResource
