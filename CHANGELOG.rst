@@ -2,8 +2,17 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+4.3.11 (2017-12-14)
+-------------------
+
+Fix
+~~~
+- Reenable Random Air Traffic fix: update Moose with menu fix. [132nd-
+  Entropy]
+
+
+4.3.10 (2017-12-13)
+-------------------
 
 Changes
 ~~~~~~~
