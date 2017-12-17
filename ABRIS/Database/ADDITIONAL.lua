@@ -8,7 +8,7 @@ additional=
 	},
 	["expiration_date"]=
 	{
-		["year"]=2012,
+		["year"]=2025,
 		["day"]=1,
 		["month"]=6,
 	},

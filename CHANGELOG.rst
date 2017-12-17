@@ -2,6 +2,29 @@ Changelog
 =========
 
 
+4.3.11 (2017-12-14)
+-------------------
+
+Fix
+~~~
+- Reenable Random Air Traffic fix: update Moose with menu fix. [132nd-
+  Entropy]
+
+
+4.3.10 (2017-12-13)
+-------------------
+
+Changes
+~~~~~~~
+- Disable RAT for debugging. [132nd-etcher]
+
+  It seems like RAT might be the source of the disappearing menus
+
+Other
+~~~~~
+- Delete test.lua. [132nd-etcher]
+
+
 4.3.9 (2017-12-11)
 ------------------
 
