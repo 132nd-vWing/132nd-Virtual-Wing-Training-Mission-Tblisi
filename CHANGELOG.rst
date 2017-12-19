@@ -2,6 +2,20 @@ Changelog
 =========
 
 
+4.3.12 (2017-12-19)
+-------------------
+
+Fix
+~~~
+- Try new prototype moose.lua from Sven. [132nd-Entropy]
+
+Other
+~~~~~
+- Re-enable Random Traffic. [132nd-Entropy]
+- Test: remove Necks menus to decrease the list of radio items. [132nd-
+  Entropy]
+
+
 4.3.11 (2017-12-14)
 -------------------
 
