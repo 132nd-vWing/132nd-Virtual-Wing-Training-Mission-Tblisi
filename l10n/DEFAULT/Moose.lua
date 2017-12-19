@@ -1,5 +1,5 @@
 env.info( '*** MOOSE STATIC INCLUDE START *** ' )
-env.info( 'Moose Generation Timestamp: 20171212_1527' )
+env.info( 'Moose Generation Timestamp: 20171218_1151' )
 MOOSE = {}
 function MOOSE.Include()
 
@@ -5792,6 +5792,7 @@ function EVENT:onEvent( Event )
 
             -- So now the EventClass must be a UNIT class!!! We check if it is still "Alive".
             if EventClass:IsAlive() or
+               Event.id == EVENTS.PlayerEnterUnit or 
                Event.id == EVENTS.Crash or 
                Event.id == EVENTS.Dead then
             
@@ -5841,6 +5842,7 @@ function EVENT:onEvent( Event )
 
               -- So now the EventClass must be a GROUP class!!! We check if it is still "Alive".
               if EventClass:IsAlive() or
+                 Event.id == EVENTS.PlayerEnterUnit or
                  Event.id == EVENTS.Crash or
                  Event.id == EVENTS.Dead then
 
@@ -6658,21 +6660,21 @@ function MENU_INDEX:ParentPath( ParentMenu, MenuText )
 
   local Path = ParentMenu and "@" .. table.concat( ParentMenu.MenuPath or {}, "@" ) or ""
   if ParentMenu then 
-    if BASE:IsInstanceOf( "MENU_GROUP" ) or BASE:IsInstanceOf( "MENU_GROUP_COMMAND" ) then
+    if ParentMenu:IsInstanceOf( "MENU_GROUP" ) or ParentMenu:IsInstanceOf( "MENU_GROUP_COMMAND" ) then
       local GroupName = ParentMenu.Group:GetName()
       if not self.Group[GroupName].Menus[Path] then
         BASE:E( { Path = Path, GroupName = GroupName } ) 
         error( "Parent path not found in menu index for group menu" )
         return nil
       end
-    elseif BASE:IsInstanceOf( "MENU_COALITION" ) or BASE:IsInstanceOf( "MENU_COALITION_COMMAND" ) then
+    elseif ParentMenu:IsInstanceOf( "MENU_COALITION" ) or ParentMenu:IsInstanceOf( "MENU_COALITION_COMMAND" ) then
       local Coalition = ParentMenu.Coalition
       if not self.Coalition[Coalition].Menus[Path] then
         BASE:E( { Path = Path, Coalition = Coalition } ) 
         error( "Parent path not found in menu index for coalition menu" )
         return nil
       end
-    elseif BASE:IsInstanceOf( "MENU_MISSION" ) or BASE:IsInstanceOf( "MENU_MISSION_COMMAND" ) then
+    elseif ParentMenu:IsInstanceOf( "MENU_MISSION" ) or ParentMenu:IsInstanceOf( "MENU_MISSION_COMMAND" ) then
       if not self.MenuMission.Menus[Path] then
         BASE:E( { Path = Path } )
         error( "Parent path not found in menu index for mission menu" )
@@ -9785,6 +9787,7 @@ function DATABASE:_EventOnBirth( Event )
     end
     if Event.IniObjectCategory == 1 then
       Event.IniUnit = self:FindUnit( Event.IniDCSUnitName )
+      Event.IniGroup = self:FindGroup( Event.IniDCSGroupName )
       local PlayerName = Event.IniUnit:GetPlayerName()
       self:E( { "PlayerName:", PlayerName } )
       if PlayerName ~= "" then
@@ -9794,6 +9797,7 @@ function DATABASE:_EventOnBirth( Event )
         end
         local Settings = SETTINGS:Set( PlayerName )
         Settings:SetPlayerMenu( Event.IniUnit )
+        --MENU_INDEX:Refresh( Event.IniGroup )
       end
     end
   end
@@ -9858,7 +9862,7 @@ function DATABASE:_EventOnPlayerLeaveUnit( Event )
       if self.PLAYERS[PlayerName] then
         self:E( { "Player Left:", PlayerName } )
         local Settings = SETTINGS:Set( PlayerName )
-        --Settings:RemovePlayerMenu( Event.IniUnit )
+        Settings:RemovePlayerMenu( Event.IniUnit )
         self:DeletePlayer( Event.IniUnit, PlayerName )
       end
     end
@@ -10399,35 +10403,6 @@ function SET_BASE:GetSetObjects()  -- R2.3
 end
 
 
---- Adds a @{Base#BASE} object in the @{Set#SET_BASE}, using a given ObjectName as the index.
--- @param #SET_BASE self
--- @param #string ObjectName
--- @param Core.Base#BASE Object
--- @return Core.Base#BASE The added BASE Object.
-function SET_BASE:Add( ObjectName, Object )
-  self:F( ObjectName )
-
-  if not self.Set[ObjectName] then
-    self.Set[ObjectName] = Object
-    table.insert( self.Index, ObjectName )
-  end
-end
-
---- Adds a @{Base#BASE} object in the @{Set#SET_BASE}, using the Object Name as the index.
--- @param #SET_BASE self
--- @param Wrapper.Object#OBJECT Object
--- @return Core.Base#BASE The added BASE Object.
-function SET_BASE:AddObject( Object )
-  self:F2( Object.ObjectName )
-  
-  self:T( Object.UnitName )
-  self:T( Object.ObjectName )
-  self:Add( Object.ObjectName, Object )
-  
-end
-
-
-
 --- Removes a @{Base#BASE} object from the @{Set#SET_BASE} and derived classes, based on the Object Name.
 -- @param #SET_BASE self
 -- @param #string ObjectName
@@ -10449,6 +10424,39 @@ function SET_BASE:Remove( ObjectName )
   end
   
 end
+
+
+--- Adds a @{Base#BASE} object in the @{Set#SET_BASE}, using a given ObjectName as the index.
+-- @param #SET_BASE self
+-- @param #string ObjectName
+-- @param Core.Base#BASE Object
+-- @return Core.Base#BASE The added BASE Object.
+function SET_BASE:Add( ObjectName, Object )
+  self:F( ObjectName )
+
+  -- Ensure that the existing element is removed from the Set before a new one is inserted to the Set
+  if self.Set[ObjectName] then
+    self:Remove( ObjectName )
+  end
+  self.Set[ObjectName] = Object
+  table.insert( self.Index, ObjectName )
+end
+
+--- Adds a @{Base#BASE} object in the @{Set#SET_BASE}, using the Object Name as the index.
+-- @param #SET_BASE self
+-- @param Wrapper.Object#OBJECT Object
+-- @return Core.Base#BASE The added BASE Object.
+function SET_BASE:AddObject( Object )
+  self:F2( Object.ObjectName )
+  
+  self:T( Object.UnitName )
+  self:T( Object.ObjectName )
+  self:Add( Object.ObjectName, Object )
+  
+end
+
+
+
 
 --- Gets a @{Base#BASE} object from the @{Set#SET_BASE} and derived classes, based on the Object Name.
 -- @param #SET_BASE self
@@ -10569,8 +10577,8 @@ function SET_BASE:_FilterStart()
   self:HandleEvent( EVENTS.Crash, self._EventOnDeadOrCrash )
   
   -- Follow alive players and clients
-  self:HandleEvent( EVENTS.PlayerEnterUnit, self._EventOnPlayerEnterUnit )
-  self:HandleEvent( EVENTS.PlayerLeaveUnit, self._EventOnPlayerLeaveUnit )
+  --self:HandleEvent( EVENTS.PlayerEnterUnit, self._EventOnPlayerEnterUnit )
+  --self:HandleEvent( EVENTS.PlayerLeaveUnit, self._EventOnPlayerLeaveUnit )
   
   
   return self
@@ -12051,7 +12059,7 @@ do -- SET_UNIT
         self:E( { ThreatLevel = ThreatLevel } )
         local ThreatLevelItem = ThreatLevelSet[ThreatLevel]
         if ThreatLevelItem then
-          self:ForEach( IteratorFunction, arg, ThreatLevelItem:GetSet() )
+          self:ForEach( IteratorFunction, arg, ThreatLevelItem.Set )
         end
       end
     end
@@ -30585,7 +30593,7 @@ function SCORING:New( GameName )
   self:HandleEvent( EVENTS.Crash, self._EventOnDeadOrCrash )
   self:HandleEvent( EVENTS.Hit, self._EventOnHit )
   self:HandleEvent( EVENTS.Birth )
-  self:HandleEvent( EVENTS.PlayerEnterUnit )
+  --self:HandleEvent( EVENTS.PlayerEnterUnit )
   self:HandleEvent( EVENTS.PlayerLeaveUnit )
   
   -- During mission startup, especially for single player, 
@@ -31145,10 +31153,26 @@ end
 --- Handles the OnPlayerEnterUnit event for the scoring.
 -- @param #SCORING self
 -- @param Core.Event#EVENTDATA Event
-function SCORING:OnEventPlayerEnterUnit( Event )
+--function SCORING:OnEventPlayerEnterUnit( Event )
+--  if Event.IniUnit then
+--    self:_AddPlayerFromUnit( Event.IniUnit )
+--    self:SetScoringMenu( Event.IniGroup )
+--  end
+--end
+
+--- Handles the OnBirth event for the scoring.
+-- @param #SCORING self
+-- @param Core.Event#EVENTDATA Event
+function SCORING:OnEventBirth( Event )
+  
   if Event.IniUnit then
-    self:_AddPlayerFromUnit( Event.IniUnit )
-    self:SetScoringMenu( Event.IniGroup )
+    if Event.IniObjectCategory == 1 then
+      local PlayerName = Event.IniUnit:GetPlayerName()
+      if PlayerName ~= "" then
+        self:_AddPlayerFromUnit( Event.IniUnit )
+        self:SetScoringMenu( Event.IniGroup )
+      end
+    end
   end
 end
 
@@ -44531,18 +44555,22 @@ end
 -- @param #RAT self
 -- @param Wrapper.Group#GROUP group Group to be despawned.
 function RAT:_Despawn(group)
+  if group ~= nil then
 
-  local index=self:GetSpawnIndexFromGroup(group)
-  --self.ratcraft[index].group:Destroy()
-  self.ratcraft[index].group=nil
-  group:Destroy()
+    local index=self:GetSpawnIndexFromGroup(group)
+    if index ~= nil then
+      --self.ratcraft[index].group:Destroy()
+      self.ratcraft[index].group=nil
+      group:Destroy()
 
-  -- Decrease group alive counter.
-  self.alive=self.alive-1
-  
-    -- Remove submenu for this group.
-  if self.f10menu then
-    self.Menu[self.SubMenuName]["groups"][index]:Remove()
+      -- Decrease group alive counter.
+      self.alive=self.alive-1
+
+      -- Remove submenu for this group.
+      if self.f10menu ~= nil and self.SubMenuName ~= nil then
+        self.Menu[self.SubMenuName]["groups"][index]:Remove()
+      end
+    end
   end
 
   --TODO: Maybe here could be some more arrays deleted?
@@ -46539,9 +46567,10 @@ function AI_BALANCER:onenterSpawning( SetGroup, From, Event, To, ClientName )
   -- OK, Spawn a new group from the default SpawnAI object provided.
   local AIGroup = self.SpawnAI:Spawn() -- Wrapper.Group#GROUP
   if AIGroup then
-    AIGroup:E( "Spawning new AIGroup" )
+    AIGroup:T( { "Spawning new AIGroup", ClientName = ClientName } )
     --TODO: need to rework UnitName thing ...
     
+    SetGroup:Remove( ClientName ) -- Ensure that the previously allocated AIGroup to ClientName is removed in the Set.
     SetGroup:Add( ClientName, AIGroup )
     self.SpawnQueue[ClientName] = nil
     
@@ -46600,7 +46629,8 @@ function AI_BALANCER:onenterMonitoring( SetGroup )
       self:T3(Client.ClientName)
 
       local AIGroup = self.Set:Get( Client.UnitName ) -- Wrapper.Group#GROUP
-      if Client:IsAlive() then
+      if AIGroup then self:T( { AIGroup = AIGroup:GetName(), IsAlive = AIGroup:IsAlive() } ) end
+      if Client:IsAlive() == true then
 
         if AIGroup and AIGroup:IsAlive() == true then
 
@@ -46645,11 +46675,12 @@ function AI_BALANCER:onenterMonitoring( SetGroup )
       else
         if not AIGroup or not AIGroup:IsAlive() == true then
           self:T( "Client " .. Client.UnitName .. " not alive." )
+          self:T( { Queue = self.SpawnQueue[Client.UnitName] } )
           if not self.SpawnQueue[Client.UnitName] then
             -- Spawn a new AI taking into account the spawn interval Earliest, Latest
             self:__Spawn( math.random( self.Earliest, self.Latest ), Client.UnitName )
             self.SpawnQueue[Client.UnitName] = true
-            self:E( "New AI Spawned for Client " .. Client.UnitName )
+            self:T( "New AI Spawned for Client " .. Client.UnitName )
           end
         end
       end
