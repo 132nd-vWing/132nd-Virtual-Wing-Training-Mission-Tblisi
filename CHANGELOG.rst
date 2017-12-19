@@ -2,6 +2,11 @@ Changelog
 =========
 
 
+5.0.0 (2017-12-19)
+------------------
+- Put back Necks Menus via scripting. [132nd-Entropy]
+
+
 4.3.12 (2017-12-19)
 -------------------
 
