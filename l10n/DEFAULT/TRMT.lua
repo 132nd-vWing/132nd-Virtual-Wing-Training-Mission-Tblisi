@@ -198,14 +198,15 @@ do -- ARK UD
     {text='Deactivate all Ark-UD Beacons', flag=16},
   }
   
-  TRMT.ARK_UD.MENU      = {}  
-  TRMT.ARK_UD.MENU.ROOT = MENU_COALITION:New( coalition.side.BLUE, 'ARK UD beacons')
+  TRMT.ARK_UD.MENU      = {} 
+  Transport_Taskings = MENU_COALITION:New( coalition.side.BLUE, 'Transport Taskings') 
+  ARK_UD_Beacons = MENU_COALITION:New( coalition.side.BLUE, 'ARK UD beacons',Transport_Taskings)
   TRMT.ARK_UD.INITIALIZE = function()
   
     TRMT.DEBUG('ARK UD: INIT: START')
     for i, cmd in ipairs(TRMT.ARK_UD.BEACONS) do  
       TRMT.DEBUG('ARK UD: make radio menus: adding: '..cmd.text)
-      MENU_COALITION_COMMAND:New( coalition.side.BLUE, cmd.text, TRMT.ARK_UD.MENU.ROOT, trigger.action.setUserFlag, cmd.flag, true )
+      MENU_COALITION_COMMAND:New( coalition.side.BLUE, cmd.text, ARK_UD_Beacons, trigger.action.setUserFlag, cmd.flag, true )
     end
     TRMT.DEBUG('ARK UD: INIT: DONE')
     
@@ -484,7 +485,6 @@ do
     TRMT.RANGES,
     TRMT.SUPPORT_AIRCRAFT,
     TRMT.ARK_UD,
-    -- TRMT.MISSILE_TRAINER,
     TRMT.SMOKE,
     TRMT.SAR,
     TRMT.TANKERS,
