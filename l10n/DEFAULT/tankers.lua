@@ -94,7 +94,7 @@ _TANKER.UNITS = _TANKER_UNITS
 _TANKER.MIN_FUEL = _TANKER_MIN_FUEL
 
 if _TANKER_DEBUG then
-    _TANKER.DEBUG_MENU = MENU_COALITION:New( coalition.side.BLUE, 'Tanker debug')
+    _TANKER.DEBUG_MENU = MENU_MISSION:New(  'Tanker debug')
 else
     _TANKER.DEBUG_MENU = nil
 end
@@ -114,8 +114,8 @@ function _TANKER.Tanker:New( group )
     end
     
     if _TANKER.DEBUG_MENU then
-        self.debug_menu = MENU_COALITION_COMMAND:New(
-            coalition.side.BLUE,
+        self.debug_menu = MENU_MISSION_COMMAND:New(
+            
             'Destroy '..self:GetName(),
             _TANKER.DEBUG_MENU,
             self.Destroy,
