@@ -55,13 +55,13 @@ end, {}, 10, 30 )
 
 SCHEDULER:New( nil,
   function()
-GORI_RANGE_CONVOY = GROUP:FindByName( "GORI_RANGE_CONVOY" )
-      if GORI_RANGE_CONVOY and GORI_RANGE_CONVOY:IsAlive() then
-       GoriAdvancedMenus =  MENU_GROUP:New( GORI_RANGE_CONVOY, "Gori Range Convoy Options" )
-        MENU_GROUP_COMMAND:New( GORI_RANGE_CONVOY, "Start Moving", GoriAdvancedMenus, FLAG95, GORI_RANGE_CONVOY)
-        MENU_GROUP_COMMAND:New( GORI_RANGE_CONVOY, "Stop Moving", GoriAdvancedMenus, FLAG96, GORI_RANGE_CONVOY)
-        MENU_GROUP_COMMAND:New( GORI_RANGE_CONVOY, "IED explosion EAST", GoriAdvancedMenus, FLAG97, GORI_RANGE_CONVOY)
-        MENU_GROUP_COMMAND:New( GORI_RANGE_CONVOY, "IED explosion WEST", GoriAdvancedMenus, FLAG98, GORI_RANGE_CONVOY)
+GORI_RANGE_JTAC = GROUP:FindByName( "GORI_RANGE_JTAC" )
+      if GORI_RANGE_JTAC and GORI_RANGE_JTAC:IsAlive() then
+       GoriAdvancedMenus =  MENU_GROUP:New( GORI_RANGE_JTAC, "Gori Range Convoy Options" )
+        MENU_GROUP_COMMAND:New( GORI_RANGE_JTAC, "Start Moving", GoriAdvancedMenus, FLAG95, GORI_RANGE_JTAC)
+        MENU_GROUP_COMMAND:New( GORI_RANGE_JTAC, "Stop Moving", GoriAdvancedMenus, FLAG96, GORI_RANGE_JTAC)
+        MENU_GROUP_COMMAND:New( GORI_RANGE_JTAC, "IED explosion EAST", GoriAdvancedMenus, FLAG97, GORI_RANGE_JTAC)
+        MENU_GROUP_COMMAND:New( GORI_RANGE_JTAC, "IED explosion WEST", GoriAdvancedMenus, FLAG98, GORI_RANGE_JTAC)
       end
 end, {}, 10, 30 )
 

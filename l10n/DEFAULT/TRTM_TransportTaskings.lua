@@ -1,5 +1,5 @@
 -- root menu created in TRMT.lua
--- Transport_Taskings = MENU_COALITION:New( coalition.side.BLUE, "Transport Taskings" )
+-- Transport_Taskings = MENU_MISSION:New("Transport Taskings" )
 
 local function VIPSmoke()
     trigger.action.smoke(VIPpos,SMOKECOLOR.Red)
@@ -29,7 +29,7 @@ function PickupVIP()
     ctld.beaconCount = ctld.beaconCount + 1
     ctld.createRadioBeacon(VIPpos, 2, 2, "Location of Injured Soldier" .. ctld.beaconCount - 1, 120)
     MESSAGE:New( "Transport Tasking for Rescue Helicopters: An injured soldier needs to be transported to Lochini hospital, a beacon has been deployed at the pickup location (use CTLD Beacons to home in)", 7):ToBlue()
-    Transport_Menu_SMOKE = MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Request Red Smoke at the location of the injured soldier", Transport_Taskings, VIPSmoke )
+    Transport_Menu_SMOKE = MENU_MISSION_COMMAND:New( "Request Red Smoke at the location of the injured soldier", Transport_Taskings, VIPSmoke )
     Transport_Menu_VIP:Remove()
 end
 
@@ -52,9 +52,9 @@ function PickupLetter()
     ctld.beaconCount = ctld.beaconCount + 1
     ctld.createRadioBeacon(Letter_pos, 2, 2, "Location of Medical Supplies" .. ctld.beaconCount - 1, 120)
     MESSAGE:New( "Transport Tasking for Rescue Helicopters: A crate of medical equipment needs to be picked up from a local medical center and transported to Lochini hospital, a beacon has been deployed at the pickup location (use CTLD Beacons to home in)", 7):ToBlue()
-    Transport_Menu_SMOKE_letter = MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Request Green Smoke at the pickup location of the medical supplies", Transport_Taskings, Lettersmoke )
+    Transport_Menu_SMOKE_letter = MENU_MISSION_COMMAND:New( "Request Green Smoke at the pickup location of the medical supplies", Transport_Taskings, Lettersmoke )
     Transport_Menu_Letter:Remove()
 end
 
-Transport_Menu_VIP = MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Tasking: Pickup wounded solider for transport to Lochini Hospital", Transport_Taskings, PickupVIP )
-Transport_Menu_Letter = MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Activate Tasking: Pickup medical supplies and transport to Lochini Hospital", Transport_Taskings, PickupLetter )
+Transport_Menu_VIP = MENU_MISSION_COMMAND:New( "Activate Tasking: Pickup wounded solider for transport to Lochini Hospital", Transport_Taskings, PickupVIP )
+Transport_Menu_Letter = MENU_MISSION_COMMAND:New( "Activate Tasking: Pickup medical supplies and transport to Lochini Hospital", Transport_Taskings, PickupLetter )

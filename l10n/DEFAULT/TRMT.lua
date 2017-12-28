@@ -63,7 +63,7 @@ do -- RANGES
   
   TRMT.RANGES = {
     MENU = {
-      ROOT = MENU_COALITION:New( coalition.side.BLUE, 'Range Options'),
+      ROOT = MENU_MISSION:New( 'Range Options'),
     },
     RESPAWN_UNITS = {
       { NAME='S_Shilka', MAX_UNIT=2 },
@@ -133,8 +133,8 @@ do -- RANGES
     
       TRMT.DEBUG('RANGES: INIT: '..range.NAME..': START')
       
-      range.MENU    = MENU_COALITION:New( coalition.side.BLUE, range.NAME, TRMT.RANGES.MENU.ROOT)
-      range.OD_MENU = MENU_COALITION:New( coalition.side.BLUE, 'Spawn',    range.MENU)
+      range.MENU    = MENU_MISSION:New( range.NAME, TRMT.RANGES.MENU.ROOT)
+      range.OD_MENU = MENU_MISSION:New( 'Spawn',    range.MENU)
       
       TRMT.DEBUG('RANGES: INIT: '..range.NAME..' - making spawners: START')
       
@@ -150,8 +150,7 @@ do -- RANGES
       end
       
       for _, group in ipairs( TRMT.RANGES.ON_DEMAND_UNITS ) do
-        MENU_COALITION_COMMAND:New(
-          coalition.side.BLUE,
+        MENU_MISSION_COMMAND:New(
           group.MENU_TEXT,
           range.OD_MENU,
           function()
@@ -165,8 +164,8 @@ do -- RANGES
       TRMT.DEBUG('RANGES: INIT: '..range.NAME..' - making menus: START')
       
       -- Add command to randomize movements
-      MENU_COALITION_COMMAND:New(
-        coalition.side.BLUE,
+      MENU_MISSION_COMMAND:New(
+        
         'Randomize movement',
         range.MENU,
         function()
@@ -199,14 +198,14 @@ do -- ARK UD
   }
   
   TRMT.ARK_UD.MENU      = {} 
-  Transport_Taskings = MENU_COALITION:New( coalition.side.BLUE, 'Transport Taskings') 
-  ARK_UD_Beacons = MENU_COALITION:New( coalition.side.BLUE, 'ARK UD beacons',Transport_Taskings)
+  Transport_Taskings = MENU_MISSION:New( 'Transport Taskings') 
+  ARK_UD_Beacons = MENU_MISSION:New( 'ARK UD beacons',Transport_Taskings)
   TRMT.ARK_UD.INITIALIZE = function()
   
     TRMT.DEBUG('ARK UD: INIT: START')
     for i, cmd in ipairs(TRMT.ARK_UD.BEACONS) do  
       TRMT.DEBUG('ARK UD: make radio menus: adding: '..cmd.text)
-      MENU_COALITION_COMMAND:New( coalition.side.BLUE, cmd.text, ARK_UD_Beacons, trigger.action.setUserFlag, cmd.flag, true )
+      MENU_MISSION_COMMAND:New( cmd.text, ARK_UD_Beacons, trigger.action.setUserFlag, cmd.flag, true )
     end
     TRMT.DEBUG('ARK UD: INIT: DONE')
     
@@ -255,7 +254,7 @@ TRMT.SMOKE = {
 TRMT.SMOKE.INITIALIZE = function()
   TRMT.INFO('SMOKE: INIT: START')
   for _, smoke in ipairs( TRMT.SMOKE.ZONES.LIST ) do
-    MENU_COALITION_COMMAND:New( coalition.side.BLUE, smoke.MENU_TEXT, smoke.MENU_PARENT.MENU, TRMT.SMOKE.ZONES.SPAWN, smoke.ZONE_LIST, smoke.COLOR, smoke.COUNT )
+    MENU_MISSION_COMMAND:New( smoke.MENU_TEXT, smoke.MENU_PARENT.MENU, TRMT.SMOKE.ZONES.SPAWN, smoke.ZONE_LIST, smoke.COLOR, smoke.COUNT )
   end
   TRMT.INFO('SMOKE: INIT: DONE')
 end
@@ -263,7 +262,7 @@ end -- SMOKES
 
 do -- SAR
   TRMT.SAR = {
-    MENU = MENU_COALITION:New( coalition.side.BLUE, 'Search and Rescue' ),
+    MENU = MENU_MISSION:New( 'Search and Rescue' ),
     HELO_GROUP_NAME = 'SARhelo1',
     DUMMY_HELO_GROUP_NAME = 'SARhelo1dummy',
     TEMPLATE_GROUP_NAME = 'SARtemplate',
@@ -443,10 +442,10 @@ do -- SAR
       table.insert( TRMT.SAR.ZONES, ZONE:New( 'SAR'..i ))
     end
     
-    SARactivationMenu = MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Activate Crashsite', TRMT.SAR.MENU, TRMT.SAR.START )
-    SARdispatchMenu   = MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Dispatch Rescue Helicopter from FARP MARNUELI', TRMT.SAR.MENU, TRMT.SAR.SPAWN_HELO )
-    SARsmokeMenu      = MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Request Smoke on the Crashsite', TRMT.SAR.MENU, TRMT.SAR.SPAWN_SMOKE )
-    SARhostilesMenu = MENU_COALITION_COMMAND:New( coalition.side.BLUE, 'Activate Hostile Forces', TRMT.SAR.MENU, TRMT.SAR.SPAWN_HOSTILES )
+    SARactivationMenu = MENU_MISSION_COMMAND:New( 'Activate Crashsite', TRMT.SAR.MENU, TRMT.SAR.START )
+    SARdispatchMenu   = MENU_MISSION_COMMAND:New( 'Dispatch Rescue Helicopter from FARP MARNUELI', TRMT.SAR.MENU, TRMT.SAR.SPAWN_HELO )
+    SARsmokeMenu      = MENU_MISSION_COMMAND:New( 'Request Smoke on the Crashsite', TRMT.SAR.MENU, TRMT.SAR.SPAWN_SMOKE )
+    SARhostilesMenu = MENU_MISSION_COMMAND:New( 'Activate Hostile Forces', TRMT.SAR.MENU, TRMT.SAR.SPAWN_HOSTILES )
   
     TRMT.INFO('SAR: INIT: DONE')  
     
@@ -458,7 +457,7 @@ do -- MOOSE CONFIG
   
   TRMT.MOOSE_CONFIG.INITIALIZE = function()
     TRMT.INFO('MOOSE CONFIG: INIT: START')
---    TRMT.DEBUG_MENU = MENU_COALITION:New( coalition.side.BLUE, 'DEBUG')
+--    TRMT.DEBUG_MENU = MENU_MISSION:New( 'DEBUG')
     BASE:TraceOnOff( false )
     debug = false
   --  BASE.E = function(arguments) end
@@ -505,7 +504,7 @@ MESSAGE:New( "Red Infantry respawned at TETRA", 7):ToBlue()
 SPAWN:New("TETRA_INF_SOUTH_respawn"):Spawn()
 end
 
-menu_respawn_red_infantry_TETRA = MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Respawn Red Infantry at TETRA", TRMT.RANGES.TETRA.MENU, respawn_red_infantry_TETRA ) 
+menu_respawn_red_infantry_TETRA = MENU_MISSION_COMMAND:New( "Respawn Red Infantry at TETRA", TRMT.RANGES.TETRA.MENU, respawn_red_infantry_TETRA ) 
 
 
 --- No error during script loading, let the log know
