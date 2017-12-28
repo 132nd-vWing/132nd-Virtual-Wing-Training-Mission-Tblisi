@@ -2,6 +2,28 @@ Changelog
 =========
 
 
+5.2.0 (2017-12-28)
+------------------
+
+Changes
+~~~~~~~
+- Add JJ AC on UGTB. [132nd-etcher]
+- Re-addded Gory Convoy (JTAC and Convoy are separate groups now)
+  [132nd-Entropy]
+- Revert time to daytime chg: remove the rest of the convoy to have only
+  one single vehicle in the group. [132nd-Entropy]
+- Adjusted wind/weather and date for tonights event. [132nd.Neck]
+- Added Friendly artillery at Gori Range Complex. [132nd.Neck]
+- Added Range storage veichles at Gori Range Storage (and created Gori
+  Range Storage) [132nd.Neck]
+
+Fix
+~~~
+- Replace MENU_COALITION with MENU_MISSION. [132nd-Entropy]
+- Remove remaining radio menu triggers set via Mission Editor. [132nd-
+  Entropy]
+
+
 5.1.0 (2017-12-20)
 ------------------
 
