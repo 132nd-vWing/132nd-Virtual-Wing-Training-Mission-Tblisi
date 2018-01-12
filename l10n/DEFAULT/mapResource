@@ -18,7 +18,8 @@ mapResource =
     ["ResKey_Action_5414"] = "TRTM_TransportTaskings.lua",
     ["ResKey_Action_5415"] = "TRMT.lua",
     ["ResKey_Action_5416"] = "tankers.lua",
-    ["ResKey_Action_5425"] = "Necks_Menus.lua",
     ["ResKey_Action_5429"] = "Moose.lua",
+    ["ResKey_Action_5450"] = "TRTM_TransportTaskings.lua",
+    ["ResKey_Action_5452"] = "TRMT_AdvancedMenus.lua",
     ["ResKey_ImageBriefing_1821"] = "132nd_Logo_Main.png",
 } -- end of mapResource
