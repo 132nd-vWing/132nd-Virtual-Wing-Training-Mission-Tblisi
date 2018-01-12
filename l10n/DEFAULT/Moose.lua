@@ -1,5 +1,5 @@
 env.info( '*** MOOSE STATIC INCLUDE START *** ' )
-env.info( 'Moose Generation Timestamp: 20171218_1151' )
+env.info( 'Moose Generation Timestamp: 20171222_1247' )
 MOOSE = {}
 function MOOSE.Include()
 
@@ -7457,6 +7457,7 @@ do
       self.GroupID = Group:GetID()
 
       self.MenuPath = missionCommands.addSubMenuForGroup( self.GroupID, MenuText, self.MenuParentPath )
+      
       self:SetParentMenu( self.MenuText, self )
       return self
     end
@@ -7613,6 +7614,258 @@ do
       end
     else
       BASE:E( { "Cannot Remove MENU_GROUP_COMMAND", Path = Path, ParentMenu = self.ParentMenu, MenuText = self.MenuText, Group = self.Group } )
+    end
+    
+    return self
+  end
+
+end
+
+--- MENU_GROUP_DELAYED
+
+do
+
+  --- @type MENU_GROUP_DELAYED
+  -- @extends Core.Menu#MENU_BASE
+  
+  
+  --- #MENU_GROUP_DELAYED class, extends @{Menu#MENU_BASE}
+  -- 
+  -- The MENU_GROUP_DELAYED class manages the main menus for groups.  
+  -- You can add menus with the @{#MENU_GROUP.New} method, which constructs a MENU_GROUP object and returns you the object reference.
+  -- Using this object reference, you can then remove ALL the menus and submenus underlying automatically with @{#MENU_GROUP.Remove}.
+  -- The creation of the menu item is delayed however, and must be created using the @{#MENU_GROUP.Set} method.
+  -- This method is most of the time called after the "old" menu items have been removed from the sub menu.
+  -- 
+  --
+  -- @field #MENU_GROUP_DELAYED
+  MENU_GROUP_DELAYED = {
+    ClassName = "MENU_GROUP_DELAYED"
+  }
+  
+  --- MENU_GROUP_DELAYED constructor. Creates a new radio menu item for a group.
+  -- @param #MENU_GROUP_DELAYED self
+  -- @param Wrapper.Group#GROUP Group The Group owning the menu.
+  -- @param #string MenuText The text for the menu.
+  -- @param #table ParentMenu The parent menu.
+  -- @return #MENU_GROUP_DELAYED self
+  function MENU_GROUP_DELAYED:New( Group, MenuText, ParentMenu )
+  
+    MENU_INDEX:PrepareGroup( Group )
+    local Path = MENU_INDEX:ParentPath( ParentMenu, MenuText )
+    local GroupMenu = MENU_INDEX:HasGroupMenu( Group, Path )
+
+    if GroupMenu then
+      return GroupMenu
+    else
+      self = BASE:Inherit( self, MENU_BASE:New( MenuText, ParentMenu ) )
+      MENU_INDEX:SetGroupMenu( Group, Path, self )
+
+      self.Group = Group
+      self.GroupID = Group:GetID()
+
+      if self.MenuParentPath then
+        self.MenuPath = UTILS.DeepCopy( self.MenuParentPath )
+      else
+        self.MenuPath = {}
+      end
+      table.insert( self.MenuPath, self.MenuText )
+      
+      self:SetParentMenu( self.MenuText, self )
+      return self
+    end
+    
+  end
+
+
+  --- Refreshes a new radio item for a group and submenus
+  -- @param #MENU_GROUP_DELAYED self
+  -- @return #MENU_GROUP_DELAYED
+  function MENU_GROUP_DELAYED:Set()
+
+    do
+      if not self.MenuSet then
+        missionCommands.addSubMenuForGroup( self.GroupID, self.MenuText, self.MenuParentPath )
+        self.MenuSet = true
+      end
+      
+      for MenuText, Menu in pairs( self.Menus or {} ) do
+        Menu:Set()
+      end
+    end
+
+  end
+
+
+  --- Refreshes a new radio item for a group and submenus
+  -- @param #MENU_GROUP_DELAYED self
+  -- @return #MENU_GROUP_DELAYED
+  function MENU_GROUP_DELAYED:Refresh()
+
+    do
+      missionCommands.removeItemForGroup( self.GroupID, self.MenuPath )
+      missionCommands.addSubMenuForGroup( self.GroupID, self.MenuText, self.MenuParentPath )
+      
+      for MenuText, Menu in pairs( self.Menus or {} ) do
+        Menu:Refresh()
+      end
+    end
+
+  end
+  
+  --- Removes the sub menus recursively of this MENU_GROUP_DELAYED.
+  -- @param #MENU_GROUP_DELAYED self
+  -- @param MenuTime
+  -- @param MenuTag A Tag or Key to filter the menus to be refreshed with the Tag set.
+  -- @return #MENU_GROUP_DELAYED self
+  function MENU_GROUP_DELAYED:RemoveSubMenus( MenuTime, MenuTag )
+
+    for MenuText, Menu in pairs( self.Menus or {} ) do
+      Menu:Remove( MenuTime, MenuTag )
+    end
+    
+    self.Menus = nil
+  
+  end
+
+
+  --- Removes the main menu and sub menus recursively of this MENU_GROUP.
+  -- @param #MENU_GROUP_DELAYED self
+  -- @param MenuTime
+  -- @param MenuTag A Tag or Key to filter the menus to be refreshed with the Tag set.
+  -- @return #nil
+  function MENU_GROUP_DELAYED:Remove( MenuTime, MenuTag )
+
+    MENU_INDEX:PrepareGroup( self.Group )
+    local Path = MENU_INDEX:ParentPath( self.ParentMenu, self.MenuText )
+    local GroupMenu = MENU_INDEX:HasGroupMenu( self.Group, Path )   
+
+    if GroupMenu == self then
+      self:RemoveSubMenus( MenuTime, MenuTag )
+      if not MenuTime or self.MenuTime ~= MenuTime then
+        if ( not MenuTag ) or ( MenuTag and self.MenuTag and MenuTag == self.MenuTag ) then
+          self:E( { Group = self.GroupID, Text = self.MenuText, Path = self.MenuPath } )
+          if self.MenuPath ~= nil then
+            missionCommands.removeItemForGroup( self.GroupID, self.MenuPath )
+          end
+          MENU_INDEX:ClearGroupMenu( self.Group, Path )
+          self:ClearParentMenu( self.MenuText )
+          return nil
+        end
+      end
+    else
+      BASE:E( { "Cannot Remove MENU_GROUP_DELAYED", Path = Path, ParentMenu = self.ParentMenu, MenuText = self.MenuText, Group = self.Group } )
+      return nil
+    end
+  
+    return self
+  end
+  
+  
+  --- @type MENU_GROUP_COMMAND_DELAYED
+  -- @extends Core.Menu#MENU_COMMAND_BASE
+  
+  --- # MENU_GROUP_COMMAND_DELAYED class, extends @{Menu#MENU_COMMAND_BASE}
+  -- 
+  -- The @{Menu#MENU_GROUP_COMMAND_DELAYED} class manages the command menus for coalitions, which allow players to execute functions during mission execution.  
+  -- You can add menus with the @{#MENU_GROUP_COMMAND_DELAYED.New} method, which constructs a MENU_GROUP_COMMAND_DELAYED object and returns you the object reference.
+  -- Using this object reference, you can then remove ALL the menus and submenus underlying automatically with @{#MENU_GROUP_COMMAND_DELAYED.Remove}.
+  --
+  -- @field #MENU_GROUP_COMMAND_DELAYED
+  MENU_GROUP_COMMAND_DELAYED = {
+    ClassName = "MENU_GROUP_COMMAND_DELAYED"
+  }
+  
+  --- Creates a new radio command item for a group
+  -- @param #MENU_GROUP_COMMAND_DELAYED self
+  -- @param Wrapper.Group#GROUP Group The Group owning the menu.
+  -- @param MenuText The text for the menu.
+  -- @param ParentMenu The parent menu.
+  -- @param CommandMenuFunction A function that is called when the menu key is pressed.
+  -- @param CommandMenuArgument An argument for the function.
+  -- @return #MENU_GROUP_COMMAND_DELAYED
+  function MENU_GROUP_COMMAND_DELAYED:New( Group, MenuText, ParentMenu, CommandMenuFunction, ... )
+
+    MENU_INDEX:PrepareGroup( Group )
+    local Path = MENU_INDEX:ParentPath( ParentMenu, MenuText )
+    local GroupMenu = MENU_INDEX:HasGroupMenu( Group, Path )   
+
+    if GroupMenu then
+      GroupMenu:SetCommandMenuFunction( CommandMenuFunction )
+      GroupMenu:SetCommandMenuArguments( arg )
+      return GroupMenu
+    else
+      self = BASE:Inherit( self, MENU_COMMAND_BASE:New( MenuText, ParentMenu, CommandMenuFunction, arg ) )
+
+      MENU_INDEX:SetGroupMenu( Group, Path, self )
+  
+      self.Group = Group
+      self.GroupID = Group:GetID()
+      
+      if self.MenuParentPath then
+        self.MenuPath = UTILS.DeepCopy( self.MenuParentPath )
+      else
+        self.MenuPath = {}
+      end
+      table.insert( self.MenuPath, self.MenuText )
+  
+      self:SetParentMenu( self.MenuText, self )
+      return self
+    end
+
+  end
+
+  --- Refreshes a radio item for a group
+  -- @param #MENU_GROUP_COMMAND_DELAYED self
+  -- @return #MENU_GROUP_COMMAND_DELAYED
+  function MENU_GROUP_COMMAND_DELAYED:Set()
+
+    do
+      if not self.MenuSet then
+        self.MenuPath = missionCommands.addCommandForGroup( self.GroupID, self.MenuText, self.MenuParentPath, self.MenuCallHandler )
+        self.MenuSet = true
+      end
+    end
+
+  end
+  
+  --- Refreshes a radio item for a group
+  -- @param #MENU_GROUP_COMMAND_DELAYED self
+  -- @return #MENU_GROUP_COMMAND_DELAYED
+  function MENU_GROUP_COMMAND_DELAYED:Refresh()
+
+    do
+      missionCommands.removeItemForGroup( self.GroupID, self.MenuPath )
+      missionCommands.addCommandForGroup( self.GroupID, self.MenuText, self.MenuParentPath, self.MenuCallHandler )
+    end
+
+  end
+  
+  --- Removes a menu structure for a group.
+  -- @param #MENU_GROUP_COMMAND_DELAYED self
+  -- @param MenuTime
+  -- @param MenuTag A Tag or Key to filter the menus to be refreshed with the Tag set.
+  -- @return #nil
+  function MENU_GROUP_COMMAND_DELAYED:Remove( MenuTime, MenuTag )
+
+    MENU_INDEX:PrepareGroup( self.Group )
+    local Path = MENU_INDEX:ParentPath( self.ParentMenu, self.MenuText )
+    local GroupMenu = MENU_INDEX:HasGroupMenu( self.Group, Path )   
+
+    if GroupMenu == self then
+      if not MenuTime or self.MenuTime ~= MenuTime then
+        if ( not MenuTag ) or ( MenuTag and self.MenuTag and MenuTag == self.MenuTag ) then
+          self:E( { Group = self.GroupID, Text = self.MenuText, Path = self.MenuPath } )
+          if self.MenuPath ~= nil then
+            missionCommands.removeItemForGroup( self.GroupID, self.MenuPath )
+          end
+          MENU_INDEX:ClearGroupMenu( self.Group, Path )
+          self:ClearParentMenu( self.MenuText )
+          return nil
+        end
+      end
+    else
+      BASE:E( { "Cannot Remove MENU_GROUP_COMMAND_DELAYED", Path = Path, ParentMenu = self.ParentMenu, MenuText = self.MenuText, Group = self.Group } )
     end
     
     return self
@@ -9153,7 +9406,7 @@ function DATABASE:New()
   self:HandleEvent( EVENTS.DeleteCargo )
   
   -- Follow alive players and clients
-  self:HandleEvent( EVENTS.PlayerEnterUnit, self._EventOnPlayerEnterUnit ) -- This is not working anymore!, handling this through the birth event.
+  --self:HandleEvent( EVENTS.PlayerEnterUnit, self._EventOnPlayerEnterUnit ) -- This is not working anymore!, handling this through the birth event.
   self:HandleEvent( EVENTS.PlayerLeaveUnit, self._EventOnPlayerLeaveUnit )
   
   self:_RegisterTemplates()
@@ -38440,6 +38693,26 @@ do -- DETECTION_BASE
       return self    
     end
   
+    --- This will allow during friendly search only units of the specified list of categories.
+    -- @param #DETECTION_BASE self
+    -- @param #string FriendlyCategories A list of unit categories.
+    -- @return #DETECTION_BASE 
+    -- @usage
+    --    -- Only allow Ships and Vehicles to be part of the friendly team.
+    --    Detection:SetFriendlyCategories( { Unit.Category.SHIP, Unit.Category.GROUND_UNIT } )
+    function DETECTION_BASE:FilterFriendlyCategories( FriendlyCategories )
+
+      self.FriendlyCategories = self.FriendlyCategories or {}
+      if type( FriendlyCategories ) ~= "table" then
+        FriendlyCategories = { FriendlyCategories }
+      end
+      for ID, FriendlyCategory in pairs( FriendlyCategories ) do
+        self:F( { FriendlyCategory = FriendlyCategory } )
+        self.FriendlyCategories[FriendlyCategory] = FriendlyCategory
+      end
+      return self    
+    end
+  
     --- Returns if there are friendlies nearby the FAC units ...
     -- @param #DETECTION_BASE self
     -- @return #boolean true if there are friendlies nearby 
@@ -38457,15 +38730,6 @@ do -- DETECTION_BASE
       return DetectedItem.FriendliesNearBy
     end
     
-    --- Filters friendly units by unit category.
-    -- @param #DETECTION_BASE self
-    -- @param FriendliesCategory
-    -- @return #DETECTION_BASE
-    function DETECTION_BASE:FilterFriendliesCategory( FriendliesCategory )
-      self.FriendliesCategory = FriendliesCategory
-      return self
-    end
-  
     --- Returns if there are friendlies nearby the intercept ...
     -- @param #DETECTION_BASE self
     -- @return #boolean trhe if there are friendlies near the intercept.
@@ -38547,6 +38811,7 @@ do -- DETECTION_BASE
           local EnemyCoalition = DetectedUnit:GetCoalition()
           
           local FoundUnitCoalition = FoundDCSUnit:getCoalition()
+          local FoundUnitCategory = FoundDCSUnit:getDesc().category
           local FoundUnitName = FoundDCSUnit:getName()
           local FoundUnitGroupName = FoundDCSUnit:getGroup():getName()
           local EnemyUnitName = DetectedUnit:GetName()
@@ -38568,22 +38833,33 @@ do -- DETECTION_BASE
               end
             end
           end
+          
+          local FoundUnitOfOtherCategory = false
+          
+          if FoundUnitOfOtherCategory == false then
+            -- Now we check if the found unit is one of the allowed friendly categories.
+            for ID, FriendlyCategory in pairs( self.FriendlyCategories or {} ) do
+              self:F( { "Friendly Category:", FriendlyCategory = FriendlyCategory, FoundUnitCategory = FoundUnitCategory } )
+              if FriendlyCategory ~= FoundUnitCategory then
+                FoundUnitOfOtherCategory = true
+                break
+              end
+            end
+          end
 
           self:F( { "Friendlies near Target:", FoundUnitName, FoundUnitCoalition, EnemyUnitName, EnemyCoalition, FoundUnitInReportSetGroup } )
           
-          if FoundUnitCoalition ~= EnemyCoalition and FoundUnitInReportSetGroup == false then
+          if FoundUnitCoalition ~= EnemyCoalition and FoundUnitInReportSetGroup == false and FoundUnitOfOtherCategory == false then
             local FriendlyUnit = UNIT:Find( FoundDCSUnit )
             local FriendlyUnitName = FriendlyUnit:GetName()
             local FriendlyUnitCategory = FriendlyUnit:GetDesc().category
             
-            --if ( not self.FriendliesCategory ) or ( self.FriendliesCategory and ( self.FriendliesCategory == FriendlyUnitCategory ) ) then
-              DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
-              DetectedItem.FriendliesNearBy[FriendlyUnitName] = FriendlyUnit
-              local Distance = DetectedUnitCoord:Get2DDistance( FriendlyUnit:GetCoordinate() )
-              DetectedItem.FriendliesDistance = DetectedItem.FriendliesDistance or {}
-              DetectedItem.FriendliesDistance[Distance] = FriendlyUnit
-              self:T( { "Friendlies Found:", FriendlyUnitName = FriendlyUnitName, Distance = Distance, FriendlyUnitCategory = FriendlyUnitCategory, FriendliesCategory = self.FriendliesCategory } )
-            --end
+            DetectedItem.FriendliesNearBy = DetectedItem.FriendliesNearBy or {}
+            DetectedItem.FriendliesNearBy[FriendlyUnitName] = FriendlyUnit
+            local Distance = DetectedUnitCoord:Get2DDistance( FriendlyUnit:GetCoordinate() )
+            DetectedItem.FriendliesDistance = DetectedItem.FriendliesDistance or {}
+            DetectedItem.FriendliesDistance[Distance] = FriendlyUnit
+            self:T( { "Friendlies Found:", FriendlyUnitName = FriendlyUnitName, Distance = Distance, FriendlyUnitCategory = FriendlyUnitCategory, FriendliesCategory = self.FriendliesCategory } )
             return true
           end
           
@@ -40919,26 +41195,26 @@ do -- DESIGNATE
         
         local MenuTime = timer.getTime()
         
-        self.MenuDesignate[AttackGroup] = MENU_GROUP:New( AttackGroup, self.DesignateName, MissionMenu ):SetTime( MenuTime ):SetTag( self.DesignateName ) 
-        local MenuDesignate = self.MenuDesignate[AttackGroup] -- Core.Menu#MENU_GROUP
+        self.MenuDesignate[AttackGroup] = MENU_GROUP_DELAYED:New( AttackGroup, self.DesignateName, MissionMenu ):SetTime( MenuTime ):SetTag( self.DesignateName ) 
+        local MenuDesignate = self.MenuDesignate[AttackGroup] -- Core.Menu#MENU_GROUP_DELAYED
 
         -- Set Menu option for auto lase
 
         if self.AutoLase then        
-          MENU_GROUP_COMMAND:New( AttackGroup, "Auto Lase Off", MenuDesignate, self.MenuAutoLase, self, false ):SetTime( MenuTime ):SetTag( self.DesignateName )
+          MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Auto Lase Off", MenuDesignate, self.MenuAutoLase, self, false ):SetTime( MenuTime ):SetTag( self.DesignateName )
         else
-          MENU_GROUP_COMMAND:New( AttackGroup, "Auto Lase On", MenuDesignate, self.MenuAutoLase, self, true ):SetTime( MenuTime ):SetTag( self.DesignateName )
+          MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Auto Lase On", MenuDesignate, self.MenuAutoLase, self, true ):SetTime( MenuTime ):SetTag( self.DesignateName )
         end        
 
-        local StatusMenu = MENU_GROUP:New( AttackGroup, "Status", MenuDesignate ):SetTime( MenuTime ):SetTag( self.DesignateName )
-        MENU_GROUP_COMMAND:New( AttackGroup, "Report Status 15s", StatusMenu, self.MenuStatus, self, AttackGroup, 15 ):SetTime( MenuTime ):SetTag( self.DesignateName )
-        MENU_GROUP_COMMAND:New( AttackGroup, "Report Status 30s", StatusMenu, self.MenuStatus, self, AttackGroup, 30 ):SetTime( MenuTime ):SetTag( self.DesignateName )
-        MENU_GROUP_COMMAND:New( AttackGroup, "Report Status 60s", StatusMenu, self.MenuStatus, self, AttackGroup, 60 ):SetTime( MenuTime ):SetTag( self.DesignateName )
+        local StatusMenu = MENU_GROUP_DELAYED:New( AttackGroup, "Status", MenuDesignate ):SetTime( MenuTime ):SetTag( self.DesignateName )
+        MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Report Status 15s", StatusMenu, self.MenuStatus, self, AttackGroup, 15 ):SetTime( MenuTime ):SetTag( self.DesignateName )
+        MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Report Status 30s", StatusMenu, self.MenuStatus, self, AttackGroup, 30 ):SetTime( MenuTime ):SetTag( self.DesignateName )
+        MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Report Status 60s", StatusMenu, self.MenuStatus, self, AttackGroup, 60 ):SetTime( MenuTime ):SetTag( self.DesignateName )
         
         if self.FlashStatusMenu[AttackGroup] then
-          MENU_GROUP_COMMAND:New( AttackGroup, "Flash Status Report Off", StatusMenu, self.MenuFlashStatus, self, AttackGroup, false ):SetTime( MenuTime ):SetTag( self.DesignateName )
+          MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Flash Status Report Off", StatusMenu, self.MenuFlashStatus, self, AttackGroup, false ):SetTime( MenuTime ):SetTag( self.DesignateName )
         else
-           MENU_GROUP_COMMAND:New( AttackGroup, "Flash Status Report On", StatusMenu, self.MenuFlashStatus, self, AttackGroup, true ):SetTime( MenuTime ):SetTag( self.DesignateName )
+           MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Flash Status Report On", StatusMenu, self.MenuFlashStatus, self, AttackGroup, true ):SetTime( MenuTime ):SetTag( self.DesignateName )
         end        
       
         for DesignateIndex, Designating in pairs( self.Designating ) do
@@ -40949,22 +41225,22 @@ do -- DESIGNATE
           
             local Coord = self.Detection:GetDetectedItemCoordinate( DesignateIndex )
             local ID = self.Detection:GetDetectedItemID( DesignateIndex )
-            local MenuText = ID .. ", " .. Coord:ToStringA2G( AttackGroup )
+            local MenuText = ID --.. ", " .. Coord:ToStringA2G( AttackGroup )
             
             if Designating == "" then
               MenuText = "(-) " .. MenuText
-              local DetectedMenu = MENU_GROUP:New( AttackGroup, MenuText, MenuDesignate ):SetTime( MenuTime ):SetTag( self.DesignateName )
-              MENU_GROUP_COMMAND:New( AttackGroup, "Search other target", DetectedMenu, self.MenuForget, self, DesignateIndex ):SetTime( MenuTime ):SetTag( self.DesignateName )
+              local DetectedMenu = MENU_GROUP_DELAYED:New( AttackGroup, MenuText, MenuDesignate ):SetTime( MenuTime ):SetTag( self.DesignateName )
+              MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Search other target", DetectedMenu, self.MenuForget, self, DesignateIndex ):SetTime( MenuTime ):SetTag( self.DesignateName )
               for LaserCode, MenuText in pairs( self.MenuLaserCodes ) do
-                MENU_GROUP_COMMAND:New( AttackGroup, string.format( MenuText, LaserCode ), DetectedMenu, self.MenuLaseCode, self, DesignateIndex, 60, LaserCode ):SetTime( MenuTime ):SetTag( self.DesignateName )
+                MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, string.format( MenuText, LaserCode ), DetectedMenu, self.MenuLaseCode, self, DesignateIndex, 60, LaserCode ):SetTime( MenuTime ):SetTag( self.DesignateName )
               end
-              MENU_GROUP_COMMAND:New( AttackGroup, "Lase with random laser code(s)", DetectedMenu, self.MenuLaseOn, self, DesignateIndex, 60 ):SetTime( MenuTime ):SetTag( self.DesignateName )
-              MENU_GROUP_COMMAND:New( AttackGroup, "Smoke red", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.Red ):SetTime( MenuTime ):SetTag( self.DesignateName )
-              MENU_GROUP_COMMAND:New( AttackGroup, "Smoke blue", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.Blue ):SetTime( MenuTime ):SetTag( self.DesignateName )
-              MENU_GROUP_COMMAND:New( AttackGroup, "Smoke green", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.Green ):SetTime( MenuTime ):SetTag( self.DesignateName )
-              MENU_GROUP_COMMAND:New( AttackGroup, "Smoke white", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.White ):SetTime( MenuTime ):SetTag( self.DesignateName )
-              MENU_GROUP_COMMAND:New( AttackGroup, "Smoke orange", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.Orange ):SetTime( MenuTime ):SetTag( self.DesignateName )
-              MENU_GROUP_COMMAND:New( AttackGroup, "Illuminate", DetectedMenu, self.MenuIlluminate, self, DesignateIndex ):SetTime( MenuTime ):SetTag( self.DesignateName )
+              MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Lase with random laser code(s)", DetectedMenu, self.MenuLaseOn, self, DesignateIndex, 60 ):SetTime( MenuTime ):SetTag( self.DesignateName )
+              MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Smoke red", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.Red ):SetTime( MenuTime ):SetTag( self.DesignateName )
+              MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Smoke blue", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.Blue ):SetTime( MenuTime ):SetTag( self.DesignateName )
+              MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Smoke green", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.Green ):SetTime( MenuTime ):SetTag( self.DesignateName )
+              MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Smoke white", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.White ):SetTime( MenuTime ):SetTag( self.DesignateName )
+              MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Smoke orange", DetectedMenu, self.MenuSmoke, self, DesignateIndex, SMOKECOLOR.Orange ):SetTime( MenuTime ):SetTag( self.DesignateName )
+              MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Illuminate", DetectedMenu, self.MenuIlluminate, self, DesignateIndex ):SetTime( MenuTime ):SetTag( self.DesignateName )
             else
               if Designating == "Laser" then
                 MenuText = "(L) " .. MenuText
@@ -40973,15 +41249,16 @@ do -- DESIGNATE
               elseif Designating == "Illuminate" then
                 MenuText = "(I) " .. MenuText
               end
-              local DetectedMenu = MENU_GROUP:New( AttackGroup, MenuText, MenuDesignate ):SetTime( MenuTime ):SetTag( self.DesignateName )
+              local DetectedMenu = MENU_GROUP_DELAYED:New( AttackGroup, MenuText, MenuDesignate ):SetTime( MenuTime ):SetTag( self.DesignateName )
               if Designating == "Laser" then
-                MENU_GROUP_COMMAND:New( AttackGroup, "Stop lasing", DetectedMenu, self.MenuLaseOff, self, DesignateIndex ):SetTime( MenuTime ):SetTag( self.DesignateName )
+                MENU_GROUP_COMMAND_DELAYED:New( AttackGroup, "Stop lasing", DetectedMenu, self.MenuLaseOff, self, DesignateIndex ):SetTime( MenuTime ):SetTag( self.DesignateName )
               else
               end
             end
           end
         end
         MenuDesignate:Remove( MenuTime, self.DesignateName )
+        MenuDesignate:Set()
       end
     )
     
@@ -57775,24 +58052,24 @@ function COMMANDCENTER:New( CommandCenterPositionable, CommandCenterName )
     end
     )
   
-  -- When a player enters a client or a unit, the CommandCenter will check for each Mission and each Task in the Mission if the player has things to do.
-  -- For these elements, it will=
-  -- - Set the correct menu.
-  -- - Assign the PlayerUnit to the Task if required.
-  -- - Send a message to the other players in the group that this player has joined.
-  self:HandleEvent( EVENTS.PlayerEnterUnit,
-    --- @param #COMMANDCENTER self
-    -- @param Core.Event#EVENTDATA EventData
-    function( self, EventData )
-      local PlayerUnit = EventData.IniUnit
-      for MissionID, Mission in pairs( self:GetMissions() ) do
-        local Mission = Mission -- Tasking.Mission#MISSION
-        local PlayerGroup = EventData.IniGroup -- The GROUP object should be filled!
-        Mission:JoinUnit( PlayerUnit, PlayerGroup )
-      end
-      self:SetMenu()
-    end
-  )
+--  -- When a player enters a client or a unit, the CommandCenter will check for each Mission and each Task in the Mission if the player has things to do.
+--  -- For these elements, it will=
+--  -- - Set the correct menu.
+--  -- - Assign the PlayerUnit to the Task if required.
+--  -- - Send a message to the other players in the group that this player has joined.
+--  self:HandleEvent( EVENTS.PlayerEnterUnit,
+--    --- @param #COMMANDCENTER self
+--    -- @param Core.Event#EVENTDATA EventData
+--    function( self, EventData )
+--      local PlayerUnit = EventData.IniUnit
+--      for MissionID, Mission in pairs( self:GetMissions() ) do
+--        local Mission = Mission -- Tasking.Mission#MISSION
+--        local PlayerGroup = EventData.IniGroup -- The GROUP object should be filled!
+--        Mission:JoinUnit( PlayerUnit, PlayerGroup )
+--      end
+--      self:SetMenu()
+--    end
+--  )
 
   -- Handle when a player leaves a slot and goes back to spectators ... 
   -- The PlayerUnit will be UnAssigned from the Task.
@@ -57809,22 +58086,22 @@ function COMMANDCENTER:New( CommandCenterPositionable, CommandCenterName )
     end
   )
 
-  -- Handle when a player leaves a slot and goes back to spectators ... 
-  -- The PlayerUnit will be UnAssigned from the Task.
-  -- When there is no Unit left running the Task, the Task goes into Abort...
-  self:HandleEvent( EVENTS.PlayerLeaveUnit,
-    --- @param #TASK self
-    -- @param Core.Event#EVENTDATA EventData
-    function( self, EventData )
-      local PlayerUnit = EventData.IniUnit
-      for MissionID, Mission in pairs( self:GetMissions() ) do
-        local Mission = Mission -- Tasking.Mission#MISSION
-        if Mission:IsENGAGED() then
-          Mission:AbortUnit( PlayerUnit )
-        end
-      end
-    end
-  )
+--  -- Handle when a player leaves a slot and goes back to spectators ... 
+--  -- The PlayerUnit will be UnAssigned from the Task.
+--  -- When there is no Unit left running the Task, the Task goes into Abort...
+--  self:HandleEvent( EVENTS.PlayerLeaveUnit,
+--    --- @param #TASK self
+--    -- @param Core.Event#EVENTDATA EventData
+--    function( self, EventData )
+--      local PlayerUnit = EventData.IniUnit
+--      for MissionID, Mission in pairs( self:GetMissions() ) do
+--        local Mission = Mission -- Tasking.Mission#MISSION
+--        if Mission:IsENGAGED() then
+--          Mission:AbortUnit( PlayerUnit )
+--        end
+--      end
+--    end
+--  )
 
   -- Handle when a player leaves a slot and goes back to spectators ... 
   -- The PlayerUnit will be UnAssigned from the Task.
@@ -57960,8 +58237,6 @@ end
 -- @param #COMMANDCENTER self
 function COMMANDCENTER:SetMenu()
   self:F()
-
-  self.CommandCenterMenu = self.CommandCenterMenu or MENU_COALITION:New( self.CommandCenterCoalition, "Command Center (" .. self:GetName() .. ")" )
 
   local MenuTime = timer.getTime()
   for MissionID, Mission in pairs( self:GetMissions() or {} ) do
@@ -58496,9 +58771,16 @@ end
 function MISSION:SetMenu( MenuTime )
   self:F( { self:GetName(), MenuTime } )
   
-  for _, TaskData in pairs( self:GetTasks() ) do
-    local Task = TaskData -- Tasking.Task#TASK
-    Task:SetMenu( MenuTime )  
+  local MenuCount = {}
+  --for TaskID, Task in UTILS.spairs( self:GetTasks(), function( t, a, b ) return t[a]:ReportOrder( ReportGroup ) <  t[b]:ReportOrder( ReportGroup ) end  ) do
+  for TaskID, Task in pairs( self:GetTasks() ) do
+    local Task = Task -- Tasking.Task#TASK
+    local TaskType = Task:GetType()
+    MenuCount[TaskType] = MenuCount[TaskType] or 1
+    if MenuCount[TaskType] <= 10 then
+      Task:SetMenu( MenuTime )
+      MenuCount[TaskType] = MenuCount[TaskType] + 1
+    end
   end
 end
 
@@ -58618,7 +58900,9 @@ function MISSION:GetMenu( TaskGroup ) -- R2.1 -- Changed Menu Structure
   
   local GroupMenu = self.MissionGroupMenu[TaskGroup]
   
-  self.MissionMenu = MENU_COALITION:New( self.MissionCoalition, self:GetName(), CommandCenterMenu )
+  CommandCenterMenu = MENU_GROUP:New( TaskGroup, "Command Center (" .. CommandCenter:GetName() .. ")" )
+  
+  self.MissionMenu = MENU_GROUP:New( TaskGroup, self:GetName(), CommandCenterMenu )
   
   GroupMenu.BriefingMenu = MENU_GROUP_COMMAND:New( TaskGroup, "Mission Briefing", self.MissionMenu, self.MenuReportBriefing, self, TaskGroup )
 
@@ -59899,7 +60183,8 @@ function TASK:SetPlannedMenuForGroup( TaskGroup, MenuTime )
 --  local TaskThreatLevelString = TaskThreatLevel and " [" .. string.rep( "■", TaskThreatLevel ) .. "]" or " []" 
   local TaskPlayerCount = self:GetPlayerCount()
   local TaskPlayerString = string.format( " (%dp)", TaskPlayerCount )
-  local TaskText = string.format( "%s%s", self:GetName(), TaskPlayerString ) --, TaskThreatLevelString )
+--  local TaskText = string.format( "%s%s", self:GetName(), TaskPlayerString ) --, TaskThreatLevelString )
+  local TaskText = string.format( "%s", self:GetName() )
   local TaskName = string.format( "%s", self:GetName() )
 
   local MissionMenu = Mission:GetMenu( TaskGroup )
@@ -59908,15 +60193,15 @@ function TASK:SetPlannedMenuForGroup( TaskGroup, MenuTime )
   --local MissionMenu = Mission:GetMenu( TaskGroup )
 
   self.MenuPlanned = self.MenuPlanned or {}
-  self.MenuPlanned[TaskGroup] = MENU_GROUP:New( TaskGroup, "Join Planned Task", MissionMenu, Mission.MenuReportTasksPerStatus, Mission, TaskGroup, "Planned" ):SetTime( MenuTime ):SetTag( "Tasking" )
-  local TaskTypeMenu = MENU_GROUP:New( TaskGroup, TaskType, self.MenuPlanned[TaskGroup] ):SetTime( MenuTime ):SetTag( "Tasking" )
-  local TaskTypeMenu = MENU_GROUP:New( TaskGroup, TaskText, TaskTypeMenu ):SetTime( MenuTime ):SetTag( "Tasking" )
-  local ReportTaskMenu = MENU_GROUP_COMMAND:New( TaskGroup, string.format( "Report Task Status" ), TaskTypeMenu, self.MenuTaskStatus, self, TaskGroup ):SetTime( MenuTime ):SetTag( "Tasking" )
+  self.MenuPlanned[TaskGroup] = MENU_GROUP_DELAYED:New( TaskGroup, "Join Planned Task", MissionMenu, Mission.MenuReportTasksPerStatus, Mission, TaskGroup, "Planned" ):SetTime( MenuTime ):SetTag( "Tasking" )
+  local TaskTypeMenu = MENU_GROUP_DELAYED:New( TaskGroup, TaskType, self.MenuPlanned[TaskGroup] ):SetTime( MenuTime ):SetTag( "Tasking" )
+  local TaskTypeMenu = MENU_GROUP_DELAYED:New( TaskGroup, TaskText, TaskTypeMenu ):SetTime( MenuTime ):SetTag( "Tasking" )
+  local ReportTaskMenu = MENU_GROUP_COMMAND_DELAYED:New( TaskGroup, string.format( "Report Task Status" ), TaskTypeMenu, self.MenuTaskStatus, self, TaskGroup ):SetTime( MenuTime ):SetTag( "Tasking" )
   
   if not Mission:IsGroupAssigned( TaskGroup ) then
     --self:F( { "Replacing Join Task menu" } )
-    local JoinTaskMenu = MENU_GROUP_COMMAND:New( TaskGroup, string.format( "Join Task" ), TaskTypeMenu, self.MenuAssignToGroup, self, TaskGroup ):SetTime( MenuTime ):SetTag( "Tasking" )
-    local MarkTaskMenu = MENU_GROUP_COMMAND:New( TaskGroup, string.format( "Mark Task on Map" ), TaskTypeMenu, self.MenuMarkToGroup, self, TaskGroup ):SetTime( MenuTime ):SetTag( "Tasking" )
+    local JoinTaskMenu = MENU_GROUP_COMMAND_DELAYED:New( TaskGroup, string.format( "Join Task" ), TaskTypeMenu, self.MenuAssignToGroup, self, TaskGroup ):SetTime( MenuTime ):SetTag( "Tasking" )
+    local MarkTaskMenu = MENU_GROUP_COMMAND_DELAYED:New( TaskGroup, string.format( "Mark Task Location on Map" ), TaskTypeMenu, self.MenuMarkToGroup, self, TaskGroup ):SetTime( MenuTime ):SetTag( "Tasking" )
   end
       
   return self
@@ -59948,9 +60233,10 @@ function TASK:SetAssignedMenuForGroup( TaskGroup, MenuTime )
 --  local MissionMenu = Mission:GetMenu( TaskGroup )
 
   self.MenuAssigned = self.MenuAssigned or {}
-  self.MenuAssigned[TaskGroup] = MENU_GROUP:New( TaskGroup, string.format( "Assigned Task %s", TaskName ), MissionMenu ):SetTime( MenuTime ):SetTag( "Tasking" )
-  local TaskTypeMenu = MENU_GROUP_COMMAND:New( TaskGroup, string.format( "Report Task Status" ), self.MenuAssigned[TaskGroup], self.MenuTaskStatus, self, TaskGroup ):SetTime( MenuTime ):SetTag( "Tasking" )
-  local TaskMenu = MENU_GROUP_COMMAND:New( TaskGroup, string.format( "Abort Group from Task" ), self.MenuAssigned[TaskGroup], self.MenuTaskAbort, self, TaskGroup ):SetTime( MenuTime ):SetTag( "Tasking" )
+  self.MenuAssigned[TaskGroup] = MENU_GROUP_DELAYED:New( TaskGroup, string.format( "Assigned Task %s", TaskName ), MissionMenu ):SetTime( MenuTime ):SetTag( "Tasking" )
+  local TaskTypeMenu = MENU_GROUP_COMMAND_DELAYED:New( TaskGroup, string.format( "Report Task Status" ), self.MenuAssigned[TaskGroup], self.MenuTaskStatus, self, TaskGroup ):SetTime( MenuTime ):SetTag( "Tasking" )
+  local TaskMenu = MENU_GROUP_COMMAND_DELAYED:New( TaskGroup, string.format( "Abort Task" ), self.MenuAssigned[TaskGroup], self.MenuTaskAbort, self, TaskGroup ):SetTime( MenuTime ):SetTag( "Tasking" )
+  local MarkMenu = MENU_GROUP_COMMAND_DELAYED:New( TaskGroup, string.format( "Mark Task Location on Map" ), self.MenuAssigned[TaskGroup], self.MenuMarkToGroup, self, TaskGroup ):SetTime( MenuTime ):SetTag( "Tasking" )
 
   return self
 end
@@ -59995,10 +60281,12 @@ function TASK:RefreshMenus( TaskGroup, MenuTime )
   
   if PlannedMenu then
     self.MenuPlanned[TaskGroup] = PlannedMenu:Remove( MenuTime , "Tasking" )
+    PlannedMenu:Set()
   end
   
   if AssignedMenu then
     self.MenuAssigned[TaskGroup] = AssignedMenu:Remove( MenuTime, "Tasking" )
+    AssignedMenu:Set()
   end
   
 end
@@ -61163,8 +61451,8 @@ do -- TASK_A2G_DISPATCHER
     self.Detection = Detection
     self.Mission = Mission
     
-    self.Detection:FilterCategories( Unit.Category.GROUND_UNIT, Unit.Category.SHIP )
-    self.Detection:FilterFriendliesCategory( Unit.Category.GROUND_UNIT )
+    self.Detection:FilterCategories( { Unit.Category.GROUND_UNIT, Unit.Category.SHIP } )
+    self.Detection:FilterFriendlyCategories( { Unit.Category.GROUND_UNIT } )
     
     self:AddTransition( "Started", "Assign", "Started" )
     
