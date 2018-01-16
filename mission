@@ -8244,11 +8244,12 @@ mission =
                             [27] =
                             {
                                 ["communication"] = true,
-                                ["frequency"] = 251,
+                                ["frequency"] = 243,
                                 ["groupId"] = 78,
                                 ["hidden"] = false,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_324",
+                                ["radioSet"] = false,
                                 ["route"] =
                                 {
                                     ["points"] =
@@ -8430,11 +8431,12 @@ mission =
                             [28] =
                             {
                                 ["communication"] = true,
-                                ["frequency"] = 251,
+                                ["frequency"] = 243,
                                 ["groupId"] = 79,
                                 ["hidden"] = false,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_327",
+                                ["radioSet"] = false,
                                 ["route"] =
                                 {
                                     ["points"] =
@@ -8616,11 +8618,12 @@ mission =
                             [29] =
                             {
                                 ["communication"] = true,
-                                ["frequency"] = 251,
+                                ["frequency"] = 243,
                                 ["groupId"] = 80,
                                 ["hidden"] = false,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_338",
+                                ["radioSet"] = false,
                                 ["route"] =
                                 {
                                     ["points"] =
@@ -8802,11 +8805,12 @@ mission =
                             [30] =
                             {
                                 ["communication"] = true,
-                                ["frequency"] = 251,
+                                ["frequency"] = 243,
                                 ["groupId"] = 81,
                                 ["hidden"] = false,
                                 ["modulation"] = 0,
                                 ["name"] = "DictKey_GroupName_341",
+                                ["radioSet"] = false,
                                 ["route"] =
                                 {
                                     ["points"] =
@@ -23669,7 +23673,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 8073,
+    ["currentKey"] = 9665,
     ["date"] =
     {
         ["Day"] = 15,
@@ -26925,11 +26929,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -315160.42507143,
-        ["centerY"] = 897228.36378571,
-        ["zoom"] = 3417,
+        ["centerX"] = -327407.40735714,
+        ["centerY"] = 899227.40835714,
+        ["zoom"] = 259079,
     }, -- end of ["map"]
-    ["maxDictId"] = 343,
+    ["maxDictId"] = 348,
     ["pictureFileNameB"] =
     {
     }, -- end of ["pictureFileNameB"]
@@ -26991,10 +26995,12 @@ mission =
         {
             [1] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_54\"));",
             [2] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_140\")); mission.trig.func[2]=nil;",
-            [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_281\")); mission.trig.func[3]=nil;",
-            [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_171\")); mission.trig.func[4]=nil;",
-            [5] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_279\")); mission.trig.func[5]=nil;",
-            [6] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_280\")); mission.trig.func[6]=nil;",
+            [3] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_345\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_346\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_347\")); mission.trig.func[3]=nil;",
+            [4] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_281\")); mission.trig.func[4]=nil;",
+            [5] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_171\")); mission.trig.func[5]=nil;",
+            [6] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_279\")); mission.trig.func[6]=nil;",
+            [7] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_280\")); mission.trig.func[7]=nil;",
+            [8] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_348\")); mission.trig.func[8]=nil;",
         }, -- end of ["actions"]
         ["conditions"] =
         {
@@ -27004,6 +27010,8 @@ mission =
             [4] = "return(true)",
             [5] = "return(true)",
             [6] = "return(true)",
+            [7] = "return(true)",
+            [8] = "return(true)",
         }, -- end of ["conditions"]
         ["custom"] =
         {
@@ -27022,6 +27030,8 @@ mission =
             [4] = true,
             [5] = true,
             [6] = true,
+            [7] = true,
+            [8] = true,
         }, -- end of ["flag"]
         ["func"] =
         {
@@ -27030,6 +27040,8 @@ mission =
             [4] = "if mission.trig.conditions[4]() then mission.trig.actions[4]() end",
             [5] = "if mission.trig.conditions[5]() then mission.trig.actions[5]() end",
             [6] = "if mission.trig.conditions[6]() then mission.trig.actions[6]() end",
+            [7] = "if mission.trig.conditions[7]() then mission.trig.actions[7]() end",
+            [8] = "if mission.trig.conditions[8]() then mission.trig.actions[8]() end",
         }, -- end of ["func"]
         ["funcStartup"] =
         {
@@ -28331,6 +28343,51 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
+                    ["countrylist"] = 21,
+                    ["file"] = "ResKey_Action_345",
+                    ["predicate"] = "a_out_sound_c",
+                }, -- end of [1]
+                [2] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["countrylist"] = 21,
+                    ["file"] = "ResKey_Action_346",
+                    ["predicate"] = "a_out_sound_c",
+                }, -- end of [2]
+                [3] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["countrylist"] = 21,
+                    ["file"] = "ResKey_Action_347",
+                    ["predicate"] = "a_out_sound_c",
+                }, -- end of [3]
+            }, -- end of ["actions"]
+            ["comment"] = "Beacons",
+            ["eventlist"] = "",
+            ["predicate"] = "triggerOnce",
+            ["rules"] =
+            {
+            }, -- end of ["rules"]
+        }, -- end of [3]
+        [4] =
+        {
+            ["actions"] =
+            {
+                [1] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
                     ["file"] = "ResKey_Action_281",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
@@ -28341,8 +28398,8 @@ mission =
             ["rules"] =
             {
             }, -- end of ["rules"]
-        }, -- end of [3]
-        [4] =
+        }, -- end of [4]
+        [5] =
         {
             ["actions"] =
             {
@@ -28363,8 +28420,8 @@ mission =
             ["rules"] =
             {
             }, -- end of ["rules"]
-        }, -- end of [4]
-        [5] =
+        }, -- end of [5]
+        [6] =
         {
             ["actions"] =
             {
@@ -28385,8 +28442,8 @@ mission =
             ["rules"] =
             {
             }, -- end of ["rules"]
-        }, -- end of [5]
-        [6] =
+        }, -- end of [6]
+        [7] =
         {
             ["actions"] =
             {
@@ -28407,7 +28464,29 @@ mission =
             ["rules"] =
             {
             }, -- end of ["rules"]
-        }, -- end of [6]
+        }, -- end of [7]
+        [8] =
+        {
+            ["actions"] =
+            {
+                [1] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["file"] = "ResKey_Action_348",
+                    ["predicate"] = "a_do_script_file",
+                }, -- end of [1]
+            }, -- end of ["actions"]
+            ["comment"] = "Ejection",
+            ["eventlist"] = "",
+            ["predicate"] = "triggerOnce",
+            ["rules"] =
+            {
+            }, -- end of ["rules"]
+        }, -- end of [8]
     }, -- end of ["trigrules"]
     ["version"] = 13,
     ["weather"] =

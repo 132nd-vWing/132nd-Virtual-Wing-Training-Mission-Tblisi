@@ -6,4 +6,8 @@ mapResource =
     ["ResKey_Action_279"] = "mist.lua",
     ["ResKey_Action_280"] = "CTLD.lua",
     ["ResKey_Action_281"] = "MissileTrainer.lua",
+    ["ResKey_Action_345"] = "beacon.ogg",
+    ["ResKey_Action_346"] = "beaconsilent.ogg",
+    ["ResKey_Action_347"] = "ejection.ogg",
+    ["ResKey_Action_348"] = "TRMT_EJECT.lua",
 } -- end of mapResource
