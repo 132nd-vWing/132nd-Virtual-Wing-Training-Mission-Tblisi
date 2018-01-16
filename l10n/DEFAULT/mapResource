@@ -9,5 +9,7 @@ mapResource =
     ["ResKey_Action_345"] = "beacon.ogg",
     ["ResKey_Action_346"] = "beaconsilent.ogg",
     ["ResKey_Action_347"] = "ejection.ogg",
-    ["ResKey_Action_348"] = "TRMT_EJECT.lua",
+    ["ResKey_Action_349"] = "TRMT_MarkTargets.lua",
+    ["ResKey_Action_469"] = "TRMT_clean.lua",
+    ["ResKey_Action_474"] = "TRMT_EJECT.lua",
 } -- end of mapResource
