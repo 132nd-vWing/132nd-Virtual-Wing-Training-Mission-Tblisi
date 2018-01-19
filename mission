@@ -10912,6 +10912,87 @@ mission =
                                 ["x"] = -347019.44464285,
                                 ["y"] = 902284.73914286,
                             }, -- end of [6]
+                            [7] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 104,
+                                ["heading"] = 5.3930673886625,
+                                ["name"] = "DictKey_GroupName_478",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314254.62492856,
+                                            ["y"] = 895385.73571431,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Warehouses",
+                                        ["heading"] = 5.3930673886625,
+                                        ["name"] = "DictKey_GroupName_478",
+                                        ["shape_name"] = "sklad",
+                                        ["type"] = "Warehouse",
+                                        ["unitId"] = 182,
+                                        ["x"] = -314254.62492856,
+                                        ["y"] = 895385.73571431,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314254.62492856,
+                                ["y"] = 895385.73571431,
+                            }, -- end of [7]
+                            [8] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 105,
+                                ["heading"] = 0.68067840827779,
+                                ["name"] = "DictKey_GroupName_481",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -318194.37635713,
+                                            ["y"] = 895605.82114287,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Warehouses",
+                                        ["heading"] = 0.68067840827779,
+                                        ["name"] = "DictKey_GroupName_481",
+                                        ["rate"] = 100,
+                                        ["shape_name"] = "sklad",
+                                        ["type"] = "Warehouse",
+                                        ["unitId"] = 183,
+                                        ["x"] = -318194.37635713,
+                                        ["y"] = 895605.82114287,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -318194.37635713,
+                                ["y"] = 895605.82114287,
+                            }, -- end of [8]
                         }, -- end of ["group"]
                     }, -- end of ["static"]
                     ["vehicle"] =
@@ -11840,7 +11921,7 @@ mission =
                             {
                                 ["groupId"] = 82,
                                 ["hidden"] = false,
-                                ["name"] = "DictKey_GroupName_351",
+                                ["name"] = "Marnueli Range - basic range",
                                 ["route"] =
                                 {
                                     ["points"] =
@@ -26096,7 +26177,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 26022,
+    ["currentKey"] = 31253,
     ["date"] =
     {
         ["Day"] = 15,
@@ -29352,11 +29433,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -334481.54421427,
-        ["centerY"] = 880402.86857145,
-        ["zoom"] = 158195,
+        ["centerX"] = -275526.8145,
+        ["centerY"] = 866750.70264285,
+        ["zoom"] = 11693,
     }, -- end of ["map"]
-    ["maxDictId"] = 477,
+    ["maxDictId"] = 483,
     ["pictureFileNameB"] =
     {
     }, -- end of ["pictureFileNameB"]
