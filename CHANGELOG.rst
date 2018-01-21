@@ -2,6 +2,52 @@ Changelog
 =========
 
 
+(unreleased)
+------------
+- Fix menus. [132nd-Entropy]
+
+
+6.3.0 (2018-01-19)
+------------------
+
+Fix
+~~~
+- Re-add warhouses at the FARPs and Lochinig and Soganlug fix: renamed
+  Range objects. [132nd-Entropy]
+
+
+6.2.0 (2018-01-16)
+------------------
+- Re-added CSAR fixed Ejection script re-added FAC(A) target marking.
+  [132nd-Entropy]
+- Re-enable Range Targets. [132nd-Entropy]
+
+
+6.1.0 (2018-01-16)
+------------------
+- Re-enable radiobeacons and ejetion script. [132nd-Entropy]
+
+
+6.0.0 (2018-01-15)
+------------------
+- Start over. [132nd-Entropy]
+
+
+5.3.0 (2018-01-12)
+------------------
+
+Changes
+~~~~~~~
+- Rename advanced menus fix: set Harriers to Client new: add radio
+  command for FAC(A)s to mark spread out targets on the ranges via
+  flare. [132nd-Entropy]
+- Added 4 Harriers to Lochini. [132nd-Entropy]
+
+Fix
+~~~
+- Update MOOSE chg: fwd weather to January. [132nd-Entropy]
+
+
 5.2.0 (2017-12-28)
 ------------------
 
@@ -150,22 +196,15 @@ Fix
 - Fix removal of debug menu. [132nd-etcher]
 - Fix tankers not being destroyed after they stop. [132nd-etcher]
 
-Other
-~~~~~
-- . [132nd-Entropy]
-
 
 4.3.1 (2017-12-04)
 ------------------
+- . [132nd-Entropy]
 - Fix README.md. [132nd-etcher]
 - Delete 1_TRMT_BASE.lua. [132nd-etcher]
 
   Why on Earth is there a "1_TRMT_BASE.lua" file in the master branch ???
 - Working on base class system. [132nd-etcher]
-- Release. [132nd-Entropy]
-- . [132nd-Entropy]
-- Fix forgot to activate Civ Traffic. [132nd-Entropy]
-- Update CHANGELOG.rst. [132nd-Entropy]
 
 
 4.3.0 (2017-11-25)
@@ -180,24 +219,13 @@ Changes
 - Increased missile detonation range from 450m to 500m to prevent
   casualties with the Missile Trainer running. [132nd-Entropy]
 
-Fix
-~~~
-- Fixed typo in the ARK-UD beacon menu. [132nd-Entropy]
-- Tanker landing at Soganlug clipping its wing during taxi. Placed an
-  Hummer to block the taxiway to prevent the colission. [132nd-Entropy]
-- Ejection sound not audible unless tuned into guard channel manually.
-  Fixed this by played the emergency sound now to the Blue coalition
-  regardless of radio settings. [132nd-Entropy]
-
 Other
 ~~~~~
+- Release. [132nd-Entropy]
+- . [132nd-Entropy]
+- Fix forgot to activate Civ Traffic. [132nd-Entropy]
+- Update CHANGELOG.rst. [132nd-Entropy]
 - Release Master. [132nd-Entropy]
-- New moose lua from Sven, for debugging the menu issue. [132nd-Entropy]
-- Received new moose.lua from Sven, this one contains debugging
-  information to trace the problem with the disappearing menus. [132nd-
-  Entropy]
-- Roll back moose and take out RAT script for now. [132nd-Entropy]
-- Create 1_TRMT_BASE.lua. [132nd-etcher]
 
 
 4.2.0 (2017-11-22)
@@ -400,33 +428,6 @@ Fix
 3.8.2 (2017-10-09)
 ------------------
 
-New
-~~~
-- Added some navpoints for targets at NOLGA and KASHUR ranges. [Neck]
-- Added Pickupzone in ME at Tblisi railstation. [Neck]
-- GORI RANGE: Added various targets and activity (JTAC related) [Neck]
-- Added CTLD pickupzone at GORI range complex and at FOB Kilo. [Neck]
-- Added M113 convoy (For JTAC) on GORI Range Complex. JTAC should not
-  use first vehicle. JTAC starts convoy by Using F10. Convoy drives to
-  the range village. Convoy can be started and stopped using F10. (JTAC
-  veichle is the 3rd veichle in the convoy.) [Neck]
-- Added navpoints for some targets at TKIBULI range. [Neck]
-- Added more targets at GORI RANGE COMPLEX. [Neck]
-- Added targets for GORI RANGE COMPLEX. [Neck]
-- Added targets at NOLGA range complex. [Neck]
-- Added veichles to the range storage at KASHURI Range. [Neck]
-- Added 3x External MI-8's at Lochini. [Neck]
-- Added 1x Ural truck for each SAM group. (So that all SAM's can get new
-  missiles if they run out of missiles). [Neck]
-- Added NOLGA Range + SA-15 at NOLGA. [Neck]
-- Added KASHURI WEST Range (Arty, + Buildings) [Neck]
-- Added Ammo crates at Railway station at TBLISI for sling load to SOF
-  FOB. [Neck]
-- Added Bomb cargo at Tblisi Railstation for MI-8 to slingload. [Neck]
-- Added LZ HAWK as a triggerzone, just to see it in the ME. [Neck]
-- Added SAM's to TSKHINVALI area (SA-8, SA-13 and SA-9). Plus EWR. All
-  for advanced scenario. [Neck]
-
 Changes
 ~~~~~~~
 - Set blue units at TKIBULI to ROE Weapons hold (to prevent firing on
@@ -437,35 +438,6 @@ Changes
 - Renamed 476th A-10s at VAZIANI to External A-10 #5-8 to avoid
   confuction. [Neck]
 - Adjusted startup of advanced scenario. [Neck]
-- Adjusted RED Tanker (IL-78) tanker track and speed. Now racetrack WEST
-  of the coast. FL240, speed 390. [Neck]
-- Loaded latest CTLD file. [Neck]
-- Added MI-8 #5 and #6 to CTLD. [Neck]
-- Added 2 more external MI-8s. Now a total of 6. #5 and #6 have a German
-  skin. While 1-4 is US. [Neck]
-- Updated range targets at GORI Range complex. [Neck]
-- Added LZ's for MI'8 SOF insertions (Just to see them in the ME).
-  Placed combatants on one of the LZ's at GORI Range complex. [Neck]
-- Set SA-15 at Nolga range to AI off. [Neck]
-- Added Tblisi Railstation pickupzone in CTLD. [Neck]
-- Made Tkibuli TGT #4 and #9 destructable chg: update MOOSE to latest.
-  [132nd-Entropy]
-- Added Gori Range convoy JTAC veichle as a CTLD transport. (3rd vehicle
-  in the convoy). [Neck]
-- IN CTLD: Added GORI Range pickupzone, close to Gori Range Warehouse.
-  Added FOB KILO pickupzone. [Neck]
-- Added US SOF team 1 and 2 (FOB KILO) as extracable group in CTLD.
-  [Neck]
-- Edited CTLD (I did not do it in the last commit apperantly). Added 4x
-  external MI-8s so they can use CTLD. [Neck]
-- Edited CTLD to make the 4 external MI-8's able to use CTLD. Renamed
-  the first MI-8 external to MI-8 External #1. [Neck]
-- Make Tkibuli range Targets 1 and 7 destroyable. [132nd-Entropy]
-- Added another External MI-8 (total of 4), changed the locations for
-  MI-8's, renamed 3rd wing and 36 stormo KA-50's and Huey to External
-  AC, and changed nationality to US for all of them. [Neck]
-- Set the newly added SAM's at TSKHINVALI to AI Off, and made F10 menu
-  to turn them on/off as part of the advanced scenario. [Neck]
 
 Fix
 ~~~
@@ -477,7 +449,6 @@ Other
 - Release. [132nd-Entropy]
 - Add: Added Dropzone for LZ Hawk in CTLD file. [Neck]
 - Add: Added dropzone for CTLD for LZ hawk. [Neck]
-- Update mose to version 2.2. [132nd-Entropy]
 
 
 3.8.1 (2017-10-02)
@@ -499,8 +470,6 @@ Changes
 - Renamed AI targets at TKIBULI SOUTH. [Neck]
 - Moved Tkibuli SA-8, further south, to "give room" for AI Targets at
   TKIBULI. [Neck]
-- Set tankers and AWACS staged on airfields West on the map as invicible
-  (so red SAMs dont fire at the units) [Neck]
 
 Other
 ~~~~~
@@ -517,8 +486,9 @@ Fix
 
   Using MOOSE AATACAN feature instead of the one provided in the ME
 
-Other
-~~~~~
+
+3.7.5 (2017-09-29)
+------------------
 - Replaced F5 agressors with flyable version. [132nd-Entropy]
 - Replaced F5 agressors with flyable version. [132nd-Entropy]
 
@@ -571,7 +541,6 @@ Fix
   Entropy]
 - Replaced SA-6 at Tkibuli with SA-3 since SA-6 is bugged. [132nd-
   Entropy]
-- Forgot test aircraft in the mission. [132nd-Entropy]
 
 Other
 ~~~~~
@@ -594,6 +563,7 @@ Changes
 
 Fix
 ~~~
+- Forgot test aircraft in the mission. [132nd-Entropy]
 - Fixed infantry unable to move at TETRA. [132nd-Entropy]
 
 
