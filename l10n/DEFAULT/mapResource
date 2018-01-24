@@ -12,4 +12,5 @@ mapResource =
     ["ResKey_Action_349"] = "TRMT_MarkTargets.lua",
     ["ResKey_Action_469"] = "TRMT_clean.lua",
     ["ResKey_Action_474"] = "TRMT_EJECT.lua",
+    ["ResKey_Action_521"] = "TRMT_Tkibuli Range Menu.lua",
 } -- end of mapResource

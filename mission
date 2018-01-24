@@ -26058,6 +26058,182 @@ mission =
                             }, -- end of [2]
                         }, -- end of ["group"]
                     }, -- end of ["plane"]
+                    ["vehicle"] =
+                    {
+                        ["group"] =
+                        {
+                            [1] =
+                            {
+                                ["groupId"] = 106,
+                                ["hidden"] = false,
+                                ["name"] = "DictKey_GroupName_484",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["ETA"] = 0,
+                                            ["ETA_locked"] = true,
+                                            ["action"] = "Off Road",
+                                            ["alt"] = 840,
+                                            ["alt_type"] = "BARO",
+                                            ["formation_template"] = "",
+                                            ["name"] = "DictKey_WptName_486",
+                                            ["speed"] = 5.5555555555556,
+                                            ["speed_locked"] = true,
+                                            ["task"] =
+                                            {
+                                                ["id"] = "ComboTask",
+                                                ["params"] =
+                                                {
+                                                    ["tasks"] =
+                                                    {
+                                                    }, -- end of ["tasks"]
+                                                }, -- end of ["params"]
+                                            }, -- end of ["task"]
+                                            ["type"] = "Turning Point",
+                                            ["x"] = -270648.15692857,
+                                            ["y"] = 716714.34571429,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                    ["spans"] =
+                                    {
+                                        [1] =
+                                        {
+                                            [1] =
+                                            {
+                                                ["x"] = -270601.69664286,
+                                                ["y"] = 716725.68457143,
+                                            }, -- end of [1]
+                                            [2] =
+                                            {
+                                                ["x"] = -270341.47292857,
+                                                ["y"] = 717177.15914286,
+                                            }, -- end of [2]
+                                        }, -- end of [1]
+                                    }, -- end of ["spans"]
+                                }, -- end of ["route"]
+                                ["start_time"] = 0,
+                                ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
+                                ["tasks"] =
+                                {
+                                }, -- end of ["tasks"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["heading"] = 4.5553093477052,
+                                        ["name"] = "DictKey_UnitName_485",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Good",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "p-19 s-125 sr",
+                                        ["unitId"] = 184,
+                                        ["x"] = -270648.15692857,
+                                        ["y"] = 716714.34571429,
+                                    }, -- end of [1]
+                                    [2] =
+                                    {
+                                        ["heading"] = 4.7123889803847,
+                                        ["name"] = "DictKey_UnitName_490",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Good",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "p-19 s-125 sr",
+                                        ["unitId"] = 187,
+                                        ["x"] = -264782.42721429,
+                                        ["y"] = 721827.78000001,
+                                    }, -- end of [2]
+                                    [3] =
+                                    {
+                                        ["heading"] = 1.0479209021644,
+                                        ["name"] = "DictKey_UnitName_491",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Good",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "snr s-125 tr",
+                                        ["unitId"] = 188,
+                                        ["x"] = -268687.27921429,
+                                        ["y"] = 723002.23571429,
+                                    }, -- end of [3]
+                                    [4] =
+                                    {
+                                        ["heading"] = 1.0479209021644,
+                                        ["name"] = "DictKey_UnitName_492",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Good",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "snr s-125 tr",
+                                        ["unitId"] = 189,
+                                        ["x"] = -270176.43235714,
+                                        ["y"] = 710847.71600001,
+                                    }, -- end of [4]
+                                    [5] =
+                                    {
+                                        ["heading"] = 2.4260076602721,
+                                        ["name"] = "DictKey_UnitName_493",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Good",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "5p73 s-125 ln",
+                                        ["unitId"] = 190,
+                                        ["x"] = -268187.69635714,
+                                        ["y"] = 721503.77057144,
+                                    }, -- end of [5]
+                                    [6] =
+                                    {
+                                        ["heading"] = 1.0479209021644,
+                                        ["name"] = "DictKey_UnitName_495",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Good",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "5p73 s-125 ln",
+                                        ["unitId"] = 192,
+                                        ["x"] = -267679.70692857,
+                                        ["y"] = 717264.95228573,
+                                    }, -- end of [6]
+                                    [7] =
+                                    {
+                                        ["heading"] = 1.0479209021644,
+                                        ["name"] = "DictKey_UnitName_496",
+                                        ["playerCanDrive"] = true,
+                                        ["skill"] = "Good",
+                                        ["transportable"] =
+                                        {
+                                            ["randomTransportable"] = false,
+                                        }, -- end of ["transportable"]
+                                        ["type"] = "5p73 s-125 ln",
+                                        ["unitId"] = 193,
+                                        ["x"] = -259959.39435714,
+                                        ["y"] = 722892.68857145,
+                                    }, -- end of [7]
+                                }, -- end of ["units"]
+                                ["visible"] = false,
+                                ["x"] = -270648.15692857,
+                                ["y"] = 716714.34571429,
+                            }, -- end of [1]
+                        }, -- end of ["group"]
+                    }, -- end of ["vehicle"]
                 }, -- end of [1]
                 [2] =
                 {
@@ -26177,7 +26353,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 31253,
+    ["currentKey"] = 41027,
     ["date"] =
     {
         ["Day"] = 15,
@@ -29433,11 +29609,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -275526.8145,
-        ["centerY"] = 866750.70264285,
-        ["zoom"] = 11693,
+        ["centerX"] = -266781.72278571,
+        ["centerY"] = 724632.04028572,
+        ["zoom"] = 49309,
     }, -- end of ["map"]
-    ["maxDictId"] = 483,
+    ["maxDictId"] = 521,
     ["pictureFileNameB"] =
     {
     }, -- end of ["pictureFileNameB"]
@@ -29507,6 +29683,7 @@ mission =
             [7] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_280\")); mission.trig.func[7]=nil;",
             [8] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_474\")); mission.trig.func[8]=nil;",
             [9] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_349\")); mission.trig.func[9]=nil;",
+            [10] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_521\")); mission.trig.func[10]=nil;",
         }, -- end of ["actions"]
         ["conditions"] =
         {
@@ -29519,6 +29696,7 @@ mission =
             [7] = "return(true)",
             [8] = "return(true)",
             [9] = "return(true)",
+            [10] = "return(true)",
         }, -- end of ["conditions"]
         ["custom"] =
         {
@@ -29540,6 +29718,7 @@ mission =
             [7] = true,
             [8] = true,
             [9] = true,
+            [10] = true,
         }, -- end of ["flag"]
         ["func"] =
         {
@@ -29551,6 +29730,7 @@ mission =
             [7] = "if mission.trig.conditions[7]() then mission.trig.actions[7]() end",
             [8] = "if mission.trig.conditions[8]() then mission.trig.actions[8]() end",
             [9] = "if mission.trig.conditions[9]() then mission.trig.actions[9]() end",
+            [10] = "if mission.trig.conditions[10]() then mission.trig.actions[10]() end",
         }, -- end of ["func"]
         ["funcStartup"] =
         {
@@ -31020,6 +31200,28 @@ mission =
             {
             }, -- end of ["rules"]
         }, -- end of [9]
+        [10] =
+        {
+            ["actions"] =
+            {
+                [1] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["file"] = "ResKey_Action_521",
+                    ["predicate"] = "a_do_script_file",
+                }, -- end of [1]
+            }, -- end of ["actions"]
+            ["comment"] = "TKIBULI RANGE MENU",
+            ["eventlist"] = "",
+            ["predicate"] = "triggerOnce",
+            ["rules"] =
+            {
+            }, -- end of ["rules"]
+        }, -- end of [10]
     }, -- end of ["trigrules"]
     ["version"] = 13,
     ["weather"] =
