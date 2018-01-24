@@ -54,6 +54,18 @@ end, {}, 10, 30 )
 
 SCHEDULER:New( nil,
   function()
+EntropyPlane = GROUP:FindByName( "617th Entropy AC" )
+      if EntropyPlane and EntropyPlane:IsAlive() then
+       EntropyAdvancedMenus =  MENU_GROUP:New( EntropyPlane, "Advanced Menus" )
+        MENU_GROUP_COMMAND:New( EntropyPlane, "Activate Advanced scenario", EntropyAdvancedMenus, FLAG80, EntropyPlane)
+        MENU_GROUP_COMMAND:New( EntropyPlane, "Deactivate advanced scenario", EntropyAdvancedMenus, FLAG81, EntropyPlane)
+        MENU_GROUP_COMMAND:New( EntropyPlane, "Sa-6 ON", EntropyAdvancedMenus, FLAG60, EntropyPlane)
+        MENU_GROUP_COMMAND:New( EntropyPlane, "Sa-6 OFF", EntropyAdvancedMenus, FLAG61, EntropyPlane)
+      end
+end, {}, 10, 30 )
+
+SCHEDULER:New( nil,
+  function()
 GORI_RANGE_JTAC = GROUP:FindByName( "GORI_RANGE_JTAC" )
       if GORI_RANGE_JTAC and GORI_RANGE_JTAC:IsAlive() then
        GoriAdvancedMenus =  MENU_GROUP:New( GORI_RANGE_JTAC, "Gori Range Convoy Options" )

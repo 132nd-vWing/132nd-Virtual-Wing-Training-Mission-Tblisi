@@ -4,40 +4,6 @@ Changelog
 
 (unreleased)
 ------------
-<<<<<<< HEAD
-- Fix menus. [132nd-Entropy]
-
-
-6.3.0 (2018-01-19)
-------------------
-
-Fix
-~~~
-- Re-add warhouses at the FARPs and Lochinig and Soganlug fix: renamed
-  Range objects. [132nd-Entropy]
-
-
-6.2.0 (2018-01-16)
-------------------
-- Re-added CSAR fixed Ejection script re-added FAC(A) target marking.
-  [132nd-Entropy]
-- Re-enable Range Targets. [132nd-Entropy]
-
-
-6.1.0 (2018-01-16)
-------------------
-- Re-enable radiobeacons and ejetion script. [132nd-Entropy]
-
-
-6.0.0 (2018-01-15)
-------------------
-- Start over. [132nd-Entropy]
-
-
-5.3.0 (2018-01-12)
-------------------
-=======
->>>>>>> ed2669e47ddbc65a76012949de9da4022d9f4802
 
 Changes
 ~~~~~~~
