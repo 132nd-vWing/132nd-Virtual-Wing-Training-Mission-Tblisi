@@ -26058,6 +26058,451 @@ mission =
                             }, -- end of [2]
                         }, -- end of ["group"]
                     }, -- end of ["plane"]
+                    ["static"] =
+                    {
+                        ["group"] =
+                        {
+                            [1] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 107,
+                                ["heading"] = 0,
+                                ["name"] = "DictKey_GroupName_526",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -267669.3095,
+                                            ["y"] = 716850.01742858,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_GroupName_526",
+                                        ["shape_name"] = "ComCenter",
+                                        ["type"] = ".Command Center",
+                                        ["unitId"] = 198,
+                                        ["x"] = -267669.3095,
+                                        ["y"] = 716850.01742858,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -267669.3095,
+                                ["y"] = 716850.01742858,
+                            }, -- end of [1]
+                            [2] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 108,
+                                ["heading"] = 1.4311699866353,
+                                ["name"] = "DictKey_GroupName_529",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -267648.7175,
+                                            ["y"] = 717193.21742858,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 1.4311699866353,
+                                        ["name"] = "DictKey_GroupName_529",
+                                        ["rate"] = 50,
+                                        ["shape_name"] = "PalatkaB",
+                                        ["type"] = "FARP Tent",
+                                        ["unitId"] = 199,
+                                        ["x"] = -267648.7175,
+                                        ["y"] = 717193.21742858,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -267648.7175,
+                                ["y"] = 717193.21742858,
+                            }, -- end of [2]
+                            [3] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 109,
+                                ["heading"] = 2.7925268031909,
+                                ["name"] = "DictKey_GroupName_532",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -267660.46921429,
+                                            ["y"] = 717193.18942858,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 2.7925268031909,
+                                        ["name"] = "DictKey_GroupName_532",
+                                        ["shape_name"] = "GeneratorF",
+                                        ["type"] = "GeneratorF",
+                                        ["unitId"] = 200,
+                                        ["x"] = -267660.46921429,
+                                        ["y"] = 717193.18942858,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -267660.46921429,
+                                ["y"] = 717193.18942858,
+                            }, -- end of [3]
+                            [4] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 110,
+                                ["heading"] = 1.4137166941154,
+                                ["name"] = "DictKey_GroupName_535",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -267550.0475,
+                                            ["y"] = 717613.63742858,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 1.4137166941154,
+                                        ["name"] = "DictKey_GroupName_535",
+                                        ["type"] = "Sandbox",
+                                        ["unitId"] = 201,
+                                        ["x"] = -267550.0475,
+                                        ["y"] = 717613.63742858,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -267550.0475,
+                                ["y"] = 717613.63742858,
+                            }, -- end of [4]
+                            [5] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 111,
+                                ["heading"] = 2.6354471705114,
+                                ["name"] = "DictKey_GroupName_538",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -267543.0055,
+                                            ["y"] = 717220.50285715,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Unarmed",
+                                        ["heading"] = 2.6354471705114,
+                                        ["name"] = "DictKey_GroupName_538",
+                                        ["rate"] = 3,
+                                        ["type"] = "GAZ-66",
+                                        ["unitId"] = 202,
+                                        ["x"] = -267543.0055,
+                                        ["y"] = 717220.50285715,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -267543.0055,
+                                ["y"] = 717220.50285715,
+                            }, -- end of [5]
+                            [6] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 112,
+                                ["heading"] = 4.1189770347066,
+                                ["name"] = "DictKey_GroupName_541",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -267639.99778571,
+                                            ["y"] = 717181.31600001,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Unarmed",
+                                        ["heading"] = 4.1189770347066,
+                                        ["livery_id"] = "autumn",
+                                        ["name"] = "DictKey_GroupName_541",
+                                        ["type"] = "GAZ-66",
+                                        ["unitId"] = 203,
+                                        ["x"] = -267639.99778571,
+                                        ["y"] = 717181.31600001,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -267639.99778571,
+                                ["y"] = 717181.31600001,
+                            }, -- end of [6]
+                            [7] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 113,
+                                ["heading"] = 0.71558499331767,
+                                ["name"] = "DictKey_GroupName_544",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -267686.15578571,
+                                            ["y"] = 716855.36000001,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Unarmed",
+                                        ["heading"] = 0.71558499331767,
+                                        ["name"] = "DictKey_GroupName_544",
+                                        ["type"] = "UAZ-469",
+                                        ["unitId"] = 204,
+                                        ["x"] = -267686.15578571,
+                                        ["y"] = 716855.36000001,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -267686.15578571,
+                                ["y"] = 716855.36000001,
+                            }, -- end of [7]
+                            [8] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 114,
+                                ["heading"] = 0,
+                                ["name"] = "DictKey_GroupName_547",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -267553.78492857,
+                                            ["y"] = 717189.96114287,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_GroupName_547",
+                                        ["rate"] = 5,
+                                        ["type"] = "Bunker",
+                                        ["unitId"] = 205,
+                                        ["x"] = -267553.78492857,
+                                        ["y"] = 717189.96114287,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -267553.78492857,
+                                ["y"] = 717189.96114287,
+                            }, -- end of [8]
+                            [9] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 115,
+                                ["heading"] = 1.5707963267949,
+                                ["name"] = "DictKey_GroupName_550",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -267623.25235714,
+                                            ["y"] = 717415.73028572,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 1.5707963267949,
+                                        ["name"] = "DictKey_GroupName_550",
+                                        ["rate"] = 5,
+                                        ["type"] = "Bunker",
+                                        ["unitId"] = 206,
+                                        ["x"] = -267623.25235714,
+                                        ["y"] = 717415.73028572,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -267623.25235714,
+                                ["y"] = 717415.73028572,
+                            }, -- end of [9]
+                            [10] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 116,
+                                ["heading"] = 1.5707963267949,
+                                ["name"] = "DictKey_GroupName_553",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -267683.73692857,
+                                            ["y"] = 717658.26742858,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 1.5707963267949,
+                                        ["name"] = "DictKey_GroupName_553",
+                                        ["rate"] = 5,
+                                        ["type"] = "Bunker",
+                                        ["unitId"] = 207,
+                                        ["x"] = -267683.73692857,
+                                        ["y"] = 717658.26742858,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -267683.73692857,
+                                ["y"] = 717658.26742858,
+                            }, -- end of [10]
+                            [11] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 117,
+                                ["heading"] = 3.1764992386297,
+                                ["name"] = "DictKey_GroupName_556",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -267753.80321429,
+                                            ["y"] = 717184.57142858,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 3.1764992386297,
+                                        ["name"] = "DictKey_GroupName_556",
+                                        ["rate"] = 5,
+                                        ["type"] = "Bunker",
+                                        ["unitId"] = 208,
+                                        ["x"] = -267753.80321429,
+                                        ["y"] = 717184.57142858,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -267753.80321429,
+                                ["y"] = 717184.57142858,
+                            }, -- end of [11]
+                        }, -- end of ["group"]
+                    }, -- end of ["static"]
                     ["vehicle"] =
                     {
                         ["group"] =
@@ -26076,7 +26521,7 @@ mission =
                                             ["ETA"] = 0,
                                             ["ETA_locked"] = true,
                                             ["action"] = "Off Road",
-                                            ["alt"] = 840,
+                                            ["alt"] = 599,
                                             ["alt_type"] = "BARO",
                                             ["formation_template"] = "",
                                             ["name"] = "DictKey_WptName_486",
@@ -26093,8 +26538,8 @@ mission =
                                                 }, -- end of ["params"]
                                             }, -- end of ["task"]
                                             ["type"] = "Turning Point",
-                                            ["x"] = -270648.15692857,
-                                            ["y"] = 716714.34571429,
+                                            ["x"] = -267672.7395,
+                                            ["y"] = 717267.76314287,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                     ["spans"] =
@@ -26132,15 +26577,15 @@ mission =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "p-19 s-125 sr",
+                                        ["type"] = "snr s-125 tr",
                                         ["unitId"] = 184,
-                                        ["x"] = -270648.15692857,
-                                        ["y"] = 716714.34571429,
+                                        ["x"] = -267672.7395,
+                                        ["y"] = 717267.76314287,
                                     }, -- end of [1]
                                     [2] =
                                     {
-                                        ["heading"] = 4.7123889803847,
-                                        ["name"] = "DictKey_UnitName_490",
+                                        ["heading"] = 4.5553093477052,
+                                        ["name"] = "DictKey_UnitName_522",
                                         ["playerCanDrive"] = true,
                                         ["skill"] = "Good",
                                         ["transportable"] =
@@ -26148,44 +26593,44 @@ mission =
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
                                         ["type"] = "p-19 s-125 sr",
-                                        ["unitId"] = 187,
-                                        ["x"] = -264782.42721429,
-                                        ["y"] = 721827.78000001,
+                                        ["unitId"] = 194,
+                                        ["x"] = -270620.18807142,
+                                        ["y"] = 716960.21828572,
                                     }, -- end of [2]
                                     [3] =
                                     {
-                                        ["heading"] = 1.0479209021644,
-                                        ["name"] = "DictKey_UnitName_491",
+                                        ["heading"] = 1.2740903539559,
+                                        ["name"] = "DictKey_UnitName_523",
                                         ["playerCanDrive"] = true,
                                         ["skill"] = "Good",
                                         ["transportable"] =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "snr s-125 tr",
-                                        ["unitId"] = 188,
-                                        ["x"] = -268687.27921429,
-                                        ["y"] = 723002.23571429,
+                                        ["type"] = "5p73 s-125 ln",
+                                        ["unitId"] = 195,
+                                        ["x"] = -267624.6935,
+                                        ["y"] = 717436.03142858,
                                     }, -- end of [3]
                                     [4] =
                                     {
-                                        ["heading"] = 1.0479209021644,
-                                        ["name"] = "DictKey_UnitName_492",
+                                        ["heading"] = 5.846852994181,
+                                        ["name"] = "DictKey_UnitName_524",
                                         ["playerCanDrive"] = true,
                                         ["skill"] = "Good",
                                         ["transportable"] =
                                         {
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
-                                        ["type"] = "snr s-125 tr",
-                                        ["unitId"] = 189,
-                                        ["x"] = -270176.43235714,
-                                        ["y"] = 710847.71600001,
+                                        ["type"] = "5p73 s-125 ln",
+                                        ["unitId"] = 196,
+                                        ["x"] = -267538.0355,
+                                        ["y"] = 717189.78542858,
                                     }, -- end of [4]
                                     [5] =
                                     {
-                                        ["heading"] = 2.4260076602721,
-                                        ["name"] = "DictKey_UnitName_493",
+                                        ["heading"] = 3.7699111843078,
+                                        ["name"] = "DictKey_UnitName_525",
                                         ["playerCanDrive"] = true,
                                         ["skill"] = "Good",
                                         ["transportable"] =
@@ -26193,44 +26638,14 @@ mission =
                                             ["randomTransportable"] = false,
                                         }, -- end of ["transportable"]
                                         ["type"] = "5p73 s-125 ln",
-                                        ["unitId"] = 190,
-                                        ["x"] = -268187.69635714,
-                                        ["y"] = 721503.77057144,
+                                        ["unitId"] = 197,
+                                        ["x"] = -267769.6955,
+                                        ["y"] = 717183.77942858,
                                     }, -- end of [5]
-                                    [6] =
-                                    {
-                                        ["heading"] = 1.0479209021644,
-                                        ["name"] = "DictKey_UnitName_495",
-                                        ["playerCanDrive"] = true,
-                                        ["skill"] = "Good",
-                                        ["transportable"] =
-                                        {
-                                            ["randomTransportable"] = false,
-                                        }, -- end of ["transportable"]
-                                        ["type"] = "5p73 s-125 ln",
-                                        ["unitId"] = 192,
-                                        ["x"] = -267679.70692857,
-                                        ["y"] = 717264.95228573,
-                                    }, -- end of [6]
-                                    [7] =
-                                    {
-                                        ["heading"] = 1.0479209021644,
-                                        ["name"] = "DictKey_UnitName_496",
-                                        ["playerCanDrive"] = true,
-                                        ["skill"] = "Good",
-                                        ["transportable"] =
-                                        {
-                                            ["randomTransportable"] = false,
-                                        }, -- end of ["transportable"]
-                                        ["type"] = "5p73 s-125 ln",
-                                        ["unitId"] = 193,
-                                        ["x"] = -259959.39435714,
-                                        ["y"] = 722892.68857145,
-                                    }, -- end of [7]
                                 }, -- end of ["units"]
                                 ["visible"] = false,
-                                ["x"] = -270648.15692857,
-                                ["y"] = 716714.34571429,
+                                ["x"] = -267672.7395,
+                                ["y"] = 717267.76314287,
                             }, -- end of [1]
                         }, -- end of ["group"]
                     }, -- end of ["vehicle"]
@@ -26353,7 +26768,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 41591,
+    ["currentKey"] = 47260,
     ["date"] =
     {
         ["Day"] = 15,
@@ -29609,11 +30024,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -266781.72278571,
-        ["centerY"] = 724632.04028572,
-        ["zoom"] = 49309,
+        ["centerX"] = -288211.83050001,
+        ["centerY"] = 789869.90228572,
+        ["zoom"] = 290045,
     }, -- end of ["map"]
-    ["maxDictId"] = 521,
+    ["maxDictId"] = 565,
     ["pictureFileNameB"] =
     {
     }, -- end of ["pictureFileNameB"]
