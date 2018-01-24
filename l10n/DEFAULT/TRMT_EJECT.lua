@@ -76,7 +76,7 @@ function SetClient_Helo:OnEventEjection(EventData)
    SkinnyPilot_helo = EventData.IniUnit   
    CrashPos2 = SkinnyPilot_helo:GetRandomVec3(500)
    
-   ctld.spawnGroupAtPoint_EJECT("blue", {aa=1}, CrashPos2, 10) -- This calls the modified CTLD function to spawn a single Manpad as 'downed pilot'
+   -- ctld.spawnGroupAtPoint_EJECT("blue", {aa=1}, CrashPos2, 10) -- This calls the modified CTLD function to spawn a single Manpad as 'downed pilot'
 
 -- play an emergency ejection sound to all players   
 --trigger.action.outSound('ejection.ogg') play the sound for all
