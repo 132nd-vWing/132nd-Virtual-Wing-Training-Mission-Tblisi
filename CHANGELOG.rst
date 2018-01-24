@@ -4,6 +4,7 @@ Changelog
 
 (unreleased)
 ------------
+<<<<<<< HEAD
 - Fix menus. [132nd-Entropy]
 
 
@@ -35,6 +36,8 @@ Fix
 
 5.3.0 (2018-01-12)
 ------------------
+=======
+>>>>>>> ed2669e47ddbc65a76012949de9da4022d9f4802
 
 Changes
 ~~~~~~~
