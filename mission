@@ -26353,7 +26353,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 41027,
+    ["currentKey"] = 41591,
     ["date"] =
     {
         ["Day"] = 15,
@@ -31242,7 +31242,7 @@ mission =
         {
             ["density"] = 7,
             ["thickness"] = 0,
-            ["visibility"] = 25,
+            ["visibility"] = 0,
         }, -- end of ["fog"]
         ["groundTurbulence"] = 0,
         ["name"] = "Winter, clean sky",
