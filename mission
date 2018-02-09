@@ -11234,6 +11234,366 @@ mission =
                                 ["x"] = -314680.61464286,
                                 ["y"] = 894672.22142858,
                             }, -- end of [14]
+                            [15] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 127,
+                                ["heading"] = 0,
+                                ["name"] = "DictKey_GroupName_595",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314630.29035715,
+                                            ["y"] = 896487.68542857,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_GroupName_595",
+                                        ["shape_name"] = "H-Windsock_RW",
+                                        ["type"] = "Windsock",
+                                        ["unitId"] = 218,
+                                        ["x"] = -314630.29035715,
+                                        ["y"] = 896487.68542857,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314630.29035715,
+                                ["y"] = 896487.68542857,
+                            }, -- end of [15]
+                            [16] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 128,
+                                ["heading"] = 0,
+                                ["name"] = "DictKey_GroupName_598",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314911.23492857,
+                                            ["y"] = 895745.71628571,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_GroupName_598",
+                                        ["shape_name"] = "H-Windsock_RW",
+                                        ["type"] = "Windsock",
+                                        ["unitId"] = 219,
+                                        ["x"] = -314911.23492857,
+                                        ["y"] = 895745.71628571,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314911.23492857,
+                                ["y"] = 895745.71628571,
+                            }, -- end of [16]
+                            [17] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 129,
+                                ["heading"] = 0,
+                                ["name"] = "DictKey_GroupName_601",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -315521.24978572,
+                                            ["y"] = 896555.25342857,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_GroupName_601",
+                                        ["shape_name"] = "H-Windsock_RW",
+                                        ["type"] = "Windsock",
+                                        ["unitId"] = 220,
+                                        ["x"] = -315521.24978572,
+                                        ["y"] = 896555.25342857,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -315521.24978572,
+                                ["y"] = 896555.25342857,
+                            }, -- end of [17]
+                            [18] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 130,
+                                ["heading"] = 0,
+                                ["name"] = "DictKey_GroupName_604",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -316368.40178572,
+                                            ["y"] = 897636.27171428,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_GroupName_604",
+                                        ["shape_name"] = "H-Windsock_RW",
+                                        ["type"] = "Windsock",
+                                        ["unitId"] = 221,
+                                        ["x"] = -316368.40178572,
+                                        ["y"] = 897636.27171428,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -316368.40178572,
+                                ["y"] = 897636.27171428,
+                            }, -- end of [18]
+                            [19] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 131,
+                                ["heading"] = 0,
+                                ["name"] = "DictKey_GroupName_607",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -315332.16007143,
+                                            ["y"] = 897131.304,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_GroupName_607",
+                                        ["shape_name"] = "H-Windsock_RW",
+                                        ["type"] = "Windsock",
+                                        ["unitId"] = 222,
+                                        ["x"] = -315332.16007143,
+                                        ["y"] = 897131.304,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -315332.16007143,
+                                ["y"] = 897131.304,
+                            }, -- end of [19]
+                            [20] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 132,
+                                ["heading"] = 0,
+                                ["name"] = "DictKey_GroupName_610",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -315056.87407143,
+                                            ["y"] = 896711.82057143,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_GroupName_610",
+                                        ["shape_name"] = "H-Windsock_RW",
+                                        ["type"] = "Windsock",
+                                        ["unitId"] = 223,
+                                        ["x"] = -315056.87407143,
+                                        ["y"] = 896711.82057143,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -315056.87407143,
+                                ["y"] = 896711.82057143,
+                            }, -- end of [20]
+                            [21] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 133,
+                                ["heading"] = 0,
+                                ["name"] = "DictKey_GroupName_613",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314878.11692857,
+                                            ["y"] = 896450.83514286,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_GroupName_613",
+                                        ["shape_name"] = "H-Windsock_RW",
+                                        ["type"] = "Windsock",
+                                        ["unitId"] = 224,
+                                        ["x"] = -314878.11692857,
+                                        ["y"] = 896450.83514286,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314878.11692857,
+                                ["y"] = 896450.83514286,
+                            }, -- end of [21]
+                            [22] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 134,
+                                ["heading"] = 0,
+                                ["name"] = "DictKey_GroupName_616",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314419.30692857,
+                                            ["y"] = 895524.87314286,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_GroupName_616",
+                                        ["shape_name"] = "H-Windsock_RW",
+                                        ["type"] = "Windsock",
+                                        ["unitId"] = 225,
+                                        ["x"] = -314419.30692857,
+                                        ["y"] = 895524.87314286,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314419.30692857,
+                                ["y"] = 895524.87314286,
+                            }, -- end of [22]
+                            [23] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 135,
+                                ["heading"] = 0,
+                                ["name"] = "DictKey_GroupName_619",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314497.96007143,
+                                            ["y"] = 895943.16485714,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 0,
+                                        ["name"] = "DictKey_GroupName_619",
+                                        ["shape_name"] = "H-Windsock_RW",
+                                        ["type"] = "Windsock",
+                                        ["unitId"] = 226,
+                                        ["x"] = -314497.96007143,
+                                        ["y"] = 895943.16485714,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314497.96007143,
+                                ["y"] = 895943.16485714,
+                            }, -- end of [23]
                         }, -- end of ["group"]
                     }, -- end of ["static"]
                     ["vehicle"] =
@@ -13517,6 +13877,7 @@ mission =
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
                                 ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -13596,6 +13957,7 @@ mission =
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
                                 ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -13675,6 +14037,7 @@ mission =
                                 }, -- end of ["route"]
                                 ["start_time"] = 0,
                                 ["task"] = "Ground Nothing",
+                                ["taskSelected"] = true,
                                 ["tasks"] =
                                 {
                                 }, -- end of ["tasks"]
@@ -27233,7 +27596,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 50483,
+    ["currentKey"] = 51947,
     ["date"] =
     {
         ["Day"] = 18,
@@ -30489,11 +30852,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -317988.85407143,
-        ["centerY"] = 895555.77457143,
-        ["zoom"] = 6418,
+        ["centerX"] = -314687.57607143,
+        ["centerY"] = 896590.82828572,
+        ["zoom"] = 1000,
     }, -- end of ["map"]
-    ["maxDictId"] = 594,
+    ["maxDictId"] = 621,
     ["pictureFileNameB"] =
     {
     }, -- end of ["pictureFileNameB"]
@@ -32156,32 +32519,32 @@ mission =
         ["atmosphere_type"] = 0,
         ["clouds"] =
         {
-            ["base"] = 2700,
+            ["base"] = 2000,
             ["density"] = 8,
             ["iprecptns"] = 1,
-            ["thickness"] = 730,
+            ["thickness"] = 1480,
         }, -- end of ["clouds"]
         ["cyclones"] =
         {
         }, -- end of ["cyclones"]
-        ["enable_fog"] = false,
+        ["enable_fog"] = true,
         ["fog"] =
         {
-            ["density"] = 0,
-            ["thickness"] = 0,
-            ["visibility"] = 25,
+            ["density"] = 1,
+            ["thickness"] = 230,
+            ["visibility"] = 5510,
         }, -- end of ["fog"]
-        ["groundTurbulence"] = 7,
-        ["name"] = "Autumn, Rainy day",
-        ["name_cn"] = "秋季 雨天",
-        ["name_de"] = "Herbst, Regen",
-        ["name_es"] = "Otoño. Lluvia",
-        ["name_fr"] = "Automne, averses",
-        ["name_ru"] = "Осень. Дождь",
-        ["qnh"] = 750,
+        ["groundTurbulence"] = 14,
+        ["name"] = "Autumn, Heavy rain",
+        ["name_cn"] = "秋季 暴雨",
+        ["name_de"] = "Herbst, Starker Regen",
+        ["name_es"] = "Otoño. Lluvia fuerte",
+        ["name_fr"] = "Automne, pluie violente",
+        ["name_ru"] = "Осень. Ливень",
+        ["qnh"] = 745,
         ["season"] =
         {
-            ["temperature"] = 23,
+            ["temperature"] = 17,
         }, -- end of ["season"]
         ["type_weather"] = 0,
         ["visibility"] =
@@ -32192,18 +32555,18 @@ mission =
         {
             ["at2000"] =
             {
-                ["dir"] = 167,
-                ["speed"] = 7,
+                ["dir"] = 52,
+                ["speed"] = 11.3388,
             }, -- end of ["at2000"]
             ["at8000"] =
             {
-                ["dir"] = 221,
-                ["speed"] = 4,
+                ["dir"] = 287,
+                ["speed"] = 5.6694,
             }, -- end of ["at8000"]
             ["atGround"] =
             {
-                ["dir"] = 221,
-                ["speed"] = 4,
+                ["dir"] = 286,
+                ["speed"] = 9,
             }, -- end of ["atGround"]
         }, -- end of ["wind"]
     }, -- end of ["weather"]
