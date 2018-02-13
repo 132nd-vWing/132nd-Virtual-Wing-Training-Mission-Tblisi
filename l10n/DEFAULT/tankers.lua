@@ -173,7 +173,7 @@ function _TANKER.Tanker:New( group )
                           if velocity.x ~= nil and velocity.y ~= nil and velocity.z ~= nil then
                             if type(velocity.x) == 'number' and type(velocity.y) == 'number' and type(velocity.z) == 'number' then
                               local total_speed = math.abs(velocity.x) + math.abs(velocity.y) + math.abs(velocity.z)
-                              self:Debug('Total speed: '..tostring(total_speed)
+                              self:Debug('Total speed: '..tostring(total_speed))
                               if total_speed < 3 then -- increased from 1 
                                   self:Debug('Goodbye, cruel world !')
                                   self:Destroy()
