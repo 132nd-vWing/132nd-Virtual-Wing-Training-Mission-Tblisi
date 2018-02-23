@@ -11237,46 +11237,6 @@ mission =
                             [15] =
                             {
                                 ["dead"] = false,
-                                ["groupId"] = 127,
-                                ["heading"] = 0,
-                                ["name"] = "DictKey_GroupName_595",
-                                ["route"] =
-                                {
-                                    ["points"] =
-                                    {
-                                        [1] =
-                                        {
-                                            ["action"] = "",
-                                            ["alt"] = 0,
-                                            ["formation_template"] = "",
-                                            ["name"] = "",
-                                            ["speed"] = 0,
-                                            ["type"] = "",
-                                            ["x"] = -314630.29035715,
-                                            ["y"] = 896487.68542857,
-                                        }, -- end of [1]
-                                    }, -- end of ["points"]
-                                }, -- end of ["route"]
-                                ["units"] =
-                                {
-                                    [1] =
-                                    {
-                                        ["category"] = "Fortifications",
-                                        ["heading"] = 0,
-                                        ["name"] = "DictKey_GroupName_595",
-                                        ["shape_name"] = "H-Windsock_RW",
-                                        ["type"] = "Windsock",
-                                        ["unitId"] = 218,
-                                        ["x"] = -314630.29035715,
-                                        ["y"] = 896487.68542857,
-                                    }, -- end of [1]
-                                }, -- end of ["units"]
-                                ["x"] = -314630.29035715,
-                                ["y"] = 896487.68542857,
-                            }, -- end of [15]
-                            [16] =
-                            {
-                                ["dead"] = false,
                                 ["groupId"] = 128,
                                 ["heading"] = 0,
                                 ["name"] = "DictKey_GroupName_598",
@@ -11313,8 +11273,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314911.23492857,
                                 ["y"] = 895745.71628571,
-                            }, -- end of [16]
-                            [17] =
+                            }, -- end of [15]
+                            [16] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 129,
@@ -11353,8 +11313,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -315521.24978572,
                                 ["y"] = 896555.25342857,
-                            }, -- end of [17]
-                            [18] =
+                            }, -- end of [16]
+                            [17] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 130,
@@ -11393,8 +11353,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -316368.40178572,
                                 ["y"] = 897636.27171428,
-                            }, -- end of [18]
-                            [19] =
+                            }, -- end of [17]
+                            [18] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 131,
@@ -11433,8 +11393,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -315332.16007143,
                                 ["y"] = 897131.304,
-                            }, -- end of [19]
-                            [20] =
+                            }, -- end of [18]
+                            [19] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 132,
@@ -11473,8 +11433,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -315056.87407143,
                                 ["y"] = 896711.82057143,
-                            }, -- end of [20]
-                            [21] =
+                            }, -- end of [19]
+                            [20] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 133,
@@ -11513,8 +11473,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314878.11692857,
                                 ["y"] = 896450.83514286,
-                            }, -- end of [21]
-                            [22] =
+                            }, -- end of [20]
+                            [21] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 134,
@@ -11553,8 +11513,8 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314419.30692857,
                                 ["y"] = 895524.87314286,
-                            }, -- end of [22]
-                            [23] =
+                            }, -- end of [21]
+                            [22] =
                             {
                                 ["dead"] = false,
                                 ["groupId"] = 135,
@@ -11593,7 +11553,87 @@ mission =
                                 }, -- end of ["units"]
                                 ["x"] = -314497.96007143,
                                 ["y"] = 895943.16485714,
+                            }, -- end of [22]
+                            [23] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 136,
+                                ["heading"] = 3.4208453339089,
+                                ["name"] = "DictKey_GroupName_622",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314730.62178572,
+                                            ["y"] = 896698.37485715,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 3.4208453339089,
+                                        ["name"] = "DictKey_GroupName_622",
+                                        ["shape_name"] = "H-Windsock_RW",
+                                        ["type"] = "Windsock",
+                                        ["unitId"] = 227,
+                                        ["x"] = -314730.62178572,
+                                        ["y"] = 896698.37485715,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314730.62178572,
+                                ["y"] = 896698.37485715,
                             }, -- end of [23]
+                            [24] =
+                            {
+                                ["dead"] = false,
+                                ["groupId"] = 137,
+                                ["heading"] = 3.07177948351,
+                                ["name"] = "DictKey_GroupName_625",
+                                ["route"] =
+                                {
+                                    ["points"] =
+                                    {
+                                        [1] =
+                                        {
+                                            ["action"] = "",
+                                            ["alt"] = 0,
+                                            ["formation_template"] = "",
+                                            ["name"] = "",
+                                            ["speed"] = 0,
+                                            ["type"] = "",
+                                            ["x"] = -314633.87235714,
+                                            ["y"] = 896488.50485716,
+                                        }, -- end of [1]
+                                    }, -- end of ["points"]
+                                }, -- end of ["route"]
+                                ["units"] =
+                                {
+                                    [1] =
+                                    {
+                                        ["category"] = "Fortifications",
+                                        ["heading"] = 3.07177948351,
+                                        ["name"] = "DictKey_GroupName_625",
+                                        ["shape_name"] = "H-Windsock_RW",
+                                        ["type"] = "Windsock",
+                                        ["unitId"] = 228,
+                                        ["x"] = -314633.87235714,
+                                        ["y"] = 896488.50485716,
+                                    }, -- end of [1]
+                                }, -- end of ["units"]
+                                ["x"] = -314633.87235714,
+                                ["y"] = 896488.50485716,
+                            }, -- end of [24]
                         }, -- end of ["group"]
                     }, -- end of ["static"]
                     ["vehicle"] =
@@ -27596,7 +27636,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 51947,
+    ["currentKey"] = 57383,
     ["date"] =
     {
         ["Day"] = 18,
@@ -30852,11 +30892,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -314687.57607143,
-        ["centerY"] = 896590.82828572,
-        ["zoom"] = 1000,
+        ["centerX"] = -314852.44407143,
+        ["centerY"] = 896732.49057144,
+        ["zoom"] = 3390,
     }, -- end of ["map"]
-    ["maxDictId"] = 621,
+    ["maxDictId"] = 627,
     ["pictureFileNameB"] =
     {
     }, -- end of ["pictureFileNameB"]
@@ -30929,6 +30969,7 @@ mission =
             [9] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_474\")); mission.trig.func[9]=nil;",
             [10] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_349\")); mission.trig.func[10]=nil;",
             [11] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_521\")); mission.trig.func[11]=nil;",
+            [12] = "a_remove_scene_objects(8677, 0);a_remove_scene_objects(8678, 0); mission.trig.func[12]=nil;",
         }, -- end of ["actions"]
         ["conditions"] =
         {
@@ -30943,6 +30984,7 @@ mission =
             [9] = "return(true)",
             [10] = "return(true)",
             [11] = "return(true)",
+            [12] = "return(true)",
         }, -- end of ["conditions"]
         ["custom"] =
         {
@@ -30966,6 +31008,7 @@ mission =
             [9] = true,
             [10] = true,
             [11] = true,
+            [12] = true,
         }, -- end of ["flag"]
         ["func"] =
         {
@@ -30979,6 +31022,7 @@ mission =
             [9] = "if mission.trig.conditions[9]() then mission.trig.actions[9]() end",
             [10] = "if mission.trig.conditions[10]() then mission.trig.actions[10]() end",
             [11] = "if mission.trig.conditions[11]() then mission.trig.actions[11]() end",
+            [12] = "if mission.trig.conditions[12]() then mission.trig.actions[12]() end",
         }, -- end of ["func"]
         ["funcStartup"] =
         {
@@ -32221,6 +32265,38 @@ mission =
                 ["y"] = 784503.06828572,
                 ["zoneId"] = 8511,
             }, -- end of [77]
+            [78] =
+            {
+                ["color"] =
+                {
+                    [1] = 0,
+                    [2] = 0.50196078431373,
+                    [3] = 0,
+                    [4] = 0.14901960784314,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "Trees cut 1",
+                ["radius"] = 60.96,
+                ["x"] = -314278.45978572,
+                ["y"] = 895279.17600001,
+                ["zoneId"] = 8677,
+            }, -- end of [78]
+            [79] =
+            {
+                ["color"] =
+                {
+                    [1] = 0,
+                    [2] = 0.50196078431373,
+                    [3] = 0,
+                    [4] = 0.14901960784314,
+                }, -- end of ["color"]
+                ["hidden"] = false,
+                ["name"] = "Trees cut 2",
+                ["radius"] = 60.96,
+                ["x"] = -314245.95835714,
+                ["y"] = 895225.66085715,
+                ["zoneId"] = 8678,
+            }, -- end of [79]
         }, -- end of ["zones"]
     }, -- end of ["triggers"]
     ["trigrules"] =
@@ -32512,6 +32588,40 @@ mission =
             {
             }, -- end of ["rules"]
         }, -- end of [11]
+        [12] =
+        {
+            ["actions"] =
+            {
+                [1] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["objects_mask"] = 0,
+                    ["predicate"] = "a_remove_scene_objects",
+                    ["zone"] = 8677,
+                }, -- end of [1]
+                [2] =
+                {
+                    ["ai_task"] =
+                    {
+                        [1] = "",
+                        [2] = "",
+                    }, -- end of ["ai_task"]
+                    ["objects_mask"] = 0,
+                    ["predicate"] = "a_remove_scene_objects",
+                    ["zone"] = 8678,
+                }, -- end of [2]
+            }, -- end of ["actions"]
+            ["comment"] = "Clearing 13H trees",
+            ["eventlist"] = "",
+            ["predicate"] = "triggerOnce",
+            ["rules"] =
+            {
+            }, -- end of ["rules"]
+        }, -- end of [12]
     }, -- end of ["trigrules"]
     ["version"] = 14,
     ["weather"] =
