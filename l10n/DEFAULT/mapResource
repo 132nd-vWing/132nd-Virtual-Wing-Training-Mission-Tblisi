@@ -4,7 +4,6 @@ mapResource =
     ["ResKey_Action_140"] = "TRMT_clean.lua",
     ["ResKey_Action_171"] = "tankers.lua",
     ["ResKey_Action_279"] = "mist.lua",
-    ["ResKey_Action_280"] = "CTLD.lua",
     ["ResKey_Action_281"] = "MissileTrainer.lua",
     ["ResKey_Action_345"] = "beacon.ogg",
     ["ResKey_Action_346"] = "beaconsilent.ogg",
@@ -13,4 +12,5 @@ mapResource =
     ["ResKey_Action_474"] = "TRMT_EJECT.lua",
     ["ResKey_Action_521"] = "TRMT_Tkibuli Range Menu.lua",
     ["ResKey_Action_587"] = "TRMT_clean.lua",
+    ["ResKey_Action_773"] = "CTLD.lua",
 } -- end of mapResource

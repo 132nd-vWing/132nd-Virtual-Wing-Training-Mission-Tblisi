@@ -15174,86 +15174,6 @@ mission =
                                 ["x"] = -314497.96007143,
                                 ["y"] = 895943.16485714,
                             }, -- end of [22]
-                            [23] =
-                            {
-                                ["dead"] = false,
-                                ["groupId"] = 136,
-                                ["heading"] = 3.4208453339089,
-                                ["name"] = "DictKey_GroupName_622",
-                                ["route"] =
-                                {
-                                    ["points"] =
-                                    {
-                                        [1] =
-                                        {
-                                            ["action"] = "",
-                                            ["alt"] = 0,
-                                            ["formation_template"] = "",
-                                            ["name"] = "",
-                                            ["speed"] = 0,
-                                            ["type"] = "",
-                                            ["x"] = -314730.62178572,
-                                            ["y"] = 896698.37485715,
-                                        }, -- end of [1]
-                                    }, -- end of ["points"]
-                                }, -- end of ["route"]
-                                ["units"] =
-                                {
-                                    [1] =
-                                    {
-                                        ["category"] = "Fortifications",
-                                        ["heading"] = 3.4208453339089,
-                                        ["name"] = "DictKey_GroupName_622",
-                                        ["shape_name"] = "H-Windsock_RW",
-                                        ["type"] = "Windsock",
-                                        ["unitId"] = 227,
-                                        ["x"] = -314730.62178572,
-                                        ["y"] = 896698.37485715,
-                                    }, -- end of [1]
-                                }, -- end of ["units"]
-                                ["x"] = -314730.62178572,
-                                ["y"] = 896698.37485715,
-                            }, -- end of [23]
-                            [24] =
-                            {
-                                ["dead"] = false,
-                                ["groupId"] = 137,
-                                ["heading"] = 3.07177948351,
-                                ["name"] = "DictKey_GroupName_625",
-                                ["route"] =
-                                {
-                                    ["points"] =
-                                    {
-                                        [1] =
-                                        {
-                                            ["action"] = "",
-                                            ["alt"] = 0,
-                                            ["formation_template"] = "",
-                                            ["name"] = "",
-                                            ["speed"] = 0,
-                                            ["type"] = "",
-                                            ["x"] = -314633.87235714,
-                                            ["y"] = 896488.50485716,
-                                        }, -- end of [1]
-                                    }, -- end of ["points"]
-                                }, -- end of ["route"]
-                                ["units"] =
-                                {
-                                    [1] =
-                                    {
-                                        ["category"] = "Fortifications",
-                                        ["heading"] = 3.07177948351,
-                                        ["name"] = "DictKey_GroupName_625",
-                                        ["shape_name"] = "H-Windsock_RW",
-                                        ["type"] = "Windsock",
-                                        ["unitId"] = 228,
-                                        ["x"] = -314633.87235714,
-                                        ["y"] = 896488.50485716,
-                                    }, -- end of [1]
-                                }, -- end of ["units"]
-                                ["x"] = -314633.87235714,
-                                ["y"] = 896488.50485716,
-                            }, -- end of [24]
                         }, -- end of ["group"]
                     }, -- end of ["static"]
                     ["vehicle"] =
@@ -31631,7 +31551,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 72174,
+    ["currentKey"] = 90166,
     ["date"] =
     {
         ["Day"] = 18,
@@ -34887,11 +34807,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -314465.02349999,
-        ["centerY"] = 894000.92514296,
-        ["zoom"] = 1000,
+        ["centerX"] = -312647.07307141,
+        ["centerY"] = 896025.59485723,
+        ["zoom"] = 37007,
     }, -- end of ["map"]
-    ["maxDictId"] = 759,
+    ["maxDictId"] = 794,
     ["pictureFileNameB"] =
     {
     }, -- end of ["pictureFileNameB"]
@@ -34960,7 +34880,7 @@ mission =
             [5] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_281\")); mission.trig.func[5]=nil;",
             [6] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_171\")); mission.trig.func[6]=nil;",
             [7] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_279\")); mission.trig.func[7]=nil;",
-            [8] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_280\")); mission.trig.func[8]=nil;",
+            [8] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_773\")); mission.trig.func[8]=nil;",
             [9] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_474\")); mission.trig.func[9]=nil;",
             [10] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_349\")); mission.trig.func[10]=nil;",
             [11] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_521\")); mission.trig.func[11]=nil;",
@@ -36504,7 +36424,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_280",
+                    ["file"] = "ResKey_Action_773",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
