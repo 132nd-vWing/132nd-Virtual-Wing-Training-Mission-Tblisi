@@ -31551,7 +31551,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 90166,
+    ["currentKey"] = 93430,
     ["date"] =
     {
         ["Day"] = 18,
@@ -34811,7 +34811,7 @@ mission =
         ["centerY"] = 896025.59485723,
         ["zoom"] = 37007,
     }, -- end of ["map"]
-    ["maxDictId"] = 794,
+    ["maxDictId"] = 799,
     ["pictureFileNameB"] =
     {
     }, -- end of ["pictureFileNameB"]
@@ -34873,9 +34873,9 @@ mission =
     {
         ["actions"] =
         {
-            [1] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_54\"));",
+            [1] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_799\"));",
             [2] = "a_group_off(124);a_group_off(125);a_group_off(126); mission.trig.func[2]=nil;",
-            [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_587\")); mission.trig.func[3]=nil;",
+            [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_798\")); mission.trig.func[3]=nil;",
             [4] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_345\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_346\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_347\")); mission.trig.func[4]=nil;",
             [5] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_281\")); mission.trig.func[5]=nil;",
             [6] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_171\")); mission.trig.func[6]=nil;",
@@ -36227,7 +36227,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_54",
+                    ["file"] = "ResKey_Action_799",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]
@@ -36291,7 +36291,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_587",
+                    ["file"] = "ResKey_Action_798",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]

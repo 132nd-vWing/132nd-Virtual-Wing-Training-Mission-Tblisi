@@ -1,7 +1,9 @@
+_SETTINGS:SetPlayerMenuOff()
+
 TRMT = {}
 
 do -- DEBUG
-
+  
   TRMT.DEBUG = function(text)
     env.info('  TRMT:DEBUG: '..text)
   end

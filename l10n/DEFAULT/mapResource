@@ -1,6 +1,5 @@
 mapResource = 
 {
-    ["ResKey_Action_54"] = "Moose.lua",
     ["ResKey_Action_140"] = "TRMT_clean.lua",
     ["ResKey_Action_171"] = "tankers.lua",
     ["ResKey_Action_279"] = "mist.lua",
@@ -11,6 +10,7 @@ mapResource =
     ["ResKey_Action_349"] = "TRMT_MarkTargets.lua",
     ["ResKey_Action_474"] = "TRMT_EJECT.lua",
     ["ResKey_Action_521"] = "TRMT_Tkibuli Range Menu.lua",
-    ["ResKey_Action_587"] = "TRMT_clean.lua",
     ["ResKey_Action_773"] = "CTLD.lua",
+    ["ResKey_Action_798"] = "TRMT_clean.lua",
+    ["ResKey_Action_799"] = "Moose_.lua",
 } -- end of mapResource
