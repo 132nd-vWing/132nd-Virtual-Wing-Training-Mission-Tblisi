@@ -12,5 +12,5 @@ mapResource =
     ["ResKey_Action_521"] = "TRMT_Tkibuli Range Menu.lua",
     ["ResKey_Action_773"] = "CTLD.lua",
     ["ResKey_Action_798"] = "TRMT_clean.lua",
-    ["ResKey_Action_799"] = "Moose_.lua",
+    ["ResKey_Action_821"] = "Moose_.lua",
 } -- end of mapResource
