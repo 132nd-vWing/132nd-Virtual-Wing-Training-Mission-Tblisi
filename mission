@@ -31489,7 +31489,7 @@ mission =
                                             {
                                                 [1] =
                                                 {
-                                                    ["CLSID"] = "{R-3S}",
+                                                    ["CLSID"] = "{R-60M 2L}",
                                                 }, -- end of [1]
                                                 [2] =
                                                 {
@@ -31505,7 +31505,7 @@ mission =
                                                 }, -- end of [4]
                                                 [5] =
                                                 {
-                                                    ["CLSID"] = "{R-3S}",
+                                                    ["CLSID"] = "{R-60M 2R}",
                                                 }, -- end of [5]
                                                 [6] =
                                                 {
@@ -31693,7 +31693,7 @@ mission =
                                             {
                                                 [1] =
                                                 {
-                                                    ["CLSID"] = "{R-3S}",
+                                                    ["CLSID"] = "{R-60M 2L}",
                                                 }, -- end of [1]
                                                 [2] =
                                                 {
@@ -31709,7 +31709,7 @@ mission =
                                                 }, -- end of [4]
                                                 [5] =
                                                 {
-                                                    ["CLSID"] = "{R-3S}",
+                                                    ["CLSID"] = "{R-60M 2R}",
                                                 }, -- end of [5]
                                                 [6] =
                                                 {
@@ -32441,7 +32441,7 @@ mission =
             [4] = 1,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 99318,
+    ["currentKey"] = 101014,
     ["date"] =
     {
         ["Day"] = 18,
@@ -35697,9 +35697,9 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -264896.27157143,
-        ["centerY"] = 511397.85571429,
-        ["zoom"] = 2315623,
+        ["centerX"] = -315231.09842857,
+        ["centerY"] = 897169.82885714,
+        ["zoom"] = 2447,
     }, -- end of ["map"]
     ["maxDictId"] = 821,
     ["pictureFileNameB"] =
