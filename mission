@@ -15697,8 +15697,8 @@ mission =
                                             ["name"] = "",
                                             ["speed"] = 0,
                                             ["type"] = "",
-                                            ["x"] = -315056.87407143,
-                                            ["y"] = 896711.82057143,
+                                            ["x"] = -315057.25485714,
+                                            ["y"] = 896710.33942857,
                                         }, -- end of [1]
                                     }, -- end of ["points"]
                                 }, -- end of ["route"]
@@ -15712,12 +15712,12 @@ mission =
                                         ["shape_name"] = "H-Windsock_RW",
                                         ["type"] = "Windsock",
                                         ["unitId"] = 223,
-                                        ["x"] = -315056.87407143,
-                                        ["y"] = 896711.82057143,
+                                        ["x"] = -315057.25485714,
+                                        ["y"] = 896710.33942857,
                                     }, -- end of [1]
                                 }, -- end of ["units"]
-                                ["x"] = -315056.87407143,
-                                ["y"] = 896711.82057143,
+                                ["x"] = -315057.25485714,
+                                ["y"] = 896710.33942857,
                             }, -- end of [18]
                             [19] =
                             {
@@ -34275,7 +34275,7 @@ mission =
             [3] = 19,
         }, -- end of ["red"]
     }, -- end of ["coalitions"]
-    ["currentKey"] = 108389,
+    ["currentKey"] = 109309,
     ["date"] =
     {
         ["Day"] = 18,
@@ -37531,11 +37531,11 @@ mission =
     }, -- end of ["groundControl"]
     ["map"] =
     {
-        ["centerX"] = -51941.098285714,
-        ["centerY"] = 706982.70771429,
-        ["zoom"] = 7157,
+        ["centerX"] = -315158.53514286,
+        ["centerY"] = 896471.35657143,
+        ["zoom"] = 2850,
     }, -- end of ["map"]
-    ["maxDictId"] = 897,
+    ["maxDictId"] = 898,
     ["pictureFileNameB"] =
     {
     }, -- end of ["pictureFileNameB"]
@@ -37602,7 +37602,7 @@ mission =
             [3] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_798\")); mission.trig.func[3]=nil;",
             [4] = "a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_345\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_346\"));a_out_sound_c(21, getValueResourceByKey(\"ResKey_Action_347\")); mission.trig.func[4]=nil;",
             [5] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_281\")); mission.trig.func[5]=nil;",
-            [6] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_171\")); mission.trig.func[6]=nil;",
+            [6] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_898\")); mission.trig.func[6]=nil;",
             [7] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_279\")); mission.trig.func[7]=nil;",
             [8] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_773\")); mission.trig.func[8]=nil;",
             [9] = "a_do_script_file(getValueResourceByKey(\"ResKey_Action_474\")); mission.trig.func[9]=nil;",
@@ -39106,7 +39106,7 @@ mission =
                         [1] = "",
                         [2] = "",
                     }, -- end of ["ai_task"]
-                    ["file"] = "ResKey_Action_171",
+                    ["file"] = "ResKey_Action_898",
                     ["predicate"] = "a_do_script_file",
                 }, -- end of [1]
             }, -- end of ["actions"]

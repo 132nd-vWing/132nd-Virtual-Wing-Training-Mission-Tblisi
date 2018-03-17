@@ -1,7 +1,6 @@
 mapResource = 
 {
     ["ResKey_Action_140"] = "TRMT_clean.lua",
-    ["ResKey_Action_171"] = "tankers.lua",
     ["ResKey_Action_279"] = "mist.lua",
     ["ResKey_Action_281"] = "MissileTrainer.lua",
     ["ResKey_Action_345"] = "beacon.ogg",
@@ -13,4 +12,5 @@ mapResource =
     ["ResKey_Action_773"] = "CTLD.lua",
     ["ResKey_Action_798"] = "TRMT_clean.lua",
     ["ResKey_Action_821"] = "Moose_.lua",
+    ["ResKey_Action_898"] = "tankers.lua",
 } -- end of mapResource
